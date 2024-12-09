@@ -236,6 +236,13 @@
 			<artifactId>spring-security-taglibs</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20220924</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<plugins>
