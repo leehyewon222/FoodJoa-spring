@@ -27,23 +27,15 @@ request.setCharacterEncoding("utf-8");
 			border-collapse: collapse;
 		}
 		
-		.layout-top {
-			height: 180px;
-		}
-		
 		.layout-center {
 			min-height: 400px;
-		}
-		
-		.layout-bottom {
-			height: 330px;
 		}
 	</style>
 </head>
 
 <body>
 	<div id="layout-container">
-		<table border="1">
+		<table>
 			<tr>
 				<td colspan="3">
 					<div class="layout-top">
