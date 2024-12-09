@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.foodjoa.community.vo.CommunityShareVO" alias="communityShareVO" />
+		<typeAlias type="com.foodjoa.community.vo.CommunityVO" alias="communityVO" />
+		<typeAlias type="com.foodjoa.community.vo.NoticeVO" alias="noticeVO" />
+		
+		<typeAlias type="com.foodjoa.mealkit.vo.MealkitCartVO" alias="mealkitCartVO" />
+		<typeAlias type="com.foodjoa.mealkit.vo.MealkitOrderVO" alias="mealkitOrderVO" />
+		<typeAlias type="com.foodjoa.mealkit.vo.MealkitReviewVO" alias="mealkitReviewVO" />
+		<typeAlias type="com.foodjoa.mealkit.vo.MealkitVO" alias="mealkitVO" />
+		<typeAlias type="com.foodjoa.mealkit.vo.MealkitWishListVO" alias="mealkitWishListVO" />
+		
+		<typeAlias type="com.foodjoa.member.vo.MemberVO" alias="memberVO" />
+		<typeAlias type="com.foodjoa.member.vo.RecentViewVO" alias="recentViewVO" />
+		
+		<typeAlias type="com.foodjoa.recipe.vo.RecipeReviewVO" alias="recipeReviewVO" />
+		<typeAlias type="com.foodjoa.recipe.vo.RecipeVO" alias="recipeVO" />
+		<typeAlias type="com.foodjoa.recipe.vo.RecipeWishListVO" alias="recipeWishListVO" />
+	</typeAliases>
+</configuration>
+
+
+

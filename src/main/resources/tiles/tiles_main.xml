@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="baseLayout" template="/WEB-INF/views/includes/layout.jsp">
+		<put-attribute name="title" value="레이아웃 페이지" />
+		
+		<put-attribute name="top" value="/WEB-INF/views/includes/top.jsp"/>
+		
+		<put-attribute name="left" value="/WEB-INF/views/includes/leftside.jsp"/>
+		<put-attribute name="center" value=""/>
+		<put-attribute name="right" value="/WEB-INF/views/includes/rightside.jsp"/>
+		
+		<put-attribute name="bottom" value="/WEB-INF/views/includes/bottom.jsp"/>
+	</definition>
+
+    <!-- MainController클래스 내부의 
+         main메소드 내부에 작성된 뷰주소 /main/main와 아래의 name속성값 /main/main 이 일치하면
+    	 해당 템플릿을 사용 합니다 -->
+	<definition name="/includes/center" extends="baseLayout">
+		<put-attribute name="title" value="Food Joa" />
+		<put-attribute name="center" value="/WEB-INF/views/includes/center.jsp" />
+	</definition>
+</tiles-definitions>
+
+
+
+
+
+
+
+
+
+
+
+
