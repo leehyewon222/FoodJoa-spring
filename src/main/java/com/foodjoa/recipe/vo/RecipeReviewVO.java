@@ -2,6 +2,9 @@ package com.foodjoa.recipe.vo;
 
 import java.sql.Timestamp;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class RecipeReviewVO {
 
 	private int no;

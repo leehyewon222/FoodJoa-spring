@@ -2,6 +2,9 @@ package com.foodjoa.mealkit.vo;
 
 import java.sql.Timestamp;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class MealkitOrderVO {
 	private int no;
     private String id;

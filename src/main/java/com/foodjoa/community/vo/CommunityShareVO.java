@@ -2,6 +2,9 @@ package com.foodjoa.community.vo;
 
 import java.sql.Timestamp;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class CommunityShareVO {
 	private int no;
 	private String id;

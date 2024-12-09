@@ -2,6 +2,9 @@ package com.foodjoa.member.vo;
 
 import java.sql.Timestamp;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class RecentViewVO {
 	
 	private int no;
