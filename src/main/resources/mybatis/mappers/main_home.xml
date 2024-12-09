@@ -4,4 +4,136 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.mainHome">
+
+	<resultMap type="java.util.HashMap" id="recipeRank">	
+    	<result property="averageRating" column="average_rating"/>
+    	
+		<association property="recipeVO" javaType="recipeVO">
+			<id property="no" column="no"/>
+			<result property="title" column="title"/>
+			<result property="thumbnail" column="thumbnail"/>
+			<result property="category" column="category"/>
+			<result property="views" column="views"/>
+		</association>
+		
+		<association property="memberVO" javaType="memberVO">
+			<result property="nickname" column="nickname"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectRecipeRank" resultMap="recipeRank">
+		<![CDATA[
+	        SELECT 
+	            r.no, r.title, r.thumbnail, r.category, r.views, 
+	            COALESCE(average_table.avg_rating, 0) AS average_rating, 
+	            m.nickname 
+	        FROM recipe r 
+	        JOIN ( 
+	            SELECT 
+	                rv.recipe_no, AVG(rating) as avg_rating 
+	            FROM recipe_review rv 
+	            GROUP BY rv.recipe_no 
+	        ) average_table 
+	        ON r.no = average_table.recipe_no 
+	        JOIN member m 
+	        ON r.id = m.id 
+	        ORDER BY average_rating DESC LIMIT 3
+        ]]>
+    </select>
+    
+    <resultMap type="java.util.HashMap" id="mealkitRank">	
+    	<result property="averageRating" column="average_rating"/>
+    	
+		<association property="mealkitVO" javaType="mealkitVO">
+			<id property="no" column="no"/>
+			<result property="title" column="title"/>
+			<result property="pictures" column="pictures"/>
+			<result property="category" column="category"/>
+			<result property="views" column="views"/>
+			<result property="price" column="price"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectMealkitRank" resultMap="mealkitRank">
+		<![CDATA[
+	        SELECT 
+				k.no, k.title, k.pictures, k.category, k.views, k.price, 
+				COALESCE(average_table.avg_rating, 0) AS average_rating 
+			FROM mealkit k 
+			JOIN ( 
+				SELECT 
+					mv.mealkit_no, AVG(rating) as avg_rating 
+				FROM mealkit_review mv 
+				GROUP BY mv.mealkit_no 
+			) average_table 
+			ON k.no=average_table.mealkit_no 
+			ORDER BY average_rating DESC LIMIT 3
+        ]]>
+    </select>
+    
+    <resultMap type="noticeVO" id="notices">
+    	<id property="no" column="no"/>
+		<result property="title" column="title"/>
+		<result property="contents" column="contents"/>
+		<result property="views" column="views"/>
+		<result property="postDate" column="post_date"/>
+    </resultMap>
+    
+    <select id="selectNoticeRank" resultMap="notices">
+		<![CDATA[
+	        SELECT * 
+			FROM notice 
+			ORDER BY post_date DESC LIMIT 5
+        ]]>
+    </select>
+    
+    <resultMap type="java.util.HashMap" id="communityRank">	
+		<association property="communityVO" javaType="communityVO">
+			<id property="no" column="no"/>
+			<result property="title" column="title"/>
+			<result property="views" column="views"/>
+			<result property="postDate" column="post_date"/>
+		</association>
+		
+		<association property="memberVO" javaType="memberVO">
+			<result property="nickname" column="nickname"/>
+		</association>
+	</resultMap>
+	
+    <select id="selectCommunityRank" resultMap="communityRank">
+		<![CDATA[
+	        SELECT 
+				c.no, c.title, c.views, c.post_date, 
+				m.nickname 
+			FROM community c 
+			JOIN member m 
+			ON c.id=m.id 
+			ORDER BY c.views DESC LIMIT 5
+        ]]>
+    </select>
+    
+    <resultMap type="java.util.HashMap" id="shareRank">	
+		<association property="shareVO" javaType="communityShareVO">
+			<id property="no" column="no"/>
+			<result property="title" column="title"/>
+			<result property="views" column="views"/>
+			<result property="postDate" column="post_date"/>
+		</association>
+		
+		<association property="memberVO" javaType="memberVO">
+			<result property="nickname" column="nickname"/>
+		</association>
+	</resultMap>
+	
+    <select id="selectshareRank" resultMap="shareRank">
+		<![CDATA[
+	        SELECT 
+				c.no, c.title, c.views, c.post_date, 
+				m.nickname 
+			FROM community_share c 
+			JOIN member m 
+			ON c.id=m.id 
+			ORDER BY c.views DESC LIMIT 5
+        ]]>
+    </select>
 </mapper>
