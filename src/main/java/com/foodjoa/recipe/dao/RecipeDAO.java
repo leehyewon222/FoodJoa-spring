@@ -17,10 +17,6 @@ public class RecipeDAO {
 
 	public List<Map<String, Object>> selectRecipesWithAvgRating(RecipeVO recipeVO) {
 		
-		List<Map<String, Object>> recipe = sqlSession.selectList("mapper.recipe.selectRecipesWithAvgRating", recipeVO);
-		
-		System.out.println("?? : " + recipe.size());
-		
-		return recipe;
+		return sqlSession.selectList("mapper.recipe.selectRecipesWithAvgRating", recipeVO);
 	}
 }

@@ -115,8 +115,7 @@
 							var="i" 
 							begin="${firstRecipeIndex}" 
 							end="${firstRecipeIndex + recipeCountPerPage - 1}" 
-							step="1"
-							varStatus="loop">
+							step="1">
 						<c:if test="${ loopFlag == true and i >= totalRecipeCount }">
 							</tr>
 							<c:set var="loopFlag" value="false" />
@@ -207,7 +206,7 @@
 								</c:if>
 								
 								<c:set var="loopFlag" value="true" />
-								<c:forEach var="i" begin="0" end="${ pageCountPerBlock + 1 }" step="1">
+								<c:forEach var="i" begin="0" end="${ pageCountPerBlock - 1 }" step="1">
 									<c:if test="${ loopFlag == true }">
 										<c:set var="pageNumber" value="${ (currentBlock * pageCountPerBlock) + i }" />
 										
