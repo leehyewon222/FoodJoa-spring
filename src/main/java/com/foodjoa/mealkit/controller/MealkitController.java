@@ -36,7 +36,7 @@ public class MealkitController {
 		model.addAttribute("mealkitsList", mealkitsList);
 		model.addAttribute("categoryName", categoryName);
 		model.addAttribute("pageData", pagingData);
-	 	
+		
 		return "/mealkits/list";
 	}
 }
