@@ -1,10 +1,8 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -24,9 +22,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bxslider@4.2.17/dist/jquery.bxslider.min.js"></script>	
 	<link rel="stylesheet" href="${ contextPath }/resources/css/includes/center.css">
 	
-	<script>
-        
+	<script>        
 		$(function() {
+			console.log('${ recipes.size() }');
+			console.log('${ mealkits.size() }');
+			
 			$('.bx_slider').bxSlider({
 				adaptiveHeight: true,
 				auto : true,
@@ -63,12 +63,13 @@
 						            </div>
 						            <div class="label-area">
 						                <p>
+						                	<c:set var="raring" value="${ recipe.commonVO.averageRating }" />
 						                    <c:forEach begin="1" end="5" var="star">
 						                        <c:choose>
-						                            <c:when test="${star <= recipe.averageRating}">
+						                            <c:when test="${star <= raring}">
 						                                <img class="review_star" src="${contextPath}/resources/images/recipe/full_star.png" alt="별점">
 						                            </c:when>
-						                            <c:when test="${star > recipe.averageRating && star < recipe.averageRating + 1}">
+						                            <c:when test="${star > raring && star < raring + 1}">
 						                                <img class="review_star" src="${contextPath}/resources/images/recipe/half_star.png" alt="별점">
 						                            </c:when>
 						                            <c:otherwise>
@@ -102,7 +103,7 @@
 						</div>
 						<c:forEach var="mealkit" items="${mealkits}" varStatus="status">
 						    <c:set var="mealkitVO" value="${mealkit.mealkitVO}" />
-						    <c:set var="averageRating" value="${mealkit.averageRating}" />
+						    <c:set var="averageRating" value="${mealkit.commonVO.averageRating}" />
 						    <c:set var="thumbnail" value="${ stringParser.splitString(mealkitVO.pictures)[0] }" />
 						    
 						    <div class="block-cell">

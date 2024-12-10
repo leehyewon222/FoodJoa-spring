@@ -26,11 +26,11 @@ public class MainController {
 	public String home(HttpServletRequest request, HttpServletResponse response,
 			Model model) throws Exception {
 		
-		List<Map<String, Object>> recipeRank = sqlSession.selectList("selectRecipeRank");
-		List<Map<String, Object>> mealkitRank = sqlSession.selectList("selectMealkitRank");
-		List<NoticeVO> notices = sqlSession.selectList("selectNoticeRank");
-		List<Map<String, Object>> communityRank = sqlSession.selectList("selectCommunityRank");
-		List<Map<String, Object>> shareRank = sqlSession.selectList("selectshareRank");
+		List<Map<String, Object>> recipeRank = sqlSession.selectList("mapper.mainHome.selectRecipeRank");
+		List<Map<String, Object>> mealkitRank = sqlSession.selectList("mapper.mainHome.selectMealkitRank");
+		List<NoticeVO> notices = sqlSession.selectList("mapper.mainHome.selectNoticeRank");
+		List<Map<String, Object>> communityRank = sqlSession.selectList("mapper.mainHome.selectCommunityRank");
+		List<Map<String, Object>> shareRank = sqlSession.selectList("mapper.mainHome.selectshareRank");
 		
 		model.addAttribute("recipes", recipeRank);
 		model.addAttribute("mealkits", mealkitRank);

@@ -16,6 +16,10 @@
 			<result property="views" column="views"/>
 		</association>
 		
+		<association property="commonVO" javaType="commonVO">
+			<result property="averageRating" column="average_rating"/>
+		</association>
+		
 		<association property="memberVO" javaType="memberVO">
 			<result property="nickname" column="nickname"/>
 		</association>
@@ -42,8 +46,6 @@
     </select>
     
     <resultMap type="java.util.HashMap" id="mealkitRank">	
-    	<result property="averageRating" column="average_rating"/>
-    	
 		<association property="mealkitVO" javaType="mealkitVO">
 			<id property="no" column="no"/>
 			<result property="title" column="title"/>
@@ -51,6 +53,10 @@
 			<result property="category" column="category"/>
 			<result property="views" column="views"/>
 			<result property="price" column="price"/>
+		</association>
+		
+		<association property="commonVO" javaType="commonVO">
+			<result property="averageRating" column="average_rating"/>
 		</association>
 	</resultMap>
 	
