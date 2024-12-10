@@ -1,0 +1,123 @@
+@charset "UTF-8";
+
+a:link, a:visited, a:hover, a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+#commnunity-container {
+	margin: 0 auto;
+}
+
+#community-header {
+	font-family: "Noto Serif KR", serif;
+	margin-bottom: 20px;
+	color: #616161;
+}
+
+.community_p1 {
+	font-size: 3rem;
+	color: #616161;
+}
+
+.community_p2 {
+	font-size: 2rem;
+}
+
+.table-list {
+	border-spacing: 0px 10px;
+}
+
+.select-button select {
+	border: 1px solid #ced4da;
+	border-radius: 5px;
+	padding: 8px;
+	font-size: 1rem;
+	color: #495057;
+	background-color: #f8f9fa;
+	outline: none;
+	cursor: pointer;	
+}
+
+.community-button-area {
+	margin-bottom: 20px;
+}
+
+.community-button-area input {
+	font-family: "Noto Serif KR", serif;
+	background-color: #BF817E;
+	border: none;
+	border-radius: 5px;
+	padding: 8px 16px;
+	font-size: 1rem;
+	color: white;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.community-search-button input:hover{
+	background-color: #e9ecef;
+}
+
+.community-search-area input {
+	border: 1px solid #ced4da;
+	border-radius: 5px;
+	padding: 8px 12px;
+	font-size: 1rem;
+	color: #495057;
+	width: 250px;
+	outline: none;
+}
+
+.community-search-button input {
+	background-color: #BF817E;
+	border: none;
+	border-radius: 5px;
+	padding: 8px 16px;
+	font-size: 1rem;
+	color: white;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+.community-search-button input:hover {
+	background-color: #e9ecef;
+}
+
+.community-write-button input {
+	background-color: #BF817E;
+	border: none;
+	border-radius: 5px;
+	padding: 8px 16px;
+	font-size: 1rem;
+	color: white;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.community-write-button input:hover {
+	background-color: #e9ecef;
+}
+
+.community-table-bottom {
+	position: relative;
+}
+
+.community-write-button {
+	position: absolute;
+	top: 0px;
+	right: 50px;
+}
+
+.page_number > td > a {
+	padding: 8px 13px;
+	text-decoration: none;
+	font-size: 15px;
+	color: #555;
+	background-color: #fff;
+	border-radius: 4px;
+}
+
+.page_number > td > a:hover {
+	background-color: #e9ecef;
+	transition: 0.3s ease;
+}
