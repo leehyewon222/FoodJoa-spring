@@ -4,4 +4,63 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.recipe">
+
+	<resultMap type="java.util.HashMap" id="recipesWithAvgRating">    	
+		<association property="recipeVO" javaType="recipeVO">
+			<id property="no" column="no"/>
+			<result property="id" column="id"/>
+			<result property="title" column="title"/>
+			<result property="thumbnail" column="thumbnail"/>
+			<result property="description" column="description"/>
+			<result property="contents" column="contents"/>
+			<result property="category" column="category"/>
+			<result property="views" column="views"/>
+			<result property="ingredient" column="ingredient"/>
+			<result property="ingredientAmount" column="ingredient_amount"/>
+			<result property="orders" column="orders"/>
+			<result property="postDate" column="post_date"/>
+		</association>
+		
+		<association property="commonVO" javaType="commonVO">
+			<result property="averageRating" column="average_rating"/>
+			<result property="reviewCount" column="review_count"/>
+		</association>
+		
+		<association property="memberVO" javaType="memberVO">
+			<id property="id" column="id"/>
+			<result property="name" column="name"/>
+			<result property="nickname" column="nickname"/>
+			<result property="phone" column="phone"/>
+			<result property="zipcode" column="zipcode"/>
+			<result property="address1" column="address1"/>
+			<result property="address2" column="address2"/>
+			<result property="profile" column="profile"/>
+			<result property="joinDate" column="join_date"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectRecipesWithAvgRating" parameterType="recipeVO" resultMap="recipesWithAvgRating">
+		<![CDATA[
+		    SELECT 
+		        r.*, 
+		        COALESCE(rr.average_rating, 0) AS average_rating, 
+				COALESCE(rr.review_count, 0) AS review_count, 
+		        m.nickname AS nickname
+		    FROM recipe r
+		    LEFT JOIN (
+		        SELECT recipe_no, AVG(rating) AS average_rating, COUNT(rating) AS review_count
+		        FROM recipe_review
+		        GROUP BY recipe_no
+		    ) rr ON r.no = rr.recipe_no
+		    LEFT JOIN member m ON r.id = m.id
+        ]]>
+	    <where>
+	        <if test="category != 0">
+	            r.category = #{category}
+	        </if>
+	    </where>
+	    <![CDATA[
+		    ORDER BY r.post_date DESC
+        ]]>
+	</select>
 </mapper>
