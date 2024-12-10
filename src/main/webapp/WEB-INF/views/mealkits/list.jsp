@@ -8,30 +8,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
-<%
-	request.setCharacterEncoding("UTF-8");
-	response.setContentType("text/html;charset=utf-8");
-	
-	String contextPath = request.getContextPath();
-	
-	int category = (int) request.getAttribute("category");
-	String strCategory = null;
-	
-	if(category == 0){ strCategory = "전체 밀키트 게시글"; }
-	else if (category == 1){ strCategory = "한식 밀키트 게시글"; }
-	else if (category == 2){ strCategory = "일식 밀키트 게시글"; }
-	else if (category == 3){ strCategory = "중식 밀키트 게시글"; }
-	else if (category == 4){ strCategory = "양식 밀키트 게시글"; }
-%>
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>나만의 음식 판매</title>
 	
-	<link rel="stylesheet" type="text/css" href="<%=contextPath%>/css/mealkit/list.css">
+	<link rel="stylesheet" type="text/css" href="${contextPath }/css/mealkit/list.css">
 	
 	<script type="text/javascript">
 		function fnSearch() {
@@ -49,39 +34,12 @@
 	</script>
 </head>
 <body>
-	<%
-		int totalRecord = 0;
-		int numPerPage = 5;
-		int pagePerBlock = 3;
-		int totalPage = 0;
-		int totalBlock = 0;
-		int nowPage = 0;
-		int nowBlock = 0;
-		int beginPerPage = 0;
-		
-		ArrayList<Map<String, Object>> list = (ArrayList<Map<String, Object>>) request.getAttribute("mealkitList");
-		Map<Integer, Float> ratingAvr = (Map<Integer, Float>) request.getAttribute("ratingAvr");
-		
-		totalRecord = list.size();
-		
-		if(request.getAttribute("nowPage") != null){
-			nowPage = Integer.parseInt(request.getAttribute("nowPage").toString());
-		}
-		
-		beginPerPage = nowPage * numPerPage;
-		totalPage = (int)Math.ceil((double)totalRecord / numPerPage);
-		totalBlock = (int)Math.ceil((double)totalPage / pagePerBlock);
-		
-		if(request.getAttribute("nowBlock") != null){
-			nowBlock = Integer.parseInt(request.getAttribute("nowBlock").toString());
-		}
-	%>
 	<div id="container">
 		<!-- 검색 기능 -->
-		<h1><%=strCategory %></h1>
+		<h1>${categoryName }</h1>
 		<div id="search-container">
 			<div class="search-form-container">
-				<form action="<%=contextPath%>/Mealkit/searchlist.pro" method="post" name="frmSearch" 
+				<form action="${contextPath }/Mealkit/searchlist.pro" method="post" name="frmSearch" 
 					onsubmit="fnSearch(); return false;">
 		            <select id="key" name="key">
 		                <option value="title">밀키트 명</option>
@@ -96,116 +54,88 @@
 			<div class="write-container">
 				<c:if test="${not empty sessionScope.userId}">
 					<input type="button" id="newContent" value="글쓰기" 
-						onclick="location.href='<%=contextPath%>/Mealkit/write'"/>
+						onclick="location.href='${contextPath }/Mealkit/write'"/>
 				</c:if>
 			</div>
 		</div>
 		
 		<table class="list">
-			<%
-			if(list.isEmpty()){
-				%>
+			<c:if test="${not empty mealkitsList }">
 				<tr>
 					<td> 등록된 글이 없습니다.</td>
 				</tr>
-				<%
-			} else{
-				for(int i=beginPerPage; i<(beginPerPage+numPerPage); i++){
-					if(i == totalRecord){
-						break;
-					}
-					Map<String, Object> vo = list.get(i);
-
-				    // "pictures" 키로 문자열 가져오기
-				    String pictures = (String) vo.get("pictures");
-					List<String> picturesList = StringParser.splitString(pictures);
-				    String thumbnail = picturesList.get(0);
-				    
-				    int no = (int) vo.get("no");
-			        String id = (String) vo.get("id");
-			        String title = (String) vo.get("title");
-			        String contents = (String) vo.get("contents");
-			        Object postDate = vo.get("post_date");
-			        int views = (int) vo.get("views");
-			        String nickName = (String) vo.get("nickname");
-			        
-			        String price = (String) vo.get("price");
-					int price_ = Integer.parseInt(price); 
-					NumberFormat numberFormat = NumberFormat.getInstance();
-					String formattedPrice = numberFormat.format(price_);
-					
-					java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
-				    String formattedPostDate = dateFormat.format(postDate);
-					%>
+			</c:if>
+			<c:forEach var="vo" items="${mealkisList }" varStatus="status">
+				<c:if test="${status.index >= pageData.beginPerPage && status.index < (pageData.beginPerPage + pageData.numPerPage)}">
+					<c:set var="pictures" value="${vo.pictures}" />
+			        <c:set var="picturesList" value="${fn:split(pictures, ',')}" />
+			        <c:set var="thumbnail" value="${picturesList[0]}" />
+			
+			        <c:set var="no" value="${vo.no}" />
+			        <c:set var="id" value="${vo.id}" />
+			        <c:set var="title" value="${vo.title}" />
+			        <c:set var="contents" value="${vo.contents}" />
+			        <c:set var="postDate" value="${vo.post_date}" />
+			        <c:set var="views" value="${vo.views}" />
+			        <c:set var="nickName" value="${vo.nickname}" />
+			        <c:set var="price" value="${vo.price}" />
+			        <c:set var="ratingAvr" value="${vo.averageRating }"/>
 				<tr>
 				    <td colspan="2">
-				        <a href="<%=contextPath%>/Mealkit/info?no=<%=no%>&nickName=<%=nickName%>" class="row-link">
+				        <a href="${contextPath }/Mealkit/info?no=${no }&nickName=${nickName}" class="row-link">
 				            <div style="display: flex; align-items: flex-start;">
 				                <!-- 이미지 영역 -->
 				                <div>
 				                    <img class="thumbnail" 
-				                         src="<%=contextPath%>/images/mealkit/thumbnails/<%=no%>/<%=thumbnail%>">
+				                         src="${contextPath }/images/mealkit/thumbnails/${no }/${thumbnail}">
 				                </div>
 				                <!-- 텍스트 정보 영역 -->
 				                <div class="info-container" style="margin-left: 16px;">
 				                    <!-- 작성자, 작성일, 평점, 조회수 -->
 				                    <span>
-				                        작성자: <%=nickName%> &nbsp;&nbsp;&nbsp;&nbsp;
-				                        작성일: <%=formattedPostDate%> &nbsp;&nbsp;&nbsp;&nbsp;
-				                        평점: <fmt:formatNumber value="<%=ratingAvr.get(no)%>" pattern="#.#" /> &nbsp;&nbsp;&nbsp;&nbsp;
-				                        조회수: <%=views%>
+				                        작성자: ${nickName } &nbsp;&nbsp;&nbsp;&nbsp;
+				                        작성일: ${postDate } &nbsp;&nbsp;&nbsp;&nbsp;
+				                        평점: <fmt:formatNumber value="${ratingAvr }" pattern="#.#" /> &nbsp;&nbsp;&nbsp;&nbsp;
+				                        조회수: ${views }
 				                    </span>
 				                    <br>
-				                    <h2><strong><%=title%></strong></h2>
-				                    <h3><%=formattedPrice%> 원</h3>
+				                    <h2><strong>${title }</strong></h2>
+				                    <h3>${price } 원</h3>
 				                    <br>
-				                    <p>설명: <%=contents%></p>
+				                    <p>설명: ${contents }</p>
 				                </div>
 				            </div>
 				        </a>
 				    </td>
-				</tr>
-				<%
-				} // for
-			} // esle
-			%>    
+				</tr>			        
+				</c:if>
+			</c:forEach>
 			<!--페이징-->
 			<tr align="center">
 			    <td class="pagination">
-			        <%
-			            if(totalRecord != 0){
-			                
-			                if(nowBlock > 0){
-			                %>
-			                    <a href="<%=contextPath%>/Mealkit/list?category=<%=category %>&nowBlock=<%=nowBlock-1%>&nowPage=<%=((nowBlock-1) * pagePerBlock)%>">
-			                    이전
+			    	<c:if test="${not empty pageData.totalRecord }">
+			    		<c:if test="${pageData.nowBlock > 0 }">
+			    			<a href="${contextPath }/Mealkit/list?category=${mealkitsList.category }&nowBlock=${pageData.nowBlock - 1 }&nowPage=${(pageData.nowBlock - 1) * pageData.pagePerBlock }">
+		                    이전
+		                    </a>
+			    		</c:if>
+			    		
+			    		<c:forEach var="i" begin="0" end="${pageData.pagePerBlock - 1}" varStatus="status">
+			                <c:set var="pageNumber" value="${pageData.nowBlock * pageData.pagePerBlock + status.index + 1}" />
+			                <c:if test="${pageNumber <= pageData.totalPage}">
+			                    <c:set var="currentClass" value="${pageNumber == pageData.nowPage + 1 ? 'current-page' : ''}" />
+			                    <a href="${contextPath}/Mealkit/list?category=${mealkitsList.category}&nowBlock=${pageData.nowBlock}&nowPage=${pageNumber - 1}" class="${currentClass}">
+			                        ${pageNumber}
 			                    </a>
-			                <%
-			                }
-			                
-			                for (int i = 0; i < pagePerBlock; i++) {
-			                    int pageNumber = (nowBlock * pagePerBlock) + i + 1;
-			                    if (pageNumber > totalPage) break;
-
-			                    String currentClass = (pageNumber == nowPage + 1) ? "current-page" : ""; 
-			          		%>
-			                    <!-- 링크에 activeClass 추가 -->
-			                    <a href="<%=contextPath%>/Mealkit/list?category=<%=category%>&nowBlock=<%=nowBlock%>&nowPage=<%=(pageNumber - 1)%>" 
-			                       class="<%=currentClass%>">
-			                       <%=pageNumber%>
-			                    </a>
-							<%
-			                }
-			                
-			                if(totalBlock > nowBlock + 1){
-			                %>
-			                    <a href="<%=contextPath%>/Mealkit/list?category=<%=category %>&nowBlock=<%=nowBlock+1%>&nowPage=<%=(nowBlock + 1) * pagePerBlock%>">
-			                        다음
-			                    </a>
-			                <%
-			                }
-			            }
-			        %>
+			                </c:if>
+			            </c:forEach>
+					    
+					    <c:if test="${pageData.totalBlock > pageData.nowBlock + 1}">
+					        <a href="${contextPath}/Mealkit/list?category=${mealkitsList.category}&nowBlock=${pageData.nowBlock + 1}&nowPage=${(pageData.nowBlock + 1) * pageData.pagePerBlock }">
+					        다음
+					        </a>
+					    </c:if>
+			    	</c:if>
 			    </td>
 			</tr>
 		</table>
