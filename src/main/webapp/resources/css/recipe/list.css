@@ -1,0 +1,204 @@
+@charset "UTF-8";
+
+#recipe-list-container {
+	margin: 0 auto;
+}
+
+.list-title {	
+	font-family: "Noto Serif KR", serif;
+}
+
+.recipe-list-header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	height: 40px;
+}
+
+.recipe-list-search-area {
+	flex-grow: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.recipe-list-search-area>* {
+	margin: 0 10px;
+}
+
+.recipe-list-search-area #key {
+	font-family: "Noto Serif KR", serif;
+	width: 120px;
+	height: 40px;
+	border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 1rem;
+    color: #495057;
+    background-color: #f8f9fa;
+    outline: none;
+    cursor: pointer;
+}
+
+.recipe-list-search-area #word {
+	font-family: "Noto Serif KR", serif;
+	width: 400px;
+	height: 40px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 1rem;
+    color: #495057;
+    outline: none;
+}
+
+.recipe-list-search-area #search-button {
+	font-family: "Noto Serif KR", serif;
+	width: 60px;
+	height: 40px;
+	background-color: #BF817E;
+	border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+}
+
+.recipe-write-button {
+	position: absolute;
+	right: 0;
+}
+
+.recipe-write-button>input {
+	font-family: "Noto Serif KR", serif;
+	width: 128px;
+	height: 40px;
+	margin-right: 40px;
+	background-color: #BF817E;
+	border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+}
+
+.recipe-list-table {
+	margin: 0 auto;
+	padding: 20px;
+	border-collapse: separate;
+	border-spacing: 20px;
+}
+
+.recipe-cell {
+	text-align: center;
+	padding: 0;
+}
+
+.recipe-cell:hover {
+	background-color: #EAEAEA;
+}
+
+.cell-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.cell-link > span:not(.rating, .views) {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.recipe-thumbnail {
+	margin: 0 auto;
+	width: 256px;
+	height: 256px;
+	overflow: hidden;
+}
+
+.recipe-thumbnail img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.review_star {
+    width: 20px;
+    height: 20px;
+}
+
+.recipe-title {
+	font-family: "Noto Serif KR", serif;
+	font-size: 25px;
+}
+
+.recipe-nickname {
+	font-family: "Noto Serif KR", serif;
+	font-size: 20px;
+}
+
+.recipe-review img {
+	width: 15px;
+	height: 15px;
+	vertical-align: middle;
+}
+
+.recipe-review span {
+	font-family: "Noto Serif KR", serif;
+	font-size: 15px;
+	vertical-align: middle;
+}
+
+.recipe-views img {
+	width: 25px;
+	height: 12px;
+	vertical-align: middle;	
+}
+
+.recipe-views span {
+	font-family: "Noto Serif KR", serif;
+	font-size: 15px;
+	vertical-align: middle;
+}
+
+.paging-area {
+	text-align: center;
+}
+
+.paging-area>div {
+	margin-top: 20px;
+}
+
+.paging-area ul {
+	display: inline-block;
+	padding: 0;
+	margin: 0;
+}
+
+.paging-area li {
+	display: inline-block;
+	margin: 0 5px;
+	list-style-type: none;
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
+}
+
+.paging-area li a {
+	display: inline-block;
+	border: 1px solid #BF817E;
+	width: 32px;
+	height: 32px;
+	line-height: 32px;
+	color: #BF817E;
+	border-radius: 5px;
+	background: white;
+}
+
+.paging-area li a:hover {
+	border: 1px solid white;
+	color: white;
+	background: #BF817E;
+}

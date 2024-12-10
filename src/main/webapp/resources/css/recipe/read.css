@@ -1,0 +1,264 @@
+@charset "UTF-8";
+
+#recipe-read-container {
+	margin: 0 auto;
+}
+
+.recipe-read-button-area input {
+	font-family: "Noto Serif KR", serif;
+	background-color: #BF817E;
+	border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    padding: 8px 16px;
+    margin: 10px 5px;
+}
+
+.recipe-list {
+	display: flex;
+	width: 100%;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	align-items: center;
+}
+
+.recipe-list li {
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+.profile-img {
+	width: 10%;
+}
+
+.profile-img div {
+	margin: 0 auto;
+	width: 64px;
+	height: 64px;
+	overflow: hidden;
+}
+
+.profile-img img {
+	border-radius: 50%;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.recipe-title {
+	width: 50%;
+	font-family: "Noto Serif KR", serif;
+	font-size: 30px;
+}
+
+.recipe-nickname {
+	width: 20%;
+	font-family: "Noto Serif KR", serif;
+	font-size: 20px;
+}
+
+.recipe-info {
+	width: 20%;
+	flex-direction: column; /* recipe-info의 내용을 세로로 정렬합니다 */
+    justify-content: center; /* 세로 정렬 시 중앙에 위치하도록 합니다 */
+	font-family: "Noto Serif KR", serif;
+	font-size: 15px;
+}
+
+.rating-star {
+	vertical-align: middle;
+}
+
+.rating-star {
+	width: 24px;
+	height: 24px;
+}
+
+#thumbnail {
+    position: relative;
+    width: 900px;
+    height: 500px;
+	overflow: hidden;
+	margin: 20px 0px;
+}
+
+#thumbnail img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#wishlist {
+    position: absolute;
+    bottom: 10px; /* 하단에서의 거리 */
+    right: 10px; /* 우측에서의 거리 */
+    
+    width: 40px;
+    height: 40px
+}
+
+#wishlist img {
+	width: 100%;
+	height: 100%;
+    cursor: pointer;
+}
+
+#description {	
+	border: 1px solid #BF917E;
+	min-height: 80px;
+	font-family: "Noto Serif KR", serif;
+	font-size: 30px;
+	border-radius: 10px;
+	padding: 15px;
+	margin-bottom: 10px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+#contents {
+	border: 1px solid #BF917E;
+	min-height: 300px;
+	border-radius: 10px;
+	padding: 15px;
+	margin-bottom: 10px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+#ingredient {	
+	border: 1px solid #BF917E;
+	font-family: "Noto Serif KR", serif;
+	padding: 20px;
+	border-radius: 10px;
+	padding: 15px;
+	margin-bottom: 10px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+#ingredient>table {
+	padding: 0px 30px;
+	border-spacing: 0px 10px;
+}
+
+.ingredient-title {	
+	font-family: "Noto Serif KR", serif;
+	font-size: 25px;
+	background-color: #BF917E;
+	color: white;
+	width: 180px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+}
+
+#orders {
+	border: 1px solid #BF917E;
+	font-family: "Noto Serif KR", serif;
+	padding: 20px;
+	border-radius: 10px;
+	padding: 15px;
+	margin-bottom: 10px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+#orders>table {
+	padding: 0px 30px;
+	border-spacing: 0px 10px;
+}
+
+.orders-title {
+	font-family: "Noto Serif KR", serif;
+	font-size: 25px;
+	background-color: #BF917E;
+	color: white;
+	width: 180px;
+	height: 40px;
+	text-align: center;
+	line-height: 40px;
+}
+
+/* 리뷰 영역 */
+.review-table {
+	border-spacing: 0px 15px;
+}
+
+.review-cell {
+	border: 1px solid #BF917E;
+	border-radius: 5px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+	padding: 10px;
+}
+
+.review-title {
+	font-family: "Noto Serif KR", serif;
+	font-size: 25px;
+	width: 180px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	background-color: #BF917E;
+	color: white;
+}
+
+.reviewer-profile {
+	vertical-align: top;
+	text-align: center;
+}
+
+.reviewer-profile>div {
+	margin: 0 auto;
+	width: 96px;
+	height: 96px;
+	overflow: hidden;
+	text-align: center;
+	margin-top: 20px;
+}
+
+.reviewer-profile>div img {
+	border-radius: 50%;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.review-star li {
+	list-style-type: none;
+	float: left;
+}
+
+.review-star li img {
+	width: 32px;
+	height: 32px;
+}
+
+.review-pictures-area ul {
+	list-style-type: none;
+}
+
+.review-pictures {
+	float: left;
+	width: 128px;
+	height: 128px;
+	overflow: hidden;
+	margin: 10px;
+}
+
+.review-pictures img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.review-contents {
+	width: 100%;
+	min-height: 200px;
+	height: auto;
+	resize: none;
+	overflow-y: hidden;
+	white-space: pre-wrap;
+}
