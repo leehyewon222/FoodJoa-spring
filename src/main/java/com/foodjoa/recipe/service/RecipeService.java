@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.foodjoa.member.dao.MemberDAO;
@@ -15,7 +16,7 @@ import com.foodjoa.recipe.vo.RecipeReviewVO;
 import com.foodjoa.recipe.vo.RecipeVO;
 
 @Service
-@Transactional
+@Transactional(propagation = Propagation.REQUIRED)
 public class RecipeService {
 
 	@Autowired
