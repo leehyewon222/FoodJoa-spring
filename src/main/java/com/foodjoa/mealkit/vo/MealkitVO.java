@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import org.springframework.stereotype.Component;
 
+import com.foodjoa.member.vo.MemberVO;
+
 @Component
 public class MealkitVO {
 	
@@ -20,33 +22,11 @@ public class MealkitVO {
     private int views;
     private int soldout;
     private Timestamp postDate;
-    
-    public MealkitVO() {}
-    
-    // postDate 없는 생성자 
-	public MealkitVO(int no, String id, String title, String contents, int category, String price, int stock,
-			String pictures, String orders, String origin, int views, int soldout) {
-		
-		this.no = no;
-		this.id = id;
-		this.title = title;
-		this.contents = contents;
-		this.category = category;
-		this.price = price;
-		this.stock = stock;
-		this.pictures = pictures;
-		this.orders = orders;
-		this.origin = origin;
-		this.views = views;
-		this.soldout = soldout;
-	}
-
-	public MealkitVO(int no, String id, String title, String contents, int category, String price, int stock, 
-			String pictures, String orders, String origin, int views, int soldout, Timestamp postDate) {
-
-		this(no, id, title, contents, category, price, stock, pictures, orders, origin, views, soldout);
-		this.postDate = postDate;
-	}
+	
+	private float averageRating;
+	private int reviewCount;
+	
+	private MemberVO memberVO;
 
 	public int getNo() {
 		return no;
@@ -150,5 +130,29 @@ public class MealkitVO {
 
 	public void setPostDate(Timestamp postDate) {
 		this.postDate = postDate;
+	}
+
+	public float getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(float averageRating) {
+		this.averageRating = averageRating;
+	}
+
+	public int getReviewCount() {
+		return reviewCount;
+	}
+
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+
+	public MemberVO getMemberVO() {
+		return memberVO;
+	}
+
+	public void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
 	}
 }

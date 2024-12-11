@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.foodjoa.recipe.vo.RecipeReviewVO;
 import com.foodjoa.recipe.vo.RecipeVO;
 
 @Repository
@@ -15,8 +16,19 @@ public class RecipeDAO {
 	@Autowired
 	private SqlSession sqlSession;
 
-	public List<Map<String, Object>> selectRecipesWithAvgRating(RecipeVO recipeVO) {
-		
-		return sqlSession.selectList("mapper.recipe.selectRecipesWithAvgRating", recipeVO);
+	public List<RecipeVO> selectRecipes(RecipeVO recipeVO) {
+		return sqlSession.selectList("mapper.recipe.selectRecipes", recipeVO);
+	}
+	
+	public RecipeVO selectRecipe(RecipeVO recipeVO) {
+		return sqlSession.selectOne("mapper.recipe.selectRecipe", recipeVO);
+	}
+	
+	public List<RecipeReviewVO> selectReviewsByRecipeNo(RecipeReviewVO reviewVO) {
+		return sqlSession.selectList("mapper.recipeReview.selectReviewsByRecipeNo", reviewVO);
+	}
+	
+	public int updateRecipeView(RecipeVO recipeVO) {
+		return sqlSession.update("mapper.recipe.updateRecipeView", recipeVO);
 	}
 }

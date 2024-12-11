@@ -1,8 +1,12 @@
 package com.foodjoa.recipe.controller;
 
 import org.slf4j.Logger;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.foodjoa.recipe.service.RecipeService;
+import com.foodjoa.recipe.vo.RecipeVO;
 
 @Controller
 @RequestMapping("Recipe")
@@ -30,7 +34,7 @@ public class RecipeController {
 			@RequestParam(required = false, defaultValue = "0") String currentPage,
 			@RequestParam(required = false, defaultValue = "0") String currentBlock) {
 		
-		List<Map<String, Object>> recipes = recipeService.getRecipesWithAvgRating(category);
+		List<RecipeVO> recipes = recipeService.getRecipes(category);
 		
 		model.addAttribute("recipes", recipes);
 		model.addAttribute("category", category);
@@ -38,5 +42,25 @@ public class RecipeController {
 		model.addAttribute("currentBlock", currentBlock);
 		
 		return "/recipes/list";
+	}
+	
+	@RequestMapping(value = "read", method = { RequestMethod.GET, RequestMethod.POST })
+	public String read(HttpSession session, Model model,
+			@RequestParam(required = false, defaultValue = "0") String category,
+			@RequestParam(required = false, defaultValue = "0") String currentPage,
+			@RequestParam(required = false, defaultValue = "0") String currentBlock,
+			@RequestParam String no) {
+		
+		//String userId = (String) session.getAttribute("userId");
+		String userId = "admin";
+		
+		HashMap<String, Object> recipeInfo = recipeService.processRecipeRead(no, userId);
+				
+		model.addAttribute("recipeInfo", recipeInfo);
+		model.addAttribute("category", category);
+		model.addAttribute("currentPage", currentPage);
+		model.addAttribute("currentBlock", currentBlock);
+		
+		return "/recipes/read";
 	}
 }

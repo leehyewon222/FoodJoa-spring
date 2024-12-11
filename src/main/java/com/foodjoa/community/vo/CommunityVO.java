@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import org.springframework.stereotype.Component;
 
+import com.foodjoa.member.vo.MemberVO;
+
 @Component
 public class CommunityVO {
 	
@@ -14,25 +16,7 @@ public class CommunityVO {
 	private int views;
 	private Timestamp postDate;
 	
-	public CommunityVO() {
-		
-	}
-
-	public CommunityVO(int no, String id, String title, String contents, int views,
-			Timestamp postDate) {
-
-		this(no, id, title, contents, views);
-		this.postDate = postDate;
-	}
-
-	public CommunityVO(int no, String id, String title, String contents, int views) {
-
-		this.no = no;
-		this.id = id;
-		this.title = title;
-		this.contents = contents;
-		this.views = views;
-	}
+	private MemberVO memberVO;
 
 	public int getNo() {
 		return no;
@@ -80,6 +64,14 @@ public class CommunityVO {
 
 	public void setPostDate(Timestamp postDate) {
 		this.postDate = postDate;
+	}
+
+	public MemberVO getMemberVO() {
+		return memberVO;
+	}
+
+	public void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
 	}
 }
 

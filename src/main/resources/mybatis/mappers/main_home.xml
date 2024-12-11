@@ -5,20 +5,13 @@
 
 <mapper namespace="mapper.mainHome">
 
-	<resultMap type="java.util.HashMap" id="recipeRank">	
-    	<result property="averageRating" column="average_rating"/>
-    	
-		<association property="recipeVO" javaType="recipeVO">
-			<id property="no" column="no"/>
-			<result property="title" column="title"/>
-			<result property="thumbnail" column="thumbnail"/>
-			<result property="category" column="category"/>
-			<result property="views" column="views"/>
-		</association>
-		
-		<association property="commonVO" javaType="commonVO">
-			<result property="averageRating" column="average_rating"/>
-		</association>
+	<resultMap type="recipeVO" id="recipeRank">
+		<id property="no" column="no"/>
+		<result property="title" column="title"/>
+		<result property="thumbnail" column="thumbnail"/>
+		<result property="category" column="category"/>
+		<result property="views" column="views"/>
+		<result property="averageRating" column="average_rating"/>
 		
 		<association property="memberVO" javaType="memberVO">
 			<result property="nickname" column="nickname"/>
@@ -45,19 +38,14 @@
         ]]>
     </select>
     
-    <resultMap type="java.util.HashMap" id="mealkitRank">	
-		<association property="mealkitVO" javaType="mealkitVO">
-			<id property="no" column="no"/>
-			<result property="title" column="title"/>
-			<result property="pictures" column="pictures"/>
-			<result property="category" column="category"/>
-			<result property="views" column="views"/>
-			<result property="price" column="price"/>
-		</association>
-		
-		<association property="commonVO" javaType="commonVO">
-			<result property="averageRating" column="average_rating"/>
-		</association>
+	<resultMap type="mealkitVO" id="mealkitRank">
+		<id property="no" column="no"/>
+		<result property="title" column="title"/>
+		<result property="pictures" column="pictures"/>
+		<result property="category" column="category"/>
+		<result property="views" column="views"/>
+		<result property="price" column="price"/>
+		<result property="averageRating" column="average_rating"/>
 	</resultMap>
 	
 	<select id="selectMealkitRank" resultMap="mealkitRank">
@@ -93,13 +81,11 @@
         ]]>
     </select>
     
-    <resultMap type="java.util.HashMap" id="communityRank">	
-		<association property="communityVO" javaType="communityVO">
-			<id property="no" column="no"/>
-			<result property="title" column="title"/>
-			<result property="views" column="views"/>
-			<result property="postDate" column="post_date"/>
-		</association>
+	<resultMap type="communityVO" id="communityRank">
+		<id property="no" column="no"/>
+		<result property="title" column="title"/>
+		<result property="views" column="views"/>
+		<result property="postDate" column="post_date"/>
 		
 		<association property="memberVO" javaType="memberVO">
 			<result property="nickname" column="nickname"/>
@@ -118,13 +104,11 @@
         ]]>
     </select>
     
-    <resultMap type="java.util.HashMap" id="shareRank">	
-		<association property="shareVO" javaType="communityShareVO">
-			<id property="no" column="no"/>
-			<result property="title" column="title"/>
-			<result property="views" column="views"/>
-			<result property="postDate" column="post_date"/>
-		</association>
+	<resultMap type="communityShareVO" id="shareRank">
+		<id property="no" column="no"/>
+		<result property="title" column="title"/>
+		<result property="views" column="views"/>
+		<result property="postDate" column="post_date"/>
 		
 		<association property="memberVO" javaType="memberVO">
 			<result property="nickname" column="nickname"/>

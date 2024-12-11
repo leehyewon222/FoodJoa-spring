@@ -13,7 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.foodjoa.community.vo.CommunityShareVO;
+import com.foodjoa.community.vo.CommunityVO;
 import com.foodjoa.community.vo.NoticeVO;
+import com.foodjoa.mealkit.vo.MealkitVO;
+import com.foodjoa.recipe.vo.RecipeVO;
 
 @Controller
 @RequestMapping(value = "/Main")
@@ -26,11 +30,11 @@ public class MainController {
 	public String home(HttpServletRequest request, HttpServletResponse response,
 			Model model) throws Exception {
 		
-		List<Map<String, Object>> recipeRank = sqlSession.selectList("mapper.mainHome.selectRecipeRank");
-		List<Map<String, Object>> mealkitRank = sqlSession.selectList("mapper.mainHome.selectMealkitRank");
+		List<RecipeVO> recipeRank = sqlSession.selectList("mapper.mainHome.selectRecipeRank");
+		List<MealkitVO> mealkitRank = sqlSession.selectList("mapper.mainHome.selectMealkitRank");
 		List<NoticeVO> notices = sqlSession.selectList("mapper.mainHome.selectNoticeRank");
-		List<Map<String, Object>> communityRank = sqlSession.selectList("mapper.mainHome.selectCommunityRank");
-		List<Map<String, Object>> shareRank = sqlSession.selectList("mapper.mainHome.selectshareRank");
+		List<CommunityVO> communityRank = sqlSession.selectList("mapper.mainHome.selectCommunityRank");
+		List<CommunityShareVO> shareRank = sqlSession.selectList("mapper.mainHome.selectshareRank");
 		
 		model.addAttribute("recipes", recipeRank);
 		model.addAttribute("mealkits", mealkitRank);

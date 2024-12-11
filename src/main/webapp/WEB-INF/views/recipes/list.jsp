@@ -37,9 +37,7 @@
 	
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>	
 	<script type="text/javascript">	
-		$(function() {			
-			console.log('${ recipes }');
-			
+		$(function() {
 			$("#write").click(function() {
 				location.href = '${ contextPath }/Recipe/write';
 			});
@@ -126,10 +124,8 @@
 								<tr>
 							</c:if>
 							
-							<c:set var="recipe" value="${ recipes[i].recipeVO }"/>
-							<c:set var="reviewCount" value="${ recipes[i].commonVO.reviewCount }"/>
-							<c:set var="rating" value="${ recipes[i].commonVO.averageRating }"/>
-							<c:set var="nickname" value="${ recipes[i].memberVO.nickname }"/>
+							<c:set var="recipe" value="${ recipes[i] }"/>
+							<c:set var="rating" value="${ recipe.averageRating }"/>
 							
 							<td class="recipe-cell">
 								<a href="javascript:openRecipeContent(${ recipe.no })" class="cell-link">
@@ -164,13 +160,13 @@
 							    		</tr>
 							    		<tr>
 							    			<td class="recipe-nickname" colspan="2">
-							    				${ nickname }
+							    				${ recipe.memberVO.nickname }
 							    			</td>
 							    		</tr>
 							    		<tr>
 							    			<td class="recipe-review" align="right">					    			
 							    				<img src="${ resourcesPath }/images/recipe/review_icon.png">
-							    				<span>${ reviewCount } reviews</span>
+							    				<span>${ recipe.reviewCount } reviews</span>
 							    				&nbsp;
 							    			</td>
 							    			<td class="recipe-views" align="left">

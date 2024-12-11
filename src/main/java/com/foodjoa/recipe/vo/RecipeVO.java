@@ -1,8 +1,11 @@
 package com.foodjoa.recipe.vo;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
+
+import com.foodjoa.member.vo.MemberVO;
 
 @Component
 public class RecipeVO {
@@ -19,33 +22,11 @@ public class RecipeVO {
 	private String ingredientAmount;
 	private String orders;
 	private Timestamp postDate;
-
-	public RecipeVO() {
-	}
-
-	public RecipeVO(int no, String id, String title, String thumbnail, String description, String contents,
-			int category, int views, String ingredient, String ingredientAmount, String orders) {
-
-		this.no = no;
-		this.id = id;
-		this.title = title;
-		this.thumbnail = thumbnail;
-		this.description = description;
-		this.contents = contents;
-		this.category = category;
-		this.views = views;
-		this.ingredient = ingredient;
-		this.ingredientAmount = ingredientAmount;
-		this.orders = orders;
-	}
-
-	public RecipeVO(int no, String id, String title, String thumbnail, String description, String contents,
-			int category, int views, String ingredient, String ingredientAmount, String orders, Timestamp postDate) {
-
-		this(no, id, title, thumbnail, description, contents, category, 
-				views, ingredient, ingredientAmount, orders);
-		this.postDate = postDate;
-	}
+	
+	private float averageRating;
+	private int reviewCount;
+	
+	private MemberVO memberVO;
 
 	public int getNo() {
 		return no;
@@ -141,5 +122,29 @@ public class RecipeVO {
 
 	public void setPostDate(Timestamp postDate) {
 		this.postDate = postDate;
+	}
+
+	public float getAverageRating() {
+		return averageRating;
+	}
+
+	public void setAverageRating(float averageRating) {
+		this.averageRating = averageRating;
+	}
+
+	public int getReviewCount() {
+		return reviewCount;
+	}
+
+	public void setReviewCount(int reviewCount) {
+		this.reviewCount = reviewCount;
+	}
+
+	public MemberVO getMemberVO() {
+		return memberVO;
+	}
+
+	public void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
 	}
 }

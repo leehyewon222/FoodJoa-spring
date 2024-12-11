@@ -7,6 +7,11 @@
 		<put-attribute name="title" value="나만의 레시피" />
 		<put-attribute name="center" value="/WEB-INF/views/recipes/list.jsp" />
 	</definition>
+	
+	<definition name="/recipes/read" extends="baseLayout">
+		<put-attribute name="title" value="나만의 레시피 - 레시피 읽기" />
+		<put-attribute name="center" value="/WEB-INF/views/recipes/read.jsp" />
+	</definition>
 </tiles-definitions>
 
 

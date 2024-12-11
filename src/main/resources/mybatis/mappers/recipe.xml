@@ -5,29 +5,24 @@
 
 <mapper namespace="mapper.recipe">
 
-	<resultMap type="java.util.HashMap" id="recipesWithAvgRating">    	
-		<association property="recipeVO" javaType="recipeVO">
-			<id property="no" column="no"/>
-			<result property="id" column="id"/>
-			<result property="title" column="title"/>
-			<result property="thumbnail" column="thumbnail"/>
-			<result property="description" column="description"/>
-			<result property="contents" column="contents"/>
-			<result property="category" column="category"/>
-			<result property="views" column="views"/>
-			<result property="ingredient" column="ingredient"/>
-			<result property="ingredientAmount" column="ingredient_amount"/>
-			<result property="orders" column="orders"/>
-			<result property="postDate" column="post_date"/>
-		</association>
+	<resultMap type="recipeVO" id="recipe">
+		<id property="no" column="no"/>
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="thumbnail" column="thumbnail"/>
+		<result property="description" column="description"/>
+		<result property="contents" column="contents"/>
+		<result property="category" column="category"/>
+		<result property="views" column="views"/>
+		<result property="ingredient" column="ingredient"/>
+		<result property="ingredientAmount" column="ingredient_amount"/>
+		<result property="orders" column="orders"/>
+		<result property="postDate" column="post_date"/>
 		
-		<association property="commonVO" javaType="commonVO">
-			<result property="averageRating" column="average_rating"/>
-			<result property="reviewCount" column="review_count"/>
-		</association>
+		<result property="averageRating" column="average_rating"/>
+		<result property="reviewCount" column="review_count"/>
 		
 		<association property="memberVO" javaType="memberVO">
-			<id property="id" column="id"/>
 			<result property="name" column="name"/>
 			<result property="nickname" column="nickname"/>
 			<result property="phone" column="phone"/>
@@ -39,13 +34,13 @@
 		</association>
 	</resultMap>
 	
-	<select id="selectRecipesWithAvgRating" parameterType="recipeVO" resultMap="recipesWithAvgRating">
+	<select id="selectRecipes" parameterType="recipeVO" resultMap="recipe">
 		<![CDATA[
 		    SELECT 
 		        r.*, 
 		        COALESCE(rr.average_rating, 0) AS average_rating, 
 				COALESCE(rr.review_count, 0) AS review_count, 
-		        m.nickname AS nickname
+		        m.nickname
 		    FROM recipe r
 		    LEFT JOIN (
 		        SELECT recipe_no, AVG(rating) AS average_rating, COUNT(rating) AS review_count
@@ -56,11 +51,34 @@
         ]]>
 	    <where>
 	        <if test="category != 0">
-	            r.category = #{category}
+	            r.category=#{category}
 	        </if>
 	    </where>
 	    <![CDATA[
 		    ORDER BY r.post_date DESC
         ]]>
+	</select>
+	
+	<update id="updateRecipeView" parameterType="recipeVO">
+		<![CDATA[
+		    UPDATE recipe SET views=views+1 
+        ]]>
+        <where>
+        	no=#{no}
+        </where>
+	</update>
+	
+	<select id="selectRecipe" parameterType="recipeVO" resultMap="recipe">
+		SELECT 
+			r.*, COALESCE(avg_rating.average_rating, 0) AS average_rating, 
+			m.nickname, m.profile  
+		FROM recipe r 
+		LEFT JOIN ( 
+			SELECT recipe_no, AVG(rating) AS average_rating 
+			FROM recipe_review 
+			GROUP BY recipe_no 
+		) avg_rating ON r.no = avg_rating.recipe_no 
+		JOIN member m ON r.id=m.id 
+		WHERE r.no=#{no}
 	</select>
 </mapper>
