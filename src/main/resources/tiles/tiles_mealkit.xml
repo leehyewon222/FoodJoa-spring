@@ -9,4 +9,9 @@
 		<put-attribute name="center" value="/WEB-INF/views/mealkits/list.jsp"/>
 	</definition>
 	
+	<definition name="/mealkits/info" extends="baseLayout">
+		<put-attribute name="title" value="밀키트 정보"/>
+		<put-attribute name="center" value="/WEB-INF/views/mealkits/info.jsp"/>
+	</definition>
+	
 </tiles-definitions>

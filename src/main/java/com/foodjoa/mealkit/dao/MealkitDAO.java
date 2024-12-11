@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
 
 @Repository
@@ -17,5 +18,13 @@ public class MealkitDAO {
 	
 	public List<Map<String, Object>> selectMealkitsList(MealkitVO mealkitVO){
 		return sqlSession.selectList("mapper.mealkit.selectMealkitsList", mealkitVO);
+	}
+
+	public MealkitVO selectMealkitInfo(int no) {
+		return sqlSession.selectOne("mapper.mealkit.selectMealkitInfo", no);
+	}
+
+	public MealkitReviewVO selectReviewInfo(int no) {
+		return sqlSession.selectOne("mapper.mealkitReview.selectReviewInfo", no);
 	}
 }

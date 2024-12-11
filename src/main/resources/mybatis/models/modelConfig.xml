@@ -20,7 +20,5 @@
 		<typeAlias type="com.foodjoa.recipe.vo.RecipeReviewVO" alias="recipeReviewVO" />
 		<typeAlias type="com.foodjoa.recipe.vo.RecipeVO" alias="recipeVO" />
 		<typeAlias type="com.foodjoa.recipe.vo.RecipeWishListVO" alias="recipeWishListVO" />
-		
-		<typeAlias type="Common.CommonVO" alias="commonVO" />
 	</typeAliases>
 </configuration>

@@ -15,28 +15,6 @@ public class MealkitOrderVO {
     private int refund;
     private Timestamp postDate;
     
-    public MealkitOrderVO() {
-	}
-    
-    // postDate없는 생성자  
-	public MealkitOrderVO(int no, String id, int mealkitNo, String address, int quantity, int delivered, int refund) {
-
-		this.no = no;
-		this.id = id;
-		this.mealkitNo = mealkitNo;
-		this.address = address;
-		this.quantity = quantity;
-		this.delivered = delivered;
-		this.refund = refund;
-	}
-
-	public MealkitOrderVO(int no, String id, int mealkitNo, String address, int quantity, 
-			int delivered, int refund, Timestamp postDate) {
-
-		this(no, id, mealkitNo, address, quantity, delivered, refund);
-		this.postDate = postDate;
-	}
-
 	public int getNo() {
 		return no;
 	}

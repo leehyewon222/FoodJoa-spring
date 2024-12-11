@@ -12,29 +12,6 @@ public class MealkitCartVO {
 	private int mealkit_no;
 	private int quantity;
 	private Timestamp choice_date;
-	
-	public MealkitCartVO() {
-	
-	}	
-	
-	public MealkitCartVO(int no, String id, int mealkit_no, int quantity) {
-		
-		this.no = no;
-		this.id = id;
-		this.mealkit_no = mealkit_no;
-		this.quantity = quantity;
-
-	}
-	
-	public MealkitCartVO(int no, String id, int mealkit_no, int quantity, Timestamp choice_date ) {
-		
-		this.no = no;
-		this.id = id;
-		this.mealkit_no = mealkit_no;
-		this.quantity = quantity;
-		this.choice_date = choice_date;	
-		
-	}
 
 	public int getNo() {
 		return no;

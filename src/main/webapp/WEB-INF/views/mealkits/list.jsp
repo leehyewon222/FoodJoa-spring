@@ -1,5 +1,5 @@
 <%@ page import="java.util.List"%>
-<%@ page import="java.util.Map" %>
+<%@ page import="java.util.Map"%>
 <%@ page import="Common.StringParser"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.text.NumberFormat" %>
@@ -8,8 +8,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <c:set var="resourcesPath" value="${contextPath}/resources" />
+<jsp:useBean id="stringParser" class="Common.StringParser"/>
+
+<c:set var="id" value="aronId"/>
 
 <!DOCTYPE html>
 <html>
@@ -51,7 +55,8 @@
 			</div>
 				<!-- 글쓰기 -->
 			<div class="write-container">
-				<c:if test="${not empty sessionScope.userId}">
+				<!-- <c:if test="${not empty sessionScope.userId}"> </c:if> -->
+				<c:if test="${not empty id}">
 					<input type="button" id="newContent" value="글쓰기" 
 						onclick="location.href='${contextPath}/Mealkit/write'"/>
 				</c:if>
@@ -59,29 +64,28 @@
 		</div>
 		
 		<table class="list">
-			<c:if test="${not empty mealkitsList}">
+			<c:if test="${empty mealkitsList}">
 				<tr>
 					<td> 등록된 글이 없습니다.</td>
 				</tr>
 			</c:if>
 			<c:forEach var="vo" items="${mealkitsList }" varStatus="status">
 				<c:if test="${status.index >= pageData.beginPerPage && status.index < (pageData.beginPerPage + pageData.numPerPage)}">
-					<c:set var="pictures" value="${vo.pictures}" />
-			        <c:set var="picturesList" value="${fn:split(pictures, ',')}" />
-			        <c:set var="thumbnail" value="${picturesList[0]}" />
+					<c:set var="pictures" value="${vo.mealkitVO.pictures}" />
+					<c:set var="thumbnail" value="${stringParser.splitString(vo.mealkitVO.pictures)[0] }" />
 			
-			        <c:set var="no" value="${vo.no}" />
-			        <c:set var="id" value="${vo.id}" />
-			        <c:set var="title" value="${vo.title}" />
-			        <c:set var="contents" value="${vo.contents}" />
-			        <c:set var="postDate" value="${vo.postDate}" />
-			        <c:set var="views" value="${vo.views}" />
-			        <c:set var="nickName" value="${vo.nickName}" />
-			        <c:set var="price" value="${vo.price}" />
-			        <c:set var="ratingAvr" value="${vo.averageRating }"/>
+			        <c:set var="no" value="${vo.mealkitVO.no}" />
+			        <c:set var="id" value="${vo.mealkitVO.id}" />
+			        <c:set var="title" value="${vo.mealkitVO.title}" />
+			        <c:set var="contents" value="${vo.mealkitVO.contents}" />
+			        <c:set var="postDate" value="${vo.mealkitVO.postDate}" />
+			        <c:set var="views" value="${vo.mealkitVO.views}" />
+			        <c:set var="nickName" value="${vo.memberVO.nickname}" />
+			        <c:set var="price" value="${vo.mealkitVO.price}" />
+			        <c:set var="ratingAvr" value="${vo.mealkitVO.averageRating}"/>
 				<tr>
 				    <td colspan="2">
-				        <a href="${contextPath}/Mealkit/info?no=${no }&nickName=${nickName}" class="row-link">
+				        <a href="${contextPath}/Mealkit/info?no=${no}&nickName=${nickName}" class="row-link">
 				            <div style="display: flex; align-items: flex-start;">
 				                <!-- 이미지 영역 -->
 				                <div>
@@ -106,31 +110,32 @@
 				            </div>
 				        </a>
 				    </td>
-				</tr>			        
+				</tr>
 				</c:if>
 			</c:forEach>
 			<!--페이징-->
 			<tr align="center">
 			    <td class="pagination">
 			    	<c:if test="${not empty pageData.totalRecord }">
-			    		<c:if test="${pageData.nowBlock > 0 }">
-			    			<a href="${contextPath }/Mealkit/list?category=${category}&nowBlock=${pageData.nowBlock - 1 }&nowPage=${(pageData.nowBlock - 1) * pageData.pagePerBlock }">
+			    		<c:if test="${nowBlock > 0 }">
+			    			<a href="${contextPath }/Mealkit/list?category=${category}&nowBlock=${nowBlock - 1 }&nowPage=${(nowBlock - 1) * pageData.pagePerBlock }">
 		                    이전
 		                    </a>
 			    		</c:if>
 			    		
 			    		<c:forEach var="i" begin="0" end="${pageData.pagePerBlock - 1}" varStatus="status">
-			                <c:set var="pageNumber" value="${pageData.nowBlock * pageData.pagePerBlock + status.index + 1}" />
+			                <c:set var="pageNumber" value="${nowBlock * pageData.pagePerBlock + status.index + 1}" />
 			                <c:if test="${pageNumber <= pageData.totalPage}">
-			                    <c:set var="currentClass" value="${pageNumber == pageData.nowPage + 1 ? 'current-page' : ''}" />
-			                    <a href="${contextPath}/Mealkit/list?category=${category}&nowBlock=${pageData.nowBlock}&nowPage=${pageNumber - 1}" class="${currentClass}">
+			                    <c:set var="currentClass" value="${pageNumber == nowPage + 1 ? 'current-page' : ''}" />
+			                    <a href="${contextPath}/Mealkit/list?category=${category}&nowBlock=${nowBlock}&nowPage=${pageNumber - 1}" 
+			                    	class="${currentClass}">
 			                        ${pageNumber}
 			                    </a>
 			                </c:if>
 			            </c:forEach>
 					    
 					    <c:if test="${pageData.totalBlock > pageData.nowBlock + 1}">
-					        <a href="${contextPath}/Mealkit/list?category=${category}&nowBlock=${pageData.nowBlock + 1}&nowPage=${(pageData.nowBlock + 1) * pageData.pagePerBlock }">
+					        <a href="${contextPath}/Mealkit/list?category=${category}&nowBlock=${nowBlock + 1}&nowPage=${(nowBlock + 1) * pageData.pagePerBlock }">
 					        다음
 					        </a>
 					    </c:if>

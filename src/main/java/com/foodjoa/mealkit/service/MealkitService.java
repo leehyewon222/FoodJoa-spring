@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.foodjoa.mealkit.dao.MealkitDAO;
+import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
 
 @Service
@@ -18,7 +19,6 @@ public class MealkitService {
 	@Autowired
 	private MealkitVO mealkitVO;
 	
-	// list.jsp
 	public List<Map<String, Object>> selectMealkitsList(int category) {
 		mealkitVO = new MealkitVO();
 		mealkitVO.setCategory(category);
@@ -65,6 +65,13 @@ public class MealkitService {
 		
 		return pageData;
 	}
-	
-	// 
+
+	public MealkitVO selectMealkitInfo(int no) {
+		return mealkitDAO.selectMealkitInfo(no);
+	}
+
+	public MealkitReviewVO selectReviewInfo(int no) {
+		return mealkitDAO.selectReviewInfo(no);
+	}
+	 
 }

@@ -1,0 +1,166 @@
+@charset "UTF-8";
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+td {
+    vertical-align: top;
+    padding: 10px;
+}
+
+span {
+    display: block;
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin: 10px 0;
+}
+
+p {
+    margin: 5px 0;
+}
+
+.list a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+#container {
+	margin: 0 auto;
+	width: 1200px;
+	font-family: "Noto Serif KR", serif;
+}
+
+#search-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	height: 40px;
+}
+
+.search-form-container {
+	flex-grow: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
+.search-form-container * {
+	margin: 0 10px;
+}
+
+.search-form-container #key {
+	width: 120px;
+	height: 40px;
+	border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 1rem;
+    color: #495057;
+    background-color: #f8f9fa;
+    outline: none;
+    cursor: pointer;
+}
+
+.search-form-container #word {
+	width: 400px;
+	height: 40px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 8px 12px;
+    font-size: 1rem;
+    color: #495057;
+    outline: none;
+}
+
+.search-form-container #search-button {
+	width: 60px;
+	height: 40px;
+	background-color: #BF817E;
+	border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+}
+
+.write-container {
+	position: absolute;
+	right: 0;
+}
+
+.write-container input {
+	width: 128px;
+	height: 40px;
+	margin-right: 40px;
+	background-color: #BF817E;
+	border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+}
+
+#newContent {
+	padding: 5px 10px;
+	font-size: 14px;
+	cursor: pointer;
+	margin-right: 40px;
+}
+
+.list {
+	width: 1200px;
+}
+
+.thumbnail {
+	border-radius: 10px;
+	width: 256px;
+	height: 256px;
+}
+
+.info-container {
+    font-family: "Noto Serif KR", serif;
+   	padding-left: 40px;
+    color: #333;
+}
+
+.row-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.row-link:hover {
+    background-color: #f9f9f9;
+}
+
+/* 페이지 */
+.pagination a {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.current-page {
+    font-weight: bold;
+    color: white;
+    background-color: #BF917E;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.pagination a:hover {
+    background-color: #9e6e58;
+    border-color: #BF917E;
+}
