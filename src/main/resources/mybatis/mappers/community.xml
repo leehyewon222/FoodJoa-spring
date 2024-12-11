@@ -5,23 +5,21 @@
 
 <mapper namespace="mapper.community">
 
-	<resultMap type="java.util.HashMap" id="communityWithMember">
-		<association property="communityVO" javaType="communityVO">
-			<id property="no" column="no"/>
-			<result property="id" column="id"/>
-			<result property="title" column="title"/>
-			<result property="contents" column="contents"/>
-			<result property="views" column="views"/>
-			<result property="postDate" column="post_date"/>
-		</association>	
-	
-    	<association property="memberVO" javaType="memberVO">
-    		<result property="nickname" column="nickname"/>
+	<resultMap type="communityVO" id="community">
+		<id property="no" column="no"/>
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="contents" column="contents"/>
+		<result property="views" column="views"/>
+		<result property="postDate" column="post_date"/>
+		
+		<association property="memberVO" javaType="memberVO">
+			<result property="nickname" column="nickname"/>
     		<result property="profile" column="profile"/>
-    	</association>
-    </resultMap>
-    
-    <select id="selectCommunities" resultMap="communityWithMember">
+		</association>
+	</resultMap>
+   
+    <select id="selectCommunities" resultMap="community">
 		<![CDATA[
 	        SELECT
 	        	c.*, m.nickname  
@@ -30,19 +28,49 @@
 			ON c.id=m.id 
 			ORDER BY post_date DESC
         ]]>
-        
     </select>
     
-    <resultMap type="java.util.HashMap" id="community">	
-		<association property="communityVO" javaType="communityVO">
-			<id property="no" column="no"/>
-			<result property="title" column="title"/>
-			<result property="views" column="views"/>
-			<result property="postDate" column="post_date"/>
-		</association>
-		
-		<association property="memberVO" javaType="memberVO">
-			<result property="nickname" column="nickname"/>
-		</association>
-	</resultMap>
+    <update id="updateCommunityView" parameterType="communityVO">
+    	update community set views=views+1 where no=#{no}
+    </update>
+	
+	<select id="selectCommunity" parameterType="communityVO" resultMap="community">
+		SELECT c.*, m.nickname, m.profile
+		FROM community c
+		JOIN member m
+		ON c.id = m.id
+		WHERE c.no=#{no}
+	</select>
+	
+	<insert id="insertCommunity" parameterType="communityVO">
+		insert into community(id, title, contents, views, post_date)
+		values(#{id}, #{title}, #{contents}, 0, now())
+	</insert>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

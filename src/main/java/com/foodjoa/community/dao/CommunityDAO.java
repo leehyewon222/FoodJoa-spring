@@ -17,12 +17,24 @@ public class CommunityDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public List<Map<String, Object>> communityListAll() {
+	public List<CommunityVO> selectCommunities() {
 
-		List<Map<String, Object>> communities = sqlSession.selectList("mapper.community.selectCommunities");
+		List<CommunityVO> communities = sqlSession.selectList("mapper.community.selectCommunities");
 		
 		return communities;
 	}
 
+	public int updateCommunityView(CommunityVO communityVO) {
+		return sqlSession.update("mapper.community.updateCommunityView", communityVO);
+	}
+	
+	public CommunityVO selectCommunity(CommunityVO communityVO) {
+		return sqlSession.selectOne("mapper.community.selectCommunity", communityVO);
+	}
 
+	public int insertCommunity(CommunityVO communityVO) {
+		return sqlSession.insert("mapper.community.insertCommunity", communityVO);
+	}
+
+	
 }

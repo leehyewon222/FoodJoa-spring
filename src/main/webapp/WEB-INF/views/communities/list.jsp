@@ -8,7 +8,7 @@
 <c:set var="resourcePath" value="${ contextPath }/resources" />
 
 <%-- <c:set var="id" value="${ sessionScope.userId }"/> --%>
-<c:set var="userId" value="admin" />
+<c:set var="id" value="admin" />
 
 <c:set var="totalRecord" value="${ communities.size() }"/>
 
@@ -83,8 +83,8 @@
 						</c:if>
 						
 						<c:if test="${ loopFlag == true }">
-							<c:set var="community" value="${ communities[i].communityVO }"/>
-							<c:set var="member" value="${ communities[i].memberVO }"/>
+							<c:set var="community" value="${ communities[i] }"/>
+							<c:set var="member" value="${ community.memberVO }"/>
 							
 							<tr align="center">
 								<td>${ totalRecord - i }</td>
