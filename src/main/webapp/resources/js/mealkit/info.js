@@ -38,7 +38,7 @@ function cartMealkit(contextPath) {
 	stock = stockInput.val();
 	
 	$.ajax({
-		url: contextPath + "/Mealkit/cart.pro",
+		url: contextPath + "/Mealkit/cartPro",
 		type: "POST",
 		async: true,
 		data: {
@@ -54,7 +54,7 @@ function cartMealkit(contextPath) {
 
 function wishMealkit(contextPath) {
 	$.ajax({
-		url: contextPath + "/Mealkit/wish.pro",
+		url: contextPath + "/Mealkit/wishPro",
 		type: "POST",
 		async: true,
 		data: {
@@ -77,7 +77,7 @@ function wishMealkit(contextPath) {
 function deleteMealkit(no, contextPath) {
 	if (confirm('정말로 삭제하시겠습니까?')) {
 		$.ajax({
-			url: contextPath + "/Mealkit/delete.pro",
+			url: contextPath + "/Mealkit/deletePro",
 			type: "POST",
 			async: true,
 			data: { no: no },
@@ -95,15 +95,15 @@ function deleteMealkit(no, contextPath) {
 
 // 수정 함수 
 function editMealkit(contextPath) {
-	location.href = contextPath + "/Mealkit/update?no=" + mealkitNo;
+	location.href = contextPath + "/Mealkit/updateMealkit?no=" + mealkitNo;
 }
 
 // 결제창으로 이동 
 function onPaymentButton(e) {
-		e.preventDefault();
-		
-		let no = $("#mealkitNo").val();
-		let quantity = $("#stock").val();
-		
-		location.href = '${contextPath}/Member/payment.me?isCart=0&combinedNo='+ no + '&CombinedQuantity=' + quantity;
-	}
+	e.preventDefault();
+	
+	let no = $("#mealkitNo").val();
+	let quantity = $("#stock").val();
+	
+	location.href = '${contextPath}/Member/payment.me?isCart=0&combinedNo='+ no + '&CombinedQuantity=' + quantity;
+}

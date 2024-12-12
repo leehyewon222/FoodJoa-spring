@@ -4,28 +4,29 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<%
-request.setCharacterEncoding("UTF-8");
-response.setContentType("text/html;charset=utf-8");
-String contextPath = request.getContextPath();
+<c:set var="contextPath" value="${pageContext.request.contextPath }"/>
+<c:set var="resourcesPath" value="${contextPath}/resources" />
+<jsp:useBean id="stringParser" class="Common.StringParser"/>
 
-String id = (String) session.getAttribute("userId");
-%>
+<c:set var="id" value="aronId"/>
+
 
 <!DOCTYPE html>
 <html>
 
 <head>
-	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	<title>밀키트 판매 게시글 작성</title>
 	
-	<link rel="stylesheet" type="text/css" href="<%=contextPath%>/css/mealkit/write.css">
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	
+	<script src="${resourcesPath}/js/mealkit/write.js"></script>
+	<link rel="stylesheet" type="text/css" href="${resourcesPath}/css/mealkit/write.css">
 </head>
 
 <body>
 	<div id="mealkit-container">
-		<form action="<%=contextPath%>/Mealkit/write.pro" method="post" id="frmWrite" enctype="multipart/form-data">
+		<form action="${contextPath}/Mealkit/writePro" method="post" id="frmWrite" enctype="multipart/form-data">
 			<table class="write-form" width="100%">
 				<tr>
 					<th width="30%">글 제목</th>
@@ -33,7 +34,7 @@ String id = (String) session.getAttribute("userId");
 						<div class="write-title-area">
 							<input type="text" class="title" name="title" placeholder="ex) 김치볶음밥 밀키트" required>
 							 <!-- id --> 
-							<input type="hidden" name="id" value="<%=id%>">
+							<input type="hidden" name="id" value="${id }">
 						</div>
 					</td>
 				</tr>
@@ -103,14 +104,11 @@ String id = (String) session.getAttribute("userId");
 				</tr>
 				<tr>
 					<td colspan="2" align="center">
-						<input type="button" class="write" value="작성 완료" onclick="onSubmit(event, '<%=contextPath%>')">
+						<input type="button" class="write" value="작성 완료" onclick="onSubmit(event, '${contextPath}')">
 					</td>
 				</tr>
 			</table>
 		</form>
 	</div>
-
-	<script src="<%=contextPath%>/js/mealkit/write.js"></script>
 </body>
-
 </html>

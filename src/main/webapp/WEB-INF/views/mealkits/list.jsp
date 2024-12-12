@@ -85,7 +85,7 @@
 			        <c:set var="ratingAvr" value="${vo.mealkitVO.averageRating}"/>
 				<tr>
 				    <td colspan="2">
-				        <a href="${contextPath}/Mealkit/info?no=${no}&nickName=${nickName}" class="row-link">
+				        <a href="${contextPath}/Mealkit/info?no=${no}" class="row-link">
 				            <div style="display: flex; align-items: flex-start;">
 				                <!-- 이미지 영역 -->
 				                <div>

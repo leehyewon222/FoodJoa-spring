@@ -124,7 +124,6 @@
 			
 			<tr>
 				<td>
-					<input type="hidden" name="mealkit_no" value="${mealkitInfo.no }">
 					<div id="review-container">
 						<table class="list">
 							<tr>
@@ -171,7 +170,7 @@
 								<td colspan="4">
 								<c:if test="${not empty id}">
 									<input type="button" value="리뷰 작성" class="review-button"
-										onclick="location.href='${contextPath}/Mealkit/reviewwrite?no=${mealkitInfo.no }'">
+										onclick="location.href='${contextPath}/Mealkit/review?no=${mealkitInfo.no }'">
 								</c:if>
 								</td>
 							</tr>

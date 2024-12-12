@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.foodjoa.mealkit.service.MealkitService;
-import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
 
 @Controller
@@ -55,5 +54,36 @@ public class MealkitController {
 		model.addAttribute("reviewInfo", reviewInfo);
 		
 		return "/mealkits/info";
+	}
+	
+	@RequestMapping(value="write", method = { RequestMethod.GET, RequestMethod.POST })
+	public String writeMealkit( HttpServletRequest request, HttpServletResponse response, 
+			Model model) throws Exception {
+		
+		return "/mealkits/write";
+	}
+	
+	@RequestMapping(value="review", method = { RequestMethod.GET, RequestMethod.POST })
+	public String reviewMealkit(@RequestParam int no, 
+			HttpServletRequest request, HttpServletResponse response, 
+			Model model) throws Exception {
+		
+		MealkitVO mealkitInfo = mealkitService.selectMealkitInfo(no);
+		
+		model.addAttribute("mealkitInfo", mealkitInfo);
+		
+		return "/mealkits/review";
+	}
+	
+	@RequestMapping(value="updateMealkit", method = { RequestMethod.GET, RequestMethod.POST })
+	public String writeMealkit( @RequestParam int no, 
+			HttpServletRequest request, HttpServletResponse response, 
+			Model model) throws Exception {
+		
+		MealkitVO mealkitInfo = mealkitService.selectMealkitInfo(no);
+		
+		model.addAttribute("mealkitInfo", mealkitInfo);
+		
+		return "/mealkits/updateMealkit";
 	}
 }
