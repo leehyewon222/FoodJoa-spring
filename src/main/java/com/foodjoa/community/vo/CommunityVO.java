@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.foodjoa.member.vo.MemberVO;
 
+import lombok.Data;
+
+@Data
 @Component
 public class CommunityVO {
 	
@@ -17,62 +20,6 @@ public class CommunityVO {
 	private Timestamp postDate;
 	
 	private MemberVO memberVO;
-
-	public int getNo() {
-		return no;
-	}
-
-	public void setNo(int no) {
-		this.no = no;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getContents() {
-		return contents;
-	}
-
-	public void setContents(String contents) {
-		this.contents = contents;
-	}
-
-	public int getViews() {
-		return views;
-	}
-
-	public void setViews(int views) {
-		this.views = views;
-	}
-
-	public Timestamp getPostDate() {
-		return postDate;
-	}
-
-	public void setPostDate(Timestamp postDate) {
-		this.postDate = postDate;
-	}
-
-	public MemberVO getMemberVO() {
-		return memberVO;
-	}
-
-	public void setMemberVO(MemberVO memberVO) {
-		this.memberVO = memberVO;
-	}
 }
 
 

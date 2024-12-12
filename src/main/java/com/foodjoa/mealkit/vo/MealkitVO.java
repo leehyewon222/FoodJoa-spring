@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 
 import com.foodjoa.member.vo.MemberVO;
 
+import lombok.Data;
+
+@Data
 @Component
 public class MealkitVO {
 	
