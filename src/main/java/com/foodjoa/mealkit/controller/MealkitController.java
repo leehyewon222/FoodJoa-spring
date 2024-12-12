@@ -49,7 +49,7 @@ public class MealkitController {
 			HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 		
 		MealkitVO mealkitInfo = mealkitService.selectMealkitInfo(no);
-		MealkitReviewVO reviewInfo = mealkitService.selectReviewInfo(no);
+		List<Object> reviewInfo = mealkitService.selectReviewInfo(no);
 		
 		model.addAttribute("mealkitInfo", mealkitInfo);
 		model.addAttribute("reviewInfo", reviewInfo);

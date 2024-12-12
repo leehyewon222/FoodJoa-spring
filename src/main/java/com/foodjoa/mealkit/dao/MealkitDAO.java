@@ -24,7 +24,7 @@ public class MealkitDAO {
 		return sqlSession.selectOne("mapper.mealkit.selectMealkitInfo", no);
 	}
 
-	public MealkitReviewVO selectReviewInfo(int no) {
-		return sqlSession.selectOne("mapper.mealkitReview.selectReviewInfo", no);
+	public List<Object> selectReviewInfo(MealkitVO mealkitVO) {
+		return sqlSession.selectList("mapper.mealkitReview.selectReviewInfo", mealkitVO);
 	}
 }

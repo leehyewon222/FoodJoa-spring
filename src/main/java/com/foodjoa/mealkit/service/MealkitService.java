@@ -70,8 +70,11 @@ public class MealkitService {
 		return mealkitDAO.selectMealkitInfo(no);
 	}
 
-	public MealkitReviewVO selectReviewInfo(int no) {
-		return mealkitDAO.selectReviewInfo(no);
+	public List<Object> selectReviewInfo(int no) {
+		mealkitVO = new MealkitVO();
+		mealkitVO.setNo(no);
+		
+		return mealkitDAO.selectReviewInfo(mealkitVO);
 	}
 	 
 }

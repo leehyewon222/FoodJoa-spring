@@ -18,7 +18,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<title>${mealkitInfo.title }</title>
+	<title>제목</title>
 	
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
   	<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
@@ -39,24 +39,23 @@
 						<input type="hidden" id="mealkitNo" value="${mealkitInfo.no}">
 						<div class="info_image">
 							<c:set var="pictures" value="${stringParser.splitString(mealkitInfo.pictures)}"/>
-							<ul>
+							<ul class="bxslider">
 								<c:forEach var="picture" items="${pictures}">
 									<li>
-							            <img src="${resourcesPath}/images/mealkit/thumbnails/${mealkitInfo.no }/${picture}" 
+							            <img src="${resourcesPath}/images/mealkit/thumbnails/${mealkitInfo.no}/${picture}" 
 							            	title="${picture}" />
 							        </li>
 								</c:forEach>
 							</ul>
 							<div class="orders_text">
+								<br>
 								<h3>조리 순서</h3>
 								<c:set var="orders" value="${stringParser.splitString(mealkitInfo.orders)}"/>
 								<c:forEach var="i" begin="0" end="${orders.size() - 1}" step="1">
 									<c:set var="order" value="${orders[i]}"/>
-									
-									<tr>
-										<td align="center" width="8%">${i + 1}</td>
-										<td width="92%">${order}</td>
-									</tr>
+									<p>
+										<span>${i + 1}: ${order}</span>
+									</p>
 								</c:forEach>
 							</div>
 						</div>
@@ -69,7 +68,7 @@
 								</button>
 								<h1>${mealkitInfo.title}</h1>
 								<hr>
-								<strong>글쓴이: ${mealkitInfo.nickname}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<strong>글쓴이: ${mealkitInfo.memberVO.nickname}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<strong>게시일: ${mealkitInfo.postDate}</strong><br>
 								<!-- 나중에 평점 수정 -->
 								<strong>평점: <fmt:formatNumber value="${mealkitInfo.averageRating}" pattern="#.#" /></strong><hr>
@@ -83,7 +82,6 @@
 							</h2>
 							<hr>
 							<br>
-							
 							<!-- 수량 정하는 박스 -->
 							<span class="stock-wrapper">
 								<div class="stock_count">
@@ -140,27 +138,28 @@
 								</c:when>
 								<c:otherwise>
 									<c:forEach var="i" begin="0" end="${reviewInfo.size() - 1}" step="1">
-											<tr>
-												<th>작성자</th>
-												<td class="nickname-td"><input type="text" name="id" class="id" value="${reviewInfo.nickname }" readonly></td>
-												<td><span>평점: ${reviewInfo.rating }</span></td>
-											</tr>
-											<tr>
-												<th>후기</th>
-												<td colspan="3">
-													<div class="contents-container">
-														<div class="review-images">
-															<ul>
-															<c:set var="pictures" value="${stringParser.splitString(reviewInfo.pictures)}"/>
+										<c:set var="review" value="${ reviewInfo[i] }"/>
+										<tr>
+											<th>작성자</th>
+											<td class="nickname-td"><input type="text" name="id" class="id" value="${review.memberVO.nickname }" readonly></td>
+											<td><span>평점: ${review.rating }</span></td>
+										</tr>
+										<tr>
+											<th>후기</th>
+											<td colspan="3">
+												<div class="contents-container">
+													<div class="review-images">
+														<ul>
+															<c:set var="pictures" value="${stringParser.splitString(review.pictures)}"/>
 															<c:forEach var="picture" items="${pictures }">
 																<li class="review-pictures">
-																	<img src="${resourcesPath }/images/recipe/reviews/${mealkitInfo.no }/${reviewInfo.id }/${picture}">
+																	<img src="${resourcesPath }/images/mealkit/reviews/${mealkitInfo.no }/${review.id }/${picture}">
 																</li>
 															</c:forEach>
-															</ul>
-														</div>
+														</ul>
+													</div>
 													<div class="review-contents-container">
-														<textarea name="contents" class="review-contents" rows="5" readonly required>${reviewInfo.contents }</textarea>
+														<textarea name="contents" class="review-contents" rows="5" readonly required>${review.contents }</textarea>
 													</div>
 												</div>
 											</td>
@@ -172,7 +171,7 @@
 								<td colspan="4">
 								<c:if test="${not empty id}">
 									<input type="button" value="리뷰 작성" class="review-button"
-										onclick="location.href='${contextPath}/Mealkit/reviewwrite?no=${mealkit.no }'">
+										onclick="location.href='${contextPath}/Mealkit/reviewwrite?no=${mealkitInfo.no }'">
 								</c:if>
 								</td>
 							</tr>

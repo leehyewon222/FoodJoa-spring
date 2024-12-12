@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+#mealkit-container{
+	width: 1200px;
+}
+
 body {
 	font-family: "Noto Serif KR", serif;
 	margin: 0;
