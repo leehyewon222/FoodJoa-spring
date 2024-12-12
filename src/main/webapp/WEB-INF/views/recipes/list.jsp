@@ -25,8 +25,7 @@
 
 <c:set var="firstRecipeIndex" value="${ currentPage * recipeCountPerPage }" />
 
-<%-- <c:set var="id" value="${ userId }" /> --%>
-<c:set var="id" value="admin" />
+<c:set var="id" value="${ sessionScope.userId }" />
 
 <!DOCTYPE html>
 <html>

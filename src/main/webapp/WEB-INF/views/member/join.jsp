@@ -12,8 +12,6 @@
 <c:set var="contextPath" value="${ pageContext.request.contextPath }" />
 <c:set var="resourcesPath" value="${ contextPath }/resources" />
 
-<c:set var="userId" value="${ userId }"/>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,7 +72,7 @@
 				</div>
 
 				<!-- 숨겨진 필드로 userId 전달 -->
-				<input type="hidden" name="userId" value="${ userId }" /> 
+				<input type="hidden" name="id" value="${ sessionScope.joinId }" /> 
 				<br><br>
 				<button class="joinButton" type="submit">회원가입</button>
 			</div>
