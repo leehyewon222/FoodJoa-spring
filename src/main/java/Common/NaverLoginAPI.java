@@ -6,14 +6,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
+import org.springframework.ui.Model;
 
 public class NaverLoginAPI {
 
-	public static String handleNaverLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public static String handleNaverLogin(HttpServletRequest request, Model model) throws IOException {
 	    String code = request.getParameter("code");
 	    String state = request.getParameter("state");
 	    String naverId = "";
@@ -66,10 +68,10 @@ public class NaverLoginAPI {
 	            
 	        } catch (IOException e) {
 	            e.printStackTrace();
-	            response.getWriter().write("프로필 정보를 가져오는 데 실패했습니다.");
+	            ((ServletResponse) model).getWriter().write("프로필 정보를 가져오는 데 실패했습니다.");
 	        }
 	    } else {
-	        response.getWriter().write("인증 실패!");
+	        ((ServletResponse) model).getWriter().write("인증 실패!");
 	    }
 	    return naverId; //네이버 아이디 리턴  (MemberService로 )
 	}
