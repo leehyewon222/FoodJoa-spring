@@ -1,7 +1,3 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="Common.StringParser"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -110,7 +106,7 @@
 							<!-- 수정 삭제 버튼 -->
 				            <div class="edit_delete_buttons">
 				            	<c:if test="${not empty id}">
-				                	<button class="edit_button" type="button" onclick="editMealkit('${contextPath}')">수정</button>
+				                	<button class="edit_button" type="button" onclick="editMealkit(${mealkitInfo.no}, '${contextPath}')">수정</button>
 				                	<button class="delete_button" type="button"
 				                		onclick="deleteMealkit(${mealkitInfo.no}, '${contextPath}')">삭제</button>
 				            	</c:if>

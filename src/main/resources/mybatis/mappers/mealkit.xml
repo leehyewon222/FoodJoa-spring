@@ -5,27 +5,34 @@
 
 <mapper namespace="mapper.mealkit">
 
-	<resultMap type="java.util.HashMap" id="mealkitsList">
+	<resultMap type="mealkitVO" id="mealkitsList">
 	
-		<association property="mealkitVO" javaType="mealkitVO">
-			<id property="no" column="no"/>
-			<result property="id" column="id"/>
-			<result property="title" column="title"/>
-			<result property="contents" column="contents"/>
-			<result property="category" column="category"/>
-			<result property="price" column="price"/>
-			<result property="stock" column="stock"/>
-			<result property="pictures" column="pictures"/>
-			<result property="orders" column="orders"/>
-			<result property="origin" column="origin"/>
-			<result property="views" column="views"/>
-			<result property="soldout" column="soldout"/>
-			<result property="postDate" column="post_date"/>
-			<result property="averageRating" column="average_rating"/>
-		</association>
+		<id property="no" column="no"/>
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="contents" column="contents"/>
+		<result property="category" column="category"/>
+		<result property="price" column="price"/>
+		<result property="stock" column="stock"/>
+		<result property="pictures" column="pictures"/>
+		<result property="orders" column="orders"/>
+		<result property="origin" column="origin"/>
+		<result property="views" column="views"/>
+		<result property="soldout" column="soldout"/>
+		<result property="postDate" column="post_date"/>
+		
+		<result property="averageRating" column="average_rating"/>
+		<result property="reviewCount" column="review_count"/>
 		
 		<association property="memberVO" javaType="memberVO">
+			<result property="name" column="name"/>
 			<result property="nickname" column="nickname"/>
+			<result property="phone" column="phone"/>
+			<result property="zipcode" column="zipcode"/>
+			<result property="address1" column="address1"/>
+			<result property="address2" column="address2"/>
+			<result property="profile" column="profile"/>
+			<result property="joinDate" column="join_date"/>
 		</association>
 		
 	</resultMap>
