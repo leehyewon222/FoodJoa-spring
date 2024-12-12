@@ -1,5 +1,6 @@
 package com.foodjoa.mealkit.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -26,5 +27,10 @@ public class MealkitDAO {
 
 	public List<Object> selectReviewInfo(MealkitVO mealkitVO) {
 		return sqlSession.selectList("mapper.mealkitReview.selectReviewInfo", mealkitVO);
+	}
+
+	public ArrayList<Integer> selectCountOrderDelivered(String attribute) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

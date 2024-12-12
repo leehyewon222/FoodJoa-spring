@@ -28,5 +28,30 @@
         FROM member 
         WHERE id = #{userId}
     </select>
-		
+    
+    <update id="updateMember" parameterType="memberVO">
+		<![CDATA[
+			  UPDATE member 
+            SET profile = #{profile}, 
+                name = #{name}, 
+                nickname = #{nickname}, 
+                phone = #{phone}, 
+                zipcode = #{zipcode}, 
+                address1 = #{address1}, 
+                address2 = #{address2}
+            WHERE id = #{id}
+		]]>
+	</update>
+
+	<select id="selectMember" parameterType="memberVO" resultMap="memberResult">
+		<![CDATA[
+			 SELECT * FROM member WHERE id = #{id}
+		]]>
+	</select>
+
+	<select id="getMemberProfile" parameterType="memberVO" resultMap="memberResult">
+		<![CDATA[
+			SELECT * FROM member WHERE id = #{id}
+		]]>
+	</select>
 </mapper>

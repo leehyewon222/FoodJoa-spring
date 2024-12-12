@@ -1,8 +1,11 @@
 package com.foodjoa.mealkit.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,5 +79,9 @@ public class MealkitService {
 		
 		return mealkitDAO.selectReviewInfo(mealkitVO);
 	}
-	 
+
+	public ArrayList<HashMap<String, Object>> getPurchaseMealkits(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

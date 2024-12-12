@@ -3,24 +3,44 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
-	  <definition name="/member/snsjoin" extends="baseLayout">
-         <put-attribute name="title" value="FoodJoa 회원가입" />
-         <put-attribute name="center" value="/WEB-INF/views/member/snsjoin.jsp" />
-      </definition>  
-      
-      <definition name="/member/join" extends="baseLayout">
-         <put-attribute name="title" value="추가 정보 입력 페이지" />
-         <put-attribute name="center" value="/WEB-INF/views/member/join.jsp" />
-      </definition>
-      
-       <definition name="/member/login" extends="baseLayout">
-         <put-attribute name="title" value="FoodJoa 로그인" />
-         <put-attribute name="center" value="/WEB-INF/views/member/login.jsp" />
-      </definition>
-      
-      <definition name="/member/deleteMember" extends="baseLayout">
-         <put-attribute name="title" value="FoodJoa 탈퇴" />
-         <put-attribute name="center" value="/WEB-INF/views/member/deleteMember.jsp" />
-      </definition>
-  
+	<definition name="/member/snsjoin" extends="baseLayout">
+		<put-attribute name="title" value="FoodJoa 회원가입" />
+		<put-attribute name="center" value="/WEB-INF/views/member/snsjoin.jsp" />
+	</definition>
+
+	<definition name="/member/join" extends="baseLayout">
+		<put-attribute name="title" value="추가 정보 입력 페이지" />
+		<put-attribute name="center" value="/WEB-INF/views/member/join.jsp" />
+	</definition>
+
+	<definition name="/member/login" extends="baseLayout">
+		<put-attribute name="title" value="FoodJoa 로그인" />
+		<put-attribute name="center" value="/WEB-INF/views/member/login.jsp" />
+	</definition>
+
+	<definition name="/member/deleteMember" extends="baseLayout">
+		<put-attribute name="title" value="FoodJoa 탈퇴" />
+		<put-attribute name="center" value="/WEB-INF/views/member/deleteMember.jsp" />
+	</definition>
+
+	<definition name="/members/mypagemain" extends="baseLayout">
+		<put-attribute name="title" value="마이페이지" />
+		<put-attribute name="center" value="/WEB-INF/views/member/mypagemain.jsp" />
+	</definition>
+	
+	<definition name="/members/profileupdate"
+		extends="baseLayout">
+		<put-attribute name="title" value="정보수정" />
+		<put-attribute name="center" value="/WEB-INF/views/member/profileupdate.jsp" />
+	</definition>
+	
+	<definition name="/members/mydelivery" extends="baseLayout">
+		<put-attribute name="title" value="배송조회" />
+		<put-attribute name="center" value="/WEB-INF/views/member/mydelivery.jsp" />
+	</definition>
+	
+	<definition name="/members/sendmealkit" extends="baseLayout">
+		<put-attribute name="title" value="발송조회" />
+		<put-attribute name="center" value="/WEB-INF/views/member/sendmealkit.jsp" />
+	</definition>
 </tiles-definitions>

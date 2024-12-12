@@ -1,5 +1,11 @@
 package com.foodjoa.member.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -33,5 +39,19 @@ public class MemberDAO {
 
 		int count = sqlSession.selectOne("mapper.member.isUserExists", userId); // 수정된 코드
 		return count > 0;
+	}
+	
+	public ArrayList<Integer> selectCountOrderDelivered(String id){
+		return ((MemberDAO) sqlSession).selectCountOrderDelivered("mapper.member.memberResultMap,memberVO");
+		
+	}
+
+	public static MemberVO getMemberProfile(String userId) {
+		return null;
+	}
+
+	public MemberVO selectMember(String string) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -7,10 +7,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +24,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.foodjoa.mealkit.dao.MealkitDAO;
 import com.foodjoa.member.dao.MemberDAO;
 import com.foodjoa.member.vo.MemberVO;
+import com.foodjoa.recipe.dao.RecipeDAO;
+
 import Common.FileIOController;
 import Common.NaverLoginAPI;
 
@@ -32,6 +38,12 @@ public class MemberService {
     
     @Autowired
     private MemberDAO memberDAO;
+    
+    @Autowired
+    private RecipeDAO recipeDAO;
+    
+    @Autowired
+    private MealkitDAO mealkitDAO;
 
     // 네이버 아이디 받아오기
     public String insertNaverMember(HttpServletRequest request, Model model) throws IOException {
@@ -248,4 +260,33 @@ public class MemberService {
 	
 	}
 
+	public MemberVO getMember(HttpServletRequest request){
+
+		HttpSession session = request.getSession();
+	//	String id = (String) session.getAttribute("userId");
+		String id = "admin";
+		
+		return memberDAO.selectMember("admin");
+
+	}
+
+	 public ArrayList<Integer> getCountOrderDelivered(HttpServletRequest request) {
+	 
+		 return mealkitDAO.selectCountOrderDelivered((String) request.getSession().getAttribute("userId"));
+	    }
+
+	public MemberVO getMemberProfile(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Integer> getCountOrderSended(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Integer> getCountOrderDelivered(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
