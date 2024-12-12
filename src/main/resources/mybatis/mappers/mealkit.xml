@@ -4,4 +4,52 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.mealkit">
+
+	<!--  <resultMap id="sendedMealkit" type="java.util.HashMap">
+		  	<association property="mealkitVO" javaType="mealkitVO">
+				<id property="no" column="no"/>
+				<id property="id" column="id"/>
+				<result property="title" column="title"/>
+				<result property="contents" column="contents"/>
+				<result property="category" column="category"/>
+				<result property="price" column="price"/>
+				<result property="stock" column="stock"/>
+				<result property="pictures" column="pictures"/>
+				<result property="orders" column="orders"/>
+				<result property="origin" column="origin"/>
+				<result property="rating" column="rating"/>
+				<result property="views" column="views"/>
+				<result property="soldout" column="soldout"/>
+				<result property="postDate" column="post_date"/>
+		 	</association>
+		 	
+		 	<association property="mealkitorderVO" javaType="mealkitorderVO">
+		 		<id property="no" column="no"/>
+		 		<id property="id" column="id"/>
+		 		<result property="address" column="address"/>
+		 		<result property="quantity" column="quantity"/>
+		 		<result property="delivered" column="delivered"/>
+		 		<result property="refund" column="refund"/>
+		 	</association>
+		 	
+		 	<association property="memberVO" javaType="memberVO">
+		 		<result property="nickname" column="nickname"/>
+		 		<result property="profile" column="profile"/>
+		 	</association>
+		 </resultMap>	
+		 
+		  <select id="sendedMealkit" parameterType="mealkitVO" resultMap="sendeddMealkit">
+		 	<![CDATA[
+				SELECT 
+	               k.no, k.title, k.contents, k.category, k.price, k.stock, k.pictures, 
+	               o.id, o.no AS order_no, o.address, o.quantity, o.delivered, o.refund, 
+	               m.nickname, m.profile 
+	               FROM mealkit k 
+	               INNER JOIN mealkit_order o ON k.no = o.mealkit_no
+	               INNER JOIN member m ON o.id = m.id
+	               WHERE k.id = #{id}
+	               ORDER BY o.post_date DESC
+		 	]]>
+		 </select> -->
+		 
 </mapper>

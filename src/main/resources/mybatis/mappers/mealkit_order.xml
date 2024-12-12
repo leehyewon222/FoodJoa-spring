@@ -1,7 +1,83 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.mealkitOrder">
+
+ 
+  <resultMap id="Mealkit" type="java.util.HashMap">
+    <association property="mealkitorderVO" javaType="mealkitorderVO">
+      <id property="no" column="no"/>
+      <result property="id" column="id"/>
+      <result property="mealkitNo" column="mealkit_no"/>
+      <result property="address" column="address"/>
+      <result property="quantity" column="quantity"/>
+      <result property="delivered" column="delivered"/>
+      <result property="refund" column="refund"/>
+      <result property="postDate" column="post_date"/>
+    </association>
+
+    <association property="mealkitVO" javaType="mealkitVO">
+      <id property="no" column="mealkit_no"/>
+      <result property="id" column="id"/>
+      <result property="title" column="title"/>
+      <result property="contents" column="contents"/>
+      <result property="category" column="category"/>
+      <result property="price" column="price"/>
+      <result property="pictures" column="pictures"/>
+    </association>
+
+    <association property="memberVO" javaType="memberVO">
+      <result property="nickname" column="nickname"/>
+      <result property="profile" column="profile"/>
+    </association>
+  </resultMap>
+
+  <!-- 쿼리: 배달된 밀키트 조회 -->
+  <select id="selectDeliveredMealkit" parameterType="mealkitorderVO" resultMap="Mealkit">
+    <![CDATA[
+      SELECT 
+        o.no AS no, 
+        o.id AS id, 
+        o.address, 
+        o.quantity, 
+        o.delivered, 
+        o.refund, 
+        o.post_date, 
+        k.no AS mealkit_no, 
+        k.id, 
+        k.title, 
+        k.contents, 
+        k.category, 
+        k.price, 
+        k.pictures, 
+        m.nickname, 
+        m.profile 
+      FROM mealkit_order o 
+      LEFT JOIN mealkit k ON o.mealkit_no = k.no 
+      LEFT JOIN member m ON k.id = m.id 
+      WHERE o.id = #{id} 
+      ORDER BY o.post_date DESC
+    ]]>
+  </select>
+
+  <!-- 쿼리: 주문 상태 업데이트 -->
+  <update id="updateOrderStatus" parameterType="mealkitorderVO">
+    <![CDATA[
+      UPDATE mealkit_order 
+      SET delivered = #{delivered}, refund = #{refund} 
+      WHERE no = #{no}
+    ]]>
+  </update>
+
+  <!-- 쿼리: 배달된 주문 수 카운트 -->
+  <select id="selectCountOrderDelivered" parameterType="map" resultType="int">
+    <![CDATA[
+      SELECT COUNT(*) 
+      FROM mealkit_order o 
+      WHERE o.delivered = #{delivered} AND o.id = #{id}
+    ]]>
+  </select>
+
 </mapper>
