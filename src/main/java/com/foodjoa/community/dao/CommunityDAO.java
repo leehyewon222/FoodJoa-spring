@@ -36,5 +36,7 @@ public class CommunityDAO {
 		return sqlSession.insert("mapper.community.insertCommunity", communityVO);
 	}
 
-	
+	public int updateCommunity(CommunityVO communityVO) {
+		return sqlSession.update("mapper.community.updateCommunity", communityVO);
+	}
 }

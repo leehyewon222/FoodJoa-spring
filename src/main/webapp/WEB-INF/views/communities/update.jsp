@@ -44,5 +44,42 @@
 			</form>
 		</div>
 	</div>
+	
+	<script>
+		function onUpdateButton(e) {
+			e.preventDefault();
+			
+			$.ajax({
+				url: "${contextPath}/Community/updatePro",
+				type: "post",
+				data: {
+					no: ${community.no},
+					id: ${id},
+					title: $("#title").val(),
+					contents: $("#contents").val(),
+					views: ${community.views}
+				},
+				dataType: "text",
+				success: function(responsedData) {
+					
+					if (responsedData == "1") {
+						location.href = '${contextPath}/Community/read?no=${community.no}';
+					}
+					else {
+						alert('게시글 수정을 실패 했습니다.');
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+	
+		function onListButton(e) {
+			e.preventDefault();
+			location.href='${contextPath}/Community/list';
+		}
+	</script>
+	
 </body>
 </html>

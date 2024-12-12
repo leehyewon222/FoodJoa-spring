@@ -39,4 +39,11 @@ public class CommunityService {
 		
 		return communityDAO.insertCommunity(communityVO);
 	}
+
+	public int getCommunityties(CommunityVO communityVO) {
+				
+		int result = communityDAO.updateCommunity(communityVO);
+		return result ;
+	}
+
 }

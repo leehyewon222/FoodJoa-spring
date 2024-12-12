@@ -1,18 +1,23 @@
 package com.foodjoa.community.controller;
 
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.coyote.ContinueResponseTiming;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.foodjoa.community.service.CommunityService;
 import com.foodjoa.community.vo.CommunityVO;
@@ -70,10 +75,20 @@ public class CommunityController {
     }
     
     @RequestMapping(value = "update", method = {RequestMethod.GET, RequestMethod.POST})
-    public String update() {
+    public String update(Model model, @ModelAttribute CommunityVO communityVO) {
+    	
+    	model.addAttribute("community", communityVO);    	
     	return "/communities/update";
     }
 
-
+    @ResponseBody
+    @RequestMapping(value = "updatePro", method = {RequestMethod.GET})
+    public String updatePro(@ModelAttribute CommunityVO communityVO,
+    						HttpServletResponse response) throws Exception {
+    	
+    	int result = communityService.getCommunityties(communityVO);
+    	
+    	return String.valueOf(result);
+    }
 }
 

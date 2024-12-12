@@ -23,6 +23,11 @@
 		<put-attribute name="center" value="/WEB-INF/views/communities/update.jsp" />
 	</definition>
 	
+	<definition name="/communities/updatePro" extends="baseLayout">
+		<put-attribute name="title" value="자유게시판 - 게시글 수정"/>
+		<put-attribute name="center" value="/WEB-INF/views/communities/updatePro.jsp" />
+	</definition>
+	
 	
 </tiles-definitions>
 
