@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>	
+	<definition name="/communities/list" extends="baseLayout">
+		<put-attribute name="title" value="자유게시판" />
+		<put-attribute name="center" value="/WEB-INF/views/communities/list.jsp" />
+	</definition>
+	
+	<definition name="/communities/read" extends="baseLayout">
+		<put-attribute name="title" value="자유게시판 - 게시글 읽기"/>
+		<put-attribute name="center" value="/WEB-INF/views/communities/read.jsp" />
+	</definition>
+
+	<definition name="/communities/write" extends="baseLayout">
+		<put-attribute name="title" value="자유게시판 - 게시글 작성"/>
+		<put-attribute name="center" value="/WEB-INF/views/communities/write.jsp" />
+	</definition>
+	
+	<definition name="/communities/update" extends="baseLayout">
+		<put-attribute name="title" value="자유게시판 - 게시글 수정"/>
+		<put-attribute name="center" value="/WEB-INF/views/communities/update.jsp" />
+	</definition>
+	
+	<definition name="/communities/updatePro" extends="baseLayout">
+		<put-attribute name="title" value="자유게시판 - 게시글 수정"/>
+		<put-attribute name="center" value="/WEB-INF/views/communities/updatePro.jsp" />
+	</definition>
+	
+	
+</tiles-definitions>
+
+
+
+
+
+
+
+
+
+
+
+
