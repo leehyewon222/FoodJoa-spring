@@ -113,8 +113,7 @@ function setIngredientString() {
 	
 	let combinedIngredientsString = combineStrings(ingredientsString);
 	
-	document.getElementsByName('ingredient')[0].value = combinedIngredientsString ;
-	
+	$("#ingredient").val(combinedIngredientsString);
 	
 		
 	let amounts = $(".ingredient-added-amount");
@@ -126,8 +125,7 @@ function setIngredientString() {
 	
 	let combinedAmountString = combineStrings(amountsString);
 
-	document.getElementsByName('ingredient_amount')[0].value = combinedAmountString;
-	
+	$("#ingredient_amount").val(combinedAmountString);
 }
 
 function setOrdersString() {
@@ -141,7 +139,7 @@ function setOrdersString() {
 	
 	let combinedOrderString = combineStrings(ordersString);
 
-	document.getElementsByName('orders')[0].value = combinedOrderString;	
+	$("#orders").val(combinedOrderString);
 }
 
 function compressContent(editorContent) {

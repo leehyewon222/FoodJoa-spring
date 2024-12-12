@@ -24,11 +24,19 @@ public class RecipeDAO {
 		return sqlSession.selectOne("mapper.recipe.selectRecipe", recipeVO);
 	}
 	
+	public RecipeVO selectRecentRecipe(RecipeVO recipeVO) {
+		return sqlSession.selectOne("mapper.recipe.selectRecentRecipe", recipeVO);
+	}
+	
 	public List<RecipeReviewVO> selectReviewsByRecipeNo(RecipeReviewVO reviewVO) {
 		return sqlSession.selectList("mapper.recipeReview.selectReviewsByRecipeNo", reviewVO);
 	}
 	
-	public int updateRecipeView(RecipeVO recipeVO) {
-		return sqlSession.update("mapper.recipe.updateRecipeView", recipeVO);
+	public int updateRecipeViews(RecipeVO recipeVO) {
+		return sqlSession.update("mapper.recipe.updateRecipeViews", recipeVO);
+	}
+	
+	public int insertRecipe(RecipeVO recipeVO) {
+		return sqlSession.update("mapper.recipe.insertRecipe", recipeVO);
 	}
 }

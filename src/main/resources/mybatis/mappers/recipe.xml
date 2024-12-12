@@ -59,7 +59,7 @@
         ]]>
 	</select>
 	
-	<update id="updateRecipeView" parameterType="recipeVO">
+	<update id="updateRecipeViews" parameterType="recipeVO">
 		<![CDATA[
 		    UPDATE recipe SET views=views+1 
         ]]>
@@ -80,5 +80,18 @@
 		) avg_rating ON r.no = avg_rating.recipe_no 
 		JOIN member m ON r.id=m.id 
 		WHERE r.no=#{no}
+	</select>
+	
+	<insert id="insertRecipe" parameterType="recipeVO">
+		INSERT INTO recipe(id, title, thumbnail, description, 
+			contents, category, views, 
+			ingredient, ingredient_amount, orders, post_date) 
+		values(#{id}, #{title}, #{thumbnail}, #{description}, 
+			#{contents}, #{category}, 0, 
+			#{ingredient}, #{ingredientAmount}, #{orders}, CURRENT_TIMESTAMP)
+	</insert>
+	
+	<select id="selectRecentRecipe" resultMap="recipe">
+		SELECT no FROM recipe ORDER BY no DESC LIMIT 1
 	</select>
 </mapper>

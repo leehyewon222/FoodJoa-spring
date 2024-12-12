@@ -1,6 +1,8 @@
 package com.foodjoa.recipe.service;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.foodjoa.member.dao.MemberDAO;
 import com.foodjoa.member.vo.RecentViewVO;
@@ -15,6 +19,10 @@ import com.foodjoa.recipe.dao.RecipeDAO;
 import com.foodjoa.recipe.vo.RecipeReviewVO;
 import com.foodjoa.recipe.vo.RecipeVO;
 
+import Common.FileIOController;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
 public class RecipeService {
@@ -48,7 +56,7 @@ public class RecipeService {
 		
 		recipeInfo.put("recipe", selectedRecipe);
 
-		recipeDAO.updateRecipeView(recipeVO);
+		recipeDAO.updateRecipeViews(recipeVO);
 		
 		RecipeReviewVO reviewVO = new RecipeReviewVO();
 		reviewVO.setRecipeNo(Integer.parseInt(no));
@@ -68,5 +76,48 @@ public class RecipeService {
 			memberDAO.insertRecentRecipe(recentViewVO);
 		
 		return recipeInfo;
+	}
+	
+	public int processRecipeWrite(RecipeVO recipeVO, MultipartHttpServletRequest multipartRequest) throws Exception {
+		
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		
+		String tempPath = File.separator + "resources" + File.separator + "images" +
+				File.separator + "temp" + File.separator;
+
+		String originalFileName = "";
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			originalFileName = mFile.getOriginalFilename();
+			
+			File file = new File(tempPath + fileName);
+			if (mFile.getSize() != 0) {
+				if (!file.exists()) {
+					if (file.getParentFile().mkdirs()) {
+						file.createNewFile();
+					}
+				}
+			}
+			
+			mFile.transferTo(new File(tempPath + originalFileName));
+		}
+		
+		recipeVO.setThumbnail(originalFileName);
+		
+		int result = recipeDAO.insertRecipe(recipeVO);
+		
+		if (result <= 0) return 0;
+		
+		int no = recipeDAO.selectRecentRecipe(recipeVO).getNo();
+		
+		System.out.println("no : " + no);
+
+		String destinationPath = File.separator + "resources" + File.separator + "images" +
+				File.separator + "recipe" + File.separator + "thumbnails"+ File.separator + no + File.separator;
+		
+		FileIOController.moveFile(tempPath, destinationPath, originalFileName);
+		
+		return no;
 	}
 }
