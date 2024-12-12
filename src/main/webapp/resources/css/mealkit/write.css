@@ -1,0 +1,335 @@
+@charset "UTF-8";
+
+#mealkit-container {
+	margin: 0 auto;
+}
+
+#mealkit-container>form>table {
+	border-spacing: 0px 20px;
+}
+
+#mealkit-container>form>table th {
+	padding-left: 20px;
+	width: 200px;
+	height: 55px;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+
+.write-title-area input {
+	font-family: "Noto Serif KR", serif;
+	font-size: 1rem;
+	width: 600px;
+	height: 40px;
+	padding: 10px;
+	border: 1px solid #BF917E;
+	border-radius: 5px;
+}
+
+.notice-text {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+#imagePreview li {
+	list-style-type: none;
+	float: left;
+	width: 128px;
+	height: 128px;
+	overflow: hidden;
+	margin: 0px 5px;
+}
+
+#imagePreview li img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+#pictureFiles{
+	clear: none;
+	display: none;
+}
+
+#addFileBtn {
+	color: transparent;
+	width: 128px;
+	height: 128px;
+	background-image: url('../../images/recipe/addImage_square.png');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	cursor: pointer;
+	border: 1px solid #BF917E;
+	border-radius: 5px;
+}
+
+.category{
+	font-family: "Noto Serif KR", serif;
+	background: #f5f5f5;
+    border: 1px solid #e1e1e1;
+    font-size: 14px;
+    padding: 8px 2px;
+    margin: 0 2px 0 0;
+    border-radius: 4px;
+    width: 150px;
+}
+
+.contents {
+	font-family: "Noto Serif KR", serif;
+	width: 100%;
+	min-height: 200px;
+	resize: none;
+    overflow: auto;
+	padding: 10px;
+	border: 1px solid #BF917E;
+	border-radius: 5px;
+	font-size: 1rem;
+}
+
+.price, .stock {
+	font-family: "Noto Serif KR", serif;
+	width: 200px;
+	border: 1px solid #BF917E;
+	border-radius: 5px;
+	padding: 5px;
+	text-align: right;
+	font-size: 1rem;
+}
+
+.add-orders {
+	font-family: "Noto Serif KR", serif;
+	font-size: 1rem;
+	padding: 8px 16px;
+	border: none;
+	border-radius: 5px;
+	background-color: #BF917E;
+	color: white;
+	cursor: pointer;
+}
+
+.name-orders, .added-order {
+	font-family: "Noto Serif KR", serif;
+	font-size: 1rem;
+	width: 500px;
+	padding: 8px 16px;
+	border: 1px solid #BF917E;
+	border-radius: 5px;
+	background-color: white;
+	color: black;
+}
+
+.addrow-orders, .cancle-orders, .remove-orders {
+	font-family: "Noto Serif KR", serif;
+	font-size: 1rem;
+	padding: 8px 16px;
+	border: none;
+	border-radius: 5px;
+	background-color: #BF917E;
+	color: white;
+	cursor: pointer;
+}
+
+.origin {
+	font-family: "Noto Serif KR", serif;
+	font-size: 1rem;
+	width: 600px;
+	height: 40px;
+	padding: 10px;
+	border: 1px solid #BF917E;
+	border-radius: 5px;
+}
+
+.write {
+	background-color: #BF917E;
+	color: white;
+	padding: 8px 16px;
+	margin-top: 20px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 1rem;
+}
+
+.write:hover {
+	background-color: #9e6e58;
+	transition: background-color 0.3s ease;
+} 
+
+/* 
+body {
+	font-family: "Noto Serif KR", serif;
+	margin: 20px;
+}
+
+li {
+    list-style-type: none;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px 5px;
+    text-align: left;
+    border-top: none;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+}
+
+th{
+	padding-left: 20px;
+	width: 200px;
+	height: 55px;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+textarea{
+	resize: none;
+    overflow: auto;
+}
+
+#container {
+	width: 1000px;
+	margin: auto;
+}
+
+.write-form{
+	height: 800px;
+	border: solid 1px #BF917E;
+}
+
+input[type="text"], textarea {
+    padding: 8px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.title{
+	width: 45%;
+	height: 40px;
+}
+
+input[type="file"] {
+	margin: 5px 0;
+}
+
+.notice-text {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+#pictureFiles{
+	display: none;
+}
+
+.preview_image{
+	width: 250px;
+	height: 200px;
+	padding-right: 20px;
+}
+
+.review-origin-preview-image{
+	width: 250px;
+	height: 200px;
+	padding-right: 20px;
+}
+
+button {
+	background-color: #BF917E;
+	color: white;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #9e6e58;
+	transition: background-color 0.3s ease;
+}
+
+.category{
+	background: #f5f5f5;
+    border: 1px solid #e1e1e1;
+    font-size: 14px;
+    padding: 8px 2px;
+    margin: 0 2px 0 0;
+    border-radius: 4px;
+}
+
+.contents{
+	width: 80%;
+	height: 300px;
+}
+
+
+.price{
+	width: 200px;
+}
+
+.stock{
+	width: 100px;
+	height: 28px;
+	border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.added-orders{
+	p 태그
+	margin-bottom: 7px;
+}
+
+.remove-orders{
+	margin-left: 5px;
+}
+
+.add-orders{
+	background-color: #BF917E;
+	color: white;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.add-orders:hover{
+	background-color: #9e6e58;
+	transition: background-color 0.3s ease;
+}
+
+.name-orders{
+	width: 80%;
+}
+
+.origin{
+	width: 80%;
+}
+
+.write{
+	background-color: #BF917E;
+	color: white;
+	padding: 10px 15px;
+	margin-top: 5px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.write:hover{
+	background-color: #9e6e58;
+	transition: background-color 0.3s ease;
+} */

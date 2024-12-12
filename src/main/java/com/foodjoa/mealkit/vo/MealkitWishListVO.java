@@ -12,22 +12,6 @@ public class MealkitWishListVO {
 	private int mealkitNo;
     private Timestamp choice_date;
     
-    public MealkitWishListVO() {
-	}
-	
-	public MealkitWishListVO(int no, String id, int mealkitNo) {
-		this.no = no;
-		this.id = id;
-		this.mealkitNo = mealkitNo;
-	}
-
-	public MealkitWishListVO(int no, String id, int mealkitNo, Timestamp choice_date) {
-		this.no = no;
-		this.id = id;
-		this.mealkitNo = mealkitNo;
-		this.choice_date = choice_date;
-	}
-
 	public int getNo() {
 		return no;
 	}

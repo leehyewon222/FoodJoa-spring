@@ -22,6 +22,3 @@
 		<typeAlias type="com.foodjoa.recipe.vo.RecipeWishListVO" alias="recipeWishListVO" />
 	</typeAliases>
 </configuration>
-
-
-
