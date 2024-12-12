@@ -5,7 +5,7 @@
 
 <mapper namespace="mapper.member">
 
-    <resultMap id="memberVO" type="MemberVO">
+    <resultMap id="member" type="memberVO">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="nickname" column="nickname"/>
@@ -18,16 +18,18 @@
     </resultMap>
 
     <insert id="insertMember" parameterType="MemberVO">
-        insert into member (id, name, nickname, phone, zipcode, address1, address2, profile, join_date)
-        values(#{id}, #{name}, #{nickname}, #{phone}, #{zipcode}, #{address1}, #{address2}, #{profile}, CURRENT_TIMESTAMP)
+        insert into member(id, name, nickname, phone, zipcode,
+        	address1, address2, profile, join_date)
+        values(#{id}, #{name}, #{nickname}, #{phone}, #{zipcode},
+        	#{address1}, #{address2}, #{profile}, CURRENT_TIMESTAMP)
     </insert>
 
 
-	 <select id="isUserExists" resultType="int" parameterType="String">
-        SELECT COUNT(*) 
-        FROM member 
-        WHERE id = #{userId}
-    </select>
+	<select id="isUserExists" resultType="int" parameterType="String">
+		SELECT COUNT(*) 
+		FROM member 
+		WHERE id = #{userId}
+	</select>
     
     <update id="updateMember" parameterType="memberVO">
 		<![CDATA[
@@ -43,13 +45,13 @@
 		]]>
 	</update>
 
-	<select id="selectMember" parameterType="memberVO" resultMap="memberResult">
+	<select id="selectMember" parameterType="memberVO" resultMap="member">
 		<![CDATA[
 			 SELECT * FROM member WHERE id = #{id}
 		]]>
 	</select>
 
-	<select id="getMemberProfile" parameterType="memberVO" resultMap="memberResult">
+	<select id="getMemberProfile" parameterType="memberVO" resultMap="member">
 		<![CDATA[
 			SELECT * FROM member WHERE id = #{id}
 		]]>

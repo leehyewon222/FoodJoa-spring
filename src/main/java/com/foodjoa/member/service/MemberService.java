@@ -131,9 +131,10 @@ public class MemberService {
         String profileFileName = profileFile != null ? profileFile.getOriginalFilename() : null;
 
         // MemberVO 생성
-        MemberVO memberVO = new MemberVO(userId, request.getParameter("name"), request.getParameter("nickname"),
-                request.getParameter("phone"), zipcode, address1, address2, profileFileName);
-
+//        MemberVO memberVO = new MemberVO(userId, request.getParameter("name"), request.getParameter("nickname"),
+//                request.getParameter("phone"), zipcode, address1, address2, profileFileName);
+        MemberVO memberVO = new MemberVO();
+        
         // DB에 저장
         if (memberDAO.insertMember(memberVO) == 1) {
             // 회원가입 성공, 세션에 userId 설정

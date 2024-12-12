@@ -96,7 +96,7 @@
         ]]>
     </select>
     
-    <select id="sendedMealkit" parameterType="mealkitVO" resultMap="sendeddMealkit">
+    <!-- <select id="sendedMealkit" parameterType="mealkitVO" resultMap="sendedMealkit">
 	 	<![CDATA[
 			SELECT 
                k.no, k.title, k.contents, k.category, k.price, k.stock, k.pictures, 
@@ -108,5 +108,5 @@
                WHERE k.id = #{id}
                ORDER BY o.post_date DESC
 	 	]]>
- 	</select>
+ 	</select> -->
 </mapper>
