@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -39,7 +41,7 @@ public class MemberController {
     
     // SNS 회원가입 페이지로 이동
     @RequestMapping("snsjoin")
-    public String openMemberJoinView() {
+    public String snsjoin() {
         return "/member/snsjoin";  // Tiles에 맞게 경로 반환
     }
     
@@ -61,7 +63,7 @@ public class MemberController {
 
     // 저장된 아이디 받아오기
     @RequestMapping("naverjoin")
-    public String handleNaverJoin(HttpServletRequest request, Model model) throws ServletException, IOException {
+    public String naverjoin(HttpServletRequest request, Model model) throws ServletException, IOException {
   	
         String naverId = processNaverJoin(request, model);
         
@@ -108,7 +110,7 @@ public class MemberController {
 
     // 카카오 회원가입 처리
     @RequestMapping("kakaojoin")
-    public String handleKakaoJoin(HttpServletRequest request, HttpSession session) throws ServletException, IOException {
+    public String kakaojoin(HttpServletRequest request, HttpSession session) throws ServletException, IOException {
 
         // 카카오 회원가입 프로세스 처리
         String kakaoId = processKakaoJoin(request);
@@ -127,7 +129,7 @@ public class MemberController {
 
  // 추가 정보 입력 페이지로 리다이렉트할 때 처리하는 메소드
     @RequestMapping("join")
-    public String openJoinMainView(HttpServletRequest request, Model model) {
+    public String join(HttpServletRequest request, Model model) {
        
         // 세션에서 userId 가져오기 (카카오 아이디 세션에 저장했다고 가정)
         String userId = (String) request.getSession().getAttribute("userId");
@@ -140,11 +142,13 @@ public class MemberController {
     }
 
  // 추가정보입력 후 회원 가입 처리
-    @RequestMapping("addMember")
-    public String processMemberJoin(MultipartHttpServletRequest request, RedirectAttributes redirectAttributes) throws ServletException, IOException {
+    @RequestMapping("joinPro")
+    public String joinPro(MemberVO memberVO,
+    		
+    		MultipartHttpServletRequest request, RedirectAttributes redirectAttributes) throws ServletException, IOException {
 
         // 회원 가입 처리
-        if (memberService.insertMember(request)) {  // MultipartHttpServletRequest를 전달
+        if (memberService.insertMember(memberVO, request)) {  // MultipartHttpServletRequest를 전달
             // 네이버나 카카오 로그인 후 받은 아이디를 세션에서 가져옴
             HttpSession session = request.getSession(true); // 세션이 없으면 새로 생성
             String userId = (String) session.getAttribute("userId"); // 네이버나 카카오에서 받은 아이디
@@ -168,17 +172,16 @@ public class MemberController {
     //----------이제 로그인 차례
     
     @RequestMapping("login")
-	private String openLoginView() {
+	private String login() {
 
 		return "/member/login";  // 리다이렉트할 경로
 	}
 
  // 네이버 로그인 처리 메소드
     @RequestMapping("naverlogin")
-    private void processNaverLogin(HttpServletRequest request, HttpServletResponse response, Model model)
+    private void naverlogin(HttpServletRequest request, HttpServletResponse response, Model model)
             throws ServletException, IOException {
     	
-
         try {
             String userId = memberService.getNaverId(request, model); // 네이버 ID 가져오기
 
@@ -191,7 +194,7 @@ public class MemberController {
 
     // 카카오 로그인 처리 메소드
     @RequestMapping("kakaologin")
-    private void processKakaoLogin(HttpServletRequest request, HttpServletResponse response, Model model)
+    private void kakaologin(HttpServletRequest request, HttpServletResponse response, Model model)
             throws ServletException, IOException {
         try {
             String code = request.getParameter("code"); // 카카오 인증 후 전달된 코드
@@ -221,7 +224,6 @@ public class MemberController {
                 HttpSession session = request.getSession();
                 session.setAttribute("userId", userId);
             	
-            	System.out.println( "userId : " + userId);
                 response.sendRedirect(request.getContextPath() + "/Main/home");
             } else {
                 // 회원이 존재하지 않으면 회원가입 페이지로 이동
@@ -245,9 +247,9 @@ public class MemberController {
         String uri = request.getRequestURI(); // 요청된 URI
 
         if (uri.endsWith("/naverlogin")) {
-            processNaverLogin(request, response, model); // 네이버 로그인 처리
+        	naverlogin(request, response, model); // 네이버 로그인 처리
         } else if (uri.endsWith("/kakaologin")) {
-            processKakaoLogin(request, response, model); // 카카오 로그인 처리
+        	naverlogin(request, response, model); // 카카오 로그인 처리
         }
     }
  
@@ -276,34 +278,20 @@ public class MemberController {
 	}
     
     @RequestMapping("/mypagemain")
-    public ModelAndView openMypageMainView(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    public String mypagemain(Model model ,HttpSession session){
 
-        String userId = (String) request.getSession().getAttribute("userId");
-        ModelAndView mav = new ModelAndView();
-
-        // 로그인 여부 확인
-        if (userId == null || userId.isEmpty()) {
-            response.setContentType("text/html; charset=UTF-8");
-            response.getWriter().write(
-                "<script>alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');" +
-                "location.href='" + request.getContextPath() + "/Member/login.me';</script>"
-            );
-            return null; // 로그인되지 않았을 경우 null 반환
-        }
-
+        String userId = (String) session.getAttribute("userId");
+        
         // 사용자 정보 및 데이터 가져오기
-        MemberVO member = memberService.getMemberProfile(userId);
-        List<Integer> deliveredCounts = memberService.getCountOrderDelivered("admin");
-        List<Integer> sendedCounts = memberService.getCountOrderSended("admin");
+        MemberVO member = memberService.getMemberById(userId);
+        ArrayList<Integer> deliveredCounts = memberService.getCountOrderDelivered(userId);
+        ArrayList<Integer> sendedCounts = memberService.getCountOrderSended(userId);
 
         // 데이터 설정 및 뷰 반환
-        mav.addObject("pageTitle", "마이페이지");
-        mav.addObject("member", member);
-        mav.addObject("deliveredCounts", deliveredCounts);
-        mav.addObject("sendedCounts", sendedCounts);
-        mav.setViewName("members/mypagemain"); // View 경로 설정
+        model.addAttribute("member", member);
+        model.addAttribute("deliveredCounts", deliveredCounts);
+        model.addAttribute("sendedCounts", sendedCounts);
 
-        return mav;
+        return "/member/mypagemain";
     }
 }

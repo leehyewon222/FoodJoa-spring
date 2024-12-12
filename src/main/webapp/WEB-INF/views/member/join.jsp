@@ -1,18 +1,18 @@
-<%@ page import="java.util.Enumeration" %>
-<%@ page import="javax.servlet.http.HttpSession" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    // request에서 userId 값 가져오기
-     String userId = (String) request.getAttribute("userId");
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<%
     request.setCharacterEncoding("UTF-8");
     response.setContentType("text/html; charset=utf-8");
-
 %>
 
 <c:set var="contextPath" value="${ pageContext.request.contextPath }" />
 <c:set var="resourcesPath" value="${ contextPath }/resources" />
 
+<c:set var="userId" value="${ userId }"/>
 
 <!DOCTYPE html>
 <html>
@@ -41,7 +41,7 @@
 	<div id="container">
 
 		<!-- 회원가입 폼 -->
-		<form action="<%= request.getContextPath() %>/Member/addMember" class="login" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+		<form action="${ contextPath }/Member/joinPro" class="login" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
 			<h2 class="loginHeading">푸드조아 회원 가입</h2>
 
 			<div class="add">
@@ -74,7 +74,7 @@
 				</div>
 
 				<!-- 숨겨진 필드로 userId 전달 -->
-				<input type="hidden" name="userId" value="<%= userId %>" /> 
+				<input type="hidden" name="userId" value="${ userId }" /> 
 				<br><br>
 				<button class="joinButton" type="submit">회원가입</button>
 			</div>

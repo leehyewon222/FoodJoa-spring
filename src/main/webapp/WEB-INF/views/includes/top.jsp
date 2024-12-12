@@ -78,12 +78,14 @@
 						<li><a href="${ contextPath }/Community/shareList">나눔/같이 먹어요</a></li>
 					</ul>
 				</li>
-				<li><a href="${ contextPath }/Member/mypagemain">마이페이지</a></li>
+				<li><a href="javascript:onMypageButton()">마이페이지</a></li>
 			</ul>
 		</nav>
 		<div class="top_empty">
 		</div>
 	</div>
+			
+	<c:if test=""></c:if>
 			
 	<script type="text/javascript">	
 		function onJoinButton() {
@@ -94,6 +96,17 @@
 			location.href = '${ contextPath }/Member/login';
 		}
 		
+		function onMypageButton() {
+			let userId = '${ userId }';
+			
+			if (userId == null) {
+				alert('로그인이 필요합니다. 로그인 페이지로 이동합니다.');
+				location.href='${ contextPath }/Member/login';
+			}
+			else {
+				location.href='${ contextPath }/Member/mypagemain';
+			}
+		}
 	</script>
 </body>
 

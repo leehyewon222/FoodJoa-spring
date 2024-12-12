@@ -23,23 +23,23 @@
 		<put-attribute name="center" value="/WEB-INF/views/member/deleteMember.jsp" />
 	</definition>
 
-	<definition name="/members/mypagemain" extends="baseLayout">
+	<definition name="/member/mypagemain" extends="baseLayout">
 		<put-attribute name="title" value="마이페이지" />
 		<put-attribute name="center" value="/WEB-INF/views/member/mypagemain.jsp" />
 	</definition>
 	
-	<definition name="/members/profileupdate"
+	<definition name="/member/profileupdate"
 		extends="baseLayout">
 		<put-attribute name="title" value="정보수정" />
 		<put-attribute name="center" value="/WEB-INF/views/member/profileupdate.jsp" />
 	</definition>
 	
-	<definition name="/members/mydelivery" extends="baseLayout">
+	<definition name="/member/mydelivery" extends="baseLayout">
 		<put-attribute name="title" value="배송조회" />
 		<put-attribute name="center" value="/WEB-INF/views/member/mydelivery.jsp" />
 	</definition>
 	
-	<definition name="/members/sendmealkit" extends="baseLayout">
+	<definition name="/member/sendmealkit" extends="baseLayout">
 		<put-attribute name="title" value="발송조회" />
 		<put-attribute name="center" value="/WEB-INF/views/member/sendmealkit.jsp" />
 	</definition>

@@ -11,6 +11,9 @@
 <%@ page import="java.time.ZoneId"%>
 <%@ page import="com.foodjoa.member.dao.MemberDAO"%>
 
+<c:set var="contextPath" value="${ pageContext.request.contextPath }" />
+<c:set var="resourcesPath" value="${ contextPath }/resources" />
+
 <%
 request.setCharacterEncoding("UTF-8");
 response.setContentType("text/html; charset=utf-8");
@@ -47,12 +50,21 @@ LocalDate currentDate = LocalDate.now();
 long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 %>
 
+<jsp:useBean id="now" class="java.util.Date" />
+
+<fmt:parseDate var="joinDate" value="${member.joinDate}" pattern="yyyy-MM-dd"/>
+<fmt:parseNumber var="specificDay" value="${joinDate.time / (1000*60*60*24)}" integerOnly="true"/>
+<fmt:parseNumber var="today" value="${now.time / (1000*60*60*24)}" integerOnly="true"/>
+
+<c:set var="daysBetween" value="${today - specificDay}" />
+
+
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="<%=contextPath%>/css/member/mypagemain.css">
+	<link rel="stylesheet" href="${ resourcesPath }/css/member/mypagemain.css">
 </head>
 
 <body>
@@ -64,29 +76,23 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 		<div class="profile-wrapper">
 			<div class="profile-section">
 				<div class="profile-image">
-					<img src="<%=contextPath%>/images/member/userProfiles/${member.id}/${member.profile}" >
+					<img src="${ contextPath }/images/member/userProfiles/${member.id}/${member.profile}" >
 				</div>
 				<div class="profile-info">
 					<h2>${member.nickname}</h2>
-				<%-- 	<%
-					if (joinDate != null) {
-						%>
-						<p>
-							${member.nickname}님은 푸드조아와 함께한지 <strong><%=daysBetween%></strong>일째입니다!
-						</p>
-						<%
-					}
-					else {
-						%>
-						<p>가입 정보를 가져올 수 없습니다. 관리자에게 문의하세요.</p>
-						<%
-					}
-					%> --%>
+					<c:choose>
+						<c:when test="${ not empty member.joinDate }">
+							${member.nickname}님은 푸드조아와 함께한지 <strong>${daysBetween + 1}</strong>일째입니다!
+						</c:when>
+						<c:otherwise>
+							<p>가입 정보를 가져올 수 없습니다. 관리자에게 문의하세요.</p>
+						</c:otherwise>
+					</c:choose>
 					<button id="updateButton">정보수정</button>
 				</div>
 			</div>
 	
-			<%--<div class="manage-section">
+			<div class="manage-section">
 				<div>
 			 		<a href="<%=contextPath%>/Recipe/myRecipes">
 						<p>내 레시피 관리</p>
@@ -106,19 +112,19 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 					</a> 
 	
 				</div>
-			</div>--%>
+			</div>-
 	
 			<!-- Info Sections -->
 			<div class="info-section">
 				<div>주문/배송조회</div>
-			<%-- 	<div class="info1">
+					<div class="info1">
 					<span>주문건수 : <%=totalOrderDeliveredCount%></span> &nbsp;&nbsp; |
 					&nbsp;&nbsp; <span>배송준비중 : <%=deliveredCounts.get(0)%></span>
 					&nbsp;&nbsp; | &nbsp;&nbsp; <span>배송중 : <%=deliveredCounts.get(1)%></span>
 					&nbsp;&nbsp; | &nbsp;&nbsp; <span>배송완료 : <%=deliveredCounts.get(2)%></span>
 					<a href="<%=contextPath%>/Member/viewMyDelivery.me"
 						style="margin-left: auto;">더보기</a>
-				</div> --%>
+				</div>
 			</div>
 	
 			<div class="info-section">
@@ -154,7 +160,7 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 
 	<script>
 		document.getElementById('updateButton').onclick = function() {
-			location.href = '<%=contextPath%>/Member/update.me';
+			location.href = '<%=contextPath%>/Member/update';
 		};
 		
 		// 파일을 선택하면 미리보기 이미지를 표시

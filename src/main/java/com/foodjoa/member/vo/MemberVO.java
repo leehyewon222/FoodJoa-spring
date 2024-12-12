@@ -20,5 +20,5 @@ public class MemberVO {
 	private String address1;
 	private String address2;
 	private String profile;
-	private Timestamp join_date;
+	private Timestamp joinDate;
 }

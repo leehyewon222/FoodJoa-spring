@@ -45,10 +45,13 @@
 		]]>
 	</update>
 
-	<select id="selectMember" parameterType="memberVO" resultMap="member">
+	<select id="selectMember" parameterType="string" resultMap="member">
 		<![CDATA[
-			 SELECT * FROM member WHERE id = #{id}
+			 SELECT * FROM member
 		]]>
+		<where>
+			id=#{id}
+		</where>
 	</select>
 
 	<select id="getMemberProfile" parameterType="memberVO" resultMap="member">

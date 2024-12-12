@@ -5,37 +5,53 @@
 
 <mapper namespace="mapper.mealkitOrder">
 
- 
-  <resultMap id="Mealkit" type="java.util.HashMap">
-    <association property="mealkitorderVO" javaType="mealkitorderVO">
-      <id property="no" column="no"/>
-      <result property="id" column="id"/>
-      <result property="mealkitNo" column="mealkit_no"/>
-      <result property="address" column="address"/>
-      <result property="quantity" column="quantity"/>
-      <result property="delivered" column="delivered"/>
-      <result property="refund" column="refund"/>
-      <result property="postDate" column="post_date"/>
-    </association>
+	<resultMap type="mealkitOrderVO" id="order">
+		<id property="no" column="no" />
+		<result property="id" column="id" />
+		<result property="mealkitNo" column="mealkit_no" />
+		<result property="address" column="address" />
+		<result property="quantity" column="quantity" />
+		<result property="delivered" column="delivered" />
+		<result property="refund" column="refund" />
+		<result property="postDate" column="post_date" />
+		
+		<association property="mealkitVO" javaType="mealkitVO">
+			<id property="no" column="mealkit_no" />
+			<result property="id" column="id" />
+			<result property="title" column="title" />
+			<result property="contents" column="contents" />
+			<result property="category" column="category" />
+			<result property="price" column="price" />
+			<result property="pictures" column="pictures" />
+		</association>
 
-    <association property="mealkitVO" javaType="mealkitVO">
-      <id property="no" column="mealkit_no"/>
-      <result property="id" column="id"/>
-      <result property="title" column="title"/>
-      <result property="contents" column="contents"/>
-      <result property="category" column="category"/>
-      <result property="price" column="price"/>
-      <result property="pictures" column="pictures"/>
-    </association>
+		<association property="memberVO" javaType="memberVO">
+			<result property="nickname" column="nickname" />
+			<result property="profile" column="profile" />
+		</association>
+	</resultMap>
+	
+	<!-- 내 주문/발송 조회 -->
+	<select id="selectCountOrderDelivered" parameterType="mealkitOrderVO" resultType="int">
+	    <![CDATA[
+	    	SELECT COUNT(*)
+			FROM mealkit_order
+			WHERE id=#{id} AND delivered=#{delivered}
+	    ]]>
+	</select>
+	
+	<!-- 내 마켓 발송 조회 -->
+	<select id="selectCountOrderSended" parameterType="mealkitOrderVO" resultType="int">
+		SELECT COUNT(*)
+		FROM mealkit_order o  
+		JOIN mealkit k 
+		ON k.no=o.mealkit_no 
+		WHERE k.id=#{id} AND o.delivered=#{delivered};
+	</select>
 
-    <association property="memberVO" javaType="memberVO">
-      <result property="nickname" column="nickname"/>
-      <result property="profile" column="profile"/>
-    </association>
-  </resultMap>
-
-  <!-- 쿼리: 배달된 밀키트 조회 -->
-  <select id="selectDeliveredMealkit" parameterType="mealkitorderVO" resultMap="Mealkit">
+	<!-- 쿼리: 배달된 밀키트 조회 -->
+	<select id="selectDeliveredMealkit"
+		parameterType="mealkitorderVO" resultMap="order">
     <![CDATA[
       SELECT 
         o.no AS no, 
@@ -60,24 +76,15 @@
       WHERE o.id = #{id} 
       ORDER BY o.post_date DESC
     ]]>
-  </select>
+	</select>
 
-  <!-- 쿼리: 주문 상태 업데이트 -->
-  <update id="updateOrderStatus" parameterType="mealkitorderVO">
+	<!-- 쿼리: 주문 상태 업데이트 -->
+	<update id="updateOrderStatus" parameterType="mealkitOrderVO">
     <![CDATA[
       UPDATE mealkit_order 
       SET delivered = #{delivered}, refund = #{refund} 
       WHERE no = #{no}
     ]]>
-  </update>
-
-  <!-- 쿼리: 배달된 주문 수 카운트 -->
-  <select id="selectCountOrderDelivered" parameterType="map" resultType="int">
-    <![CDATA[
-      SELECT COUNT(*) 
-      FROM mealkit_order o 
-      WHERE o.delivered = #{delivered} AND o.id = #{id}
-    ]]>
-  </select>
+	</update>
 
 </mapper>

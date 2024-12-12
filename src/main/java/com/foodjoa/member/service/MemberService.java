@@ -115,28 +115,23 @@ public class MemberService {
         return kakaoId;
     }
 
-    public boolean insertMember(MultipartHttpServletRequest request) throws IOException {
+    public boolean insertMember(MemberVO memberVO, 
+    		MultipartHttpServletRequest request) throws IOException {
         // 업로드할 디렉토리 경로 설정
         String uploadDir = "C:\\workspace_FoodJoa\\FoodJoa\\src\\main\\webapp\\resources\\images\\";  // application.properties에서 설정한 경로를 사용하거나, 직접 설정
         
         // 파일 업로드 처리
         MultipartFile profileFile = request.getFile("profileFile");
 
-        String userId = request.getParameter("userId");
-        String zipcode = request.getParameter("zipcode");
-        String address1 = request.getParameter("address1");
-        String address2 = request.getParameter("address2");
-
         // 회원 정보 생성 (프로필 파일명 포함)
         String profileFileName = profileFile != null ? profileFile.getOriginalFilename() : null;
 
-        // MemberVO 생성
-//        MemberVO memberVO = new MemberVO(userId, request.getParameter("name"), request.getParameter("nickname"),
-//                request.getParameter("phone"), zipcode, address1, address2, profileFileName);
-        MemberVO memberVO = new MemberVO();
+        memberVO.setProfile(profileFileName);
         
         // DB에 저장
         if (memberDAO.insertMember(memberVO) == 1) {
+        	String userId = memberVO.getId();
+        	
             // 회원가입 성공, 세션에 userId 설정
             request.getSession().setAttribute("userId", userId);
 
@@ -276,18 +271,16 @@ public class MemberService {
 		 return mealkitDAO.selectCountOrderDelivered((String) request.getSession().getAttribute("userId"));
 	    }
 
-	public MemberVO getMemberProfile(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public MemberVO getMemberById(String id) {
+
+		return memberDAO.selectMember(id);
 	}
 
-	public List<Integer> getCountOrderSended(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Integer> getCountOrderDelivered(String userId) {
+		return memberDAO.selectCountOrderDelivered(userId);
 	}
 
-	public List<Integer> getCountOrderDelivered(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Integer> getCountOrderSended(String userId) {
+		return memberDAO.selectCountOrderSended(userId);
 	}
 }

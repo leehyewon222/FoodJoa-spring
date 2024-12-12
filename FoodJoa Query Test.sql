@@ -1,12 +1,13 @@
-SELECT 
-		        r.*, 
-		        COALESCE(rr.average_rating, 0) AS average_rating, 
-				COALESCE(rr.review_count, 0) AS review_count, 
-		        m.nickname
-		    FROM recipe r
-		    LEFT JOIN (
-		        SELECT recipe_no, AVG(rating) AS average_rating, COUNT(rating) AS review_count
-		        FROM recipe_review
-		        GROUP BY recipe_no
-		    ) rr ON r.no = rr.recipe_no
-		    LEFT JOIN member m ON r.id = m.id;
+select * from mealkit_order;
+select * from mealkit;
+
+SELECT count(*)
+FROM mealkit_order
+WHERE id='review1' AND delivered=2;
+
+
+SELECT COUNT(*)
+FROM mealkit_order o  
+JOIN mealkit k 
+ON k.no=o.mealkit_no 
+WHERE k.id='geonyongId' AND o.delivered=2;

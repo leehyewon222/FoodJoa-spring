@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.foodjoa.member.vo.RecentViewVO;
+import com.foodjoa.mealkit.vo.MealkitOrderVO;
 import com.foodjoa.member.vo.MemberVO;
 
 @Repository
@@ -42,16 +43,46 @@ public class MemberDAO {
 	}
 	
 	public ArrayList<Integer> selectCountOrderDelivered(String id){
-		return ((MemberDAO) sqlSession).selectCountOrderDelivered("mapper.member.memberResultMap,memberVO");
 		
+		ArrayList<Integer> countOrderDelivered = new ArrayList<Integer>();
+		
+		MealkitOrderVO orderVO = new MealkitOrderVO();
+		orderVO.setId(id);
+		
+		for (int i = 0; i < 3; i++) {
+			orderVO.setDelivered(i);
+			
+			int result = sqlSession.selectOne("mapper.mealkitOrder.selectCountOrderDelivered", orderVO);
+			
+			countOrderDelivered.add(result);
+		}
+		
+		return countOrderDelivered;
+	}
+
+	public ArrayList<Integer> selectCountOrderSended(String id) {
+		
+		ArrayList<Integer> countOrderSended = new ArrayList<Integer>();
+		
+		MealkitOrderVO orderVO = new MealkitOrderVO();
+		orderVO.setId(id);
+		
+		for (int i = 0; i < 3; i++) {
+			orderVO.setDelivered(i);
+			
+			int result = sqlSession.selectOne("mapper.mealkitOrder.selectCountOrderSended", orderVO);
+			
+			countOrderSended.add(result);
+		}
+		
+		return countOrderSended;
 	}
 
 	public static MemberVO getMemberProfile(String userId) {
 		return null;
 	}
 
-	public MemberVO selectMember(String string) {
-		// TODO Auto-generated method stub
-		return null;
+	public MemberVO selectMember(String id) {
+		return sqlSession.selectOne("mapper.member.selectMember", id);
 	}
 }
