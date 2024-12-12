@@ -30,7 +30,7 @@
 			<div id="userMenu">
 				<c:choose>
 					<c:when test="${ not empty userId }">
-						<form action="${ contextPath }/Member/logout.me" method="POST">
+						<form action="${ contextPath }/Member/logout" method="POST">
 			                <button type="submit">로그아웃</button>
 			            </form>
 					</c:when>					
@@ -78,7 +78,7 @@
 						<li><a href="${ contextPath }/Community/shareList">나눔/같이 먹어요</a></li>
 					</ul>
 				</li>
-				<li><a href="${ contextPath }/Member/mypagemain.me">마이페이지</a></li>
+				<li><a href="${ contextPath }/Member/mypagemain">마이페이지</a></li>
 			</ul>
 		</nav>
 		<div class="top_empty">
@@ -87,11 +87,11 @@
 			
 	<script type="text/javascript">	
 		function onJoinButton() {
-			location.href = '${ contextPath }/Member/snsjoin.me';
+			location.href = '${ contextPath }/Member/snsjoin';
 		}
 		
 		function onLoginButton(){
-			location.href = '${ contextPath }/Member/login.me';
+			location.href = '${ contextPath }/Member/login';
 		}
 		
 	</script>
