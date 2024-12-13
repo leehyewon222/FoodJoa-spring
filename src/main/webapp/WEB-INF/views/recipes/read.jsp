@@ -129,16 +129,27 @@
 							</tr>
 							<c:set var="ingredients" value="${ stringParser.splitString(recipeVO.ingredient) }"/>
 							<c:set var="ingredientAmounts" value="${ stringParser.splitString(recipeVO.ingredientAmount) }"/>
-							<c:forEach var="i" begin="0" end="${ ingredients.size() - 1 }" step="1">
-								<c:set var="ingredient" value="${ ingredients[i] }"/>
-								<c:set var="ingredientAmout" value="${ ingredientAmounts[i] }"/>
-								
-								<tr>
-									<td width="5%" align="center">${ i + 1 }</td>
-									<td width="65%">${ ingredient }</td>
-									<td width="30%">${ ingredientAmout }</td>
-								</tr>
-							</c:forEach>
+							<c:choose>
+								<c:when test="${ empty ingredients }">
+									<tr>
+										<td colspan="3" align="center">
+											<span class="read-empty-message">작성한 재료가 없습니다.</span>
+										</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<c:forEach var="i" begin="0" end="${ ingredients.size() - 1 }" step="1">
+										<c:set var="ingredient" value="${ ingredients[i] }"/>
+										<c:set var="ingredientAmout" value="${ ingredientAmounts[i] }"/>
+										
+										<tr>
+											<td width="5%" align="center">${ i + 1 }</td>
+											<td width="65%">${ ingredient }</td>
+											<td width="30%">${ ingredientAmout }</td>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
 						</table>
 					</div>
 				</td>
@@ -150,14 +161,24 @@
 						<table width="100%">
 							<c:set var="orders" value="${ stringParser.splitString(recipeVO.orders) }"/>
 							
-							<c:forEach var="i" begin="0" end="${ orders.size() - 1 }" step="1">
-								<c:set var="order" value="${ orders[i] }"/>
-								
-								<tr>
-									<td align="center" width="8%">${ i + 1 }</td>
-									<td width="92%">${ order }</td>
-								</tr>
-							</c:forEach>
+							<c:choose>
+								<c:when test="${ empty orders }">
+									<tr>
+										<td colspan="2" align="center">
+											<span class="read-empty-message">작성한 순서가 없습니다.</span>
+										<td>
+									</tr>
+								</c:when>								
+								<c:otherwise>							
+									<c:forEach var="i" begin="0" end="${ orders.size() - 1 }" step="1">
+										<c:set var="order" value="${ orders[i] }"/>
+										<tr>
+											<td align="center" width="8%">${ i + 1 }</td>
+											<td width="92%">${ order }</td>
+										</tr>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
 						</table>
 					</div>
 				</td>

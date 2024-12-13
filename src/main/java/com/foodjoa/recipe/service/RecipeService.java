@@ -36,9 +36,6 @@ public class RecipeService {
 	@Autowired
 	private MemberDAO memberDAO;
 	
-	@Autowired
-	private ServletContext servletContext;
-	
 	public List<RecipeVO> getRecipes(String category) {
 		
 		RecipeVO recipeVO = new RecipeVO();
@@ -92,8 +89,6 @@ public class RecipeService {
 				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
 				+ File.separator + "resources" + File.separator + "images" + File.separator;
 		
-		System.out.println("imagesPath : " + imagesPath);
-		
 		String tempPath = imagesPath + "temp" + File.separator;
 
 		File tempDir = new File(tempPath);
@@ -109,9 +104,7 @@ public class RecipeService {
 			originalFileName = mFile.getOriginalFilename();
 			
 			if (mFile.getSize() != 0) {
-				File file = new File(tempPath + originalFileName);
-
-				mFile.transferTo(new File(tempPath + originalFileName));	
+				mFile.transferTo(new File(tempPath + originalFileName));
 			}			
 		}
 		
@@ -119,7 +112,11 @@ public class RecipeService {
 		
 		int result = recipeDAO.insertRecipe(recipeVO);
 		
-		if (result <= 0) return 0;
+		if (result <= 0) {
+			FileIOController.deleteFile(tempPath, originalFileName);
+			
+			return 0;
+		}
 		
 		int no = recipeDAO.selectRecentRecipe(recipeVO).getNo();
 		
