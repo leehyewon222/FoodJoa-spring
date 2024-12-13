@@ -28,10 +28,32 @@
 	</resultMap>
 	
 	<select id="selectReviewsByRecipeNo" parameterType="recipeReviewVO" resultMap="review">
-		SELECT r.*, m.nickname, m.profile
-		FROM recipe_review r
-		JOIN member m ON r.id=m.id
-		WHERE recipe_no=#{recipeNo}
-		ORDER BY r.post_date DESC
+		<![CDATA[
+			SELECT r.*, m.nickname, m.profile
+			FROM recipe_review r
+			JOIN member m ON r.id=m.id
+        ]]>
+        <where>
+        	recipe_no=#{recipeNo}
+        </where>
+		<![CDATA[
+			ORDER BY r.post_date DESC
+        ]]>
 	</select>
+	
+	<select id="selectReviewCount" parameterType="java.util.Map" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM recipe_review
+        ]]>
+        <where>
+        	id=#{id} AND recipe_no=#{recipeNo}
+        </where>
+	</select>
+	
+	<insert id="insertReview" parameterType="recipeReviewVO">
+		<![CDATA[
+			INSERT INTO recipe_review(id, recipe_no, pictures, contents, rating, post_date) 
+			VALUES(#{id}, #{recipeNo}, #{pictures}, #{contents}, #{rating}, CURRENT_TIMESTAMP)
+        ]]>
+	</insert>
 </mapper>

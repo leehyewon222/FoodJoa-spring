@@ -1,5 +1,6 @@
 package com.foodjoa.recipe.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,16 +25,16 @@ public class RecipeDAO {
 		return sqlSession.selectOne("mapper.recipe.selectRecipe", recipeVO);
 	}
 	
-	public RecipeVO selectRecentRecipe(RecipeVO recipeVO) {
-		return sqlSession.selectOne("mapper.recipe.selectRecentRecipe", recipeVO);
+	public RecipeVO selectRecentRecipe() {
+		return sqlSession.selectOne("mapper.recipe.selectRecentRecipe");
 	}
 	
 	public List<RecipeReviewVO> selectReviewsByRecipeNo(RecipeReviewVO reviewVO) {
 		return sqlSession.selectList("mapper.recipeReview.selectReviewsByRecipeNo", reviewVO);
 	}
 	
-	public int updateRecipeViews(RecipeVO recipeVO) {
-		return sqlSession.update("mapper.recipe.updateRecipeViews", recipeVO);
+	public int updateRecipeViews(int no) {
+		return sqlSession.update("mapper.recipe.updateRecipeViews", no);
 	}
 	
 	public int insertRecipe(RecipeVO recipeVO) {
@@ -50,5 +51,21 @@ public class RecipeDAO {
 
 	public List<RecipeVO> selectSearchedRecipes(Map<String, String> params) {
 		return sqlSession.selectList("mapper.recipe.selectSearchedRecipes", params);
+	}
+
+	public int selectReviewCount(Map<String, String> params) {
+		return sqlSession.selectOne("mapper.recipeReview.selectReviewCount", params);
+	}
+
+	public int insertReview(RecipeReviewVO reviewVO) {
+		return sqlSession.insert("mapper.recipeReview.insertReview", reviewVO);
+	}
+
+	public int selectWishlistCount(HashMap<String, String> params) {
+		return sqlSession.selectOne("mapper.recipeWishlist.selectWishlistCount", params);
+	}
+
+	public int insertWishlist(HashMap<String, String> params) {
+		return sqlSession.insert("mapper.recipeWishlist.insertWishlist", params);
 	}
 }

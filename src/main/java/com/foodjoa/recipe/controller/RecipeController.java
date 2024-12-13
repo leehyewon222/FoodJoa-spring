@@ -3,26 +3,22 @@ package com.foodjoa.recipe.controller;
 import org.slf4j.Logger;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.foodjoa.recipe.service.RecipeService;
+import com.foodjoa.recipe.vo.RecipeReviewVO;
 import com.foodjoa.recipe.vo.RecipeVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,8 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("Recipe")
 @Slf4j
 public class RecipeController {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(RecipeController.class);
 
 	@Autowired
 	private RecipeService recipeService;
@@ -60,8 +54,7 @@ public class RecipeController {
 			@RequestParam(required = false, defaultValue = "0") String currentBlock,
 			@RequestParam String no) {
 		
-		//String userId = (String) session.getAttribute("userId");
-		String userId = "admin";
+		String userId = (String) session.getAttribute("userId");
 		
 		HashMap<String, Object> recipeInfo = recipeService.processRecipeRead(no, userId);
 				
@@ -133,5 +126,36 @@ public class RecipeController {
 		model.addAttribute("category", category);
 		
 		return "/recipes/list";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "reviewCheck", method = { RequestMethod.GET, RequestMethod.POST })
+	public String reviewCheck(HttpSession session, 
+			@RequestParam String recipeNo,
+			@RequestParam String id) {
+		return String.valueOf(recipeService.checkReview(recipeNo, id));
+	}
+	
+	@RequestMapping(value = "reviewWrite", method = { RequestMethod.GET, RequestMethod.POST })
+	public String reviewWrite(Model model, @RequestParam String recipeNo) {
+		
+		RecipeVO recipe = recipeService.getRecipe(recipeNo);
+		
+		model.addAttribute("recipe", recipe);
+		
+		return "/recipes/review";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "reviewWritePro", method = { RequestMethod.GET, RequestMethod.POST })
+	public String reviewWritePro(RecipeReviewVO reviewVO, MultipartHttpServletRequest multipartRequest) 
+			throws Exception {		
+		return String.valueOf(recipeService.processReviewWrite(reviewVO, multipartRequest));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "wishlist", method = { RequestMethod.GET, RequestMethod.POST })
+	public String wishlist(@RequestParam String id, @RequestParam String recipeNo) {
+		return String.valueOf(recipeService.addWishlist(id, recipeNo));
 	}
 }

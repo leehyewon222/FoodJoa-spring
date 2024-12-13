@@ -4,4 +4,27 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.recipeWishlist">
+	
+	<resultMap type="recipeWishListVO" id="wishlist">
+		<id property="no" column="no"/>
+		<result property="id" column="id"/>
+		<result property="recipeNo" column="recipe_no"/>
+		<result property="choiceDate" column="choice_date"/>
+	</resultMap>
+	
+	<select id="selectWishlistCount" parameterType="java.util.Map" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM recipe_wishlist
+        ]]>
+        <where>
+        	id=#{id} AND recipe_no=#{recipeNo}
+        </where>
+	</select>
+	
+	<insert id="insertWishlist" parameterType="java.util.Map">
+		<![CDATA[
+			INSERT INTO recipe_wishlist(id, recipe_no, choice_date)
+			VALUES(#{id}, #{recipeNo}, CURRENT_TIMESTAMP)
+		]]>
+	</insert>
 </mapper>

@@ -282,7 +282,27 @@
 		}
 		
 		function onReviewWriteButton() {
-			location.href = '${ contextPath }/Recipe/reviewWrite?recipe_no=${ recipeVO.no }';
+			$.ajax({
+				url: '${ contextPath }/Recipe/reviewCheck',
+				type: 'post',
+				data: {
+					recipeNo: '${ recipeVO.no }',
+					id: '${ sessionScope.userId }'
+				},
+				dataType: 'text',
+				success: function(responseData, status, jqxhr) {
+					if (responseData == "0") {
+						location.href = '${ contextPath }/Recipe/reviewWrite?recipeNo=${ recipeVO.no }';
+					}
+					else {
+						alert('이미 리뷰를 작성하셨습니다.');
+					}
+				},
+				error: function(xhr, status, error) {
+					console.log(error);
+					alert("리뷰 작성 통신 에러");
+				}
+			});
 		}
 		
 		function onUpdateButton() {
@@ -337,7 +357,7 @@
 				},
 				error: function(xhr, status, error) {
 					console.log(error);
-					alert("찜 목록 추가에 실패 했습니다.");
+					alert("찜 목록 추가 중 통신 에러 발생");
 				}
 			});
 		});

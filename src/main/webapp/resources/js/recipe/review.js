@@ -1,45 +1,5 @@
-
 let selectedFileNames = [];
 let selectedRealFiles = [];
-
-function onSubmit(event, contextPath) {
-	event.preventDefault();
-
-	setPicturesString();
-
-	let recipeNo = $("#recipe_no").val();
-	
-	const formData = new FormData();
-	formData.append('recipe_no', $("#recipe_no").val());
-	formData.append('pictures', $("#pictures").val());
-	formData.append('contents', $("#contents").val());
-	formData.append('rating', $("#rating").val());
-
-	selectedRealFiles.forEach((file, index) => {
-		formData.append('file' + index, file);
-	});
-
-	$.ajax({
-	    url: contextPath + '/Recipe/reviewWritePro',
-	    type: "POST",
-	    data: formData,
-	    processData: false,
-	    contentType: false,
-	    success: function(responseData, status, jqxhr) {
-			if (responseData == "1") {
-				alert('리뷰를 작성했습니다.');
-				location.href = contextPath + '/Recipe/read?no=' + recipeNo;	
-			}
-			else {
-				alert('리뷰 작성에 실패했습니다.');
-			}
-	    },
-	    error: function(xhr, status, error) {
-	        console.log("error", error);
-			alert('리뷰를 작성에 실패했습니다.');
-	    }
-	});
-}
 
 function onCancleButton(event) {
 	event.preventDefault();
@@ -98,7 +58,6 @@ function handleFileSelect(files) {
 }
 
 function removeSelectedFile(fileName) {
-    //selectedFileNames = selectedFileNames.filter(item => item !== fileIdentifier);
 	for (let i = 0; i < selectedFileNames.length; i++) {
 		if (selectedFileNames[i] == fileName) {
 			selectedFileNames.splice(i, 1);

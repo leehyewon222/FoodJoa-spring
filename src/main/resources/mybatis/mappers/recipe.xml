@@ -34,8 +34,8 @@
 		</association>
 	</resultMap>
 	
-	<select id="selectRecipes" parameterType="recipeVO" resultMap="recipe">
-		<![CDATA[
+	<select id="selectRecipes" parameterType="recipeVO" resultMap="recipe">	
+	    <![CDATA[
 		    SELECT 
 		        r.*, 
 		        COALESCE(rr.average_rating, 0) AS average_rating, 
@@ -49,17 +49,17 @@
 		    ) rr ON r.no = rr.recipe_no
 		    LEFT JOIN member m ON r.id = m.id
         ]]>
-	    <where>
-	        <if test="category != 0">
+        <if test="category != 0">
+	   		<where>
 	            r.category=#{category}
-	        </if>
-	    </where>
+	    	</where>
+        </if>
 	    <![CDATA[
 		    ORDER BY r.post_date DESC
         ]]>
 	</select>
 	
-	<update id="updateRecipeViews" parameterType="recipeVO">
+	<update id="updateRecipeViews" parameterType="int">
 		<![CDATA[
 		    UPDATE recipe SET views=views+1 
         ]]>
@@ -68,7 +68,8 @@
         </where>
 	</update>
 	
-	<select id="selectRecipe" parameterType="recipeVO" resultMap="recipe">
+	<select id="selectRecipe" parameterType="recipeVO" resultMap="recipe">	
+		<![CDATA[
 		SELECT 
 			r.*, COALESCE(avg_rating.average_rating, 0) AS average_rating, 
 			m.nickname, m.profile  
@@ -79,59 +80,83 @@
 			GROUP BY recipe_no 
 		) avg_rating ON r.no = avg_rating.recipe_no 
 		JOIN member m ON r.id=m.id 
-		WHERE r.no=#{no}
+        ]]>
+        <where>
+        	r.no=#{no}
+        </where>
 	</select>
 	
 	<insert id="insertRecipe" parameterType="recipeVO">
-		INSERT INTO recipe(id, title, thumbnail, description, 
-			contents, category, views, 
-			ingredient, ingredient_amount, orders, post_date) 
-		values(#{id}, #{title}, #{thumbnail}, #{description}, 
-			#{contents}, #{category}, 0, 
-			#{ingredient}, #{ingredientAmount}, #{orders}, CURRENT_TIMESTAMP)
+		<![CDATA[
+			INSERT INTO recipe(id, title, thumbnail, description, 
+				contents, category, views, 
+				ingredient, ingredient_amount, orders, post_date) 
+			values(#{id}, #{title}, #{thumbnail}, #{description}, 
+				#{contents}, #{category}, 0, 
+				#{ingredient}, #{ingredientAmount}, #{orders}, CURRENT_TIMESTAMP)
+        ]]>
 	</insert>
 	
 	<select id="selectRecentRecipe" resultMap="recipe">
-		SELECT no FROM recipe ORDER BY no DESC LIMIT 1
+		<![CDATA[
+			SELECT no FROM recipe ORDER BY no DESC LIMIT 1
+        ]]>
 	</select>
 	
 	<update id="updateRecipe" parameterType="recipeVO">
+		<![CDATA[
 		UPDATE recipe SET 
 			title=#{title}, thumbnail=#{thumbnail}, description=#{description}, 
 			contents=#{contents}, category=#{category}, ingredient=#{ingredient}, 
 			ingredient_amount=#{ingredientAmount}, orders=#{orders}
-		WHERE no=#{no} AND id=#{id}
+        ]]>
+        <where>
+        	no=#{no} AND id=#{id}
+        </where>
 	</update>
 	
-	<delete id="deleteRecipe" parameterType="int">
-		DELETE FROM recipe WHERE no=#{no}
+	<delete id="deleteRecipe" parameterType="int">	
+		<![CDATA[
+			DELETE FROM recipe
+        ]]>
+        <where>
+        	no=#{no}
+        </where>
 	</delete>
 	
-	<select id="selectSearchedRecipes" parameterType="java.util.Map" resultMap="recipe">
-		SELECT 
-			r.*, 
-			COALESCE(avg_rating.average_rating, 0) AS average_rating, 
-			COALESCE(avg_rating.review_count, 0) AS review_count, 
-			m.nickname AS nickname 
-		FROM recipe r 
-		LEFT JOIN ( 
+	<select id="selectSearchedRecipes" parameterType="java.util.Map" resultMap="recipe">	
+		<![CDATA[
 			SELECT 
-				recipe_no, AVG(rating) AS average_rating, COUNT(recipe_no) AS review_count 
-			FROM recipe_review 
-			GROUP BY recipe_no 
-		) avg_rating ON r.no = avg_rating.recipe_no 
-		LEFT JOIN member m ON r.id=m.id
+				r.*, 
+				COALESCE(avg_rating.average_rating, 0) AS average_rating, 
+				COALESCE(avg_rating.review_count, 0) AS review_count, 
+				m.nickname AS nickname 
+			FROM recipe r 
+			LEFT JOIN ( 
+				SELECT 
+					recipe_no, AVG(rating) AS average_rating, COUNT(recipe_no) AS review_count 
+				FROM recipe_review 
+				GROUP BY recipe_no 
+			) avg_rating ON r.no = avg_rating.recipe_no 
+			LEFT JOIN member m ON r.id=m.id
+        ]]>
 		<choose>
 			<when test="key == 'recipe'">
-				WHERE r.title LIKE '%${word}%'
+				<where>
+					r.title LIKE '%${word}%'
+				</where>
 			</when>
-			<otherwise>
-				WHERE nickname LIKE '%${word}%'
+			<otherwise>				
+				<where>
+					nickname LIKE '%${word}%'
+				</where>
 			</otherwise>
 		</choose>
 		<if test="category != 0">
 			AND category=${category}
-		</if>
-		ORDER BY r.post_date DESC
+		</if>	
+		<![CDATA[
+			ORDER BY r.post_date DESC
+        ]]>
 	</select>
 </mapper>

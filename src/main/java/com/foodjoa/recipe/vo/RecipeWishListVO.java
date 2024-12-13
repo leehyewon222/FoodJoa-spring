@@ -15,5 +15,5 @@ public class RecipeWishListVO {
 	private int no;
 	private String id;
 	private int recipeNo;
-	private Timestamp choice_date;
+	private Timestamp choiceDate;
 }

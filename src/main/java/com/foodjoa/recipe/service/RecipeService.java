@@ -1,6 +1,7 @@
 package com.foodjoa.recipe.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +24,7 @@ import com.foodjoa.recipe.vo.RecipeReviewVO;
 import com.foodjoa.recipe.vo.RecipeVO;
 
 import Common.FileIOController;
+import Common.StringParser;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -45,6 +47,7 @@ public class RecipeService {
 	}
 
 	public RecipeVO getRecipe(String no) {
+
 		RecipeVO recipeVO = new RecipeVO();
 		recipeVO.setNo(Integer.parseInt(no));
 		
@@ -54,10 +57,9 @@ public class RecipeService {
 	public HashMap<String, Object> processRecipeRead(String no, String userId) {
 		
 		HashMap<String, Object> recipeInfo = new HashMap<String, Object>();
-		
+
 		RecipeVO recipeVO = new RecipeVO();
 		recipeVO.setNo(Integer.parseInt(no));
-		
 		RecipeVO selectedRecipe = recipeDAO.selectRecipe(recipeVO);
 		
 		if (selectedRecipe == null) {
@@ -66,7 +68,7 @@ public class RecipeService {
 		
 		recipeInfo.put("recipe", selectedRecipe);
 
-		recipeDAO.updateRecipeViews(recipeVO);
+		recipeDAO.updateRecipeViews(Integer.parseInt(no));
 		
 		RecipeReviewVO reviewVO = new RecipeReviewVO();
 		reviewVO.setRecipeNo(Integer.parseInt(no));
@@ -126,7 +128,7 @@ public class RecipeService {
 			return 0;
 		}
 		
-		int no = recipeDAO.selectRecentRecipe(recipeVO).getNo();
+		int no = recipeDAO.selectRecentRecipe().getNo();
 		
 		String destinationPath = imagesPath + "recipe" + File.separator + "thumbnails" 
 				+ File.separator + no + File.separator;
@@ -165,7 +167,10 @@ public class RecipeService {
 			}			
 		}
 		
-		recipeVO.setThumbnail(originalFileName);
+		String thumbnailName = (originalFileName == null || originalFileName.length() <= 0 || originalFileName.equals("")) ?
+				originThumbnail : originalFileName;
+		
+		recipeVO.setThumbnail(thumbnailName);
 		
 		int result = recipeDAO.updateRecipe(recipeVO);
 		
@@ -210,5 +215,68 @@ public class RecipeService {
 		params.put("word", word);
 		
 		return recipeDAO.selectSearchedRecipes(params);
+	}
+
+	public int checkReview(String recipeNo, String id) {
+		
+		Map<String, String> params = new HashMap<String, String>();
+		
+		params.put("recipeNo", recipeNo);
+		params.put("id", id);
+		
+		return recipeDAO.selectReviewCount(params);
+	}
+
+	public int processReviewWrite(RecipeReviewVO reviewVO, MultipartHttpServletRequest multipartRequest) 
+			throws Exception {
+		
+		int result = recipeDAO.insertReview(reviewVO);
+		
+		if (result <= 0) return result;
+		
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		
+		String tempPath = imagesPath + "temp" + File.separator;
+		
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+		
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			
+			if (mFile.getSize() != 0) {
+				mFile.transferTo(new File(tempPath + mFile.getOriginalFilename()));
+			}
+		}
+		
+		List<String> pictures = StringParser.splitString(reviewVO.getPictures());
+		String destinationPath = imagesPath + "recipe" + File.separator + "reviews" + File.separator
+				+ reviewVO.getRecipeNo() + File.separator + reviewVO.getId();
+		
+		for (String picture : pictures) {
+			FileIOController.moveFile(tempPath, destinationPath, picture);
+		}
+		
+		return result;
+	}
+
+	public int addWishlist(String id, String recipeNo) {
+		
+		HashMap<String, String> params = new HashMap<String, String>();
+		
+		params.put("id", id);
+		params.put("recipeNo", recipeNo);
+		
+		if (recipeDAO.selectWishlistCount(params) > 0) return 2;
+		
+		return recipeDAO.insertWishlist(params);
 	}
 }
