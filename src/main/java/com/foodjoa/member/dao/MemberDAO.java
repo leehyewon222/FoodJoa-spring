@@ -42,6 +42,26 @@ public class MemberDAO {
 		return count > 0;
 	}
 	
+	
+	public int deleteMemberById(String readonlyId) {
+		
+		int count = sqlSession.delete("mapper.member.deleteMemberById", readonlyId);
+		return count;
+		
+	}
+	
+	public String getProfileFileName(String readonlyId) {
+	    return sqlSession.selectOne("mapper.member.getProfileFileName", readonlyId);
+	}
+
+	
+	
+	
+	
+	
+	
+	//----------------------------------------------------
+	
 	public ArrayList<Integer> selectCountOrderDelivered(String id){
 		
 		ArrayList<Integer> countOrderDelivered = new ArrayList<Integer>();
@@ -82,7 +102,10 @@ public class MemberDAO {
 		return null;
 	}
 
+
 	public MemberVO selectMember(String id) {
 		return sqlSession.selectOne("mapper.member.selectMember", id);
 	}
+
+	
 }

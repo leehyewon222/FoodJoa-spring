@@ -33,7 +33,97 @@
     .file-input { display: none; }
     .file-button { background-color: #BF917E; border: none; padding: 4px 8px; font-size: 14px; color: white; cursor: pointer; height: 30px; margin-left: 10px; }
     .file-button:hover { background-color: #BF917E; }
-</style>
+</style>	
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        const fileInput = document.getElementById('profileFile');
+        const previewContainer = document.getElementById('previewContainer');
+        const joinButton = document.querySelector('.joinButton');
+
+        // 파일 선택 시 미리보기 처리
+        fileInput.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            previewContainer.innerHTML = ''; // 기존 미리보기 초기화
+
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = '미리보기 이미지';
+                    img.style.maxWidth = '300px';
+                    img.style.maxHeight = '300px';
+                    previewContainer.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.innerHTML = '<span style="color: red;">이미지 파일만 선택 가능합니다.</span>';
+            }
+        });
+
+        // 유효성 검사
+        joinButton.addEventListener('click', function (event) {
+            event.preventDefault(); // 기본 동작 방지
+
+            const name = document.getElementById('name').value.trim();
+            const nickname = document.getElementById('nickname').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('sample4_roadAddress').value.trim();
+
+            if (name.length < 2 || name.length > 10) {
+                alert('이름은 2자 이상, 10자 이하로 입력해주세요.');
+                return;
+            }
+
+            if (nickname.length < 2 || nickname.length > 10) {
+                alert('닉네임은 2자 이상, 10자 이하로 입력해주세요.');
+                return;
+            }
+
+            const phoneRegex = /^\d{10,11}$/;
+            if (!phoneRegex.test(phone)) {
+                alert('전화번호는 10~11자리 숫자로 입력해주세요.');
+                return;
+            }
+
+            if (!address) {
+                alert('주소를 입력해주세요.');
+                return;
+            }
+
+            // 모든 유효성 검사를 통과한 경우 폼 제출
+            document.querySelector('form').submit();
+        });
+    });
+
+    // 파일명 업데이트 함수
+    function updateFileName() {
+        const fileInput = document.getElementById('profileFile');
+        const profileInput = document.getElementById('profile');
+
+        if (fileInput.files.length > 0) {
+            profileInput.value = fileInput.files[0].name;
+        }
+    }
+
+    // Daum 우편번호 API
+    function sample4_execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                const roadAddr = data.roadAddress; // 도로명 주소
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('sample4_postcode').value = data.zonecode;  // 우편번호
+                document.getElementById('sample4_roadAddress').value = roadAddr;    // 도로명 주소
+            }
+        }).open();
+    }
+</script>
+
+	
+	
+	
 </head>
 <body>
 	<div id="container">
@@ -45,15 +135,19 @@
 			<div class="add">
 				<h2>추가 정보 입력</h2>
 			</div>
+			<br><br>
 
 			<!-- 사용자 정보 입력 폼 -->
 			<div class="form-container">
 				<!-- 프로필 사진 선택 -->
+				<div class="preview-container" id="previewContainer"></div>
+				<br>
 				<div class="input-container">
 					<input type="text" id="profile" name="profile" class="form-control" placeholder="프로필 사진을 넣어주세요" required readonly />
 					<input type="file" name="profileFile" class="file-input" id="profileFile" onchange="updateFileName()" />
 					<label for="profileFile" class="file-button">파일 선택</label>
 				</div>
+			
 
 			
 				<!-- 나머지 사용자 정보 입력 -->
@@ -79,36 +173,6 @@
 		</form>
 	</div>
 
-	<script>
-		// 파일을 선택했을 때 input에 파일명 표시
-		function updateFileName() {
-			var fileInput = document.getElementById("profileFile");
-			var profileInput = document.getElementById("profile");
-
-			// 파일명이 있을 경우 input에 파일명 표시
-			if (fileInput.files.length > 0) {
-				profileInput.value = fileInput.files[0].name;
-			}
-		}
-	</script>
-
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
-    function sample4_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 도로명 주소 변수
-                var roadAddr = data.roadAddress; // 도로명 주소
-                var extraRoadAddr = ''; // 참고 항목 (예: 건물명, 아파트 동 등)
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample4_postcode').value = data.zonecode;  // 우편번호
-                document.getElementById("sample4_roadAddress").value = roadAddr;    // 도로명 주소
-            }
-        }).open();
-    }
-</script>
 
 
 
@@ -116,39 +180,5 @@
 
 </body>
 
-<script>
-function validateForm() {
-    var name = document.getElementById("name").value.trim();
-    var nickname = document.getElementById("nickname").value.trim();
-    var phone = document.getElementById("phone").value.trim();
-    var errorMessage = '';
 
-    // 이름 유효성 검사: 2~10자, 한글만 허용
-    var namePattern = /^[가-힣]{2,10}$/;
-    if (!namePattern.test(name)) {
-        errorMessage += '이름은 2글자 이상 10글자 이하의 한글만 입력 가능합니다. \n';
-    }
-
-    // 닉네임 유효성 검사: 2~10자, 한글 또는 영문만 허용
-    var nicknamePattern = /^[가-힣a-zA-Z]{2,10}$/;
-    if (!nicknamePattern.test(nickname)) {
-        errorMessage += '닉네임은 2글자 이상 10글자 이하의 한글 또는 영문만 입력 가능합니다. \n';
-    }
-
-    // 휴대폰 번호 유효성 검사: 정확히 11자리 숫자만 허용
-    var phonePattern = /^\d{11}$/;
-    if (!phonePattern.test(phone)) {
-        errorMessage += '휴대폰 번호는 11자리 숫자로 입력해야 합니다. \n';
-    }
-
-    // 유효성 검사 결과 처리
-    if (errorMessage) {
-        alert(errorMessage); // 에러 메시지 출력
-        return false; // 폼 제출 방지
-    }
-
-    // 유효성 검사 성공 시 폼 제출
-    return true;
-}
-</script>
 </html>

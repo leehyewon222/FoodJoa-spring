@@ -75,6 +75,52 @@ public class MemberService {
 		return memberDAO.isUserExists(userId);
 	
 	}
+	
+	public boolean deleteMember(String readonlyId) {
+	    try {
+	        // 1. DB에서 회원의 프로필 파일명 가져오기
+	        String profileFileName = memberDAO.getProfileFileName(readonlyId);
+
+	        // 2. 프로필 사진이 존재하면 파일 시스템에서 삭제
+	        if (profileFileName != null && !profileFileName.isEmpty()) {
+	            String uploadDir = "C:\\workspace_FoodJoa\\FoodJoa\\src\\main\\webapp\\resources\\images\\member\\userProfiles\\";
+	            File profileFile = new File(uploadDir + readonlyId + File.separator + profileFileName);
+
+	            if (profileFile.exists()) {
+	                boolean fileDeleted = profileFile.delete();
+	                if (!fileDeleted) {
+	                    // 파일 삭제 실패 시 로깅하거나 예외 처리
+	                    System.out.println("파일 삭제 실패: " + profileFile.getAbsolutePath());
+	                }
+	            }
+	        }
+
+	        // 3. 회원의 프로필 폴더도 삭제
+	        String userFolderPath = "C:\\workspace_FoodJoa\\FoodJoa\\src\\main\\webapp\\resources\\images\\member\\userProfiles\\" + readonlyId;
+	        File userFolder = new File(userFolderPath);
+	        if (userFolder.exists() && userFolder.isDirectory()) {
+	            File[] files = userFolder.listFiles();
+	            if (files != null && files.length == 0) {
+	                // 폴더 안에 파일이 없으면 폴더 삭제
+	                boolean folderDeleted = userFolder.delete();
+	                if (!folderDeleted) {
+	                    // 폴더 삭제 실패 시 로깅하거나 예외 처리
+	                    System.out.println("폴더 삭제 실패: " + userFolder.getAbsolutePath());
+	                }
+	            }
+	        }
+
+	        // 4. DB에서 회원 삭제
+	        int result = memberDAO.deleteMemberById(readonlyId);
+
+	        // 5. 삭제 성공 여부 반환
+	        return result == 1;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false; // 예외 발생 시 false 반환
+	    }
+	}
+
 
 	public MemberVO getMember(HttpServletRequest request){
 
@@ -103,4 +149,6 @@ public class MemberService {
 	public ArrayList<Integer> getCountOrderSended(String userId) {
 		return memberDAO.selectCountOrderSended(userId);
 	}
+
+
 }

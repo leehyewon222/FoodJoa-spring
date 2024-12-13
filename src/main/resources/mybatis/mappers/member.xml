@@ -53,6 +53,28 @@
 			id=#{id}
 		</where>
 	</select>
+	
+	<delete id="deleteMemberById" parameterType="String">
+	<![CDATA[
+			 DELETE FROM member
+		]]>
+		<where>
+			id = #{readonlyId}
+		</where>
+    </delete>
+    
+    <select id="getProfileFileName" parameterType="String" resultType="String">
+    <![CDATA[
+			  SELECT profile FROM member
+		]]>
+		<where>
+			id = #{readonlyId}
+		</where>
+	</select>
+    
+	
+	
+	
 
 	<select id="getMemberProfile" parameterType="memberVO" resultMap="member">
 		<![CDATA[
