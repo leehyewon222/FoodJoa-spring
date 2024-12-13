@@ -29,7 +29,7 @@
 	
 	<select id="selectReviewsInfo" parameterType="mealkitVO" resultMap="ReviewInfo">
 		<![CDATA[
-	        SELECT mr.no, mr.contents, mr.rating, mr.post_date, m.nickname
+	        SELECT mr.no, mr.id, mr.pictures, mr.contents, mr.rating, mr.post_date, m.nickname
 			FROM mealkit_review mr 
 			LEFT JOIN mealkit k
 			ON k.no = mr.mealkit_no 
@@ -41,7 +41,7 @@
 
 	<select id="selectMyReviewInfo" parameterType="int" resultMap="ReviewInfo">
 		<![CDATA[
-	        SELECT mr.no, mr.contents, mr.rating, k.title, k.contents 
+	        SELECT mr.no, mr.id, mr.pictures, mr.contents, mr.rating, k.title, k.contents 
 			FROM mealkit_review mr 
 			LEFT JOIN mealkit k
 			ON k.no = mr.mealkit_no 

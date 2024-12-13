@@ -1,5 +1,6 @@
 package com.foodjoa.mealkit.controller;
 
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +110,18 @@ public class MealkitController {
 		model.addAttribute("mymealkits", mymealkits);
 		
 		return "/mealkits/mymealkit";
+	}
+	
+	@RequestMapping(value="deletePro", method = { RequestMethod.GET, RequestMethod.POST })
+	public void deleteMealkit(@RequestParam int no, 
+			HttpServletRequest request, HttpServletResponse response, 
+			Model model) throws Exception {
+		
+		int result = mealkitService.deleteMealkit(no);		
+
+	    PrintWriter out = response.getWriter();
+	    out.print(result);
+	    out.close();
 	}
 	
 	@RequestMapping(value="searchlistPro", method = { RequestMethod.GET, RequestMethod.POST })

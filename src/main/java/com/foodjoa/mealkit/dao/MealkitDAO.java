@@ -38,17 +38,16 @@ public class MealkitDAO {
 		return sqlSession.selectOne("mapper.mealkit.selectMyReviewInfo", no);
 	}
 
+	public int deleteMealkit(int no) {
+		return sqlSession.delete("mapper.mealkit.deleteMealkit", no);
+	}
+
 	public List<Map<String, Object>> selectSearchList(String key, String word) {
 		Map<String, Object> params = new HashMap<>();
 	    params.put("key", key);
 	    params.put("word", word);
 	    
 		return sqlSession.selectList("mapper.mealkit.selectSearchList", params);
-	}
-
-	public ArrayList<Integer> selectCountOrderDelivered(String attribute) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

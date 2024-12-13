@@ -133,6 +133,12 @@
         ]]>
     </select>
     
+    <delete id="deleteMealkit" parameterType="int">
+        DELETE FROM mealkit
+        WHERE no = #{no}
+    </delete>
+    
+    
     <!-- <select id="sendedMealkit" parameterType="mealkitVO" resultMap="sendedMealkit">
 	 	<![CDATA[
 			SELECT 

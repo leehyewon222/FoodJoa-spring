@@ -146,9 +146,10 @@
 													<div class="review-images">
 														<ul>
 															<c:set var="pictures" value="${stringParser.splitString(review.pictures)}"/>
-															<c:forEach var="picture" items="${pictures }">
+															<c:forEach var="picture" items="${pictures}">
 																<li class="review-pictures">
-																	<img src="${resourcesPath }/images/mealkit/reviews/${mealkitInfo.no }/${review.id }/${picture}">
+																	<img src="${resourcesPath }/images/mealkit/reviews/${mealkitInfo.no}/${review.id}/${picture}"
+																		class="review-image">
 																</li>
 															</c:forEach>
 														</ul>

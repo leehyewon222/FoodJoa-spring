@@ -1,5 +1,7 @@
 package com.foodjoa.mealkit.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,11 +10,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import com.foodjoa.mealkit.dao.MealkitDAO;
 import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
+
+import Common.FileIOController;
 
 @Service
 public class MealkitService {
@@ -64,14 +69,29 @@ public class MealkitService {
 		return mealkitDAO.selectMyReviewInfo(no);
 	}
 
+	public int deleteMealkit(int no) throws Exception {
+		int result = mealkitDAO.deleteMealkit(no);
+		
+		if (result > 0) {
+			String path = new ClassPathResource("").getFile().getParentFile().getParent()
+					+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+					+ File.separator + "resources" + File.separator + "images" + File.separator + "mealkit" 
+					+ File.separator + "thumbnails" + File.separator + no;
+			
+			String reviewPath = new ClassPathResource("").getFile().getParentFile().getParent()
+					+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+					+ File.separator + "resources" + File.separator + "images" + File.separator + "mealkit" 
+					+ File.separator + "reviews" + File.separator + no;
+			
+			FileIOController.deleteDirectory(path);
+			FileIOController.deleteDirectory(reviewPath);
+		}
+		
+		return result;
+	}
+
 	public List<Map<String, Object>> selectSearchList(String key, String word) {
 		return mealkitDAO.selectSearchList(key, word);
 	}
-	
-	public ArrayList<HashMap<String, Object>> getPurchaseMealkits(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }
