@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.foodjoa.mealkit.service.MealkitService;
+import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
 
 @Controller
@@ -48,7 +49,7 @@ public class MealkitController {
 			HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
 		
 		MealkitVO mealkitInfo = mealkitService.selectMealkitInfo(no);
-		List<Object> reviewInfo = mealkitService.selectReviewInfo(no);
+		List<Object> reviewInfo = mealkitService.selectReviewsInfo(no);
 		
 		model.addAttribute("mealkitInfo", mealkitInfo);
 		model.addAttribute("reviewInfo", reviewInfo);
@@ -76,7 +77,7 @@ public class MealkitController {
 	}
 	
 	@RequestMapping(value="updateMealkit", method = { RequestMethod.GET, RequestMethod.POST })
-	public String writeMealkit( @RequestParam int no, 
+	public String updateMealkit(@RequestParam int no, 
 			HttpServletRequest request, HttpServletResponse response, 
 			Model model) throws Exception {
 		
@@ -85,5 +86,43 @@ public class MealkitController {
 		model.addAttribute("mealkitInfo", mealkitInfo);
 		
 		return "/mealkits/updateMealkit";
+	}
+	
+	@RequestMapping(value="updateReview", method = { RequestMethod.GET, RequestMethod.POST })
+	public String updateReview( @RequestParam int no, 
+			HttpServletRequest request, HttpServletResponse response, 
+			Model model) throws Exception {
+		
+		MealkitReviewVO reviewInfo = mealkitService.selectMyReviewInfo(no);
+		
+		model.addAttribute("reviewInfo", reviewInfo);
+		
+		return "/mealkits/updateReview";
+	}
+	
+	@RequestMapping(value="mymealkit", method = { RequestMethod.GET, RequestMethod.POST })
+	public String myMealkit(HttpServletRequest request, HttpServletResponse response, 
+			Model model) throws Exception {
+		
+		String id = "aronId";
+		
+		List<Map<String, Object>> mymealkits = mealkitService.selectMyMealkitsList(id);
+		
+		model.addAttribute("mymealkits", mymealkits);
+		
+		return "/mealkits/mymealkit";
+	}
+	
+	@RequestMapping(value="searchlistPro", method = { RequestMethod.GET, RequestMethod.POST })
+	public String searchlist(Model model,
+			@RequestParam("key") String key,
+	        @RequestParam("word") String word, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		List<Map<String, Object>> searchResults = mealkitService.selectSearchList(key, word);
+
+	    model.addAttribute("mealkitsList", searchResults);
+	    
+	    return "/mealkits/list";
 	}
 }

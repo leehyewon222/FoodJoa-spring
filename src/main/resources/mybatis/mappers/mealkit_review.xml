@@ -17,6 +17,8 @@
 			
 		<association property="mealkitVO" javaType="mealkitVO">
 			<id property="no" column="no"/>
+			<result property="title" column="title"/>
+			<result property="contents" column="contents"/>
 		</association>
 		
 		<association property="memberVO" javaType="memberVO">
@@ -25,7 +27,7 @@
 	
 	</resultMap>
 	
-	<select id="selectReviewInfo" parameterType="mealkitVO" resultMap="ReviewInfo">
+	<select id="selectReviewsInfo" parameterType="mealkitVO" resultMap="ReviewInfo">
 		<![CDATA[
 	        SELECT mr.no, mr.contents, mr.rating, mr.post_date, m.nickname
 			FROM mealkit_review mr 
@@ -36,5 +38,15 @@
 			WHERE k.no = #{no};
         ]]>
 	</select>
-	
+
+	<select id="selectMyReviewInfo" parameterType="int" resultMap="ReviewInfo">
+		<![CDATA[
+	        SELECT mr.no, mr.contents, mr.rating, k.title, k.contents 
+			FROM mealkit_review mr 
+			LEFT JOIN mealkit k
+			ON k.no = mr.mealkit_no 
+			WHERE mr.no = #{no};
+        ]]>
+	</select>
+		
 </mapper>

@@ -1,8 +1,3 @@
-<%@ page import="java.util.List"%>
-<%@ page import="java.util.Map"%>
-<%@ page import="Common.StringParser"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="java.text.NumberFormat" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -42,7 +37,7 @@
 		<h1>${categoryName}</h1>
 		<div id="search-container">
 			<div class="search-form-container">
-				<form action="${contextPath}/Mealkit/searchlist.pro" method="post" name="frmSearch" 
+				<form action="${contextPath}/Mealkit/searchlistPro" method="post" name="frmSearch" 
 					onsubmit="fnSearch(); return false;">
 		            <select id="key" name="key">
 		                <option value="title">밀키트 명</option>
@@ -71,18 +66,18 @@
 			</c:if>
 			<c:forEach var="vo" items="${mealkitsList }" varStatus="status">
 				<c:if test="${status.index >= pageData.beginPerPage && status.index < (pageData.beginPerPage + pageData.numPerPage)}">
-					<c:set var="pictures" value="${vo.mealkitVO.pictures}" />
-					<c:set var="thumbnail" value="${stringParser.splitString(vo.mealkitVO.pictures)[0] }" />
+					<c:set var="pictures" value="${vo.pictures}" />
+					<c:set var="thumbnail" value="${stringParser.splitString(vo.pictures)[0] }" />
 			
-			        <c:set var="no" value="${vo.mealkitVO.no}" />
-			        <c:set var="id" value="${vo.mealkitVO.id}" />
-			        <c:set var="title" value="${vo.mealkitVO.title}" />
-			        <c:set var="contents" value="${vo.mealkitVO.contents}" />
-			        <c:set var="postDate" value="${vo.mealkitVO.postDate}" />
-			        <c:set var="views" value="${vo.mealkitVO.views}" />
+			        <c:set var="no" value="${vo.no}" />
+			        <c:set var="id" value="${vo.id}" />
+			        <c:set var="title" value="${vo.title}" />
+			        <c:set var="contents" value="${vo.contents}" />
+			        <c:set var="postDate" value="${vo.postDate}" />
+			        <c:set var="views" value="${vo.views}" />
 			        <c:set var="nickName" value="${vo.memberVO.nickname}" />
-			        <c:set var="price" value="${vo.mealkitVO.price}" />
-			        <c:set var="ratingAvr" value="${vo.mealkitVO.averageRating}"/>
+			        <c:set var="price" value="${vo.price}" />
+			        <c:set var="ratingAvr" value="${vo.averageRating}"/>
 				<tr>
 				    <td colspan="2">
 				        <a href="${contextPath}/Mealkit/info?no=${no}" class="row-link">
@@ -144,6 +139,5 @@
 			</tr>
 		</table>
 	</div>
-
 </body>
 </html>

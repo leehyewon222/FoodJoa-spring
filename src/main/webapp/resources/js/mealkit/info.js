@@ -94,8 +94,8 @@ function deleteMealkit(no, contextPath) {
 }
 
 // 수정 함수 
-function editMealkit(contextPath) {
-	location.href = contextPath + "/Mealkit/updateMealkit?no=" + mealkitNo;
+function editMealkit(no, contextPath) {
+	location.href = contextPath + "/Mealkit/updateMealkit?no=" + no;
 }
 
 // 결제창으로 이동 
