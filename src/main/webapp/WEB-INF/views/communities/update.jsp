@@ -34,7 +34,7 @@
 					<input type="text" id="title" name="title" value="${ community.title }">
 					
 					<label for="contents">내용</label>
-					<textarea id="contents" name="contents" rows="25">"${ community.contents }"</textarea>
+					<textarea id="contents" name="contents" rows="25">${ community.contents }</textarea>
 					
 					<div class="bottom_button" align="center">
 						<button onclick="onUpdateButton(event)">수정</button>
@@ -54,7 +54,7 @@
 				type: "post",
 				data: {
 					no: ${community.no},
-					id: ${id},
+					id: '${id}',
 					title: $("#title").val(),
 					contents: $("#contents").val(),
 					views: ${community.views}

@@ -46,6 +46,49 @@
 		insert into community(id, title, contents, views, post_date)
 		values(#{id}, #{title}, #{contents}, 0, now())
 	</insert>
+	
+	<update id="updateCommunity" parameterType="communityVO">
+		update community
+		set title=#{title}, contents=#{contents}
+		where no=#{no}
+	</update>
+	
+	<delete id="deleteCommunity" parameterType="int">
+		delete
+		from community
+		where no=#{no}
+	</delete>
+	
+	<select id="selectSearchedCommunities" parameterType="java.util.Map" resultMap="community">
+    <choose>
+        <when test="word == null or word == ''">
+            SELECT c.*, m.nickname
+            FROM community c
+            JOIN member m ON c.id = m.id
+            ORDER BY post_date DESC
+        </when>
+        <otherwise>
+            <choose>
+                <when test="key == 'titleContent'">
+                    SELECT c.*, m.nickname
+                    FROM community c
+                    JOIN member m ON c.id = m.id
+                    WHERE title LIKE '%${word}%'
+                    OR contents LIKE '%${word}%'
+                    ORDER BY post_date DESC
+                </when>
+                <otherwise>
+                    SELECT c.*, m.nickname
+                    FROM community c
+                    JOIN member m ON c.id = m.id
+                    WHERE nickname LIKE '%${word}%'
+                    ORDER BY post_date DESC
+                </otherwise>
+            </choose>
+        </otherwise>
+    </choose>
+</select>
+
 </mapper>
 
 

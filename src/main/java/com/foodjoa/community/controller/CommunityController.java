@@ -1,18 +1,12 @@
 package com.foodjoa.community.controller;
 
-import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,15 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.foodjoa.community.service.CommunityService;
 import com.foodjoa.community.vo.CommunityVO;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("Community")
 public class CommunityController {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CommunityController.class);
 	
 	@Autowired
     private CommunityService communityService;
 
-    @RequestMapping(value = "list", method = {RequestMethod.GET})
+    @RequestMapping(value = "list", method = {RequestMethod.GET, RequestMethod.POST})
     public String list(Model model, 
     		@RequestParam(required = false, defaultValue = "0") String nowPage,
             @RequestParam(required = false, defaultValue = "0") String nowBlock) {
@@ -65,8 +61,7 @@ public class CommunityController {
             @RequestParam(required = false, defaultValue = "0") String title,
     		@RequestParam(required = false, defaultValue = "0") String contents) {
     	
-    	//String id = (String)session.getAttribute("userId");
-    	String id = "admin";
+    	String id = (String)session.getAttribute("userId");
     	
     	int community = communityService.insertCommunity(id, title, contents);
     	
@@ -74,20 +69,43 @@ public class CommunityController {
     }
     
     @RequestMapping(value = "update", method = {RequestMethod.GET, RequestMethod.POST})
-    public String update(Model model, @ModelAttribute CommunityVO communityVO) {
+    public String update(CommunityVO communityVO, Model model) {
     	
     	model.addAttribute("community", communityVO);    	
     	return "/communities/update";
     }
 
     @ResponseBody
-    @RequestMapping(value = "updatePro", method = {RequestMethod.GET})
-    public String updatePro(@ModelAttribute CommunityVO communityVO,
-    						HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "updatePro", method = {RequestMethod.GET, RequestMethod.POST})
+    public String updatePro(CommunityVO communityVO){
     	
-    	int result = communityService.getCommunityties(communityVO);
+    	int result = communityService.updateCommunity(communityVO);
     	
     	return String.valueOf(result);
     }
-}
+    
+    @ResponseBody
+    @RequestMapping(value = "deletePro", method = {RequestMethod.GET, RequestMethod.POST})
+    public String deletePro(Model model,
+    		@RequestParam(required = false, defaultValue = "0") String no) {
+    	
+    	int result = communityService.deleteCommunity(no);
 
+    	return String.valueOf(result);
+    }
+    
+    @RequestMapping(value = "search", method = {RequestMethod.GET, RequestMethod.POST})
+    public String search(Model model,
+        		@RequestParam String key,
+                @RequestParam String word) {
+        
+		CommunityVO communityVO = new CommunityVO();
+	
+	    List<CommunityVO> communities = communityService.getSearchedCommunity(key, word);
+	
+	    model.addAttribute("communities", communities);
+
+        return "/communities/list";
+    }
+    	
+}
