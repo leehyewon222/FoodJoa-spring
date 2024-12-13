@@ -46,7 +46,7 @@ public class MemberController {
     // SNS 회원가입 페이지로 이동
     @RequestMapping("snsjoin")
     public String snsjoin() {
-        return "/member/snsjoin";  // Tiles에 맞게 경로 반환
+        return "/members/snsjoin";  // Tiles에 맞게 경로 반환
     }
     
     @RequestMapping("naverjoin")
@@ -62,7 +62,7 @@ public class MemberController {
     @RequestMapping("kakaojoin")
     public void kakaojoin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-    	String userId = SNSLoginAPI.handleKakaoLogin(request.getParameter("code"));
+    	String userId = SNSLoginAPI.handleKakaoJoin(request.getParameter("code"));
     	handleJoin(request, response, userId);
     }
     
@@ -94,7 +94,7 @@ public class MemberController {
     // 추가 정보 입력 페이지로 리다이렉트할 때 처리하는 메소드
     @RequestMapping("join")
     public String join() {    	
-    	return "/member/join";
+    	return "/members/join";
 	}
 
 	// 추가정보입력 후 회원 가입 처리
@@ -118,7 +118,7 @@ public class MemberController {
     
     @RequestMapping("login")
 	private String login() {
-		return "/member/login";  // 리다이렉트할 경로
+		return "/members/login";  // 리다이렉트할 경로
 	}
 
     // 네이버 로그인 처리 메소드
@@ -201,8 +201,73 @@ public class MemberController {
     
     @RequestMapping("deleteMember")
     public String deleteMember(){
-    	return "/member/deleteMember";
+    	return "/members/deleteMember";
 	}
+    
+    @RequestMapping("deleteMemberPro")
+    private String deleteMemberPro(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 세션에서 로그인된 사용자 아이디를 가져옵니다.
+        HttpSession session = request.getSession();
+        String readonlyId = (String) session.getAttribute("userId");
+
+        // 사용자가 입력한 아이디를 가져옵니다.
+        String inputId = request.getParameter("inputId");
+
+        // 아이디가 일치하지 않을 경우
+        if (readonlyId == null || !readonlyId.equals(inputId)) {
+            response.setContentType("text/html; charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.print("<script>");
+            out.print("alert('아이디가 일치하지 않습니다.');");
+            out.print("history.go(-1);");
+            out.print("</script>");
+            out.close();
+            return null; // 여기서 리턴하지 않고 바로 끝내고 페이지 이동
+        }
+
+        // 서비스 레이어를 호출하여 탈퇴 처리
+        boolean isDeleted = memberService.deleteMember(readonlyId);
+
+        // 탈퇴 성공 시 세션 무효화 및 메인 페이지로 이동
+        if (isDeleted) {
+            session.invalidate(); // 세션 무효화
+
+            // 리다이렉트 전에 알림 창을 띄운 후, 메인 페이지로 이동
+            response.setContentType("text/html; charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.print("<script>");
+            out.print("alert('탈퇴 되셨습니다.');");
+            out.print("window.location.href='/Main/home';"); // 리다이렉트 전에 알림창 띄우고 이동
+            out.print("</script>");
+            out.close();
+            return null;
+        } else {
+            response.setContentType("text/html; charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.print("<script>");
+            out.print("alert('탈퇴 처리 중 오류가 발생하였습니다. 다시 시도 해주세요.');");
+            out.print("history.go(-1);");
+            out.print("</script>");
+            out.close();
+            return null; // 다시 페이지로 돌아가도록 처리
+        }
+    }
+
+    //-------------------------탈퇴처리 완료
+    
+    
+
+	@RequestMapping("wishlist")
+	public String wishlist() {
+		return "/members/wishlist"; 
+		}
+
+    
+    
+    
+    
+    
+    
     
     @RequestMapping("/mypagemain")
     public String mypagemain(Model model ,HttpSession session){
@@ -219,6 +284,6 @@ public class MemberController {
         model.addAttribute("deliveredCounts", deliveredCounts);
         model.addAttribute("sendedCounts", sendedCounts);
 
-        return "/member/mypagemain";
+        return "/members/mypagemain";
     }
 }
