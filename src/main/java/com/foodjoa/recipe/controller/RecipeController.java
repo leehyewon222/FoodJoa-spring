@@ -89,4 +89,13 @@ public class RecipeController {
 		
 		return String.valueOf(no);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "deletePro", method = { RequestMethod.GET, RequestMethod.POST })
+	public String deletePro(@RequestParam String no) throws Exception {
+		
+		int result = recipeService.deleteRecipe(no);
+		
+		return String.valueOf(result);
+	}
 }

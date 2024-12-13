@@ -94,4 +94,8 @@
 	<select id="selectRecentRecipe" resultMap="recipe">
 		SELECT no FROM recipe ORDER BY no DESC LIMIT 1
 	</select>
+	
+	<delete id="deleteRecipe" parameterType="int">
+		DELETE FROM recipe WHERE no=#{no}
+	</delete>
 </mapper>

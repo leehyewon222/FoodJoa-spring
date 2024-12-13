@@ -83,8 +83,6 @@ public class RecipeService {
 	
 	public int processRecipeWrite(RecipeVO recipeVO, MultipartHttpServletRequest multipartRequest) throws Exception {
 		
-		Iterator<String> fileNames = multipartRequest.getFileNames();
-		
 		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
 				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
 				+ File.separator + "resources" + File.separator + "images" + File.separator;
@@ -96,8 +94,10 @@ public class RecipeService {
 		if (!tempDir.exists()) {
 			tempDir.mkdirs();
         }
-		
+
+		Iterator<String> fileNames = multipartRequest.getFileNames();
 		String originalFileName = "";
+		
 		while (fileNames.hasNext()) {
 			String fileName = fileNames.next();
 			MultipartFile mFile = multipartRequest.getFile(fileName);
@@ -126,5 +126,20 @@ public class RecipeService {
 		FileIOController.moveFile(tempPath, destinationPath, originalFileName);
 		
 		return no;
+	}
+	
+	public int deleteRecipe(String no) throws Exception {
+		
+		int result = recipeDAO.deleteRecipe(Integer.parseInt(no));
+		
+		if (result > 0) {
+			String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+					+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+					+ File.separator + "resources" + File.separator + "images" + File.separator;
+			
+			FileIOController.deleteDirectory(imagesPath + "recipe" + File.separator + "thumbnails" + File.separator + no);
+		}
+		
+		return result;
 	}
 }

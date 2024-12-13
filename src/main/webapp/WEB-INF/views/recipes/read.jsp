@@ -291,7 +291,27 @@
 		
 		function onDeleteButton() {
 			if (confirm("정말 레시피를 삭제 하시겠습니까?")) {
-				location.href = '${ contextPath }/Recipe/deletePro?no=${ recipeVO.no }';	
+				$.ajax({
+					url: "${ contextPath }/Recipe/deletePro",
+					type: "POST",
+					data: {
+						no: ${ recipeVO.no }
+					},
+					dataType: "text",
+					success: function(responseData, status, jqxhr) {
+						if (responseData == "1") {
+							alert("레시피가 삭제되었습니다.");
+							location.href='${ contextPath }/Recipe/list?category=0';
+						}
+						else {
+							alert("레시피 삭제에 실패했습니다.");
+						}
+					},
+					error: function(xhr, status, error) {
+						console.log(error);
+						alert("레시피 삭제 중 통신 에러 발생");
+					}
+				});
 			}
 		}
 	

@@ -39,4 +39,8 @@ public class RecipeDAO {
 	public int insertRecipe(RecipeVO recipeVO) {
 		return sqlSession.update("mapper.recipe.insertRecipe", recipeVO);
 	}
+	
+	public int deleteRecipe(int no) {
+		return sqlSession.delete("mapper.recipe.deleteRecipe", no);
+	}
 }

@@ -12,8 +12,6 @@
 <c:set var="contextPath" value="${ pageContext.request.contextPath }" />
 <c:set var="resourcesPath" value="${ contextPath }/resources" />
 
-<c:set var="id" value="${ sessionScope.userId }"/>
- 
 <!DOCTYPE html>
 <html>
 
@@ -34,7 +32,7 @@
 <body>
 	<div id="recipe-container">
 		<form action="${ contextPath }/Recipe/writePro" method="post" id="frmWrite" enctype="multipart/form-data">
-			<input type="hidden" id="id" name="id" value="admin">
+			<input type="hidden" id="id" name="id" value="${ sessionScope.userId }">
 			<table width="100%">
 				<tr>
 					<td colspan="2" align="right">
