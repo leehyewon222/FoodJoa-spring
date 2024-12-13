@@ -9,13 +9,14 @@
 
 <c:set var="member" value="${ community.memberVO }"/>
 
-<c:set var="id" value="admin" />
+<c:set var="id" value="${sessionScope.userId}" />
 
 <html>
 <head>
 	<meta charset="UTF-8">
 	<title>자유 게시판 읽기</title>
 	
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>	
 	<link rel="stylesheet" href="${ resourcePath }/css/community/read.css">
 	
 </head>
@@ -121,7 +122,9 @@
 				dataType: "text",
 				success: function(responsedData){
 					
-					if(responsedData == "삭제 완료"){
+					console.log("responsedData : " + responsedData);
+					
+					if(responsedData == "1"){
 						location.href ='${contextPath}/Community/list';
 					}
 					else {

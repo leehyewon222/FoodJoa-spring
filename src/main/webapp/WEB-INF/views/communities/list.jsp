@@ -7,8 +7,7 @@
 <c:set var="contextPath" value="${ pageContext.request.contextPath }" />
 <c:set var="resourcePath" value="${ contextPath }/resources" />
 
-<%-- <c:set var="id" value="${ sessionScope.userId }"/> --%>
-<c:set var="id" value="admin" />
+<c:set var="id" value="${sessionScope.userId}" />
 
 <c:set var="totalRecord" value="${ communities.size() }"/>
 
@@ -135,7 +134,7 @@
 			<tr>
 				<td colspan="5" align="center">
 					<div class="community-table-bottom">
-						<form action="${ contextPath }/Community/searchList" method="post" 
+						<form action="${ contextPath }/Community/search" method="post" 
 							name="frmSearch" onsubmit="fnSearch(); return false;">
 							<span class="select-button">
 								<select name="key">
