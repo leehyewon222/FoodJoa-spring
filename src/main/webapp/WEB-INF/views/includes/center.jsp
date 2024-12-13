@@ -162,7 +162,7 @@
 							<div class="board-area-head">
 								<label>공지사항</label>
 								<span class="board-area-more">
-									<a href='${ contextPath }/Community/noticeList'>+더보기</a>
+									<a href='${ contextPath }/Notice/list'>+더보기</a>
 								</span>
 							</div>
 							<table class="notice-table" width="100%">

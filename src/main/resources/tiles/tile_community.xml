@@ -29,8 +29,8 @@
 	</definition>
 
 	<definition name="/notices/list" extends="baseLayout">
-		<put-attribute name="title" value="공지사항 - "/>
-		<put-attribute name="center" value="/WEB-INF/views/communities/updatePro.jsp" />
+		<put-attribute name="title" value="공지사항"/>
+		<put-attribute name="center" value="/WEB-INF/views/communities/noticeList.jsp" />
 	</definition>
 	
 	

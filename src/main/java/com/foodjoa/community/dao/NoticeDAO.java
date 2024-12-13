@@ -22,8 +22,8 @@ public class NoticeDAO {
 	
 	public List<NoticeVO> selectNotice() {
 
-		List<NoticeVO> noticeList = sqlSession.selectList("mapper.community.selectCommunities");
-		
+		List<NoticeVO> noticeList = sqlSession.selectList("mapper.notice.selectNoties");
+															
 		return noticeList;
 	}
 //
