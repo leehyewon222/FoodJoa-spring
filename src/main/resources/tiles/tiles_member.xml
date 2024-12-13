@@ -3,44 +3,48 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
-	<definition name="/member/snsjoin" extends="baseLayout">
+	<definition name="/members/snsjoin" extends="baseLayout">
 		<put-attribute name="title" value="FoodJoa 회원가입" />
-		<put-attribute name="center" value="/WEB-INF/views/member/snsjoin.jsp" />
+		<put-attribute name="center" value="/WEB-INF/views/members/snsjoin.jsp" />
 	</definition>
 
-	<definition name="/member/join" extends="baseLayout">
+	<definition name="/members/join" extends="baseLayout">
 		<put-attribute name="title" value="추가 정보 입력 페이지" />
-		<put-attribute name="center" value="/WEB-INF/views/member/join.jsp" />
+		<put-attribute name="center" value="/WEB-INF/views/members/join.jsp" />
 	</definition>
 
-	<definition name="/member/login" extends="baseLayout">
+	<definition name="/members/login" extends="baseLayout">
 		<put-attribute name="title" value="FoodJoa 로그인" />
-		<put-attribute name="center" value="/WEB-INF/views/member/login.jsp" />
+		<put-attribute name="center" value="/WEB-INF/views/members/login.jsp" />
 	</definition>
 
-	<definition name="/member/deleteMember" extends="baseLayout">
+	<definition name="/members/deleteMember" extends="baseLayout">
 		<put-attribute name="title" value="FoodJoa 탈퇴" />
-		<put-attribute name="center" value="/WEB-INF/views/member/deleteMember.jsp" />
+		<put-attribute name="center" value="/WEB-INF/views/members/deleteMember.jsp" />
 	</definition>
 
-	<definition name="/member/mypagemain" extends="baseLayout">
+	<definition name="/members/mypagemain" extends="baseLayout">
 		<put-attribute name="title" value="마이페이지" />
-		<put-attribute name="center" value="/WEB-INF/views/member/mypagemain.jsp" />
+		<put-attribute name="center" value="/WEB-INF/views/members/mypagemain.jsp" />
 	</definition>
 	
-	<definition name="/member/profileupdate"
-		extends="baseLayout">
+	<definition name="/members/profileupdate" extends="baseLayout">
 		<put-attribute name="title" value="정보수정" />
-		<put-attribute name="center" value="/WEB-INF/views/member/profileupdate.jsp" />
+		<put-attribute name="center" value="/WEB-INF/views/members/profileupdate.jsp" />
 	</definition>
 	
-	<definition name="/member/mydelivery" extends="baseLayout">
+	<definition name="/members/mydelivery" extends="baseLayout">
 		<put-attribute name="title" value="배송조회" />
-		<put-attribute name="center" value="/WEB-INF/views/member/mydelivery.jsp" />
+		<put-attribute name="center" value="/WEB-INF/views/members/mydelivery.jsp" />
 	</definition>
 	
-	<definition name="/member/sendmealkit" extends="baseLayout">
+	<definition name="/members/sendmealkit" extends="baseLayout">
 		<put-attribute name="title" value="발송조회" />
-		<put-attribute name="center" value="/WEB-INF/views/member/sendmealkit.jsp" />
+		<put-attribute name="center" value="/WEB-INF/views/members/sendmealkit.jsp" />
+	</definition>
+	
+	<definition name="/members/impormation" extends="baseLayout">
+		<put-attribute name="title" value="개인정보처리방침" />
+		<put-attribute name="center" value="/WEB-INF/views/members/impormation.jsp" />
 	</definition>
 </tiles-definitions>

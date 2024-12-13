@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -46,7 +47,7 @@ public class MemberController {
     // SNS 회원가입 페이지로 이동
     @RequestMapping("snsjoin")
     public String snsjoin() {
-        return "/member/snsjoin";  // Tiles에 맞게 경로 반환
+        return "/members/snsjoin";  // Tiles에 맞게 경로 반환
     }
     
     @RequestMapping("naverjoin")
@@ -94,7 +95,7 @@ public class MemberController {
     // 추가 정보 입력 페이지로 리다이렉트할 때 처리하는 메소드
     @RequestMapping("join")
     public String join() {    	
-    	return "/member/join";
+    	return "/members/join";
 	}
 
 	// 추가정보입력 후 회원 가입 처리
@@ -118,7 +119,7 @@ public class MemberController {
     
     @RequestMapping("login")
 	private String login() {
-		return "/member/login";  // 리다이렉트할 경로
+		return "/members/login";  // 리다이렉트할 경로
 	}
 
     // 네이버 로그인 처리 메소드
@@ -201,15 +202,15 @@ public class MemberController {
     
     @RequestMapping("deleteMember")
     public String deleteMember(){
-    	return "/member/deleteMember";
+    	return "/members/deleteMember";
 	}
     
-    @RequestMapping("/mypagemain")
+    @RequestMapping("mypagemain")
     public String mypagemain(Model model ,HttpSession session){
 
         String userId = (String) session.getAttribute("userId");
         
-        // 사용자 정보 및 데이터 가져오기
+        // 사용자 데이터 가져오기
         MemberVO member = memberService.getMemberById(userId);
         ArrayList<Integer> deliveredCounts = memberService.getCountOrderDelivered(userId);
         ArrayList<Integer> sendedCounts = memberService.getCountOrderSended(userId);
@@ -219,6 +220,26 @@ public class MemberController {
         model.addAttribute("deliveredCounts", deliveredCounts);
         model.addAttribute("sendedCounts", sendedCounts);
 
-        return "/member/mypagemain";
+        return "/members/mypagemain";
     }
+    
+    @RequestMapping("profileupdate")
+    public String profileupdate(Model model, HttpSession session) {
+        // ID 가져오기
+        String userId = (String) session.getAttribute("userId");
+        
+        // 사용자 정보 부름
+        MemberVO vo = memberService.getMemberById(userId);
+
+        // Model에 데이터 추가
+        model.addAttribute("vo", vo);
+
+        return "/members/profileupdate";
+    }
+    
+    @RequestMapping("impormation")
+    private String impormation(HttpServletRequest request, HttpServlet response) {
+		request.setAttribute("center", "members/impormation.jsp");
+		return "/members/impormation";
+	}
 }
