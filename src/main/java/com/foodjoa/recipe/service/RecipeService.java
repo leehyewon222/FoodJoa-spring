@@ -6,7 +6,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +35,9 @@ public class RecipeService {
 	
 	@Autowired
 	private MemberDAO memberDAO;
+	
+	@Autowired
+	private ServletContext servletContext;
 	
 	public List<RecipeVO> getRecipes(String category) {
 		
@@ -82,25 +88,31 @@ public class RecipeService {
 		
 		Iterator<String> fileNames = multipartRequest.getFileNames();
 		
-		String tempPath = File.separator + "resources" + File.separator + "images" +
-				File.separator + "temp" + File.separator;
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		
+		System.out.println("imagesPath : " + imagesPath);
+		
+		String tempPath = imagesPath + "temp" + File.separator;
 
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+		
 		String originalFileName = "";
 		while (fileNames.hasNext()) {
 			String fileName = fileNames.next();
 			MultipartFile mFile = multipartRequest.getFile(fileName);
 			originalFileName = mFile.getOriginalFilename();
 			
-			File file = new File(tempPath + fileName);
 			if (mFile.getSize() != 0) {
-				if (!file.exists()) {
-					if (file.getParentFile().mkdirs()) {
-						file.createNewFile();
-					}
-				}
-			}
-			
-			mFile.transferTo(new File(tempPath + originalFileName));
+				File file = new File(tempPath + originalFileName);
+
+				mFile.transferTo(new File(tempPath + originalFileName));	
+			}			
 		}
 		
 		recipeVO.setThumbnail(originalFileName);
@@ -111,10 +123,8 @@ public class RecipeService {
 		
 		int no = recipeDAO.selectRecentRecipe(recipeVO).getNo();
 		
-		System.out.println("no : " + no);
-
-		String destinationPath = File.separator + "resources" + File.separator + "images" +
-				File.separator + "recipe" + File.separator + "thumbnails"+ File.separator + no + File.separator;
+		String destinationPath = imagesPath + "recipe" + File.separator + "thumbnails" 
+				+ File.separator + no + File.separator;
 		
 		FileIOController.moveFile(tempPath, destinationPath, originalFileName);
 		

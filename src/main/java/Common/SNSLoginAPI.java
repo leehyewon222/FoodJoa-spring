@@ -97,7 +97,7 @@ public class SNSLoginAPI {
 			String tokenParams = "grant_type=authorization_code" + "&client_id=dfedef18f339b433884cc51b005f2b42" // REST
 																													// API
 																													// 키
-					+ "&redirect_uri=http://localhost:8090/foodjoa/Member/kakaologin" // Redirect URI
+					+ "&redirect_uri=http://localhost:8090/FoodJoa/Member/kakaologin" // Redirect URI
 					+ "&code=" + code;
 
 			HttpURLConnection tokenConn = (HttpURLConnection) new URL(tokenUrl).openConnection();

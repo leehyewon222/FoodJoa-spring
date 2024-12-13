@@ -100,7 +100,7 @@
 			<tr>
 				<td align="center">
 					<div class="login-button">
-						<a href="https://nid.naver.com/oauth2.0/authorize?client_id=XhLz64aZjKhLJHJUdga6&response_type=code&redirect_uri=http://localhost:8090/foodjoa/Member/naverjoin&state=YOUR_STATE">
+						<a href="https://nid.naver.com/oauth2.0/authorize?client_id=XhLz64aZjKhLJHJUdga6&response_type=code&redirect_uri=http://localhost:8090/FoodJoa/Member/naverjoin&state=YOUR_STATE">
 							<div class="login-logo">
 								<img src="${ resourcesPath }/images/member/naverlogo.png" />
 							</div>
@@ -115,7 +115,7 @@
 			<tr>
 				<td align="center">
 					<div class="login-button">
-						<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=dfedef18f339b433884cc51b005f2b42&redirect_uri=http://localhost:8090/foodjoa/Member/kakaojoin">
+						<a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=dfedef18f339b433884cc51b005f2b42&redirect_uri=http://localhost:8090/FoodJoa/Member/kakaojoin">
 							<div class="login-logo">
 								<img src="${ resourcesPath }/images/member/kakaologo.png">
 							</div>

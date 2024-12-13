@@ -80,14 +80,10 @@ public class RecipeController {
 	
 	@ResponseBody
 	@RequestMapping(value = "writePro", method = { RequestMethod.GET, RequestMethod.POST })
-	public String writePro(RecipeVO recipeVO,
-			MultipartHttpServletRequest multipartRequest, HttpServletResponse response) 
+	public String writePro(RecipeVO recipeVO, MultipartHttpServletRequest multipartRequest) 
 			throws Exception {
 		
 		multipartRequest.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8");
-		
-		log.debug("??? : " +  recipeVO.toString());
 		
 		int no = recipeService.processRecipeWrite(recipeVO, multipartRequest);
 		

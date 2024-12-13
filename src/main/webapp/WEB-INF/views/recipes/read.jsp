@@ -25,8 +25,7 @@
 <c:set var="currentPage" value="${ currentPage }"/>
 <c:set var="currentBlock" value="${ currentBlock }"/>
 
-<%-- <c:set var="id" value="${ sessionScope.userId }"/> --%>
-<c:set var="id" value="admin"/>
+<c:set var="id" value="${ sessionScope.userId }"/>
 
 <jsp:useBean id="stringParser" class="Common.StringParser" />
 
@@ -168,7 +167,7 @@
 					<div class="review-title">리뷰 (${ reviews.size() })</div>
 					<table class="review-table" width="100%">
 						<c:choose>
-							<c:when test="${ empty reviews }">
+							<c:when test="${ empty reviews or reviews.size() <= 0 }">
 								<tr>
 									<td align="center">등록된 리뷰가 없습니다.</td>
 								</tr>
@@ -222,7 +221,6 @@
 											<tr>
 												<td>
 													<div class="review-contents">
-														<%-- <c:set var="reviewContents" value="${ reviewContents + [review.contents] }"/> --%>
 														<script>intializeReviewContent('${ review.contents }')</script>
 													</div>
 												</td>
