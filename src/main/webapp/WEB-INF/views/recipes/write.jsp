@@ -12,8 +12,7 @@
 <c:set var="contextPath" value="${ pageContext.request.contextPath }" />
 <c:set var="resourcesPath" value="${ contextPath }/resources" />
 
-<%-- <c:set var="id" value="${ sessionScope.userId }"/> --%>
-<c:set var="id" value="admin"/>
+<c:set var="id" value="${ sessionScope.userId }"/>
  
 <!DOCTYPE html>
 <html>
