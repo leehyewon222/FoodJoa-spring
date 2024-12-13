@@ -7,9 +7,10 @@
 <c:set var="contextPath" value="${ pageContext.request.contextPath }" />
 <c:set var="resourcePath" value="${ contextPath }/resources" />
 
+<c:set var="id" value="${ sessionScope.userId }"/>
 <c:set var="adminId" value="E5WfZ9Dw6uy3PzDsAkaKOEdHtykh5sgibCaIt7BqYqM" />
 
-<c:set var="totalRecord" value="${ communities.size() }"/>
+<c:set var="totalRecord" value="${ noticeList.size() }"/>
 
 <c:set var="numPerPage" value="10" />
 <c:set var="totalPage" value="0" />
@@ -52,9 +53,8 @@
 <body>
 	<div id="commnunity-container">
 		<div id="community-header" align="center">
-			<p class="community_p1">COMMUNITY</p>
-			<p class="community_p2">자유게시판</p>
-			<p>자유롭게 글을 작성해보세요</p>
+			<p class="community_p1">NOTICE</p>
+			<p class="community_p2">공지사항</p>
 		</div>
 	</div>
 	
@@ -68,7 +68,7 @@
 				<td class="col-date" width="15%">작성날짜</td>
 			</tr>
 			<c:choose>
-				<c:when test="${ empty communities }">
+				<c:when test="${ empty noticeList }">
 					<tr align="center">
 						<td colspan="5">등록된 글이 없습니다.</td>
 					</tr>
@@ -82,19 +82,16 @@
 						</c:if>
 						
 						<c:if test="${ loopFlag == true }">
-							<c:set var="community" value="${ communities[i] }"/>
-							<c:set var="member" value="${ community.memberVO }"/>
-							
+							<c:set var="notice" value="${ noticeList[i] }"/>
 							<tr align="center">
 								<td>${ totalRecord - i }</td>
 								<td align="left">
-									<a href="${ contextPath }/Community/read?no=${ community.no }">
-										${ community.title }
+									<a href="${ contextPath }/Notice/read?no=${ notice.no }">
+										${ notice.title }
 									</a>
 								</td>
-								<td>${ member.nickname }</td>
-								<td>${ community.views }</td>
-								<td><fmt:formatDate value="${community.postDate}" pattern="yyyy-MM-dd" /></td>
+								<td>${ notice.views }</td>
+								<td><fmt:formatDate value="${notice.postDate}" pattern="yyyy-MM-dd" /></td>
 							</tr>
 						</c:if>
 					</c:forEach>					
@@ -105,7 +102,7 @@
 				<td colspan="5" align="center">
 					<c:if test="${ totalRecord > 0 }">
 						<c:if test="${ nowBlock > 0 }">
-							<a href="${ contextPath }/Community/list?nowBlock=${ nowBlock - 1 }&nowPage=${ (nowBlock - 1) * pagePerBlock }">
+							<a href="${ contextPath }/Notice/list?nowBlock=${ nowBlock - 1 }&nowPage=${ (nowBlock - 1) * pagePerBlock }">
 								<
 							</a>
 						</c:if>
@@ -117,14 +114,14 @@
 							</c:if>
 							
 							<c:if test="${ loopFlag == true }">
-								<a href="${ contextPath }/Community/list?nowBlock=${ nowBlock }&nowPage=${ (nowBlock * pagePerBlock) + i }">
+								<a href="${ contextPath }/Notice/list?nowBlock=${ nowBlock }&nowPage=${ (nowBlock * pagePerBlock) + i }">
 									${ (nowBlock * pagePerBlock) + i + 1 }
 								</a>
 							</c:if>
 						</c:forEach>
 						
 						<c:if test="${ nowBlock + 1 < totalBlock }">
-							<a href="${ contextPath }/Community/list?nowBlock=${ nowBlock + 1 }&nowPage=${ (nowBlock + 1) * pagePerBlock }">
+							<a href="${ contextPath }/Notice/list?nowBlock=${ nowBlock + 1 }&nowPage=${ (nowBlock + 1) * pagePerBlock }">
 								>
 							</a>
 						</c:if>
@@ -134,7 +131,7 @@
 			<tr>
 				<td colspan="5" align="center">
 					<div class="community-table-bottom">
-						<form action="${ contextPath }/Community/search" method="post" 
+						<form action="${ contextPath }/Notice/search" method="post" 
 							name="frmSearch" onsubmit="fnSearch(); return false;">
 							<span class="select-button">
 								<select name="key">
@@ -149,7 +146,7 @@
 								<input type="submit" value="검색"/>
 							</span>
 						</form>
-						<c:if test="${ not empty id }">
+						<c:if test="${ id == adminId }">
 							<div class="community-write-button">
 								<input type="button" value="글쓰기" onclick="onWriteButton(event)">
 							</div>
@@ -180,7 +177,7 @@
 		function onWriteButton(event) {
 			event.preventDefault();
 			
-			location.href='${ contextPath }/Community/write';
+			location.href='${ contextPath }/Notice/write';
 		}
 		
 		function frmSearch(){

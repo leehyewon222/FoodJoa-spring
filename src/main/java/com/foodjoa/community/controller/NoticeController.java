@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.foodjoa.community.service.NoticeService;
 import com.foodjoa.community.vo.NoticeVO;
@@ -38,33 +39,36 @@ public class NoticeController {
         return "/notices/list";
     }
 
-//    @RequestMapping(value = "read", method = {RequestMethod.GET, RequestMethod.POST})
-//    public String read(Model model,
-//    		@RequestParam(required = false, defaultValue = "0") String no) {
-//		
-//    	NoticeVO noticeList = noticeService.getNotice(no);
-//		
-//		model.addAttribute("notice", notice);
-//
-//		return "/communities/read";
-//    }
-//    
-//    @RequestMapping(value = "write", method = {RequestMethod.GET, RequestMethod.POST})
-//    public String write() {
-//    	return "/communities/write";
-//    }
-//    
-//    @RequestMapping(value = "writePro", method = {RequestMethod.GET, RequestMethod.POST})
-//    public String writePro(Model model, HttpSession session,
-//            @RequestParam(required = false, defaultValue = "0") String title,
-//    		@RequestParam(required = false, defaultValue = "0") String contents) {
-//    	
-//    	String id = (String)session.getAttribute("userId");
-//    	
-//    	int community = communityService.insertCommunity(id, title, contents);
-//    	
-//    	return "redirect:/Community/list";
-//    }
+    @RequestMapping(value = "read", method = {RequestMethod.GET, RequestMethod.POST})
+    public String read(Model model,
+    		@RequestParam(required = false, defaultValue = "0") String no,
+    		@RequestParam(required = false, defaultValue = "0") String nowPage,
+    		@RequestParam(required = false, defaultValue = "0") String nowBlock) {
+		
+    	NoticeVO notice = noticeService.getNotice(no);
+		
+		model.addAttribute("notice", notice);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("nowBlock", nowBlock);
+
+		return "/notices/read";
+    }
+   
+    @RequestMapping(value = "write", method = {RequestMethod.GET, RequestMethod.POST})
+    public String write() {
+    	return "/notices/write";
+   }
+
+    @ResponseBody
+    @RequestMapping(value = "writePro", method = {RequestMethod.GET, RequestMethod.POST})
+    public String writePro(Model model, HttpSession session,
+            @RequestParam(required = false, defaultValue = "0") String title,
+    		@RequestParam(required = false, defaultValue = "0") String contents) {
+    	
+    	int result = noticeService.insertNotice(title, contents);
+    	
+    	return String.valueOf(result);
+    }
 //    
 //    @RequestMapping(value = "update", method = {RequestMethod.GET, RequestMethod.POST})
 //    public String update(CommunityVO communityVO, Model model) {

@@ -20,26 +20,24 @@ public class NoticeDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public List<NoticeVO> selectNotice() {
-
-		List<NoticeVO> noticeList = sqlSession.selectList("mapper.notice.selectNoties");
-															
-		return noticeList;
+	public List<NoticeVO> selectNotices() {
+		return sqlSession.selectList("mapper.notice.selectNotices");
 	}
-//
-//	public int updateCommunityView(CommunityVO communityVO) {
-//		return sqlSession.update("mapper.community.updateCommunityView", communityVO);
-//	}
-//	
-//	public CommunityVO selectCommunity(CommunityVO communityVO) {
-//		return sqlSession.selectOne("mapper.community.selectCommunity", communityVO);
-//	}
-//
-//	public int insertCommunity(CommunityVO communityVO) {
-//		return sqlSession.insert("mapper.community.insertCommunity", communityVO);
-//	}
-//
-//	public int updateCommunity(CommunityVO communityVO) {
+
+	public int updateNoticeView(NoticeVO noticeVO) {
+		return sqlSession.update("mapper.notice.updateNoticeView", noticeVO);
+	}
+
+	public NoticeVO selectNotice(NoticeVO noticeVO) {
+		return sqlSession.selectOne("mapper.notice.selectNotice", noticeVO);
+	}
+
+	public int insertNotice(NoticeVO noticeVO) {
+
+		return sqlSession.insert("mapper.notice.insertNotice", noticeVO);
+	}
+
+	//	public int updateCommunity(CommunityVO communityVO) {
 //		return sqlSession.update("mapper.community.updateCommunity", communityVO);
 //	}
 //
@@ -56,4 +54,7 @@ public class NoticeDAO {
 //		
 //		return sqlSession.selectList("mapper.community.selectSearchedCommunities", params);
 //	}
+
+	
+
 }

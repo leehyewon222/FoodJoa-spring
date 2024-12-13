@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>	
+	<definition name="/notices/list" extends="baseLayout">
+		<put-attribute name="title" value="공지사항"/>
+		<put-attribute name="center" value="/WEB-INF/views/communities/noticeList.jsp" />
+	</definition>
+	
+	<definition name="/notices/read" extends="baseLayout">
+		<put-attribute name="title" value="공지사항"/>
+		<put-attribute name="center" value="/WEB-INF/views/communities/noticeRead.jsp" />
+	</definition>
+
+	<definition name="/notices/update" extends="baseLayout">
+		<put-attribute name="title" value="공지사항"/>
+		<put-attribute name="center" value="/WEB-INF/views/communities/noticeUpdate.jsp" />
+	</definition>
+	
+	<definition name="/notices/write" extends="baseLayout">
+		<put-attribute name="title" value="공지사항"/>
+		<put-attribute name="center" value="/WEB-INF/views/communities/noticeWrite.jsp" />
+	</definition>
+	
+	
+</tiles-definitions>
+
+
+
+
+
+
+
+
+
+
+
+

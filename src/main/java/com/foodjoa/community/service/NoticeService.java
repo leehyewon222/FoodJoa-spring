@@ -23,26 +23,26 @@ public class NoticeService {
 	
 	public List<NoticeVO> getNoticeList() {
 
-		return noticeDAO.selectNotice();
+		return noticeDAO.selectNotices();
 	}
 
-//	public CommunityVO getCommunity(String no) {
-//		CommunityVO communityVO = new CommunityVO();
-//		communityVO.setNo(Integer.parseInt(no));
-//		
-//		communityDAO.updateCommunityView(communityVO);
-//		return communityDAO.selectCommunity(communityVO);
-//	}
-//	
-//	public int insertCommunity(String id, String title, String contents) {
-//
-//		CommunityVO communityVO = new CommunityVO();
-//		communityVO.setId(id);
-//		communityVO.setTitle(title);
-//		communityVO.setContents(contents);
-//		
-//		return communityDAO.insertCommunity(communityVO);
-//	}
+	public NoticeVO getNotice(String no) {
+		NoticeVO noticeVO = new NoticeVO();
+		noticeVO.setNo(Integer.parseInt(no));
+		
+		noticeDAO.updateNoticeView(noticeVO);
+		return noticeDAO.selectNotice(noticeVO);
+	}
+	
+	public int insertNotice(String title, String contents) {
+
+		NoticeVO noticeVO = new NoticeVO();
+
+		noticeVO.setTitle(title);
+		noticeVO.setContents(contents);
+		
+		return noticeDAO.insertNotice(noticeVO);
+	}
 //
 //	public int updateCommunity(CommunityVO communityVO) {
 //		
@@ -60,4 +60,5 @@ public class NoticeService {
 //		return communityDAO.selectSearchedCommunities(key, word);
 //	}
 //
+
 }
