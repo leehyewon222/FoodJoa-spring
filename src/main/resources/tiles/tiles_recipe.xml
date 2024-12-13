@@ -17,6 +17,11 @@
 		<put-attribute name="title" value="나만의 레시피 - 레시피 읽기" />
 		<put-attribute name="center" value="/WEB-INF/views/recipes/write.jsp" />
 	</definition>
+	
+	<definition name="/recipes/update" extends="baseLayout">
+		<put-attribute name="title" value="나만의 레시피 - 레시피 수정하기" />
+		<put-attribute name="center" value="/WEB-INF/views/recipes/update.jsp" />
+	</definition>
 </tiles-definitions>
 
 

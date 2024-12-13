@@ -95,6 +95,14 @@
 		SELECT no FROM recipe ORDER BY no DESC LIMIT 1
 	</select>
 	
+	<update id="updateRecipe" parameterType="recipeVO">
+		UPDATE recipe SET 
+			title=#{title}, thumbnail=#{thumbnail}, description=#{description}, 
+			contents=#{contents}, category=#{category}, ingredient=#{ingredient}, 
+			ingredient_amount=#{ingredientAmount}, orders=#{orders}
+		WHERE no=#{no} AND id=#{id}
+	</update>
+	
 	<delete id="deleteRecipe" parameterType="int">
 		DELETE FROM recipe WHERE no=#{no}
 	</delete>

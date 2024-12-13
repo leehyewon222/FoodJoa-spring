@@ -43,6 +43,13 @@ public class RecipeService {
 		
 		return recipeDAO.selectRecipes(recipeVO);
 	}
+
+	public RecipeVO getRecipe(String no) {
+		RecipeVO recipeVO = new RecipeVO();
+		recipeVO.setNo(Integer.parseInt(no));
+		
+		return recipeDAO.selectRecipe(recipeVO);
+	}
 	
 	public HashMap<String, Object> processRecipeRead(String no, String userId) {
 		
@@ -81,7 +88,8 @@ public class RecipeService {
 		return recipeInfo;
 	}
 	
-	public int processRecipeWrite(RecipeVO recipeVO, MultipartHttpServletRequest multipartRequest) throws Exception {
+	public int processRecipeWrite(RecipeVO recipeVO, MultipartHttpServletRequest multipartRequest)
+			throws Exception {
 		
 		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
 				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
@@ -126,6 +134,56 @@ public class RecipeService {
 		FileIOController.moveFile(tempPath, destinationPath, originalFileName);
 		
 		return no;
+	}
+
+	public int processRecipeUpdate(RecipeVO recipeVO, String originThumbnail,
+			 MultipartHttpServletRequest multipartRequest)
+			throws Exception {
+		
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		
+		String tempPath = imagesPath + "temp" + File.separator;
+
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		String originalFileName = "";
+		
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			originalFileName = mFile.getOriginalFilename();
+			
+			if (mFile.getSize() != 0) {
+				mFile.transferTo(new File(tempPath + originalFileName));
+			}			
+		}
+		
+		recipeVO.setThumbnail(originalFileName);
+		
+		int result = recipeDAO.updateRecipe(recipeVO);
+		
+		if (result <= 0) {
+			FileIOController.deleteFile(tempPath, originalFileName);
+			
+			return result;
+		}
+		
+		int no = recipeVO.getNo();
+		
+		String destinationPath = imagesPath + "recipe" + File.separator + "thumbnails" 
+				+ File.separator + no + File.separator;
+		
+		FileIOController.deleteFile(destinationPath, originThumbnail);
+		FileIOController.moveFile(tempPath, destinationPath, originalFileName);
+		
+		return result;
 	}
 	
 	public int deleteRecipe(String no) throws Exception {

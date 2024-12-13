@@ -90,6 +90,28 @@ public class RecipeController {
 		return String.valueOf(no);
 	}
 	
+	@RequestMapping(value = "update", method = { RequestMethod.GET, RequestMethod.POST })
+	public String update(Model model, @RequestParam String no) {
+		
+		RecipeVO recipe = recipeService.getRecipe(no);
+		
+		model.addAttribute("recipe", recipe);
+		
+		return "/recipes/update";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "upatePro", method = { RequestMethod.GET, RequestMethod.POST })
+	public String upatePro(RecipeVO recipeVO,
+			@RequestParam String originThumbnail,
+			MultipartHttpServletRequest multipartRequest)
+			throws Exception {
+		
+		int result = recipeService.processRecipeUpdate(recipeVO, originThumbnail, multipartRequest);
+		
+		return String.valueOf(result);
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "deletePro", method = { RequestMethod.GET, RequestMethod.POST })
 	public String deletePro(@RequestParam String no) throws Exception {
