@@ -29,4 +29,14 @@
 		<put-attribute name="center" value="/WEB-INF/views/mealkits/updateMealkit.jsp"/>
 	</definition>
 	
+	<definition name="/mealkits/updateReview" extends="baseLayout">
+		<put-attribute name="title" value="밀키트 후기 수정"/>
+		<put-attribute name="center" value="/WEB-INF/views/mealkits/updateReview.jsp"/>
+	</definition>
+	
+	<definition name="/mealkits/mymealkit" extends="baseLayout">
+		<put-attribute name="title" value="내 밀키트 목록"/>
+		<put-attribute name="center" value="/WEB-INF/views/mealkits/mymealkit.jsp"/>
+	</definition>
+	
 </tiles-definitions>

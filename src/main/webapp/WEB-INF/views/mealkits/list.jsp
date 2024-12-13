@@ -37,7 +37,7 @@
 		<h1>${categoryName}</h1>
 		<div id="search-container">
 			<div class="search-form-container">
-				<form action="${contextPath}/Mealkit/searchlist.pro" method="post" name="frmSearch" 
+				<form action="${contextPath}/Mealkit/searchlistPro" method="post" name="frmSearch" 
 					onsubmit="fnSearch(); return false;">
 		            <select id="key" name="key">
 		                <option value="title">밀키트 명</option>
@@ -139,6 +139,5 @@
 			</tr>
 		</table>
 	</div>
-
 </body>
 </html>

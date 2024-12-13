@@ -73,15 +73,32 @@ public class MealkitService {
 		return mealkitDAO.selectMealkitInfo(no);
 	}
 
-	public List<Object> selectReviewInfo(int no) {
+	public List<Object> selectReviewsInfo(int no) {
 		mealkitVO = new MealkitVO();
 		mealkitVO.setNo(no);
 		
-		return mealkitDAO.selectReviewInfo(mealkitVO);
+		return mealkitDAO.selectReviewsInfo(mealkitVO);
 	}
 
+	public List<Map<String, Object>> selectMyMealkitsList(String id) {
+		mealkitVO = new MealkitVO();
+		mealkitVO.setId(id);
+		
+		return mealkitDAO.selectMyMealkitsList(mealkitVO);
+	}
+
+	public MealkitReviewVO selectMyReviewInfo(int no) {
+		return mealkitDAO.selectMyReviewInfo(no);
+	}
+
+	public List<Map<String, Object>> selectSearchList(String key, String word) {
+		return mealkitDAO.selectSearchList(key, word);
+	}
+	
 	public ArrayList<HashMap<String, Object>> getPurchaseMealkits(HttpServletRequest request) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 }
