@@ -42,33 +42,6 @@ public class MealkitService {
 		return strCategory;
 	}
 
-	public Map<String, Object> getPagingData(List<Map<String, Object>> mealkitsList, int nowPage, int nowBlock) {
-		
-		Map<String, Object> pageData = new HashMap<String,Object>();
-		
-		int numPerPage = 5;
-		int pagePerBlock = 3;
-		int totalRecord = 0;
-		int totalPage = 0;
-		int totalBlock = 0;
-		int beginPerPage = 0;
-		
-		totalRecord = mealkitsList.size();
-		
-		beginPerPage = nowPage * numPerPage;
-		totalPage = (int)Math.ceil((double)totalRecord / numPerPage);
-		totalBlock = (int)Math.ceil((double)totalPage / pagePerBlock);
-		
-		pageData.put("numPerPage", numPerPage);
-		pageData.put("pagePerBlock", pagePerBlock);
-		pageData.put("totalRecord", totalRecord);
-		pageData.put("totalPage", totalPage);
-		pageData.put("totalBlock", totalBlock);
-		pageData.put("beginPerPage", beginPerPage);
-		
-		return pageData;
-	}
-
 	public MealkitVO selectMealkitInfo(int no) {
 		return mealkitDAO.selectMealkitInfo(no);
 	}

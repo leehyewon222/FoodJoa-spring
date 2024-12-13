@@ -33,11 +33,9 @@ public class MealkitController {
 		
 		List<Map<String, Object>> mealkitsList = mealkitService.selectMealkitsList(category);
 		String categoryName = mealkitService.getCategoryName(category);
-		Map<String, Object> pagingData = mealkitService.getPagingData(mealkitsList, nowPage, nowBlock);
 		
 		model.addAttribute("mealkitsList", mealkitsList);
 		model.addAttribute("categoryName", categoryName);
-		model.addAttribute("pageData", pagingData); 
 		model.addAttribute("nowBlock", nowBlock);
 	    model.addAttribute("nowPage", nowPage);
 		
@@ -120,8 +118,9 @@ public class MealkitController {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		List<Map<String, Object>> searchResults = mealkitService.selectSearchList(key, word);
-
+		
 	    model.addAttribute("mealkitsList", searchResults);
+		model.addAttribute("categoryName", word);
 	    
 	    return "/mealkits/list";
 	}

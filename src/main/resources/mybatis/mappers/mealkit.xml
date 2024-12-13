@@ -125,7 +125,7 @@
 	            k.title LIKE CONCAT('%', #{word}, '%')
 	        </if>
 	        <if test="key == 'name'">
-	            m.name LIKE CONCAT('%', #{word}, '%')
+	            m.nickname LIKE CONCAT('%', #{word}, '%')
 	        </if>
 	    </where>
         <![CDATA[
