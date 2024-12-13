@@ -38,8 +38,7 @@
 		<put-attribute name="center" value="/WEB-INF/views/members/mypagemain.jsp" />
 	</definition>
 	
-	<definition name="/members/profileupdate"
-		extends="baseLayout">
+	<definition name="/members/profileupdate" extends="baseLayout">
 		<put-attribute name="title" value="정보수정" />
 		<put-attribute name="center" value="/WEB-INF/views/members/profileupdate.jsp" />
 	</definition>
@@ -52,5 +51,10 @@
 	<definition name="/members/sendmealkit" extends="baseLayout">
 		<put-attribute name="title" value="발송조회" />
 		<put-attribute name="center" value="/WEB-INF/views/members/sendmealkit.jsp" />
+	</definition>
+	
+	<definition name="/members/impormation" extends="baseLayout">
+		<put-attribute name="title" value="개인정보처리방침" />
+		<put-attribute name="center" value="/WEB-INF/views/members/impormation.jsp" />
 	</definition>
 </tiles-definitions>

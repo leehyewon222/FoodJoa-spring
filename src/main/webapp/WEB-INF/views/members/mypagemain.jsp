@@ -75,9 +75,9 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 	
 		<div class="profile-wrapper">
 			<div class="profile-section">
-				<div class="profile-image">
+				<!-- <div class="profile-image">
 					<img src="${ contextPath }/images/member/userProfiles/${member.id}/${member.profile}" >
-				</div>
+				</div> -->
 				<div class="profile-info">
 					<h2>${member.nickname}</h2>
 					<c:choose>
@@ -92,27 +92,27 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 				</div>
 			</div>
 	
-			<div class="manage-section">
+			 <div class="manage-section">
 				<div>
-			 		<a href="<%=contextPath%>/Recipe/myRecipes">
+			 		<a href="${contextPath}/Recipe/myRecipes">
 						<p>내 레시피 관리</p>
-						<img src="<%= contextPath %>/images/member/receipe.png" >
+						<img src="${contextPath}/images/member/receipe.png" >
 					</a>
 				</div>
 				<div>
-					<a href="<%=contextPath%>/Mealkit/myMealkits">
+					<a href="${contextPath}/Mealkit/myMealkits">
 						<p>내 상품 관리</p>
-						<img src="<%= contextPath %>/images/member/food.png" >
+						<img src="${contextPath}/images/member/food.png" >
 					</a>
 				</div>
 				<div>
-					<a href="<%=contextPath%>/Member/myReviews">
+					<a href="${contextPath}/Member/myReviews">
 						<p>내 리뷰 관리</p>
-						<img src="<%= contextPath %>/images/member/review.png">
+						<img src="${contextPath}/images/member/review.png">
 					</a> 
 	
 				</div>
-			</div>-
+			</div>
 	
 			<!-- Info Sections -->
 			<div class="info-section">
@@ -142,7 +142,7 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 	
 			<div class="info-section2">
 				<div>
-					<a href="<%=contextPath%>/members/impormation.jsp"
+					<a href="${contextPath}/members/impormation.jsp"
 						class="impormation">※개인정보처리방침</a>
 				</div>
 			</div>
@@ -160,7 +160,7 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 
 	<script>
 		document.getElementById('updateButton').onclick = function() {
-			location.href = '<%=contextPath%>/Member/update';
+			location.href = '${contextPath}/members/profileupdate.jsp';
 		};
 		
 		// 파일을 선택하면 미리보기 이미지를 표시

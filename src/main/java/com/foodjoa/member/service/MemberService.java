@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -123,13 +124,10 @@ public class MemberService {
 
 
 	public MemberVO getMember(HttpServletRequest request){
-
-		HttpSession session = request.getSession();
-	//	String id = (String) session.getAttribute("userId");
-		String id = "admin";
 		
-		return memberDAO.selectMember("admin");
-
+		HttpSession session = request.getSession();
+		String id = (String) session.getAttribute("userId");
+		return memberDAO.selectMember(id);
 	}
 
 	 public ArrayList<Integer> getCountOrderDelivered(HttpServletRequest request) {

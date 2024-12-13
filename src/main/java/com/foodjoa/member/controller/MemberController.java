@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -255,26 +256,17 @@ public class MemberController {
 
     //-------------------------탈퇴처리 완료
     
-    
-
 	@RequestMapping("wishlist")
 	public String wishlist() {
-		return "/members/wishlist"; 
-		}
-
+		return "/members/wishlist";
+	}
     
-    
-    
-    
-    
-    
-    
-    @RequestMapping("/mypagemain")
+    @RequestMapping("mypagemain")
     public String mypagemain(Model model ,HttpSession session){
 
         String userId = (String) session.getAttribute("userId");
         
-        // 사용자 정보 및 데이터 가져오기
+        // 사용자 데이터 가져오기
         MemberVO member = memberService.getMemberById(userId);
         ArrayList<Integer> deliveredCounts = memberService.getCountOrderDelivered(userId);
         ArrayList<Integer> sendedCounts = memberService.getCountOrderSended(userId);
@@ -286,4 +278,24 @@ public class MemberController {
 
         return "/members/mypagemain";
     }
+    
+    @RequestMapping("profileupdate")
+    public String profileupdate(Model model, HttpSession session) {
+        // ID 가져오기
+        String userId = (String) session.getAttribute("userId");
+        
+        // 사용자 정보 부름
+        MemberVO vo = memberService.getMemberById(userId);
+
+        // Model에 데이터 추가
+        model.addAttribute("vo", vo);
+
+        return "/members/profileupdate";
+    }
+    
+    @RequestMapping("impormation")
+    private String impormation(HttpServletRequest request, HttpServlet response) {
+		request.setAttribute("center", "members/impormation.jsp");
+		return "/members/impormation";
+	}
 }

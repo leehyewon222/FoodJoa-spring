@@ -1,0 +1,169 @@
+@charset "UTF-8";
+
+.mypage-container {
+	margin: 0 auto;
+}
+
+.mypage-header span {
+	border: 1px solid #BF917E; 
+	padding: 8px 16px;
+	font-size: 2rem;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+	color: #BF917E;
+	border-radius: 5px;
+}
+
+.profile-wrapper {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section {
+    display: flex;uop
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-image img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+ /* border: 2px solid #d9b89c; 프로필 이미지에 살짝 강조 */
+}
+
+.profile-info h2 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000; /* 톤을 맞춘 갈색 */
+    margin: 0;
+}
+
+.profile-info p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #616161;
+}
+
+.profile-info button {
+    padding: 8px 16px;
+    background-color: #d9b89c;
+    color: #616161;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.profile-info button:hover {
+    background-color: #b08a6a;
+}
+
+.manage-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.manage-section div {
+    flex: 1;
+    text-align: center;
+    background: #faf7f4;
+    border: 1px solid #eee;
+    margin: 0 10px;
+    padding: 20px;
+    border-radius: 8px;
+    transition: box-shadow 0.3s;
+}
+
+.manage-section div:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.manage-section img {
+    max-width: 80px;
+    margin-top: 10px;
+}
+
+.manage-section p {
+    font-size: 14px;
+    font-weight: bold;
+    color: #000000;
+    align: center;
+}
+
+.info-section {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    font-size: 14px;
+    color: #555;
+}
+
+.info-section div:first-child {
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.info1 {
+	display: flex;
+}
+
+.info-section a {
+    color: #616161;
+    text-decoration: none;
+}
+
+.info-section2 {
+	color: #000000;
+	
+}
+
+.info-section a:hover {
+    text-decoration: underline;
+}
+
+.info-section3 {
+	color: #000000;
+}
+button {
+	background-color: #BF917E;
+	color: white;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #9e6e58;
+	transition: background-color 0.3s ease;
+}
+
+#updateButton {
+	color: #ffffff;
+	background: #BF917E;
+}
+
+#getout {
+	color: #ffffff;
+	background: #BF917E;
+}
+.impormation {
+	font-size: 14px;
+	margin-left: 20px;
+}
+span {
+	color: #616161;
+}
+
