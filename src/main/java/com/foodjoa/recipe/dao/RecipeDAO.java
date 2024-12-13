@@ -47,4 +47,8 @@ public class RecipeDAO {
 	public int deleteRecipe(int no) {
 		return sqlSession.delete("mapper.recipe.deleteRecipe", no);
 	}
+
+	public List<RecipeVO> selectSearchedRecipes(Map<String, String> params) {
+		return sqlSession.selectList("mapper.recipe.selectSearchedRecipes", params);
+	}
 }

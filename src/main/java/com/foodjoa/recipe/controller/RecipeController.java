@@ -120,4 +120,18 @@ public class RecipeController {
 		
 		return String.valueOf(result);
 	}
+	
+	@RequestMapping(value = "search", method = { RequestMethod.GET, RequestMethod.POST })
+	public String search(Model model,
+			@RequestParam String category,
+			@RequestParam String key,
+			@RequestParam String word) {
+		
+		List<RecipeVO> recipes = recipeService.getSearchedRecipeList(category, key, word);
+		
+		model.addAttribute("recipes", recipes);
+		model.addAttribute("category", category);
+		
+		return "/recipes/list";
+	}
 }

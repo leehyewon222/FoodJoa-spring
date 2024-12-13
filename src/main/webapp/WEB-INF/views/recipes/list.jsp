@@ -70,6 +70,12 @@
 </head>
 
 <body>
+	<form action="${ contextPath }/Recipe/search" id="frmSearch">
+		<input type="hidden" id="search_category" name="category">
+		<input type="hidden" id="search_key" name="key">
+		<input type="hidden" id="search_word" name="word">
+	</form>
+
 	<div id="recipe-list-container">
 		<h1 class="list-title">
 			<c:choose>
@@ -206,8 +212,7 @@
 										<c:set var="pageNumber" value="${ (currentBlock * pageCountPerBlock) + i }" />
 										
 										<li>
-											<a href="${ contextPath }/Recipe/list?category=${ category }&
-												currentBlock=${ currentBlock }&currentPage=${ pageNumber }">
+											<a href="${ contextPath }/Recipe/list?category=${ category }&currentBlock=${ currentBlock }&currentPage=${ pageNumber }">
 												${ pageNumber + 1 }
 											</a>
 										</li>

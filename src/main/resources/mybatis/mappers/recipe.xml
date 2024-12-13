@@ -106,4 +106,32 @@
 	<delete id="deleteRecipe" parameterType="int">
 		DELETE FROM recipe WHERE no=#{no}
 	</delete>
+	
+	<select id="selectSearchedRecipes" parameterType="java.util.Map" resultMap="recipe">
+		SELECT 
+			r.*, 
+			COALESCE(avg_rating.average_rating, 0) AS average_rating, 
+			COALESCE(avg_rating.review_count, 0) AS review_count, 
+			m.nickname AS nickname 
+		FROM recipe r 
+		LEFT JOIN ( 
+			SELECT 
+				recipe_no, AVG(rating) AS average_rating, COUNT(recipe_no) AS review_count 
+			FROM recipe_review 
+			GROUP BY recipe_no 
+		) avg_rating ON r.no = avg_rating.recipe_no 
+		LEFT JOIN member m ON r.id=m.id
+		<choose>
+			<when test="key == 'recipe'">
+				WHERE r.title LIKE '%${word}%'
+			</when>
+			<otherwise>
+				WHERE nickname LIKE '%${word}%'
+			</otherwise>
+		</choose>
+		<if test="category != 0">
+			AND category=${category}
+		</if>
+		ORDER BY r.post_date DESC
+	</select>
 </mapper>

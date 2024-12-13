@@ -200,4 +200,15 @@ public class RecipeService {
 		
 		return result;
 	}
+
+	public List<RecipeVO> getSearchedRecipeList(String category, String key, String word) {
+
+		Map<String, String> params = new HashMap<String, String>();
+		
+		params.put("category", category);
+		params.put("key", key);
+		params.put("word", word);
+		
+		return recipeDAO.selectSearchedRecipes(params);
+	}
 }
