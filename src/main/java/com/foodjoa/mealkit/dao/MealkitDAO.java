@@ -1,6 +1,5 @@
 package com.foodjoa.mealkit.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,8 +8,10 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.foodjoa.mealkit.vo.MealkitCartVO;
 import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
+import com.foodjoa.mealkit.vo.MealkitWishListVO;
 
 @Repository
 public class MealkitDAO {
@@ -48,6 +49,26 @@ public class MealkitDAO {
 	    params.put("word", word);
 	    
 		return sqlSession.selectList("mapper.mealkit.selectSearchList", params);
+	}
+
+	public int selectMealkitWishlist(MealkitWishListVO wishlistVO) {
+		return sqlSession.selectOne("mapper.mealkitWishlist.selectMealkitWishlist", wishlistVO);
+	}
+	
+	public int insertMealkitWishlist(MealkitWishListVO wishlistVO) {
+		return sqlSession.insert("mapper.mealkitWishlist.insertMealkitWishlist", wishlistVO);
+	}
+
+	public int selectMealkitCart(MealkitCartVO cartVO) {
+		return sqlSession.selectOne("mapper.mealkitCart.selectMealkitCart", cartVO);
+	}
+
+	public int updateMealkitCart(MealkitCartVO cartVO) {
+		return sqlSession.update("mapper.mealkitCart.updateMealkitCart", cartVO);
+	}
+	
+	public int insertMealkitCart(MealkitCartVO cartVO) {
+		return sqlSession.insert("mapper.mealkitCart.insertMealkitCart", cartVO);
 	}
 
 }

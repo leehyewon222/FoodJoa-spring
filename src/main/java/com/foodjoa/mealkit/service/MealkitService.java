@@ -14,8 +14,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import com.foodjoa.mealkit.dao.MealkitDAO;
+import com.foodjoa.mealkit.vo.MealkitCartVO;
 import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
+import com.foodjoa.mealkit.vo.MealkitWishListVO;
 
 import Common.FileIOController;
 
@@ -26,6 +28,10 @@ public class MealkitService {
 	private MealkitDAO mealkitDAO;
 	@Autowired
 	private MealkitVO mealkitVO;
+	@Autowired
+	private MealkitWishListVO wishlistVO;
+	@Autowired
+	private MealkitCartVO cartVO;
 	
 	public List<Map<String, Object>> selectMealkitsList(int category) {
 		mealkitVO = new MealkitVO();
@@ -94,4 +100,36 @@ public class MealkitService {
 		return mealkitDAO.selectSearchList(key, word);
 	}
 
+	public int processWishlist(int no, String id) {
+		int result = 0;
+		
+		wishlistVO = new MealkitWishListVO();
+		wishlistVO.setMealkitNo(no);
+		wishlistVO.setId(id);
+		
+		result = mealkitDAO.selectMealkitWishlist(wishlistVO);
+		if (result > 0) {
+	        return -1;
+	    }
+		
+		return mealkitDAO.insertMealkitWishlist(wishlistVO);
+	}
+
+	public int processCart(int no, int quantity, String id) {
+
+		cartVO = new MealkitCartVO();
+		cartVO.setMealkitNo(no);
+		cartVO.setQuantity(quantity);
+		cartVO.setId(id);
+		
+		int result = mealkitDAO.selectMealkitCart(cartVO);
+		System.out.println(result);
+		
+		if(result > 0) {
+			return mealkitDAO.updateMealkitCart(cartVO);
+		} else {
+			return mealkitDAO.insertMealkitCart(cartVO);
+		}
+	}
+	
 }

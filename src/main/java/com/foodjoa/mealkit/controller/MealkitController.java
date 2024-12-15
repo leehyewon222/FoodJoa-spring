@@ -137,4 +137,32 @@ public class MealkitController {
 	    
 	    return "/mealkits/list";
 	}
+	
+	@RequestMapping(value="wishPro", method = { RequestMethod.GET, RequestMethod.POST })
+	public void wishMealkit(@RequestParam int no, 
+			HttpServletRequest request, HttpServletResponse response, 
+			Model model) throws Exception {
+		
+		String id = "aronId";
+		
+		int result = mealkitService.processWishlist(no, id);
+		
+		PrintWriter out = response.getWriter();
+	    out.print(result);
+	    out.close();
+	}
+	
+	@RequestMapping(value="cartPro", method = { RequestMethod.GET, RequestMethod.POST })
+	public void cartMealkit(@RequestParam int no, @RequestParam int quantity, 
+			HttpServletRequest request, HttpServletResponse response, 
+			Model model) throws Exception {
+		
+		String id = "aronId";
+		System.out.println("컨트롤러");
+		int result = mealkitService.processCart(no, quantity, id);
+		
+		PrintWriter out = response.getWriter();
+	    out.print(result);
+	    out.close();
+	}
 }

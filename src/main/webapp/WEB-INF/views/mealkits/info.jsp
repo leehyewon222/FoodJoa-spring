@@ -23,7 +23,6 @@
   	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	
-	<script src="${resourcesPath}/js/mealkit/info.js"></script>
   	<link rel="stylesheet" href="${resourcesPath}/css/mealkit/info.css">
 </head>
 <body>
@@ -57,7 +56,7 @@
 						</div>
 						<div class="info_text">
 							<span>
-								<button class="wishlist_button" type="button" onclick="wishMealkit('${contextPath}')">
+								<button class="wishlist_button" type="button" onclick="wishMealkit('${contextPath}', '${mealkitInfo.no }')">
 									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
 								    	<path stroke="#000" d="M16.471 3c-1.838 0-3.466.915-4.471 2.321C10.995 3.915 9.367 3 7.529 3 4.475 3 2 5.522 2 8.633 2 13.367 12 21 12 21s10-7.633 10-12.367C22 5.523 19.525 3 16.471 3"></path>
 								 	</svg>
@@ -100,7 +99,7 @@
 							</div>
 							<!-- 구매, 장바구니 버튼 -->
 							<div class="button_row">
-								<button class="cart_button" type="button" onclick="cartMealkit('${contextPath}')">장바구니</button>
+								<button class="cart_button" type="button" onclick="cartMealkit('${contextPath}', '${mealkitInfo.no}')">장바구니</button>
 								<button class="buy_button" id="payment" onclick="onPaymentButton(event)">구매하기</button>
 							</div>
 							<!-- 수정 삭제 버튼 -->
@@ -177,5 +176,6 @@
 			</tr>
 		</table>
 	</div>
+	<script src="${resourcesPath}/js/mealkit/info.js"></script>
 </body>
 </html>

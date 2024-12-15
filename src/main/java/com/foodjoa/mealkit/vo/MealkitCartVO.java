@@ -14,7 +14,9 @@ public class MealkitCartVO {
 		
 	private int no;
 	private String id;
-	private int mealkit_no;
+	private int mealkitNo;
 	private int quantity;
-	private Timestamp choice_date;
+	private Timestamp choiceDate;
+	
+	private MealkitVO mealkitVO;
 }
