@@ -20,9 +20,8 @@ public class NoticeService {
 
 	@Autowired
 	private NoticeDAO noticeDAO;
-	
-	public List<NoticeVO> getNoticeList() {
 
+	public List<NoticeVO> getNoticeList() {
 		return noticeDAO.selectNotices();
 	}
 
@@ -43,11 +42,16 @@ public class NoticeService {
 		
 		return noticeDAO.insertNotice(noticeVO);
 	}
-//
-//	public int updateCommunity(CommunityVO communityVO) {
-//		
-//		return communityDAO.updateCommunity(communityVO);
-//	}
+
+	public int updateNotice(String nowPage, String nowBlock) {
+		
+		NoticeVO noticeVO = new NoticeVO();
+		
+		noticeVO.setContents(nowPage);
+		noticeVO.setContents(nowBlock);
+		
+		return noticeDAO.updateNotice(noticeVO);
+	}
 //
 //	public int deleteCommunity(String no) {
 //		int _no = Integer.parseInt(no);
@@ -59,6 +63,4 @@ public class NoticeService {
 //	public List<CommunityVO> getSearchedCommunity(String key, String word) {
 //		return communityDAO.selectSearchedCommunities(key, word);
 //	}
-//
-
 }

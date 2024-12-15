@@ -24,7 +24,7 @@ public class NoticeController {
 	
 	@Autowired
     private NoticeService noticeService;
-
+	
     @RequestMapping(value = "list", method = {RequestMethod.GET, RequestMethod.POST})
     public String list(Model model, 
     		@RequestParam(required = false, defaultValue = "0") String nowPage,
@@ -38,7 +38,7 @@ public class NoticeController {
 
         return "/notices/list";
     }
-
+	
     @RequestMapping(value = "read", method = {RequestMethod.GET, RequestMethod.POST})
     public String read(Model model,
     		@RequestParam(required = false, defaultValue = "0") String no,
@@ -69,14 +69,33 @@ public class NoticeController {
     	
     	return String.valueOf(result);
     }
-//    
-//    @RequestMapping(value = "update", method = {RequestMethod.GET, RequestMethod.POST})
-//    public String update(CommunityVO communityVO, Model model) {
-//    	
-//    	model.addAttribute("community", communityVO);    	
-//    	return "/communities/update";
-//    }
-//
+
+    @RequestMapping(value = "update", method = {RequestMethod.GET, RequestMethod.POST})
+    public String update(Model model,
+    		@RequestParam(required = false, defaultValue = "0") String no,
+    		@RequestParam(required = false, defaultValue = "0") String nowPage,
+    		@RequestParam(required = false, defaultValue = "0") String nowBlock) {
+    			
+    	NoticeVO noticeVO = noticeService.getNotice(no);
+    	
+		model.addAttribute("noticeVO", noticeVO);
+    	model.addAttribute("nowPage", nowPage);
+		model.addAttribute("nowBlock", nowBlock);
+    	
+		return "/notices/update";
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "updatePro", method = {RequestMethod.GET, RequestMethod.POST})
+    public String updatePro(Model model, HttpSession session,
+            @RequestParam(required = false, defaultValue = "0") String title,
+    		@RequestParam(required = false, defaultValue = "0") String contents) {
+    	
+    	int result = noticeService.updateNotice(title, contents);
+    	
+    	return String.valueOf(result);
+    }
+
 //    @ResponseBody
 //    @RequestMapping(value = "updatePro", method = {RequestMethod.GET, RequestMethod.POST})
 //    public String updatePro(CommunityVO communityVO){
@@ -95,19 +114,17 @@ public class NoticeController {
 //
 //    	return String.valueOf(result);
 //    }
-//    
-//    @RequestMapping(value = "search", method = {RequestMethod.GET, RequestMethod.POST})
-//    public String search(Model model,
-//        		@RequestParam String key,
-//                @RequestParam String word) {
-//        
-//		CommunityVO communityVO = new CommunityVO();
-//	
-//	    List<CommunityVO> communities = communityService.getSearchedCommunity(key, word);
-//	
-//	    model.addAttribute("communities", communities);
 //
-//        return "/communities/list";
-//    }
-    	
+//	@RequestParam(required = false, defaultValue = "0") String no,
+//	@RequestParam(required = false, defaultValue = "0") String title,
+//	@RequestParam(required = false, defaultValue = "0") String contents,
+//	@RequestParam(required = false, defaultValue = "0") String nowPage,
+//	@RequestParam(required = false, defaultValue = "0") String nowBlock) {
+//
+//		NoticeVO noticeVO = noticeService.updateNotice(no, title, contents);
+//		
+//		model.addAttribute("noticeVO", noticeVO);
+//		model.addAttribute("nowPage", nowPage);
+//		model.addAttribute("nowBlock", nowBlock);
+
 }

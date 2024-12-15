@@ -62,8 +62,7 @@
 		<table class="table-list" width="100%">
 			<tr align="center" bgcolor="#e9ecef">
 				<td class="col-no" width="15%">글번호</td>
-				<td class="col-title" width="45%">제목</td>
-				<td class="col-write" width="15%">작성자</td>
+				<td class="col-title" width="60%">제목</td>
 				<td class="col-views" width="10%">조회수</td>
 				<td class="col-date" width="15%">작성날짜</td>
 			</tr>
@@ -131,21 +130,6 @@
 			<tr>
 				<td colspan="5" align="center">
 					<div class="community-table-bottom">
-						<form action="${ contextPath }/Notice/search" method="post" 
-							name="frmSearch" onsubmit="fnSearch(); return false;">
-							<span class="select-button">
-								<select name="key">
-									<option value="titleContent">제목+내용</option>								
-									<option value="writerContent">작성자</option>								
-								</select>
-							</span>
-							<span class="community-search-area">
-								<input type="text" name="word" id="word" placeholder="검색어를 입력해주세요">
-							</span>
-							<span class="community-search-button">
-								<input type="submit" value="검색"/>
-							</span>
-						</form>
 						<c:if test="${ id == adminId }">
 							<div class="community-write-button">
 								<input type="button" value="글쓰기" onclick="onWriteButton(event)">

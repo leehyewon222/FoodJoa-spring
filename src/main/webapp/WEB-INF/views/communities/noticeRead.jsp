@@ -15,7 +15,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>작성글 읽기 및 글 수정, 삭제, 목록</title>
+	<title>공지사항</title>
 	
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>	
 	<link rel="stylesheet" href="${ resourcePath }/css/community/read.css">
@@ -78,8 +78,8 @@
 	
 	<form name="frmUpdate" method="post">
 		<input type="hidden" name="no">
-		<input type="hidden" name="nowPage" value="${nowPage} }">
-		<input type="hidden" name="nowBlock" value="${nowBlock} }">
+		<input type="hidden" name="nowPage" value="${nowPage}">
+		<input type="hidden" name="nowBlock" value="${nowBlock}">
 	</form>
 	
 	<script>

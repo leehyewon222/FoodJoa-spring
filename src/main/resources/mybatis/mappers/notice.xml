@@ -35,5 +35,9 @@
     	INSERT INTO notice(title, contents, views, post_date) VALUES(#{title}, #{contents}, 0, now())
     </insert>
     
-    
+	<update id="updateNotice" parameterType="noticeVO">
+		update notice
+		set title=#{title}, contents=#{contents}
+		where no=#{no}
+	</update>    
 </mapper>
