@@ -168,4 +168,30 @@ public class RecipeController {
 		
 		return "/recipes/myrecipes";
 	}
+	
+	@RequestMapping(value = "reviewUpdate", method = { RequestMethod.GET, RequestMethod.POST })
+	public String reviewUpdate(Model model,
+			@RequestParam String no) {
+		
+		RecipeReviewVO reviewVO = recipeService.getRecipeReview(no);
+
+		model.addAttribute("review", reviewVO);
+		
+		return "/recipes/reviewUpdate";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "reviewUpdatePro", method = { RequestMethod.GET, RequestMethod.POST })
+	public String reviewUpdatePro(RecipeReviewVO review, MultipartHttpServletRequest multipartRequest) 
+			throws Exception {
+		return String.valueOf(recipeService.processReviewUpdate(review, multipartRequest));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "reviewDeletePro", method = { RequestMethod.GET, RequestMethod.POST })
+	public String reviewDeletePro(HttpSession session,
+			@RequestParam String no,
+			@RequestParam String recipeNo) throws Exception {		
+		return String.valueOf(recipeService.processReviewDelete(no, recipeNo, (String) session.getAttribute("userId")));
+	}
 }

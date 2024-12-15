@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
+import com.foodjoa.recipe.vo.RecipeReviewVO;
 
 @Repository
 public class MealkitDAO {
@@ -49,6 +50,11 @@ public class MealkitDAO {
 	public ArrayList<Integer> selectCountOrderDelivered(String attribute) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	// 건용 작업
+	public List<RecipeReviewVO> selectReviewsById(String userId) {
+		return sqlSession.selectList("mapper.mealkitReview.selectReviewsById", userId);
 	}
 
 }

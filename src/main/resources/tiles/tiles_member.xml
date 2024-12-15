@@ -57,4 +57,9 @@
 		<put-attribute name="title" value="개인정보처리방침" />
 		<put-attribute name="center" value="/WEB-INF/views/members/impormation.jsp" />
 	</definition>
+	
+	<definition name="/members/myreview" extends="baseLayout">
+		<put-attribute name="title" value="내 리뷰 관리" />
+		<put-attribute name="center" value="/WEB-INF/views/members/myreview.jsp" />
+	</definition>
 </tiles-definitions>

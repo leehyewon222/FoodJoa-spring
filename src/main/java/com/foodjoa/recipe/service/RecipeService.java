@@ -234,6 +234,8 @@ public class RecipeService {
 	public int processReviewWrite(RecipeReviewVO reviewVO, MultipartHttpServletRequest multipartRequest) 
 			throws Exception {
 		
+		reviewVO.setContents(StringParser.escapeHtml(reviewVO.getContents()));
+		
 		int result = recipeDAO.insertReview(reviewVO);
 		
 		if (result <= 0) return result;
@@ -282,5 +284,85 @@ public class RecipeService {
 		if (recipeDAO.selectWishlistCount(params) > 0) return 2;
 		
 		return recipeDAO.insertWishlist(params);
+	}
+
+	public RecipeReviewVO getRecipeReview(String no) {
+		return recipeDAO.selectRecipeReview(Integer.parseInt(no));
+	}
+
+	public int processReviewUpdate(RecipeReviewVO review, MultipartHttpServletRequest multipartRequest)
+			throws Exception {
+		
+		String originSelectedPictures = multipartRequest.getParameter("origin_selected_pictures");
+		String pictures = review.getPictures();
+		
+		review.setPictures(originSelectedPictures + pictures);
+		
+		int result = recipeDAO.updateRecipeReview(review);
+		
+		if (result <= 0) return result;		
+		
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		String tempPath = imagesPath + "temp" + File.separator;
+		String destinationPath = imagesPath + "recipe" + File.separator +
+				"reviews" + File.separator + review.getRecipeNo() + File.separator + review.getId();
+		
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+		
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			
+			if (mFile.getSize() != 0) {
+				mFile.transferTo(new File(tempPath + mFile.getOriginalFilename()));
+			}
+		}
+		
+		List<String> originFileNames = StringParser.splitString(multipartRequest.getParameter("origin_pictures"));
+		List<String> originSelectedFileNames = StringParser.splitString(originSelectedPictures);
+		
+		for (String fileName : originFileNames) {
+			if (!originSelectedFileNames.contains(fileName)) {
+				FileIOController.deleteFile(destinationPath, fileName);
+			}
+		}
+		
+		List<String> picturesList = StringParser.splitString(pictures);
+		
+        for (String picture : picturesList) {
+    		FileIOController.moveFile(tempPath, destinationPath, picture);
+        }
+		
+		return result;
+	}
+
+	public int processReviewDelete(String no, String recipeNo, String id) throws Exception {
+		
+		RecipeReviewVO recipeReviewVO = new RecipeReviewVO();
+		recipeReviewVO.setNo(Integer.parseInt(no));
+		recipeReviewVO.setId(id);
+		
+		int result = recipeDAO.deleteRecipeReview(recipeReviewVO);
+		
+		if (result > 0) {
+			String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+					+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+					+ File.separator + "resources" + File.separator + "images" + File.separator;
+			
+			String destinationPath = imagesPath  + "recipe" + File.separator +
+					"reviews" + File.separator + String.valueOf(recipeNo) + File.separator + id;
+			
+			FileIOController.deleteDirectory(destinationPath);
+		}
+		
+		return result;
 	}
 }

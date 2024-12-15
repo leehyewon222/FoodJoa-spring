@@ -49,4 +49,24 @@
         ]]>
 	</select>
 		
+	<!-- 건용 작업 -->
+	<select id="selectReviewsById" parameterType="String" resultMap="ReviewInfo">
+		<![CDATA[
+			SELECT 
+				kr.*,
+				k.title, k.category, 
+				m.nickname 
+			FROM mealkit_review kr 
+			JOIN mealkit k 
+			ON kr.mealkit_no=k.no 
+			JOIN member m
+			ON kr.id=m.id 
+		]]>
+		<where>
+			kr.id=#{userId}
+		</where>
+		<![CDATA[
+			ORDER BY kr.post_date DESC
+		]]>
+	</select>
 </mapper>

@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -298,4 +299,15 @@ public class MemberController {
 		request.setAttribute("center", "members/impormation.jsp");
 		return "/members/impormation";
 	}
+    
+    // 건용 작업
+	@RequestMapping(value = "myreviews", method = { RequestMethod.GET, RequestMethod.POST })
+    public String myreviews(Model model, HttpSession session) {
+    	
+		HashMap<String, Object> reviews = memberService.getReviews((String) session.getAttribute("userId"));
+		
+		model.addAttribute("reviews", reviews);
+		
+		return "/members/myreview";
+    }
 }

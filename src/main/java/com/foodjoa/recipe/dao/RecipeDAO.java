@@ -17,6 +17,9 @@ public class RecipeDAO {
 	@Autowired
 	private SqlSession sqlSession;
 
+	/*
+	 * recipe
+	 */
 	public List<RecipeVO> selectRecipes(RecipeVO recipeVO) {
 		return sqlSession.selectList("mapper.recipe.selectRecipes", recipeVO);
 	}
@@ -31,10 +34,6 @@ public class RecipeDAO {
 	
 	public RecipeVO selectRecentRecipe() {
 		return sqlSession.selectOne("mapper.recipe.selectRecentRecipe");
-	}
-	
-	public List<RecipeReviewVO> selectReviewsByRecipeNo(RecipeReviewVO reviewVO) {
-		return sqlSession.selectList("mapper.recipeReview.selectReviewsByRecipeNo", reviewVO);
 	}
 	
 	public int updateRecipeViews(int no) {
@@ -57,6 +56,21 @@ public class RecipeDAO {
 		return sqlSession.selectList("mapper.recipe.selectSearchedRecipes", params);
 	}
 
+	/*
+	 * recipe review
+	 */	
+	public List<RecipeReviewVO> selectReviewsByRecipeNo(RecipeReviewVO reviewVO) {
+		return sqlSession.selectList("mapper.recipeReview.selectReviewsByRecipeNo", reviewVO);
+	}
+
+	public List<RecipeReviewVO> selectReviewsById(String userId) {
+		return sqlSession.selectList("mapper.recipeReview.selectReviewsById", userId);
+	}
+
+	public RecipeReviewVO selectRecipeReview(int _no) {
+		return sqlSession.selectOne("mapper.recipeReview.selectRecipeReview", _no);
+	}
+	
 	public int selectReviewCount(Map<String, String> params) {
 		return sqlSession.selectOne("mapper.recipeReview.selectReviewCount", params);
 	}
@@ -65,6 +79,17 @@ public class RecipeDAO {
 		return sqlSession.insert("mapper.recipeReview.insertReview", reviewVO);
 	}
 
+	public int updateRecipeReview(RecipeReviewVO review) {
+		return sqlSession.delete("mapper.recipeReview.updateRecipeReview", review);
+	}
+
+	public int deleteRecipeReview(RecipeReviewVO recipeReviewVO) {
+		return sqlSession.delete("mapper.recipeReview.deleteRecipeReview", recipeReviewVO);
+	}
+
+	/*
+	 * wishlist
+	 */
 	public int selectWishlistCount(HashMap<String, String> params) {
 		return sqlSession.selectOne("mapper.recipeWishlist.selectWishlistCount", params);
 	}

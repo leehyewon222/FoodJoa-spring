@@ -52,4 +52,33 @@ public class StringParser {
                     .replace("^", "&#94;")
                     .replace("|", "&#124;");
     }
+    
+    public static String unescapeHtml(String input) {
+    	
+    	if (input == null) {
+    		return null;
+    	}
+    	
+        return input.replace("&amp;", "&")
+                .replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&quot;", "\"")
+                .replace("&#39;", "'")
+                .replace("&#96;", "`")
+                .replace("&#92;", "\\")
+                .replace("&#47;", "/")
+                .replace("&#40;", "(")
+                .replace("&#41;", ")")
+                .replace("&#91;", "[")
+                .replace("&#93;", "]")
+                .replace("&#123;", "{")
+                .replace("&#125;", "}")
+                .replace("&#36;", "$")
+                .replace("&#42;", "*")
+                .replace("&#43;", "+")
+                .replace("&#45;", "-")
+                .replace("&#46;", ".")
+                .replace("&#94;", "^")
+                .replace("&#124;", "|");
+    }
 }

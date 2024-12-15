@@ -14,16 +14,15 @@
 		<result property="rating" column="rating"/>
 		<result property="postDate" column="post_date"/>
 		
+		<association property="recipeVO" javaType="recipeVO">
+			<result property="title" column="title"/>
+			<result property="thumbnail" column="thumbnail"/>
+			<result property="category" column="category"/>
+		</association>
+		
 		<association property="memberVO" javaType="memberVO">
-			<id property="id" column="id"/>
-			<result property="name" column="name"/>
 			<result property="nickname" column="nickname"/>
-			<result property="phone" column="phone"/>
-			<result property="zipcode" column="zipcode"/>
-			<result property="address1" column="address1"/>
-			<result property="address2" column="address2"/>
 			<result property="profile" column="profile"/>
-			<result property="joinDate" column="join_date"/>
 		</association>
 	</resultMap>
 	
@@ -41,6 +40,40 @@
         ]]>
 	</select>
 	
+	<select id="selectReviewsById" parameterType="String" resultMap="review">
+		<![CDATA[
+			SELECT
+				rv.*,
+				r.title, r.category,
+				m.nickname
+			FROM recipe_review rv
+			JOIN recipe r
+			ON rv.recipe_no=r.no
+			JOIN member m
+			ON rv.id=m.id
+        ]]>
+        <where>
+        	rv.id=#{userId}
+        </where>
+		<![CDATA[
+			ORDER BY rv.post_date DESC
+        ]]>
+	</select>
+	
+	<select id="selectRecipeReview" parameterType="int" resultMap="review">
+		<![CDATA[
+			SELECT 
+			rv.*,
+			r.title, r.thumbnail
+			FROM recipe_review rv 
+			JOIN recipe r
+			ON rv.recipe_no=r.no
+		]]>
+		<where>
+			rv.no=#{_no}
+		</where>
+	</select>
+	
 	<select id="selectReviewCount" parameterType="java.util.Map" resultType="int">
 		<![CDATA[
 			SELECT COUNT(*) FROM recipe_review
@@ -56,4 +89,22 @@
 			VALUES(#{id}, #{recipeNo}, #{pictures}, #{contents}, #{rating}, CURRENT_TIMESTAMP)
         ]]>
 	</insert>
+	
+	<update id="updateRecipeReview" parameterType="recipeReviewVO">
+		<![CDATA[
+			UPDATE recipe_review SET pictures=#{pictures}, contents=#{contents}, rating=#{rating}
+		]]>
+		<where>
+			no=#{no} AND id=#{id} AND recipe_no=#{recipeNo}
+		</where>
+	</update>
+	
+	<delete id="deleteRecipeReview" parameterType="recipeReviewVO">
+		<![CDATA[
+			DELETE FROM recipe_review
+		]]>
+		<where>
+			no=#{no} AND id=#{id}
+		</where>
+	</delete>
 </mapper>

@@ -28,6 +28,11 @@
 		<put-attribute name="center" value="/WEB-INF/views/recipes/review.jsp" />
 	</definition>
 	
+	<definition name="/recipes/reviewUpdate" extends="baseLayout">
+		<put-attribute name="title" value="내 리뷰 수정" />
+		<put-attribute name="center" value="/WEB-INF/views/recipes/reviewUpdate.jsp" />
+	</definition>
+	
 	<definition name="/recipes/myrecipes" extends="baseLayout">
 		<put-attribute name="title" value="내 레시피 관리" />
 		<put-attribute name="center" value="/WEB-INF/views/recipes/myrecipes.jsp" />

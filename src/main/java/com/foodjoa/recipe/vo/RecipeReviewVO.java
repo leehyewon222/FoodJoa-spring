@@ -21,5 +21,6 @@ public class RecipeReviewVO {
 	private int rating;
 	private Timestamp postDate;
 	
+	private RecipeVO recipeVO;
 	private MemberVO memberVO;
 }
