@@ -158,4 +158,14 @@ public class RecipeController {
 	public String wishlist(@RequestParam String id, @RequestParam String recipeNo) {
 		return String.valueOf(recipeService.addWishlist(id, recipeNo));
 	}
+	
+	@RequestMapping(value = "myrecipes", method = { RequestMethod.GET, RequestMethod.POST })
+	public String myrecipes(Model model, HttpSession session) {
+		
+		List<RecipeVO> recipes = recipeService.getRecipesById((String) session.getAttribute("userId"));
+		
+		model.addAttribute("recipes", recipes);
+		
+		return "/recipes/myrecipes";
+	}
 }

@@ -46,6 +46,10 @@ public class RecipeService {
 		return recipeDAO.selectRecipes(recipeVO);
 	}
 
+	public List<RecipeVO> getRecipesById(String userId) {
+		return recipeDAO.selectRecipesById(userId);
+	}
+
 	public RecipeVO getRecipe(String no) {
 
 		RecipeVO recipeVO = new RecipeVO();

@@ -14,7 +14,7 @@
 	</definition>
 	
 	<definition name="/recipes/write" extends="baseLayout">
-		<put-attribute name="title" value="나만의 레시피 - 레시피 읽기" />
+		<put-attribute name="title" value="나만의 레시피 - 레시피 쓰기" />
 		<put-attribute name="center" value="/WEB-INF/views/recipes/write.jsp" />
 	</definition>
 	
@@ -26,6 +26,11 @@
 	<definition name="/recipes/review" extends="baseLayout">
 		<put-attribute name="title" value="리뷰 작성" />
 		<put-attribute name="center" value="/WEB-INF/views/recipes/review.jsp" />
+	</definition>
+	
+	<definition name="/recipes/myrecipes" extends="baseLayout">
+		<put-attribute name="title" value="내 레시피 관리" />
+		<put-attribute name="center" value="/WEB-INF/views/recipes/myrecipes.jsp" />
 	</definition>
 </tiles-definitions>
 

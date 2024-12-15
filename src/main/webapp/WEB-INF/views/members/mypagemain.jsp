@@ -94,7 +94,7 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 	
 			 <div class="manage-section">
 				<div>
-			 		<a href="${contextPath}/Recipe/myRecipes">
+			 		<a href="${contextPath}/Recipe/myrecipes">
 						<p>내 레시피 관리</p>
 						<img src="${contextPath}/images/member/receipe.png" >
 					</a>

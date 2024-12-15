@@ -59,6 +59,24 @@
         ]]>
 	</select>
 	
+	<select id="selectRecipesById" parameterType="String" resultMap="recipe">
+		<![CDATA[
+		    SELECT r.*, COALESCE(avg_rating.average_rating, 0) AS average_rating 
+				FROM recipe r 
+				LEFT JOIN ( 
+				SELECT recipe_no, AVG(rating) AS average_rating 
+				FROM recipe_review 
+				GROUP BY recipe_no 
+				) avg_rating ON r.no = avg_rating.recipe_no 
+        ]]>
+        <where>
+        	r.id=#{userId}
+        </where>
+	    <![CDATA[
+		    ORDER BY r.post_date DESC
+        ]]>
+	</select>
+	
 	<update id="updateRecipeViews" parameterType="int">
 		<![CDATA[
 		    UPDATE recipe SET views=views+1 

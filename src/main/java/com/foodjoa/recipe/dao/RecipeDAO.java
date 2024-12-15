@@ -20,6 +20,10 @@ public class RecipeDAO {
 	public List<RecipeVO> selectRecipes(RecipeVO recipeVO) {
 		return sqlSession.selectList("mapper.recipe.selectRecipes", recipeVO);
 	}
+
+	public List<RecipeVO> selectRecipesById(String userId) {
+		return sqlSession.selectList("mapper.recipe.selectRecipesById", userId);
+	}
 	
 	public RecipeVO selectRecipe(RecipeVO recipeVO) {
 		return sqlSession.selectOne("mapper.recipe.selectRecipe", recipeVO);

@@ -2,6 +2,16 @@
 	margin: 0 auto;
 }
 
+.myrecipe-nodata {
+	font-family: "Noto Serif KR", serif;
+	font-size: 1.25rem;
+	height: 200px;
+	border: 1px solid #BF817E;
+	border-radius: 5px;
+	line-height: 200px;
+	text-align: center;
+}
+
 #myrecipe-container>table {
 	border-collapse: collapse;
 	margin-top: 20px;
