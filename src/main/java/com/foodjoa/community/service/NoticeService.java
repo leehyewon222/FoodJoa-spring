@@ -20,44 +20,42 @@ public class NoticeService {
 
 	@Autowired
 	private NoticeDAO noticeDAO;
-	
-	public List<NoticeVO> getNoticeList() {
 
-		return noticeDAO.selectNotice();
+	public List<NoticeVO> getNoticeList() {
+		return noticeDAO.selectNotices();
 	}
 
-//	public CommunityVO getCommunity(String no) {
-//		CommunityVO communityVO = new CommunityVO();
-//		communityVO.setNo(Integer.parseInt(no));
-//		
-//		communityDAO.updateCommunityView(communityVO);
-//		return communityDAO.selectCommunity(communityVO);
-//	}
-//	
-//	public int insertCommunity(String id, String title, String contents) {
-//
-//		CommunityVO communityVO = new CommunityVO();
-//		communityVO.setId(id);
-//		communityVO.setTitle(title);
-//		communityVO.setContents(contents);
-//		
-//		return communityDAO.insertCommunity(communityVO);
-//	}
-//
-//	public int updateCommunity(CommunityVO communityVO) {
-//		
-//		return communityDAO.updateCommunity(communityVO);
-//	}
-//
-//	public int deleteCommunity(String no) {
-//		int _no = Integer.parseInt(no);
-//		
-//		int result = communityDAO.deleteCommunity(_no);
-//		return result;
-//	}
-//
-//	public List<CommunityVO> getSearchedCommunity(String key, String word) {
-//		return communityDAO.selectSearchedCommunities(key, word);
-//	}
-//
+	public NoticeVO getNotice(String no) {
+		NoticeVO noticeVO = new NoticeVO();
+		noticeVO.setNo(Integer.parseInt(no));
+		
+		noticeDAO.updateNoticeView(noticeVO);
+		return noticeDAO.selectNotice(noticeVO);
+	}
+	
+	public int insertNotice(String title, String contents) {
+
+		NoticeVO noticeVO = new NoticeVO();
+
+		noticeVO.setTitle(title);
+		noticeVO.setContents(contents);
+		
+		return noticeDAO.insertNotice(noticeVO);
+	}
+
+	public int updateNotice(String title, String contents, String no) {
+		
+		NoticeVO noticeVO = new NoticeVO();
+		
+		noticeVO.setTitle(title);
+		noticeVO.setContents(contents);
+		noticeVO.setNo(Integer.parseInt(no));
+		
+		return noticeDAO.updateNotice(noticeVO);
+	}
+
+	public int processNoticeDelete(int no) {
+
+		return noticeDAO.deleteNotice(no);
+	}
 }

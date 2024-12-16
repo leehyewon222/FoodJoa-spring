@@ -7,47 +7,43 @@
 
 	<resultMap type="noticeVO" id="notice">
 		<id property="no" column="no"/>
-		<result property="id" column="id"/>
 		<result property="title" column="title"/>
 		<result property="contents" column="contents"/>
 		<result property="views" column="views"/>
 		<result property="postDate" column="post_date"/>
-		
-		<association property="memberVO" javaType="memberVO">
-			<result property="nickname" column="nickname"/>
-    		<result property="profile" column="profile"/>
-		</association>
 	</resultMap>
 	
-	<select id="selectNoties" resultMap="notice">
-	        SELECT *
-			FROM notice 
-			ORDER BY post_date DESC
+	<select id="selectNotices" resultMap="notice">
+	    SELECT *
+		FROM notice 
+		ORDER BY post_date DESC
     </select>
+    
+    <update id="updateNoticeView" parameterType="noticeVO">
+    	UPDATE notice
+    	SET views = views+1
+    	WHERE no=#{no}
+    </update>
+    
+	<select id="selectNotice" parameterType="noticeVO" resultMap="notice">
+		SELECT *
+		FROM notice
+		WHERE no=#{no}
+    </select>
+    
+    <insert id="insertNotice" parameterType="noticeVO">
+    	INSERT INTO notice(title, contents, views, post_date) VALUES(#{title}, #{contents}, 0, now())
+    </insert>
+    
+	<update id="updateNotice" parameterType="noticeVO">
+		update notice
+		set title=#{title}, contents=#{contents}
+		where no=#{no}
+	</update>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<delete id="deleteNotice" parameterType="int">
+		DELETE
+		FROM notice
+		WHERE no=#{_no}
+	</delete>
 </mapper>

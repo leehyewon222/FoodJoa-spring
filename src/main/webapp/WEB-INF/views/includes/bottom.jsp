@@ -99,7 +99,7 @@ request.setCharacterEncoding("UTF-8");
 					<td>이용약관</td>
 					<td>개인정보취급방침</td>
 					<td>
-						<a href="${ contextPath }/Community/noticeList">
+						<a href="${ contextPath }/Notice/list">
 							공지사항
 						</a>
 					</td>

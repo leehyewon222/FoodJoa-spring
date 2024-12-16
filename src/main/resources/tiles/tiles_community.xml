@@ -27,12 +27,6 @@
 		<put-attribute name="title" value="자유게시판 - 게시글 수정"/>
 		<put-attribute name="center" value="/WEB-INF/views/communities/updatePro.jsp" />
 	</definition>
-
-	<definition name="/notices/list" extends="baseLayout">
-		<put-attribute name="title" value="공지사항 - "/>
-		<put-attribute name="center" value="/WEB-INF/views/communities/updatePro.jsp" />
-	</definition>
-	
 	
 </tiles-definitions>
 
