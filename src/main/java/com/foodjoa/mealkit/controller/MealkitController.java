@@ -118,6 +118,18 @@ public class MealkitController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value="updatePro", method = {RequestMethod.GET, RequestMethod.POST})
+	public String updatePro(MealkitVO mealkitVO, MultipartHttpServletRequest multipartRequest)
+		throws Exception{
+
+		multipartRequest.setCharacterEncoding("utf-8");
+		
+		int no = mealkitService.processMealkitUpdate(mealkitVO, multipartRequest);
+		
+		return String.valueOf(no);
+	}
+	
+	@ResponseBody
 	@RequestMapping(value="deletePro", method = { RequestMethod.GET, RequestMethod.POST })
 	public String deletePro(@RequestParam int no) throws Exception {
 		

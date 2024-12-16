@@ -8,7 +8,7 @@
 <c:set var="resourcesPath" value="${contextPath}/resources" />
 <jsp:useBean id="stringParser" class="Common.StringParser"/>
 
-<c:set var="id" value="aronId"/>
+<c:set var="id" value="${sessionScope.userId }"/>
 
 <!DOCTYPE html>
 <html>
@@ -104,7 +104,7 @@
 							</div>
 							<!-- 수정 삭제 버튼 -->
 				            <div class="edit_delete_buttons">
-				            	<c:if test="${not empty id}">
+				            	<c:if test="${mealkitInfo.id eq id}">
 				                	<button class="edit_button" type="button" onclick="editMealkit(${mealkitInfo.no}, '${contextPath}')">수정</button>
 				                	<button class="delete_button" type="button"
 				                		onclick="deleteMealkit(${mealkitInfo.no}, '${contextPath}')">삭제</button>

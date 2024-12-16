@@ -22,10 +22,8 @@
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="${resourcesPath}/css/mealkit/write.css">
-	
 </head>
 <body>
-	
 	<div id="mealkit-container">
 		<form action="${contextPath}/Mealkit/updatePro" method="post" id="frmWrite" enctype="multipart/form-data">
 			<table class="write-form" width="100%">
@@ -147,7 +145,7 @@
 	        const $li = $('<li>');
 	        const $img = $('<img>', {
 	            class: 'review-origin-preview-image',
-	            src: "${resourcesPath}" + "/images/mealkit/thumbnails/" + "${mealkitInfo.no}" + "/" + "${id}" + "/" + fileName,
+	            src: "${resourcesPath}" + "/images/mealkit/thumbnails/" + "${mealkitInfo.no}" + "/" + fileName,
 	            css: {
 	                cursor: 'pointer',
 	            },
@@ -279,18 +277,15 @@
 		});
 
 		$.ajax({
-			url: contextPath + "/Mealkit/update.pro",
+			url: contextPath + "/Mealkit/updatePro",
 			type: "POST",
 			data: formData,
 			processData: false,
 			contentType: false,
 			success: function(response) {
 				if (response) {
-					var responseArray = response.split(',');
-			        var no = responseArray[0];
-			        var nickName = responseArray[1];
 					alert("글 작성이 성공적으로 완료되었습니다.");
-					location.href = contextPath + "/Mealkit/info?no=" + no;
+					location.href = contextPath + "/Mealkit/info?no=" + response;
 				} else {
 					alert("글 작성에 실패했습니다. 다시 시도해주세요.");
 				}

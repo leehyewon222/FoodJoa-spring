@@ -1,19 +1,13 @@
 package com.foodjoa.mealkit.service;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -120,6 +114,63 @@ public class MealkitService {
 		}
 		
 		return no;
+	}
+
+	public int processMealkitUpdate(MealkitVO mealkitVO, MultipartHttpServletRequest multipartRequest) 
+		throws Exception{
+		
+		String originSelectedPictures = multipartRequest.getParameter("origin_selected_pictures");
+		String pictures = mealkitVO.getPictures();
+		
+		mealkitVO.setPictures(originSelectedPictures + pictures);
+		
+		int result = mealkitDAO.updateMealkit(mealkitVO);
+		
+		if (result <= 0) return result;		
+		
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		
+		String tempPath = imagesPath + "temp" + File.separator;
+		String destinationPath = imagesPath + "mealkit" + File.separator +
+				"thumbnails" + File.separator + mealkitVO.getNo();
+		
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+		
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			
+			if (mFile.getSize() != 0) {
+				mFile.transferTo(new File(tempPath + mFile.getOriginalFilename()));
+			}
+		}
+		
+		List<String> originFileNames = StringParser.splitString(multipartRequest.getParameter("origin_pictures"));
+		List<String> originSelectedFileNames = StringParser.splitString(originSelectedPictures);
+		
+		for (String fileName : originFileNames) {
+			if (!originSelectedFileNames.contains(fileName)) {
+				FileIOController.deleteFile(destinationPath, fileName);
+			}
+		}
+		
+		List<String> picturesList = StringParser.splitString(pictures);
+		
+        for (String picture : picturesList) {
+    		FileIOController.moveFile(tempPath, destinationPath, picture);
+        }
+        
+		result = mealkitVO.getNo();
+		
+		return result;
 	}
 	
 	public int deleteMealkit(int no) throws Exception {
