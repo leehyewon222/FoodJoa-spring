@@ -8,8 +8,7 @@
 <c:set var="resourcesPath" value="${contextPath}/resources" />
 <jsp:useBean id="stringParser" class="Common.StringParser"/>
 
-<c:set var="id" value="aronId"/>
-
+<c:set var="id" value="${sessionScope.userId}"/>
 
 <!DOCTYPE html>
 <html>
@@ -20,7 +19,6 @@
 	
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	
-	<script src="${resourcesPath}/js/mealkit/write.js"></script>
 	<link rel="stylesheet" type="text/css" href="${resourcesPath}/css/mealkit/write.css">
 </head>
 
@@ -110,5 +108,6 @@
 			</table>
 		</form>
 	</div>
+	<script src="${resourcesPath}/js/mealkit/write.js"></script>
 </body>
 </html>

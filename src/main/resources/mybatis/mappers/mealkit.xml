@@ -5,7 +5,7 @@
 
 <mapper namespace="mapper.mealkit">
 
-	<resultMap type="mealkitVO" id="mealkitsList">
+	<resultMap type="mealkitVO" id="mealkit">
 	
 		<id property="no" column="no"/>
 		<result property="id" column="id"/>
@@ -37,7 +37,7 @@
 		
 	</resultMap>
 	
-	<select id="selectMealkitsList" parameterType="mealkitVO" resultMap="mealkitsList">
+	<select id="selectMealkitsList" parameterType="mealkitVO" resultMap="mealkit">
 		<![CDATA[
 	        SELECT 
 				k.no, k.title, k.contents, k.category, k.price, k.pictures, k.views, k.post_date, 
@@ -61,7 +61,7 @@
         ]]>
     </select>
     
-    <select id="selectMealkitInfo" parameterType="int" resultMap="mealkitsList">
+    <select id="selectMealkitInfo" parameterType="int" resultMap="mealkit">
 		<![CDATA[
 	        SELECT 
 			    k.no, k.title, k.contents, k.category, k.price, k.stock, k.pictures, 
@@ -80,7 +80,7 @@
         ]]>
     </select>
     
-    <select id="selectMyMealkitsList" parameterType="mealkitVO" resultMap="mealkitsList">
+    <select id="selectMyMealkitsList" parameterType="mealkitVO" resultMap="mealkit">
 		<![CDATA[
 	        SELECT 
 				k.no, k.title, k.contents, k.category, k.price, k.pictures, k.views, k.post_date, 
@@ -104,7 +104,7 @@
         ]]>
     </select>
     
-    <select id="selectSearchList" parameterType="Map" resultMap="mealkitsList">
+    <select id="selectSearchList" parameterType="Map" resultMap="mealkit">
 		<![CDATA[
 	        SELECT 
 				k.no, k.title, k.contents, k.category, k.price, k.pictures, k.views, k.post_date, 
@@ -132,6 +132,15 @@
 		    ORDER BY k.post_date DESC
         ]]>
     </select>
+    
+    <insert id="insertMealkit" parameterType="mealkitVO">
+    	INSERT INTO mealkit(id, title, contents, category, price, stock, pictures, orders, origin, views, soldout, post_date)
+    	VALUES(#{id}, #{title}, #{contents}, #{category}, #{price}, #{stock}, #{pictures}, #{orders}, #{origin}, 0, 0, CURRENT_TIMESTAMP)
+    </insert>
+    
+    <select id="selectRecentMealkit" resultMap="mealkit">
+		SELECT no FROM mealkit ORDER BY no DESC LIMIT 1
+	</select>
     
     <delete id="deleteMealkit" parameterType="int">
         DELETE FROM mealkit

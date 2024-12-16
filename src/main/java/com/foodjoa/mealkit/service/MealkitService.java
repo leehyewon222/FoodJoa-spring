@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.foodjoa.mealkit.dao.MealkitDAO;
 import com.foodjoa.mealkit.vo.MealkitCartVO;
@@ -75,6 +78,51 @@ public class MealkitService {
 		return mealkitDAO.selectMyReviewInfo(no);
 	}
 
+	public int processMealkitWrite(MealkitVO mealkitVO, MultipartHttpServletRequest multipartRequest) throws Exception {
+		
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		
+		String tempPath = imagesPath + "temp" + File.separator;
+
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+		
+		String originalFileName = "";
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			originalFileName = mFile.getOriginalFilename();
+			
+			if (mFile.getSize() != 0) {
+				mFile.transferTo(new File(tempPath + originalFileName));	
+			}			
+		}
+		
+		mealkitVO.setPictures(originalFileName);
+		
+		System.out.println("");
+		
+		int result = mealkitDAO.insertMealkit(mealkitVO);
+		
+		if (result <= 0) return 0;
+		
+		int no = mealkitDAO.selectRecentMealkit(mealkitVO).getNo();
+		
+		String destinationPath = imagesPath + "mealkit" + File.separator + "thumbnails" 
+				+ File.separator + no + File.separator;
+		
+		FileIOController.moveFile(tempPath, destinationPath, originalFileName);
+		
+		return no;
+	}
+	
 	public int deleteMealkit(int no) throws Exception {
 		int result = mealkitDAO.deleteMealkit(no);
 		
@@ -131,5 +179,5 @@ public class MealkitService {
 			return mealkitDAO.insertMealkitCart(cartVO);
 		}
 	}
-	
+
 }

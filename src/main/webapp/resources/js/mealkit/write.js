@@ -76,22 +76,20 @@ function onSubmit(e, contextPath) {
 	});
 
 	$.ajax({
-		url: contextPath + "/Mealkit/write.pro",
+		url: contextPath + "/Mealkit/writePro",
 		type: "POST",
 		async: true,
 		data: formData,
 		processData: false,
 		contentType: false,
 		success: function(response) {
-		       if (response) {
-					var responseArray = response.split(',');
-			        var no = responseArray[0];
-			        var nickName = responseArray[1];
-					alert("글 작성이 성공적으로 완료되었습니다.");
-					location.href = contextPath + "/Mealkit/info?no=" + no + "&nickName=" + nickName;
-		       	} else {
-					alert("글 작성에 실패했습니다. 다시 시도해주세요.");
-				}
+			if (response > 0) {
+				alert("글 작성이 성공적으로 완료되었습니다.");
+				location.href = contextPath + "/Mealkit/info?no=" + response;
+			}
+			else {
+				alert("글 작성에 실패했습니다. 다시 시도해주세요.");
+			}
 		},
 		error: function(xhr, status, error) {
 			console.error("Ajax Error:", status, error);
@@ -209,8 +207,7 @@ function setPicturesString() {
 	let strings = [];
 
 	selectedFiles.forEach(fileIdentifier => {
-		// fileIdentifier는 "파일이름-파일크기" 형식
-		let fileName = fileIdentifier.split('-')[0]; // 파일 이름 부분만 추출
+		let fileName = fileIdentifier.split('-')[0];
 		strings.push(fileName);
 	});
 
