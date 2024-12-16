@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import org.springframework.stereotype.Component;
 
 import com.foodjoa.community.vo.NoticeVO;
+import com.foodjoa.mealkit.vo.MealkitVO;
 
 import lombok.Data;
 
@@ -21,4 +22,6 @@ public class MemberVO {
 	private String address2;
 	private String profile;
 	private Timestamp joinDate;
+	
+	private MealkitVO mealkitVO;
 }

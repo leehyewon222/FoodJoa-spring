@@ -96,19 +96,19 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 				<div>
 			 		<a href="${contextPath}/Recipe/myRecipes">
 						<p>내 레시피 관리</p>
-						<img src="${contextPath}/images/member/receipe.png" >
+						<img src="${resourcesPath}/images/member/receipe.png" >
 					</a>
 				</div>
 				<div>
 					<a href="${contextPath}/Mealkit/myMealkits">
 						<p>내 상품 관리</p>
-						<img src="${contextPath}/images/member/food.png" >
+						<img src="${resourcesPath}/images/member/food.png" >
 					</a>
 				</div>
 				<div>
 					<a href="${contextPath}/Member/myReviews">
 						<p>내 리뷰 관리</p>
-						<img src="${contextPath}/images/member/review.png">
+						<img src="${resourcesPath}/images/member/review.png">
 					</a> 
 	
 				</div>
@@ -118,11 +118,11 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 			<div class="info-section">
 				<div>주문/배송조회</div>
 					<div class="info1">
-					<span>주문건수 : <%=totalOrderDeliveredCount%></span> &nbsp;&nbsp; |
-					&nbsp;&nbsp; <span>배송준비중 : <%=deliveredCounts.get(0)%></span>
-					&nbsp;&nbsp; | &nbsp;&nbsp; <span>배송중 : <%=deliveredCounts.get(1)%></span>
-					&nbsp;&nbsp; | &nbsp;&nbsp; <span>배송완료 : <%=deliveredCounts.get(2)%></span>
-					<a href="<%=contextPath%>/Member/viewMyDelivery.me"
+					<span>주문건수 : ${deliveredCounts[0] + deliveredCounts[1] + deliveredCounts[2]}</span> &nbsp;&nbsp; |
+					&nbsp;&nbsp; <span>배송준비중 : ${deliveredCounts[0]}</span>
+					&nbsp;&nbsp; | &nbsp;&nbsp; <span>배송중 : ${deliveredCounts[1]}</span>
+					&nbsp;&nbsp; | &nbsp;&nbsp; <span>배송완료 : ${deliveredCounts[2]}</span>
+					<a href="${contextPath}/Member/mydelivery"
 						style="margin-left: auto;">더보기</a>
 				</div>
 			</div>
@@ -130,11 +130,11 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 			<div class="info-section">
 				<div>내 마켓 발송조회</div>
 				<div class="info1">
-					<span>주문건수 : <%=totalOrderSendedCount%></span> &nbsp;&nbsp; |
-					&nbsp;&nbsp; <span>발송준비중 : <%=sendedCounts.get(0)%></span>
-					&nbsp;&nbsp; | &nbsp;&nbsp; <span>발송중 : <%=sendedCounts.get(1)%></span>
-					&nbsp;&nbsp; | &nbsp;&nbsp; <span>발송완료 : <%=sendedCounts.get(2)%></span>
-					<a href="<%=contextPath%>/Member/viewMySend.me"
+					<span>주문건수 : ${sendedCounts[0] + sendedCounts[1] + sendedCounts[2]}</span> &nbsp;&nbsp; |
+					&nbsp;&nbsp; <span>발송준비중 : ${sendedCounts[0]}</span>
+					&nbsp;&nbsp; | &nbsp;&nbsp; <span>발송중 : ${sendedCounts[1]}</span>
+					&nbsp;&nbsp; | &nbsp;&nbsp; <span>발송완료 : ${sendedCounts[2]}</span>
+					<a href="${contextPath}/Member/sendmealkit"
 						style="margin-left: auto;">더보기</a>
 				</div>
 			</div>
@@ -142,7 +142,7 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 	
 			<div class="info-section2">
 				<div>
-					<a href="${contextPath}/members/impormation.jsp"
+					<a href="${contextPath}/Member/impormation"
 						class="impormation">※개인정보처리방침</a>
 				</div>
 			</div>
@@ -150,7 +150,7 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 	
 			<div class="info-section3">
 				<div>
-					<a href="<%=contextPath%>/Member/deleteMember.me">
+					<a href="${contextPath}/Member/deleteMember">
 						<button id="getout">탈퇴하기</button>
 					</a>
 				</div>
@@ -160,7 +160,7 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 
 	<script>
 		document.getElementById('updateButton').onclick = function() {
-			location.href = '${contextPath}/members/profileupdate.jsp';
+			location.href = '${contextPath}/Member/profileupdate';
 		};
 		
 		// 파일을 선택하면 미리보기 이미지를 표시

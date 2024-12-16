@@ -3,6 +3,8 @@ package com.foodjoa.member.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.foodjoa.mealkit.dao.MealkitDAO;
+import com.foodjoa.mealkit.vo.MealkitVO;
 import com.foodjoa.member.dao.MemberDAO;
 import com.foodjoa.member.vo.MemberVO;
 import com.foodjoa.recipe.dao.RecipeDAO;
@@ -147,6 +150,22 @@ public class MemberService {
 	public ArrayList<Integer> getCountOrderSended(String userId) {
 		return memberDAO.selectCountOrderSended(userId);
 	}
+
+	public List<HashMap<String, Object>> getDeliveredMealkit(MealkitVO mealkitvo) {
+		return memberDAO.selectDeliveredMealkit(mealkitvo);
+	}
+
+	public List<HashMap<String, Object>> getSendedMealkit(MealkitVO mealkitvo) {
+		return memberDAO.selectSendedMealkit(mealkitvo);
+	}
+
+	public int updateProfile(HttpServletRequest request) {
+		
+        HttpSession session = request.getSession();
+        MemberVO id = (MemberVO) session.getAttribute("userId");
+		        
+        return memberDAO.updateMember(id);
+		    }
 
 
 }

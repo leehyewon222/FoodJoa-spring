@@ -5,80 +5,96 @@
 
 <mapper namespace="mapper.member">
 
-    <resultMap id="member" type="memberVO">
-        <id property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="nickname" column="nickname"/>
-        <result property="phone" column="phone"/>
-        <result property="zipcode" column="zipcode"/>
-        <result property="address1" column="address1"/>
-        <result property="address2" column="address2"/>
-        <result property="profile" column="profile"/>
-        <result property="joinDate" column="join_date"/>
+    <!-- Member ResultMap -->
+    <resultMap id="memberResultMap" type="com.example.vo.MemberVO">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="nickname" column="nickname" />
+        <result property="phone" column="phone" />
+        <result property="zipcode" column="zipcode" />
+        <result property="address1" column="address1" />
+        <result property="address2" column="address2" />
+        <result property="profile" column="profile" />
+        <result property="joinDate" column="join_date" />
     </resultMap>
 
-    <insert id="insertMember" parameterType="MemberVO">
-        insert into member(id, name, nickname, phone, zipcode,
-        	address1, address2, profile, join_date)
-        values(#{id}, #{name}, #{nickname}, #{phone}, #{zipcode},
-        	#{address1}, #{address2}, #{profile}, CURRENT_TIMESTAMP)
+    <!-- 중첩된 Mealkit ResultMap -->
+    <resultMap id="mealkitResultMap" type="com.example.vo.MealkitVO">
+        <id property="no" column="no" />
+        <result property="id" column="id" />
+        <result property="title" column="title" />
+        <result property="contents" column="contents" />
+        <result property="category" column="category" />
+        <result property="price" column="price" />
+        <result property="pictures" column="pictures" />
+        <result property="stock" column="stock" />
+    </resultMap>
+
+    <!-- 중첩된 MealkitOrder ResultMap -->
+    <resultMap id="mealkitOrderResultMap" type="com.example.vo.MealkitOrderVO">
+        <id property="id" column="id" />
+        <result property="address" column="address" />
+        <result property="quantity" column="quantity" />
+        <result property="delivered" column="delivered" />
+        <result property="refund" column="refund" />
+    </resultMap>
+
+    <!-- Insert Member -->
+    <insert id="insertMember" parameterType="com.example.vo.MemberVO">
+        INSERT INTO member (id, name, nickname, phone, zipcode, address1, address2, profile, join_date)
+        VALUES (#{id}, #{name}, #{nickname}, #{phone}, #{zipcode}, #{address1}, #{address2}, #{profile}, CURRENT_TIMESTAMP)
     </insert>
 
+    <!-- Update Member -->
+    <update id="updateMember" parameterType="com.example.vo.MemberVO">
+        UPDATE member 
+        SET profile = #{profile}, 
+            name = #{name}, 
+            nickname = #{nickname}, 
+            phone = #{phone}, 
+            zipcode = #{zipcode}, 
+            address1 = #{address1}, 
+            address2 = #{address2}
+        WHERE id = #{id}
+    </update>
 
-	<select id="isUserExists" resultType="int" parameterType="String">
-		SELECT COUNT(*) 
-		FROM member 
-		WHERE id = #{userId}
-	</select>
-    
-    <update id="updateMember" parameterType="memberVO">
-		<![CDATA[
-			  UPDATE member 
-            SET profile = #{profile}, 
-                name = #{name}, 
-                nickname = #{nickname}, 
-                phone = #{phone}, 
-                zipcode = #{zipcode}, 
-                address1 = #{address1}, 
-                address2 = #{address2}
-            WHERE id = #{id}
-		]]>
-	</update>
+    <!-- Select Member -->
+    <select id="selectMember" parameterType="String" resultMap="memberResultMap">
+        SELECT * FROM member WHERE id = #{id}
+    </select>
 
-	<select id="selectMember" parameterType="string" resultMap="member">
-		<![CDATA[
-			 SELECT * FROM member
-		]]>
-		<where>
-			id=#{id}
-		</where>
-	</select>
-	
-	<delete id="deleteMemberById" parameterType="String">
-	<![CDATA[
-			 DELETE FROM member
-		]]>
-		<where>
-			id = #{readonlyId}
-		</where>
+    <!-- Delete Member -->
+    <delete id="deleteMemberById" parameterType="String">
+        DELETE FROM member WHERE id = #{readonlyId}
     </delete>
-    
-    <select id="getProfileFileName" parameterType="String" resultType="String">
-    <![CDATA[
-			  SELECT profile FROM member
-		]]>
-		<where>
-			id = #{readonlyId}
-		</where>
-	</select>
-    
-	
-	
-	
 
-	<select id="getMemberProfile" parameterType="memberVO" resultMap="member">
-		<![CDATA[
-			SELECT * FROM member WHERE id = #{id}
-		]]>
-	</select>
+    <!-- Get Profile File Name -->
+    <select id="getProfileFileName" parameterType="String" resultType="String">
+        SELECT profile FROM member WHERE id = #{readonlyId}
+    </select>
+
+    <!-- Select Delivered Mealkit -->
+    <select id="selectDeliveredMealkit" parameterType="String" resultMap="mealkitOrderResultMap">
+        SELECT o.address, o.quantity, o.delivered, o.refund, 
+               k.no, k.id, k.title, k.contents, k.category, k.price, k.pictures, 
+               m.nickname, m.profile 
+        FROM mealkit_order o 
+        LEFT JOIN mealkit k ON o.mealkit_no = k.no 
+        LEFT JOIN member m ON k.id = m.id 
+        WHERE o.id = #{id} 
+        ORDER BY o.post_date DESC
+    </select>
+
+    <!-- Select Sended Mealkit -->
+    <select id="selectSendedMealkit" parameterType="String" resultMap="mealkitResultMap">
+        SELECT k.no, k.title, k.contents, k.category, k.price, k.stock, k.pictures, 
+               o.id, o.no AS order_no, o.address, o.quantity, o.delivered, o.refund, 
+               m.nickname, m.profile 
+        FROM mealkit k 
+        INNER JOIN mealkit_order o ON k.no = o.mealkit_no 
+        INNER JOIN member m ON o.id = m.id 
+        WHERE k.id = #{id}
+        ORDER BY o.post_date DESC
+    </select>
+
 </mapper>

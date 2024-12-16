@@ -14,6 +14,8 @@ MemberVO vo = (MemberVO) request.getAttribute("vo");
 
 String id = (String) session.getAttribute("id");
 %>
+<c:set var="contextPath" value="${ pageContext.request.contextPath }" />
+<c:set var="resourcesPath" value="${ contextPath }/resources" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -21,6 +23,7 @@ String id = (String) session.getAttribute("id");
 	<title>회원 정보 수정</title>
 	
 	<script src="http://code.jquery.com/jquery-latest.min.js"> </script>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200..900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="${ resourcesPath }/css/member/profileupdate.css">
 	
 	<script type="text/javascript">
@@ -49,7 +52,7 @@ String id = (String) session.getAttribute("id");
 		    });
 		    
 		    // 제출 버튼 유효성 검사
-		    $(".btn-submit").click(function(event) {
+		    $("#"submitBtn"").click(function(event) {
 		        event.preventDefault();
 		        
 		        const name = document.getElementById('name').value.trim();
@@ -75,7 +78,8 @@ String id = (String) session.getAttribute("id");
 		            return;
 		        }
 		        alert('수정 완료되었습니다!');
-		        $(this).closest("form").submit();
+		        // 폼 제출
+		        $("#updateMember").submit();
 		    });
 		
 		    // 취소 버튼 클릭 동작
@@ -94,9 +98,8 @@ String id = (String) session.getAttribute("id");
 	<div class="form-container">
 		<h2>정보 수정</h2>
 		<!-- JavaScript로 미리보기 기능 구현 -->
-		<form action="<%=contextPath%>/Member/updatePro.me" method="post" enctype="multipart/form-data" id="updateForm">
-			<input type="hidden" id="origin-profile" name="origin-profile"
-				value="<%=vo.getProfile()%>"> <br> <br>
+		<form action="${contextPath}/Member/profileupdate" method="post" enctype="multipart/form-data" id="updateMember">
+			<input type="hidden" id="origin-profile" name="origin-profile" value="<%=vo.getProfile()%>"> <br> <br>
 
 			<!-- 파일 선택 버튼 -->
 			<input type="file" accept=".jpg, .jpeg, .png" class="profile" id="fileInput" name="profile">
@@ -105,13 +108,11 @@ String id = (String) session.getAttribute("id");
 
 			<div class="form-group">
 				<label for="name">이름</label>
-				<input type="text" id="name" name="name" 
-					value="${vo.name}" placeholder="2자 이상 10자 미만으로 입력해주세요" required>
+				<input type="text" id="name" name="name" value="${vo.name}" placeholder="2자 이상 10자 미만으로 입력해주세요" required>
 			</div>
 			<div class="form-group">
 				<label for="nickname">닉네임</label>
-				<input type="text" id="nickname" name="nickname" 
-					value="${vo.nickname}" placeholder="2자 이상 10자 미만으로 입력해주세요" required>
+				<input type="text" id="nickname" name="nickname" value="${vo.nickname}" placeholder="2자 이상 10자 미만으로 입력해주세요" required>
 			</div>
 			<div class="form-group">
 				<label for="phone">번호</label>
@@ -124,8 +125,8 @@ String id = (String) session.getAttribute("id");
 				<input type="text" id="sample4_detailAddress" placeholder="상세주소" name="address2" class="form-control" value="${vo.address2 }">
 			</div>
 			<div class="btn-container">
-				<button type="submit" class="btn-submit" id="updateForm()">제출</button>
-				<button type="submit" class="btn-cancel">취소</button>
+				<button type="button" class="btn-submit" id="submitBtn">제출</button>
+				<button type="button" class="btn-cancel">취소</button>
 			</div>
 		</form>
 	</div>
