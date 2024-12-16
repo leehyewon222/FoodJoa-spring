@@ -1,6 +1,5 @@
 package com.foodjoa.mealkit.controller;
 
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +32,7 @@ public class MealkitController {
 			@RequestParam(defaultValue = "0") int category, 
 			@RequestParam(defaultValue = "0") int nowPage,
             @RequestParam(defaultValue = "0") int nowBlock, 
-			HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+			Model model) throws Exception {
 		
 		List<Map<String, Object>> mealkitsList = mealkitService.selectMealkitsList(category);
 		String categoryName = mealkitService.getCategoryName(category);
@@ -47,8 +46,7 @@ public class MealkitController {
 	}
 	
 	@RequestMapping(value="info", method = { RequestMethod.GET, RequestMethod.POST })
-	public String infoMealkit(@RequestParam int no, 
-			HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+	public String infoMealkit(@RequestParam int no, Model model) throws Exception {
 		
 		MealkitVO mealkitInfo = mealkitService.selectMealkitInfo(no);
 		List<Object> reviewInfo = mealkitService.selectReviewsInfo(no);
@@ -60,16 +58,13 @@ public class MealkitController {
 	}
 	
 	@RequestMapping(value="write", method = { RequestMethod.GET, RequestMethod.POST })
-	public String writeMealkit( HttpServletRequest request, HttpServletResponse response, 
-			Model model) throws Exception {
+	public String writeMealkit() throws Exception {
 		
 		return "/mealkits/write";
 	}
 	
 	@RequestMapping(value="review", method = { RequestMethod.GET, RequestMethod.POST })
-	public String reviewMealkit(@RequestParam int no, 
-			HttpServletRequest request, HttpServletResponse response, 
-			Model model) throws Exception {
+	public String reviewMealkit(@RequestParam int no, Model model) throws Exception {
 		
 		MealkitVO mealkitInfo = mealkitService.selectMealkitInfo(no);
 		
@@ -79,9 +74,7 @@ public class MealkitController {
 	}
 	
 	@RequestMapping(value="updateMealkit", method = { RequestMethod.GET, RequestMethod.POST })
-	public String updateMealkit(@RequestParam int no, 
-			HttpServletRequest request, HttpServletResponse response, 
-			Model model) throws Exception {
+	public String updateMealkit(@RequestParam int no, Model model) throws Exception {
 		
 		MealkitVO mealkitInfo = mealkitService.selectMealkitInfo(no);
 		
@@ -91,9 +84,7 @@ public class MealkitController {
 	}
 	
 	@RequestMapping(value="updateReview", method = { RequestMethod.GET, RequestMethod.POST })
-	public String updateReview( @RequestParam int no, 
-			HttpServletRequest request, HttpServletResponse response, 
-			Model model) throws Exception {
+	public String updateReview( @RequestParam int no, Model model) throws Exception {
 		
 		MealkitReviewVO reviewInfo = mealkitService.selectMyReviewInfo(no);
 		
@@ -103,8 +94,7 @@ public class MealkitController {
 	}
 	
 	@RequestMapping(value="mymealkit", method = { RequestMethod.GET, RequestMethod.POST })
-	public String myMealkit(HttpServletRequest request, HttpServletResponse response, 
-			Model model, HttpSession session) throws Exception {
+	public String myMealkit(Model model, HttpSession session) throws Exception {
 		
 		String id = (String) session.getAttribute("userId");
 		
@@ -117,29 +107,23 @@ public class MealkitController {
 	
 	@ResponseBody
 	@RequestMapping(value = "writePro", method = { RequestMethod.GET, RequestMethod.POST })
-	public void writePro(MealkitVO mealkitVO, HttpServletResponse response, 
-			MultipartHttpServletRequest multipartRequest) 
+	public String writePro(MealkitVO mealkitVO, MultipartHttpServletRequest multipartRequest) 
 			throws Exception {
 		
 		multipartRequest.setCharacterEncoding("utf-8");
 		
 		int no = mealkitService.processMealkitWrite(mealkitVO, multipartRequest);
 		
-		PrintWriter out = response.getWriter();
-	    out.print(no);
-	    out.close();
+		return String.valueOf(no);
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="deletePro", method = { RequestMethod.GET, RequestMethod.POST })
-	public void deleteMealkit(@RequestParam int no, 
-			HttpServletRequest request, HttpServletResponse response, 
-			Model model) throws Exception {
+	public String deleteMealkit(@RequestParam int no) throws Exception {
 		
 		int result = mealkitService.deleteMealkit(no);		
 
-	    PrintWriter out = response.getWriter();
-	    out.print(result);
-	    out.close();
+		return String.valueOf(result);
 	}
 	
 	@RequestMapping(value="searchlistPro", method = { RequestMethod.GET, RequestMethod.POST })
@@ -166,16 +150,11 @@ public class MealkitController {
 	}
 	
 	@RequestMapping(value="cartPro", method = { RequestMethod.GET, RequestMethod.POST })
-	public void cartMealkit(@RequestParam int no, @RequestParam int quantity, 
-			HttpServletRequest request, HttpServletResponse response, 
-			Model model) throws Exception {
+	public String cartMealkit(@RequestParam int no, @RequestParam int quantity, 
+			HttpSession session) throws Exception {
 		
-		String id = "aronId";
-		System.out.println("컨트롤러");
-		int result = mealkitService.processCart(no, quantity, id);
+		int result = mealkitService.processCart(no, quantity, (String) session.getAttribute("userId"));
 		
-		PrintWriter out = response.getWriter();
-	    out.print(result);
-	    out.close();
+		return String.valueOf(result);
 	}
 }

@@ -23,6 +23,7 @@ import com.foodjoa.mealkit.vo.MealkitVO;
 import com.foodjoa.mealkit.vo.MealkitWishListVO;
 
 import Common.FileIOController;
+import Common.StringParser;
 
 @Service
 public class MealkitService {
@@ -80,7 +81,9 @@ public class MealkitService {
 
 	public int processMealkitWrite(MealkitVO mealkitVO, MultipartHttpServletRequest multipartRequest) throws Exception {
 		
-		Iterator<String> fileNames = multipartRequest.getFileNames();
+		int result = mealkitDAO.insertMealkit(mealkitVO);
+		
+		if (result <= 0) return 0;
 		
 		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
 				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
@@ -94,31 +97,26 @@ public class MealkitService {
 			tempDir.mkdirs();
         }
 		
-		String originalFileName = "";
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		
 		while (fileNames.hasNext()) {
 			String fileName = fileNames.next();
 			MultipartFile mFile = multipartRequest.getFile(fileName);
-			originalFileName = mFile.getOriginalFilename();
 			
 			if (mFile.getSize() != 0) {
-				mFile.transferTo(new File(tempPath + originalFileName));	
+				mFile.transferTo(new File(tempPath + mFile.getOriginalFilename()));	
 			}			
 		}
 		
-		mealkitVO.setPictures(originalFileName);
-		
-		System.out.println("");
-		
-		int result = mealkitDAO.insertMealkit(mealkitVO);
-		
-		if (result <= 0) return 0;
-		
 		int no = mealkitDAO.selectRecentMealkit(mealkitVO).getNo();
 		
+		List<String> pictures = StringParser.splitString(mealkitVO.getPictures());
 		String destinationPath = imagesPath + "mealkit" + File.separator + "thumbnails" 
 				+ File.separator + no + File.separator;
 		
-		FileIOController.moveFile(tempPath, destinationPath, originalFileName);
+		for (String picture : pictures) {
+			FileIOController.moveFile(tempPath, destinationPath, picture);
+		}
 		
 		return no;
 	}

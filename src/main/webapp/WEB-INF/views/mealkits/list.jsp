@@ -42,6 +42,7 @@
 	<div id="container">
 		<!-- 검색 기능 -->
 		<h1>"${categoryName}"에 대한 검색결과</h1>
+		<br>
 		<div id="search-container">
 			<div class="search-form-container">
 				<form action="${contextPath}/Mealkit/searchlistPro" method="get" name="frmSearch" 
@@ -120,8 +121,8 @@
 			                                        평점: <fmt:formatNumber value="${ratingAvr}" pattern="#.#" /> &nbsp;&nbsp;&nbsp;&nbsp;
 			                                        조회수: ${views}
 			                                    </span>
-			                                    <br>
 			                                    <h2><strong>${title}</strong></h2>
+			                                    <br>
 			                                    <h3>${price} 원</h3>
 			                                    <br>
 			                                    <p>설명: ${contents}</p>
