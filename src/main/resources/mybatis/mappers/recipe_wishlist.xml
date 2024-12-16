@@ -6,8 +6,8 @@
 <mapper namespace="mapper.recipeWishlist">
 	
 	<resultMap id="wishlist" type="recipeWishListVO">
-        <id property="no" column="no"/> <!-- rw.no에 별칭 추가 -->
-        <result property="id" column="id"/> <!-- rw.id에 별칭 추가 -->
+        <id property="no" column="no"/>
+        <result property="id" column="id"/>
         <result property="recipeNo" column="recipe_no"/>
         <result property="choiceDate" column="choice_date"/>
         
@@ -20,7 +20,7 @@
         </association>
         
         <association property="memberVO" javaType="memberVO">
-            <result property="nickname" column="nickname"/> <!-- 별칭 반영 -->
+            <result property="nickname" column="nickname"/>
         </association>
     </resultMap>
 	

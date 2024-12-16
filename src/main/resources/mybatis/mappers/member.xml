@@ -5,7 +5,7 @@
 <mapper namespace="mapper.member">
 
     <!-- Member ResultMap -->
-    <resultMap id="memberResultMap" type="com.example.vo.MemberVO">
+    <resultMap id="memberResultMap" type="memberVO">
         <id property="id" column="id" />
         <result property="name" column="name" />
         <result property="nickname" column="nickname" />
@@ -18,7 +18,7 @@
     </resultMap>
 
     <!-- Member 관련 쿼리들 -->
-    <insert id="insertMember" parameterType="MemberVO">
+    <insert id="insertMember" parameterType="memberVO">
         insert into member(id, name, nickname, phone, zipcode,
         	address1, address2, profile, join_date)
         values(#{id}, #{name}, #{nickname}, #{phone}, #{zipcode},
@@ -33,7 +33,7 @@
     
     <update id="updateMember" parameterType="memberVO">
         <![CDATA[
-              UPDATE member 
+			UPDATE member 
             SET profile = #{profile}, 
                 name = #{name}, 
                 nickname = #{nickname}, 
@@ -45,7 +45,7 @@
         ]]>
     </update>
 
-    <select id="selectMember" parameterType="String" resultType="memberVO">
+    <select id="selectMember" parameterType="String" resultMap="memberResultMap">
         <![CDATA[
              SELECT * FROM member
         ]]>
@@ -65,7 +65,7 @@
     
     <select id="getProfileFileName" parameterType="String" resultType="String">
         <![CDATA[
-              SELECT profile FROM member
+			SELECT profile FROM member
         ]]>
         <where>
             id = #{readonlyId}
@@ -73,7 +73,7 @@
     </select>
 
     <!-- 회원 프로필 조회 -->
-    <select id="getMemberProfile" parameterType="memberVO" resultMap="member">
+    <select id="getMemberProfile" parameterType="memberVO" resultMap="memberResultMap">
         <![CDATA[
             SELECT * FROM member WHERE id = #{id}
         ]]>
@@ -96,7 +96,7 @@
 
 
     <!-- 중첩된 Mealkit ResultMap -->
-    <resultMap id="mealkitResultMap" type="com.example.vo.MealkitVO">
+    <resultMap id="mealkitResultMap" type="mealkitVO">
         <id property="no" column="no" />
         <result property="id" column="id" />
         <result property="title" column="title" />
@@ -108,47 +108,13 @@
     </resultMap>
 
     <!-- 중첩된 MealkitOrder ResultMap -->
-    <resultMap id="mealkitOrderResultMap" type="com.example.vo.MealkitOrderVO">
+    <resultMap id="mealkitOrderResultMap" type="mealkitOrderVO">
         <id property="id" column="id" />
         <result property="address" column="address" />
         <result property="quantity" column="quantity" />
         <result property="delivered" column="delivered" />
         <result property="refund" column="refund" />
     </resultMap>
-
-    <!-- Insert Member -->
-    <insert id="insertMember" parameterType="com.example.vo.MemberVO">
-        INSERT INTO member (id, name, nickname, phone, zipcode, address1, address2, profile, join_date)
-        VALUES (#{id}, #{name}, #{nickname}, #{phone}, #{zipcode}, #{address1}, #{address2}, #{profile}, CURRENT_TIMESTAMP)
-    </insert>
-
-    <!-- Update Member -->
-    <update id="updateMember" parameterType="com.example.vo.MemberVO">
-        UPDATE member 
-        SET profile = #{profile}, 
-            name = #{name}, 
-            nickname = #{nickname}, 
-            phone = #{phone}, 
-            zipcode = #{zipcode}, 
-            address1 = #{address1}, 
-            address2 = #{address2}
-        WHERE id = #{id}
-    </update>
-
-    <!-- Select Member -->
-    <select id="selectMember" parameterType="String" resultMap="memberResultMap">
-        SELECT * FROM member WHERE id = #{id}
-    </select>
-
-    <!-- Delete Member -->
-    <delete id="deleteMemberById" parameterType="String">
-        DELETE FROM member WHERE id = #{readonlyId}
-    </delete>
-
-    <!-- Get Profile File Name -->
-    <select id="getProfileFileName" parameterType="String" resultType="String">
-        SELECT profile FROM member WHERE id = #{readonlyId}
-    </select>
 
     <!-- Select Delivered Mealkit -->
     <select id="selectDeliveredMealkit" parameterType="String" resultMap="mealkitOrderResultMap">

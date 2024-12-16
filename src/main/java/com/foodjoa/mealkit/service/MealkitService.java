@@ -149,13 +149,12 @@ public class MealkitService {
 	}
 
 	public int processWishlist(int no, String id) {
-		int result = 0;
 		
 		wishlistVO = new MealkitWishListVO();
 		wishlistVO.setMealkitNo(no);
 		wishlistVO.setId(id);
 		
-		result = mealkitDAO.selectMealkitWishlist(wishlistVO);
+		int result = mealkitDAO.selectMealkitWishlist(wishlistVO);
 		if (result > 0) {
 	        return -1;
 	    }

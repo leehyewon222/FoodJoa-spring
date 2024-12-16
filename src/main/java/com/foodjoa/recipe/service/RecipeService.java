@@ -297,6 +297,7 @@ public class RecipeService {
 		String pictures = review.getPictures();
 		
 		review.setPictures(originSelectedPictures + pictures);
+		review.setContents(StringParser.escapeHtml(review.getContents()));
 		
 		int result = recipeDAO.updateRecipeReview(review);
 		

@@ -17,37 +17,6 @@
 <%
 request.setCharacterEncoding("UTF-8");
 response.setContentType("text/html; charset=utf-8");
-
-String contextPath = request.getContextPath();
-
-String userId = (String) session.getAttribute("userId");
-
-MemberDAO memberDAO = new MemberDAO();
-
-ArrayList<Integer> deliveredCounts = (ArrayList<Integer>) request.getAttribute("deliveredCounts");
-ArrayList<Integer> sendedCounts = (ArrayList<Integer>) request.getAttribute("sendedCounts");
-
-int totalOrderDeliveredCount = 0;
-for (int i = 0; i < deliveredCounts.size(); i++) {
-	totalOrderDeliveredCount += deliveredCounts.get(i);
-}
-
-int totalOrderSendedCount = 0;
-for (int i = 0; i < sendedCounts.size(); i++) {
-	totalOrderSendedCount += sendedCounts.get(i);
-}
-
-/* // 가입 날짜 가져오기
-Timestamp joinDate = memberDAO.selectJoinDate(userId);
-
-// Timestamp를 LocalDate로 변환
-LocalDate receivedDate = joinDate.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate();
-
-// 현재 날짜
-LocalDate currentDate = LocalDate.now();
-
-// 두 날짜 사이의 일 수 차이 계산
-long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 %>
 
 <jsp:useBean id="now" class="java.util.Date" />
@@ -75,20 +44,20 @@ long daysBetween = ChronoUnit.DAYS.between(receivedDate, currentDate) + 1; */
 	
 		<div class="profile-wrapper">
 			<div class="profile-section">
-				<!-- <div class="profile-image">
-					<img src="${ contextPath }/images/member/userProfiles/${member.id}/${member.profile}" >
-				</div> -->
+				<div class="profile-image">
+					<img src="${ resourcesPath }/images/member/userProfiles/${member.id}/${member.profile}" >
+				</div>
 				<div class="profile-info">
 					<h2>${member.nickname}</h2>
-					<c:choose>
+					<p><c:choose>
 						<c:when test="${ not empty member.joinDate }">
 							${member.nickname}님은 푸드조아와 함께한지 <strong>${daysBetween + 1}</strong>일째입니다!
 						</c:when>
 						<c:otherwise>
 							<p>가입 정보를 가져올 수 없습니다. 관리자에게 문의하세요.</p>
 						</c:otherwise>
-					</c:choose>
-					<button id="updateButton">정보수정</button>
+					</c:choose></p>
+					<div><button id="updateButton">정보수정</button></div>
 				</div>
 			</div>
 	

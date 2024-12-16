@@ -63,13 +63,6 @@ request.setCharacterEncoding("utf-8");
 						<tiles:insertAttribute name="right" />
 					</div>
 				</td>
-				
-				<td width="360px">
-					<div class="sideMenu">
-						<tiles:insertAttribute name="sideMenu" />
-					</div>
-				</td>
-						
 			</tr>
 			
 			<tr>

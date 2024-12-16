@@ -64,13 +64,18 @@ function wishMealkit(contextPath, mealkitNo) {
 			no: mealkitNo
 		},
 		success: function(response) {
-			if (response == "1") {
-                alert("찜목록에 추가되었습니다.");
-            } else if (response == "-1") {
-                alert("이미 찜목록에 있습니다.");
+			if (response == "-1") {
+				alert('이미 찜목록에 있습니다.');
+			}
+			else if (response == "0") {
+                alert('찜목록 추가에 실패했습니다.');
             } else {
-                alert("찜목록에 추가를 못 했습니다.");
+                alert("찜목록에 추가되었습니다.");
             }
+		},
+		error: function(error) {
+			console.log(error);
+			alert('찜목록 추가 중 통신 에러 발생');
 		}
 	});
 }

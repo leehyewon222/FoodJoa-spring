@@ -156,18 +156,13 @@ public class MealkitController {
 	    return "/mealkits/list";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="wishPro", method = { RequestMethod.GET, RequestMethod.POST })
-	public void wishMealkit(@RequestParam int no, 
-			HttpServletRequest request, HttpServletResponse response, 
-			Model model) throws Exception {
+	public String wishPro(HttpSession session, @RequestParam int no) throws Exception {
 		
-		String id = "aronId";
+		int result = mealkitService.processWishlist(no, (String) session.getAttribute("userId"));
 		
-		int result = mealkitService.processWishlist(no, id);
-		
-		PrintWriter out = response.getWriter();
-	    out.print(result);
-	    out.close();
+		return String.valueOf(result);
 	}
 	
 	@RequestMapping(value="cartPro", method = { RequestMethod.GET, RequestMethod.POST })
