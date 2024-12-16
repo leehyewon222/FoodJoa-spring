@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.foodjoa.mealkit.dao.MealkitDAO;
 import com.foodjoa.mealkit.vo.MealkitReviewVO;
+import com.foodjoa.mealkit.vo.MealkitVO;
 import com.foodjoa.member.dao.MemberDAO;
 import com.foodjoa.member.vo.MemberVO;
 import com.foodjoa.recipe.dao.RecipeDAO;
@@ -195,10 +196,6 @@ public class MemberService {
 		return memberDAO.selectMember(id);
 	}
 
-	public ArrayList<Integer> getCountOrderDelivered(HttpServletRequest request) {
-		 return mealkitDAO.selectCountOrderDelivered((String) request.getSession().getAttribute("userId"));
-    }
-
 	public MemberVO getMemberById(String id) {
 
 		return memberDAO.selectMember(id);
@@ -223,5 +220,21 @@ public class MemberService {
 		reviews.put("mealkitReviews", mealkitReviews);
 		
 		return reviews;
+	}
+
+	public List<HashMap<String, Object>> getDeliveredMealkit(MealkitVO mealkitvo) {
+		return memberDAO.selectDeliveredMealkit(mealkitvo);
+	}
+
+	public List<HashMap<String, Object>> getSendedMealkit(MealkitVO mealkitvo) {
+		return memberDAO.selectSendedMealkit(mealkitvo);
+	}
+
+	public int updateProfile(HttpServletRequest request) {
+		
+        HttpSession session = request.getSession();
+        MemberVO id = (MemberVO) session.getAttribute("userId");
+		        
+        return memberDAO.updateMember(id);
 	}
 }

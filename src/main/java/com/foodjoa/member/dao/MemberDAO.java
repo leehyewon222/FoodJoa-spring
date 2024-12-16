@@ -1,7 +1,5 @@
 package com.foodjoa.member.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,16 +10,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.foodjoa.member.vo.RecentViewVO;
-import com.foodjoa.recipe.vo.RecipeWishListVO;
 import com.foodjoa.mealkit.vo.MealkitOrderVO;
-import com.foodjoa.mealkit.vo.MealkitWishListVO;
+import com.foodjoa.mealkit.vo.MealkitVO;
+
 import com.foodjoa.member.vo.MemberVO;
 
 @Repository
 public class MemberDAO {
 
 	@Autowired
-	private SqlSession sqlSession;
+	private SqlSession sqlSession;		
+	
+	public List<HashMap<String, Object>> selectDeliveredMealkit(MealkitVO mealkitvo) {
+	    
+	    return sqlSession.selectList("mapper.member.selectDeliveredMealkit", mealkitvo);
+	}
+	
+	public List<HashMap<String, Object>> selectSendedMealkit(MealkitVO mealkitvo){
+		
+		return sqlSession.selectList("mapper.member.selectSendedMealkit", mealkitvo);
+	}
 
 	public int selectRecentCount(RecentViewVO recentViewVO) {
 
@@ -57,18 +65,6 @@ public class MemberDAO {
 	    return sqlSession.selectOne("mapper.member.getProfileFileName", readonlyId);
 	}
 	
-	public List<RecipeWishListVO> selectRecipeInfos(String userId) {
-	    // Mapper에서 쿼리 호출
-	    return sqlSession.selectList("mapper.recipeWishlist.selectRecipeInfos", userId);
-	}
-	
-	public List<MealkitWishListVO> selectMealKitInfos(String userId) {
-	    // Mapper에서 쿼리 호출
-	    return sqlSession.selectList("mapper.mealkitWishlist.selectMealKitInfos", userId);
-	}
-
-	
-	
 	
 	//----------------------------------------------------
 	
@@ -96,7 +92,7 @@ public class MemberDAO {
 		
 		MealkitOrderVO orderVO = new MealkitOrderVO();
 		orderVO.setId(id);
-		
+		 
 		for (int i = 0; i < 3; i++) {
 			orderVO.setDelivered(i);
 			
@@ -107,11 +103,6 @@ public class MemberDAO {
 		
 		return countOrderSended;
 	}
-
-	public static MemberVO getMemberProfile(String userId) {
-		return null;
-	}
-
 
 	public MemberVO selectMember(String id) {
 		return sqlSession.selectOne("mapper.member.selectMember", id);
@@ -136,8 +127,9 @@ public class MemberDAO {
 	}
 
 
-
-	
-
-	
+	public int updateMember(MemberVO memberVO) {
+	    // MyBatis의 update 메서드를 사용하여 업데이트 작업을 수행합니다.
+	    int result = sqlSession.update("mapper.member.updateMember", memberVO);
+	    return result;
+	}
 }

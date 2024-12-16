@@ -1,4 +1,4 @@
-
+select * from foodjoa.member;
 -- member
 insert into member
 values('admin', '관리자', '고나리자', '01012345678', '47296', '부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),

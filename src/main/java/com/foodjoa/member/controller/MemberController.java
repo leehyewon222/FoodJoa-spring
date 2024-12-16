@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.foodjoa.mealkit.vo.MealkitVO;
 import com.foodjoa.member.service.MemberService;
 import com.foodjoa.member.vo.MemberVO;
 
@@ -44,6 +45,8 @@ public class MemberController {
     
     @Autowired
     private MemberVO memberVO;
+    
+    
 
     //---------------------------------------
     
@@ -330,13 +333,32 @@ public class MemberController {
         return "/members/profileupdate";
     }
     
+    @RequestMapping("updatePro")
+    public String updatePro(HttpServletRequest request, HttpServletResponse response, Model model) {
+        // 요청에서 데이터 추출
+        String id = request.getParameter("id");
+        System.out.println("Received ID: " + id);
+
+        // 서비스 호출 및 처리
+        int result = memberService.updateProfile(request);
+
+        // Cache-Control 헤더 설정
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+
+        // 결과를 모델에 추가 (선택 사항)
+        model.addAttribute("result", result);
+
+        // 리다이렉트
+        return "redirect:/members/mypagemain";
+    }
+    
     @RequestMapping("impormation")
-    private String impormation(HttpServletRequest request, HttpServlet response) {
-		request.setAttribute("center", "members/impormation.jsp");
+    private String impormation() {
 		return "/members/impormation";
 	}
     
-    // 건용 작업
 	@RequestMapping(value = "myreviews", method = { RequestMethod.GET, RequestMethod.POST })
     public String myreviews(Model model, HttpSession session) {
     	
@@ -345,5 +367,33 @@ public class MemberController {
 		model.addAttribute("reviews", reviews);
 		
 		return "/members/myreview";
+    }
+
+    @RequestMapping("mydelivery")
+    public String mydelivery(Model model, HttpSession session, MealkitVO mealkitVO) {
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("userId");
+
+        // 서비스 호출
+        List<HashMap<String, Object>> orderedMealkitList = (ArrayList<HashMap<String, Object>>) memberService.getDeliveredMealkit(mealkitVO);
+
+        // 모델에 데이터 추가
+        model.addAttribute("orderedMealkitList", orderedMealkitList);
+
+        return "/members/mydelivery";
+    }
+
+    @RequestMapping("sendmealkit")
+    public String sendmealkit(Model model, HttpSession session, MealkitVO mealkitVO) {
+        // 세션에서 사용자 ID 가져오기
+        String id = (String) session.getAttribute("userId");
+
+        // 서비스 호출
+        ArrayList<HashMap<String, Object>> orderedMealkitList = (ArrayList<HashMap<String, Object>>) memberService.getSendedMealkit(mealkitVO);
+
+        // 모델에 데이터 추가
+        model.addAttribute("orderedMealkitList", orderedMealkitList);
+
+        return "/members/sendmealkit";
     }
 }
