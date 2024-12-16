@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.recipeWishlist">
 	
-	<resultMap type="recipeWishListVO" id="wishlist">
-		<id property="no" column="no"/>
-		<result property="id" column="id"/>
-		<result property="recipeNo" column="recipe_no"/>
-		<result property="choiceDate" column="choice_date"/>
-	</resultMap>
+	<resultMap id="wishlist" type="recipeWishListVO">
+        <id property="no" column="no"/> <!-- rw.no에 별칭 추가 -->
+        <result property="id" column="id"/> <!-- rw.id에 별칭 추가 -->
+        <result property="recipeNo" column="recipe_no"/>
+        <result property="choiceDate" column="choice_date"/>
+        
+        <association property="recipeVO" javaType="recipeVO">
+            <result property="title" column="title"/>
+            <result property="description" column="description"/>
+            <result property="category" column="category"/>
+            <result property="thumbnail" column="thumbnail"/>
+            <result property="averageRating" column="average_rating"/>
+        </association>
+        
+        <association property="memberVO" javaType="memberVO">
+            <result property="nickname" column="nickname"/> <!-- 별칭 반영 -->
+        </association>
+    </resultMap>
 	
 	<select id="selectWishlistCount" parameterType="java.util.Map" resultType="int">
 		<![CDATA[
@@ -27,4 +39,31 @@
 			VALUES(#{id}, #{recipeNo}, CURRENT_TIMESTAMP)
 		]]>
 	</insert>
+	
+    <select id="selectWishListById" parameterType="String" resultMap="wishlist">
+        <![CDATA[
+            SELECT 
+                rw.*, 
+                r.title, r.description, r.thumbnail, r.category, 
+                m.nickname,
+                rr.average_rating
+            FROM recipe_wishlist rw
+            JOIN recipe r ON rw.recipe_no = r.no
+            JOIN member m ON r.id = m.id
+            LEFT JOIN (
+                SELECT recipe_no, AVG(rating) AS average_rating
+                FROM recipe_review
+                GROUP BY recipe_no
+            ) rr ON rw.recipe_no = rr.recipe_no
+            WHERE rw.id = #{userId}
+            ORDER BY rw.choice_date DESC
+        ]]>
+    </select>
+    
+	<delete id="deleteWishlist" parameterType="int">
+		<![CDATA[
+			DELETE FROM recipe_wishlist 
+			WHERE no=#{_no}
+		]]>
+	</delete>
 </mapper>

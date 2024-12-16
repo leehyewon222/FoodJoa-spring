@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.foodjoa.recipe.vo.RecipeReviewVO;
 import com.foodjoa.recipe.vo.RecipeVO;
+import com.foodjoa.recipe.vo.RecipeWishListVO;
 
 @Repository
 public class RecipeDAO {
@@ -96,5 +97,17 @@ public class RecipeDAO {
 
 	public int insertWishlist(HashMap<String, String> params) {
 		return sqlSession.insert("mapper.recipeWishlist.insertWishlist", params);
+	}
+	
+	public List<RecipeWishListVO> selectWishListById(String userId) {
+		return sqlSession.selectList("mapper.recipeWishlist.selectWishListById", userId);
+	}
+
+	public int deleteWishlist(int _no) {
+		return sqlSession.delete("mapper.recipeWishlist.deleteWishlist", _no);
+	}
+
+	public List<RecipeWishListVO> selectRecentById(String userId) {
+		return sqlSession.selectList("mapper.recentViewRecipe.selectRecentById", userId);
 	}
 }

@@ -79,9 +79,20 @@ public class MealkitDAO {
 		return sqlSession.insert("mapper.mealkitCart.insertMealkitCart", cartVO);
 	}
 
-	// 건용 작업
 	public List<MealkitReviewVO> selectReviewsById(String userId) {
 		return sqlSession.selectList("mapper.mealkitReview.selectReviewsById", userId);
+	}
+
+	public List<MealkitWishListVO> selectWishListById(String userId) {
+		return sqlSession.selectList("mapper.mealkitWishlist.selectWishListById", userId);
+	}
+
+	public int deleteWishlist(int _no) {
+		return sqlSession.delete("mapper.mealkitWishlist.deleteWishlist", _no);
+	}
+
+	public List<MealkitWishListVO> selectRecentById(String userId) {
+		return sqlSession.selectList("mapper.recentViewMealkit.selectRecentById", userId);
 	}
 
 }
