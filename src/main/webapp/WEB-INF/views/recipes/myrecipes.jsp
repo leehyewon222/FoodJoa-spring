@@ -69,8 +69,8 @@
 											</tr>
 											<tr>
 												<td class="button-area">
-													<input type="button" class="update-button" value="수정" onclick="onUpdateButton('${ recipe.no }')">
-													<input type="button" class="delete-button" value="삭제" onclick="onDeleteButton('${ recipe.no}')">
+													<input type="button" class="update-button" value="수정" onclick="onUpdateButton(event, '${ recipe.no }')">
+													<input type="button" class="delete-button" value="삭제" onclick="onDeleteButton(event, '${ recipe.no}')">
 												</td>
 											</tr>
 										</table>
@@ -86,11 +86,15 @@
 	
 	
 	<script>
-		function onUpdateButton(no) {
+		function onUpdateButton(event, no) {
+			event.preventDefault();
+			
 			location.href = '${ contextPath }/Recipe/update?no=' + no;
 		}
 		
-		function onDeleteButton(no) {
+		function onDeleteButton(event, no) {
+			event.preventDefault();
+			
 			if (confirm('정말로 삭제하시겠습니까?')) {
 				location.href = '${ contextPath }/Recipe/deletePro?no=' + no;	
 			}

@@ -17,7 +17,7 @@
     font-size: 1rem;
     cursor: pointer;
     padding: 8px 16px;
-    margin: 10px 5px;	
+    margin: 10px 5px;
 }
 
 .recipe-write-button {
@@ -32,6 +32,7 @@
 	border: 1px solid #BF817E;
 	color: #BF817E;
     border-radius: 5px;
+    margin-right: 50px;
 }
 
 select option[value=""] {
