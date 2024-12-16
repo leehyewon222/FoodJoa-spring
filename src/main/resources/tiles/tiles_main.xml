@@ -11,8 +11,9 @@
 		<put-attribute name="left" value="/WEB-INF/views/includes/leftside.jsp"/>
 		<put-attribute name="center" value=""/>
 		<put-attribute name="right" value="/WEB-INF/views/includes/rightside.jsp"/>
-		
+		<put-attribute name="sideMenu" value="/WEB-INF/views/includes/sideMenu.jsp"/>		
 		<put-attribute name="bottom" value="/WEB-INF/views/includes/bottom.jsp"/>
+
 	</definition>
 
     <!-- MainController클래스 내부의 

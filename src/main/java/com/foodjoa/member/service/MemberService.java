@@ -3,12 +3,17 @@ package com.foodjoa.member.service;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +24,9 @@ import com.foodjoa.mealkit.dao.MealkitDAO;
 import com.foodjoa.member.dao.MemberDAO;
 import com.foodjoa.member.vo.MemberVO;
 import com.foodjoa.recipe.dao.RecipeDAO;
+import com.foodjoa.recipe.vo.RecipeWishListVO;
+import com.foodjoa.mealkit.vo.MealkitWishListVO;
+
 
 import Common.FileIOController;
 
@@ -35,39 +43,65 @@ public class MemberService {
     @Autowired
     private MealkitDAO mealkitDAO;
 
-    public int insertMember(MemberVO memberVO, MultipartHttpServletRequest request) throws IOException {
-        // 업로드할 디렉토리 경로 설정
-        String uploadDir = "C:\\workspace_FoodJoa\\FoodJoa\\src\\main\\webapp\\resources\\images\\";  // application.properties에서 설정한 경로를 사용하거나, 직접 설정
+    public int insertMember(MemberVO memberVO, MultipartHttpServletRequest multipartRequest, HttpSession session) throws Exception {
         
-        // 파일 업로드 처리
-        MultipartFile profileFile = request.getFile("profileFile");
+        String userId = (String) session.getAttribute("userId");
+        
+        Iterator<String> fileNames = multipartRequest.getFileNames();
+        
+        String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+                + File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+                + File.separator + "resources" + File.separator + "images" + File.separator;
+        
+        System.out.println("imagesPath : " + imagesPath);
+        
+        String tempPath = imagesPath + "temp" + File.separator;
 
-        // 회원 정보 생성 (프로필 파일명 포함)
-        String profileFileName = profileFile != null ? profileFile.getOriginalFilename() : null;
-        memberVO.setProfile(profileFileName);
+        File tempDir = new File(tempPath);
         
-        int result = memberDAO.insertMember(memberVO);
-        
-        if (result <= 0) return result;
-        
-        // 회원 정보 DB 등록 성공
-        String userId = memberVO.getId();
-        String descPath = uploadDir + "member" + File.separator + "userProfiles" + File.separator + userId;
-        
-        File userDir = new File(descPath);
-        if (!userDir.exists()) {
-            userDir.mkdirs(); // 유저 폴더 없으면 생성
+        if (!tempDir.exists()) {
+            tempDir.mkdirs();
         }
         
-        if (profileFile != null && !profileFile.isEmpty()) {
-            // 실제 저장될 파일 경로
-            File destFile = new File(descPath + File.separator + profileFileName);
+        String originalFileName = "";
+        if (fileNames.hasNext()) {
+            String fileName = fileNames.next();
+            MultipartFile mFile = multipartRequest.getFile(fileName);
+            originalFileName = mFile.getOriginalFilename();
+            
+            if (mFile.getSize() != 0) {
+                File file = new File(tempPath + originalFileName);
+                mFile.transferTo(file);  // 첫 번째 파일만 저장
+                
+                int result = memberDAO.insertMember(memberVO);
 
-            profileFile.transferTo(destFile);
+                if (result <= 0) {
+                    return result;  // 성공하지 못한 경우 result 반환
+                }
+                
+                String destinationPath = imagesPath + "member" + File.separator + "userProfiles" 
+                        + File.separator + userId;
+                
+                FileIOController.moveFile(tempPath, destinationPath, originalFileName);
+                
+                return result;  // 성공한 경우 result 반환
+            }
         }
         
-        return result;
+        // 파일이 없거나 예외가 발생한 경우에도 int 타입 값 반환
+        return 0;  // 기본적으로 0 반환 (파일이 없거나 오류가 발생한 경우)
     }
+
+
+    	
+    	
+    	
+    	
+    	
+
+		  
+		 
+    
 
     //--------------------------------------------회원가입 끝
     
@@ -122,7 +156,36 @@ public class MemberService {
 	    }
 	}
 
+	public HashMap<String, Object> getWishListInfos(String userId) {
+	   
+	    HashMap<String, Object> wishListInfos = new HashMap<>();
+	    
+	    List<RecipeWishListVO> recipeWishlists = recipeDAO.selectWishListById(userId);
+	    List<RecipeWishListVO> mealkitWishlists = mealkitDAO.selectWishListById(userId);
+	    
+	    wishListInfos.put("recipeWishlists", recipeWishlists);
+	    wishListInfos.put("mealkitWishlists", mealkitWishlists);
 
+	    return wishListInfos;
+	}
+	
+	public int deleteWishlist(int wishType, int no) {
+		return (wishType == 0) ? 
+				recipeDAO.deleteWishlist(no) : mealkitDAO.deleteWishlist(no);
+	}
+	
+	public HashMap<String, Object> getRecentViews(String userId) {
+		HashMap<String, Object> recentViewInfos = new HashMap<>();
+	    
+	    List<RecipeWishListVO> recentViewRecipe = recipeDAO.selectRecentById(userId);
+	    List<RecipeWishListVO> recentViewMealkit = mealkitDAO.selectRecentById(userId);
+	    
+	    recentViewInfos.put("recentViewRecipe", recentViewRecipe);
+	    recentViewInfos.put("recentViewMealkit", recentViewMealkit);
+
+	    return recentViewInfos;
+	}
+	
 	public MemberVO getMember(HttpServletRequest request){
 		
 		HttpSession session = request.getSession();

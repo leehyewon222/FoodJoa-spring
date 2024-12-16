@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.foodjoa.recipe.vo.RecipeReviewVO;
 import com.foodjoa.recipe.vo.RecipeVO;
+import com.foodjoa.recipe.vo.RecipeWishListVO;
 
 @Repository
 public class RecipeDAO {
@@ -38,5 +39,20 @@ public class RecipeDAO {
 	
 	public int insertRecipe(RecipeVO recipeVO) {
 		return sqlSession.update("mapper.recipe.insertRecipe", recipeVO);
+	}
+
+	// 혜원 작업
+	public List<RecipeWishListVO> selectWishListById(String userId) {
+		return sqlSession.selectList("mapper.recipeWishlist.selectWishListById", userId);
+	}
+
+	// 혜원 작업
+	public int deleteWishlist(int _no) {
+		return sqlSession.delete("mapper.recipeWishlist.deleteWishlist", _no);
+	}
+
+	// 혜원 작업
+	public List<RecipeWishListVO> selectRecentById(String userId) {
+		return sqlSession.selectList("mapper.recentViewRecipe.selectRecentById", userId);
 	}
 }

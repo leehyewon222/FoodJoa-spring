@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
+import com.foodjoa.recipe.vo.RecipeWishListVO;
 
 @Repository
 public class MealkitDAO {
@@ -49,6 +50,21 @@ public class MealkitDAO {
 	public ArrayList<Integer> selectCountOrderDelivered(String attribute) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	// 혜원 작업
+	public List<RecipeWishListVO> selectWishListById(String userId) {
+		return sqlSession.selectList("mapper.mealkitWishlist.selectWishListById", userId);
+	}
+
+	// 혜원 작업
+	public int deleteWishlist(int _no) {
+		return sqlSession.delete("mapper.mealkitWishlist.deleteWishlist", _no);
+	}
+
+	//혜원 작업
+	public List<RecipeWishListVO> selectRecentById(String userId) {
+		return sqlSession.selectList("mapper.recentViewMealkit.selectRecentById", userId);
 	}
 
 }

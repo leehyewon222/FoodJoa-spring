@@ -36,6 +36,7 @@ request.setCharacterEncoding("utf-8");
 <body>
 	<div id="layout-container">
 		<table>
+		
 			<tr>
 				<td colspan="3">
 					<div class="layout-top">
@@ -43,23 +44,34 @@ request.setCharacterEncoding("utf-8");
 					</div>
 				</td>
 			</tr>
+			
 			<tr>
 				<td width="360px">
 					<div class="layout-left">
 						<tiles:insertAttribute name="left" />
 					</div>
 				</td>
+				
 				<td width="1200px">
 					<div class="layout-center">
 						<tiles:insertAttribute name="center" />
 					</div>
 				</td>
+				
 				<td width="360px">
 					<div class="layout-right">
 						<tiles:insertAttribute name="right" />
 					</div>
 				</td>
+				
+				<td width="360px">
+					<div class="sideMenu">
+						<tiles:insertAttribute name="sideMenu" />
+					</div>
+				</td>
+						
 			</tr>
+			
 			<tr>
 				<td colspan="3">
 					<div class="layout-bottom">
@@ -67,6 +79,7 @@ request.setCharacterEncoding("utf-8");
 					</div>
 				</td>
 			</tr>
+			
 		</table>
 	</div>
 </body>

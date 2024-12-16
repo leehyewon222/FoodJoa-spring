@@ -16,12 +16,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.servlet.ModelAndView;
 
@@ -101,9 +104,9 @@ public class MemberController {
 	// 추가정보입력 후 회원 가입 처리
 	@RequestMapping("joinPro")
 	public String joinPro(MemberVO memberVO, HttpSession session, MultipartHttpServletRequest request) 
-			throws ServletException, IOException {
+			throws Exception {
 		
-		int result = memberService.insertMember(memberVO, request);
+		int result = memberService.insertMember(memberVO, request, session);
 		
 		if (result > 0) {
 			session.setAttribute("userId", session.getAttribute("joinId"));
@@ -256,9 +259,43 @@ public class MemberController {
 
     //-------------------------탈퇴처리 완료
     
-	@RequestMapping("wishlist")
-	public String wishlist() {
-		return "/members/wishlist";
+    @RequestMapping("wishlist")
+    public String wishlist(HttpSession session, Model model) {
+        String userId = (String) session.getAttribute("userId");
+
+        // 위시리스트 정보 가져오기
+        HashMap<String, Object> wishListInfos = memberService.getWishListInfos(userId);
+        
+        // 분리하여 전달
+        model.addAttribute("wishListInfos", wishListInfos);
+
+        // 메인 페이지로 포워딩
+        return "/members/wishlist";
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "deleteWishlist", method = { RequestMethod.GET, RequestMethod.POST })
+    public String deleteWishlist(@RequestParam int wishType, @RequestParam int no) {
+    	
+    	return String.valueOf(memberService.deleteWishlist(wishType, no));
+    }
+    
+	@RequestMapping("recentlist")
+	public String recentlist(HttpSession session, Model model) {
+		
+		String userId = (String) session.getAttribute("userId");
+			
+		HashMap<String, Object> recentViewInfos = memberService.getRecentViews(userId);
+
+		 // 분리하여 전달
+        model.addAttribute("recentViewInfos", recentViewInfos);
+		
+		return "/members/recent";
+	}
+	
+	@RequestMapping("cartlist")
+	public String cartlist() {
+		return "/members/cartlist";
 	}
     
     @RequestMapping("mypagemain")

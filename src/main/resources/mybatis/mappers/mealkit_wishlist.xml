@@ -1,7 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.mealkitWishlist">
+    <resultMap id="mealkitWishListVO" type="mealkitWishListVO">
+        <id property="no" column="no"/>
+        <result property="id" column="id"/> <!-- mw.id의 별칭 반영 -->
+        <result property="mealkitNo" column="mealkit_no"/>
+        <result property="choiceDate" column="choice_date"/>
+        
+        <association property="mealkitVO" javaType="mealkitVO">
+            <result property="title" column="title"/>
+            <result property="contents" column="contents"/>
+            <result property="category" column="category"/>
+            <result property="price" column="price"/>
+            <result property="pictures" column="pictures"/>
+            <result property="averageRating" column="average_rating"/>
+        </association>
+        
+        <association property="memberVO" javaType="memberVO">
+            <result property="nickname" column="nickname"/> <!-- 별칭 반영 -->
+        </association>
+    </resultMap>
+    
+    <!-- 밀키트 위시리스트와 관련된 추가적인 데이터 조회 -->
+    <select id="selectWishListById" parameterType="String" resultMap="mealkitWishListVO">
+        <![CDATA[
+            SELECT 
+                mw.*, 
+                mk.pictures, mk.title, mk.contents, mk.price, mk.category, 
+                m.nickname, 
+                mr.average_rating
+            FROM mealkit_wishlist mw
+            JOIN mealkit mk ON mw.mealkit_no = mk.no
+            JOIN member m ON mk.id = m.id
+            LEFT JOIN (
+                SELECT 
+                    mealkit_no, 
+                    AVG(rating) AS average_rating 
+                FROM mealkit_review 
+                GROUP BY mealkit_no
+            ) mr ON mw.mealkit_no = mr.mealkit_no
+            WHERE mw.id = #{userId}
+            ORDER BY mw.choice_date DESC
+        ]]>
+    </select>
+    
+     <delete id="deleteWishlist" parameterType="int">
+        <![CDATA[
+            DELETE FROM mealkit_wishlist 
+            WHERE no=#{_no}
+        ]]>
+    </delete>
+    
 </mapper>

@@ -161,19 +161,19 @@
 				<c:forEach var="item" items="${recentRecipes}">
 					<c:if test="${item.recipeVO != null}">
 						<div class="recent-view-item">
-							<a href="<%= request.getContextPath() %>/Recipe/read?no=${item.recipeVO.no}">
-								<img src="<%= request.getContextPath() %>/images/recipe/thumbnails/${item.recipeVO.no}/${item.recipeVO.thumbnail}"
+							<a href="${ contextPath }/Recipe/read?no=${item.recipeVO.no}">
+								<img src="${ resourcesPath }/images/recipe/thumbnails/${item.recipeVO.no}/${item.recipeVO.thumbnail}"
 								alt="${item.recipeVO.title}">
 							</a>
 							<div class="info">
 								<div>
 									<b>
 									<c:choose>
-						                <c:when test="${item.recipeVO.category == 1}">[한식]</c:when>
-						                <c:when test="${item.recipeVO.category == 2}">[일식]</c:when>
-						                <c:when test="${item.recipeVO.category == 3}">[중식]</c:when>
-						                <c:when test="${item.recipeVO.category == 4}">[양식]</c:when>
-						                <c:when test="${item.recipeVO.category == 5}">[자취]</c:when>
+						                <c:when test="${category == 1}">[한식]</c:when>
+						                <c:when test="${category == 2}">[일식]</c:when>
+						                <c:when test="${category == 3}">[중식]</c:when>
+						                <c:when test="${category == 4}">[양식]</c:when>
+						                <c:when test="${category == 5}">[자취]</c:when>
 						            </c:choose>
 						            ${item.recipeVO.title}
 						            </b>
@@ -193,9 +193,9 @@
 				<c:forEach var="item" items="${recentMealkits}">
 					<c:if test="${item.mealkitVO != null}">
 						<div class="recent-view-item">
-							<a href="{ contextPath }/Mealkit/info?no=${item.mealkitVO.no}">								
+							<a href="${ contextPath }/Mealkit/info?no=${item.mealkitVO.no}">								
 								<c:set var="thumbnail" value="${ stringParser.splitString(item.mealkitVO.pictures)[0] }" />
-								<img src="{ contextPath }/images/mealkit/thumbnails/${item.mealkitVO.no}/${thumbnail}">
+								<img src="${ resourcesPath }/images/mealkit/thumbnails/${item.mealkitVO.no}/${thumbnail}">
 							</a>
 							<div class="info">
 								<div>

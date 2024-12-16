@@ -2,7 +2,6 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="mapper.member">
 
     <resultMap id="member" type="memberVO">
@@ -17,6 +16,7 @@
         <result property="joinDate" column="join_date"/>
     </resultMap>
 
+    <!-- Member 관련 쿼리들 -->
     <insert id="insertMember" parameterType="MemberVO">
         insert into member(id, name, nickname, phone, zipcode,
         	address1, address2, profile, join_date)
@@ -24,16 +24,15 @@
         	#{address1}, #{address2}, #{profile}, CURRENT_TIMESTAMP)
     </insert>
 
-
-	<select id="isUserExists" resultType="int" parameterType="String">
-		SELECT COUNT(*) 
-		FROM member 
-		WHERE id = #{userId}
-	</select>
+    <select id="isUserExists" resultType="int" parameterType="String">
+        SELECT COUNT(*) 
+        FROM member 
+        WHERE id = #{userId}
+    </select>
     
     <update id="updateMember" parameterType="memberVO">
-		<![CDATA[
-			  UPDATE member 
+        <![CDATA[
+              UPDATE member 
             SET profile = #{profile}, 
                 name = #{name}, 
                 nickname = #{nickname}, 
@@ -42,43 +41,41 @@
                 address1 = #{address1}, 
                 address2 = #{address2}
             WHERE id = #{id}
-		]]>
-	</update>
+        ]]>
+    </update>
 
-	<select id="selectMember" parameterType="string" resultMap="member">
-		<![CDATA[
-			 SELECT * FROM member
-		]]>
-		<where>
-			id=#{id}
-		</where>
-	</select>
-	
-	<delete id="deleteMemberById" parameterType="String">
-	<![CDATA[
-			 DELETE FROM member
-		]]>
-		<where>
-			id = #{readonlyId}
-		</where>
+    <select id="selectMember" parameterType="String" resultType="memberVO">
+        <![CDATA[
+             SELECT * FROM member
+        ]]>
+        <where>
+            id=#{id}
+        </where>
+    </select>
+    
+    <delete id="deleteMemberById" parameterType="String">
+        <![CDATA[
+             DELETE FROM member
+        ]]>
+        <where>
+            id = #{readonlyId}
+        </where>
     </delete>
     
     <select id="getProfileFileName" parameterType="String" resultType="String">
-    <![CDATA[
-			  SELECT profile FROM member
-		]]>
-		<where>
-			id = #{readonlyId}
-		</where>
-	</select>
-    
-	
-	
-	
+        <![CDATA[
+              SELECT profile FROM member
+        ]]>
+        <where>
+            id = #{readonlyId}
+        </where>
+    </select>
 
-	<select id="getMemberProfile" parameterType="memberVO" resultMap="member">
-		<![CDATA[
-			SELECT * FROM member WHERE id = #{id}
-		]]>
-	</select>
+    <!-- 회원 프로필 조회 -->
+    <select id="getMemberProfile" parameterType="memberVO" resultMap="member">
+        <![CDATA[
+            SELECT * FROM member WHERE id = #{id}
+        ]]>
+    </select>
 </mapper>
+    
