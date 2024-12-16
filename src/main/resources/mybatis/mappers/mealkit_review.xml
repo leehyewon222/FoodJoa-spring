@@ -48,6 +48,20 @@
 			WHERE mr.no = #{no};
         ]]>
 	</select>
+	
+	<insert id="insertReview" parameterType="mealkitReviewVO">
+		<![CDATA[
+			INSERT INTO mealkit_review(id, mealkit_no, pictures, contents, rating, post_date) 
+			VALUES(#{id}, #{mealkitNo}, #{pictures}, #{contents}, #{rating}, CURRENT_TIMESTAMP)
+        ]]>
+	</insert>
+	
+	<delete id="deleteReview" parameterType="int">
+		<![CDATA[
+			DELETE FROM mealkit_review 
+			WHERE no = #{no} 
+		]]>
+	</delete>
 		
 	<!-- 건용 작업 -->
 	<select id="selectReviewsById" parameterType="String" resultMap="ReviewInfo">

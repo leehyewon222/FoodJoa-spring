@@ -239,7 +239,7 @@ response.setContentType("text/html; charset=utf-8");
 		function onMealkitReviewDelete(reviewNo, mealkitNo) {
 			if (confirm('정말로 삭제하시겠습니까?')) {
 				$.ajax({
-					url: '${ contextPath }/Mealkit/reviewDelete.pro',
+					url: '${ contextPath }/Mealkit/reviewDeletePro',
 				    type: "POST",
 				    async: true,
 				    data: {

@@ -51,6 +51,14 @@ public class MealkitDAO {
 		return sqlSession.delete("mapper.mealkit.deleteMealkit", no);
 	}
 
+	public int insertReview(MealkitReviewVO reviewVO) {
+		return sqlSession.insert("mapper.mealkitReview.insertReview", reviewVO);
+	}
+
+	public int deleteReview(int no) {
+		return sqlSession.delete("mapper.mealkitReview.deleteReview", no);
+	}
+	
 	public List<Map<String, Object>> selectSearchList(String key, String word) {
 		Map<String, Object> params = new HashMap<>();
 	    params.put("key", key);

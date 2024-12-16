@@ -28,7 +28,7 @@ public class MealkitController {
 	private MealkitService mealkitService;
 	
 	@RequestMapping(value="list", method = { RequestMethod.GET, RequestMethod.POST })
-	public String listMealkits(
+	public String list(
 			@RequestParam(defaultValue = "0") int category, 
 			@RequestParam(defaultValue = "0") int nowPage,
             @RequestParam(defaultValue = "0") int nowBlock, 
@@ -46,7 +46,7 @@ public class MealkitController {
 	}
 	
 	@RequestMapping(value="info", method = { RequestMethod.GET, RequestMethod.POST })
-	public String infoMealkit(@RequestParam int no, Model model) throws Exception {
+	public String info(@RequestParam int no, Model model) throws Exception {
 		
 		MealkitVO mealkitInfo = mealkitService.selectMealkitInfo(no);
 		List<Object> reviewInfo = mealkitService.selectReviewsInfo(no);
@@ -58,13 +58,13 @@ public class MealkitController {
 	}
 	
 	@RequestMapping(value="write", method = { RequestMethod.GET, RequestMethod.POST })
-	public String writeMealkit() throws Exception {
+	public String write() throws Exception {
 		
 		return "/mealkits/write";
 	}
 	
 	@RequestMapping(value="review", method = { RequestMethod.GET, RequestMethod.POST })
-	public String reviewMealkit(@RequestParam int no, Model model) throws Exception {
+	public String review(@RequestParam int no, Model model) throws Exception {
 		
 		MealkitVO mealkitInfo = mealkitService.selectMealkitInfo(no);
 		
@@ -119,15 +119,37 @@ public class MealkitController {
 	
 	@ResponseBody
 	@RequestMapping(value="deletePro", method = { RequestMethod.GET, RequestMethod.POST })
-	public String deleteMealkit(@RequestParam int no) throws Exception {
+	public String deletePro(@RequestParam int no) throws Exception {
 		
 		int result = mealkitService.deleteMealkit(no);		
 
 		return String.valueOf(result);
 	}
+
+	@ResponseBody
+	@RequestMapping(value = "reviewPro", method = { RequestMethod.GET, RequestMethod.POST })
+	public String reviewPro(MealkitReviewVO reviewVO, MultipartHttpServletRequest multipartRequest) 
+			throws Exception {
+		
+		multipartRequest.setCharacterEncoding("utf-8");
+		
+		int no = mealkitService.processReviewWrite(reviewVO, multipartRequest);
+		
+		return String.valueOf(no);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="reviewDeletePro", method = { RequestMethod.GET, RequestMethod.POST })
+	public String reviewDeletePro(@RequestParam int no, @RequestParam int mealkitNo, 
+			HttpSession session) throws Exception {
+		
+		int result = mealkitService.deleteReview(no, mealkitNo, (String) session.getAttribute("userId"));		
+
+		return String.valueOf(result);
+	}
 	
 	@RequestMapping(value="searchlistPro", method = { RequestMethod.GET, RequestMethod.POST })
-	public String searchlist(Model model,
+	public String searchlistPro(Model model,
 			@RequestParam("key") String key,
 	        @RequestParam("word") String word, 
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -150,7 +172,7 @@ public class MealkitController {
 	}
 	
 	@RequestMapping(value="cartPro", method = { RequestMethod.GET, RequestMethod.POST })
-	public String cartMealkit(@RequestParam int no, @RequestParam int quantity, 
+	public String cartPro(@RequestParam int no, @RequestParam int quantity, 
 			HttpSession session) throws Exception {
 		
 		int result = mealkitService.processCart(no, quantity, (String) session.getAttribute("userId"));

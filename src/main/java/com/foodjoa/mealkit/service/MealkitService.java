@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -136,6 +137,65 @@ public class MealkitService {
 					+ File.separator + "reviews" + File.separator + no;
 			
 			FileIOController.deleteDirectory(path);
+			FileIOController.deleteDirectory(reviewPath);
+		}
+		
+		return result;
+	}
+	
+
+	public int processReviewWrite(MealkitReviewVO reviewVO, MultipartHttpServletRequest multipartRequest) throws Exception{
+		
+		int result = mealkitDAO.insertReview(reviewVO);
+		
+		if (result <= 0) return 0;
+		
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		
+		String tempPath = imagesPath + "temp" + File.separator;
+
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+		
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			
+			if (mFile.getSize() != 0) {
+				mFile.transferTo(new File(tempPath + mFile.getOriginalFilename()));	
+			}			
+		}
+		
+		int no = reviewVO.getMealkitNo();
+		
+		List<String> pictures = StringParser.splitString(reviewVO.getPictures());
+		String destinationPath = imagesPath + "mealkit" + File.separator + "reviews" + File.separator
+				+ reviewVO.getMealkitNo() + File.separator + reviewVO.getId();
+		
+		for (String picture : pictures) {
+			FileIOController.moveFile(tempPath, destinationPath, picture);
+		}
+		
+		return no;
+	}
+
+	public int deleteReview(int no, int mealkitNo, String id) throws Exception{
+		
+		int result = mealkitDAO.deleteReview(no);
+
+		if (result > 0) {
+			String reviewPath = new ClassPathResource("").getFile().getParentFile().getParent()
+					+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+					+ File.separator + "resources" + File.separator + "images" + File.separator + "mealkit" 
+					+ File.separator + "reviews" + File.separator + mealkitNo + File.separator + id;
+			
 			FileIOController.deleteDirectory(reviewPath);
 		}
 		
