@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.foodjoa.mealkit.vo.MealkitOrderVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
 import com.foodjoa.member.service.MemberService;
 import com.foodjoa.member.vo.MemberVO;
@@ -370,27 +371,28 @@ public class MemberController {
     }
 
     @RequestMapping("mydelivery")
-    public String mydelivery(Model model, HttpSession session, MealkitVO mealkitVO) {
+    public String mydelivery(Model model, HttpSession session) {
         // 세션에서 사용자 ID 가져오기
         String id = (String) session.getAttribute("userId");
 
         // 서비스 호출
-        List<HashMap<String, Object>> orderedMealkitList = (ArrayList<HashMap<String, Object>>) memberService.getDeliveredMealkit(mealkitVO);
-
+        List<MealkitOrderVO> deliveredMealkitList = memberService.getDeliveredMealkit(id);
+        
         // 모델에 데이터 추가
-        model.addAttribute("orderedMealkitList", orderedMealkitList);
+        model.addAttribute("deliveredMealkitList", deliveredMealkitList);
 
         return "/members/mydelivery";
     }
 
     @RequestMapping("sendmealkit")
-    public String sendmealkit(Model model, HttpSession session, MealkitVO mealkitVO) {
+    public String sendmealkit(Model model, HttpSession session) {
         // 세션에서 사용자 ID 가져오기
         String id = (String) session.getAttribute("userId");
 
         // 서비스 호출
-        ArrayList<HashMap<String, Object>> orderedMealkitList = (ArrayList<HashMap<String, Object>>) memberService.getSendedMealkit(mealkitVO);
-
+        //ArrayList<HashMap<String, Object>> orderedMealkitList = (ArrayList<HashMap<String, Object>>) memberService.getSendedMealkit(mealkitVO);
+        List<MealkitOrderVO> orderedMealkitList = memberService.getSendedMealkit(id);
+        
         // 모델에 데이터 추가
         model.addAttribute("orderedMealkitList", orderedMealkitList);
 

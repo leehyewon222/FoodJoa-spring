@@ -21,11 +21,6 @@ public class MemberDAO {
 	@Autowired
 	private SqlSession sqlSession;		
 	
-	public List<HashMap<String, Object>> selectDeliveredMealkit(MealkitVO mealkitvo) {
-	    
-	    return sqlSession.selectList("mapper.member.selectDeliveredMealkit", mealkitvo);
-	}
-	
 	public List<HashMap<String, Object>> selectSendedMealkit(MealkitVO mealkitvo){
 		
 		return sqlSession.selectList("mapper.member.selectSendedMealkit", mealkitvo);

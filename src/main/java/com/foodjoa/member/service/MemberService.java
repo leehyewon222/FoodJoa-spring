@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.foodjoa.mealkit.dao.MealkitDAO;
+import com.foodjoa.mealkit.vo.MealkitOrderVO;
 import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
 import com.foodjoa.member.dao.MemberDAO;
@@ -222,12 +223,12 @@ public class MemberService {
 		return reviews;
 	}
 
-	public List<HashMap<String, Object>> getDeliveredMealkit(MealkitVO mealkitvo) {
-		return memberDAO.selectDeliveredMealkit(mealkitvo);
+	public List<MealkitOrderVO> getDeliveredMealkit(String id) {
+		return mealkitDAO.selectDeliveredMealkits(id);
 	}
 
-	public List<HashMap<String, Object>> getSendedMealkit(MealkitVO mealkitvo) {
-		return memberDAO.selectSendedMealkit(mealkitvo);
+	public List<MealkitOrderVO> getSendedMealkit(String id) {
+		return mealkitDAO.selectSendedMealkits(id);
 	}
 
 	public int updateProfile(HttpServletRequest request) {
