@@ -87,44 +87,26 @@ public class NoticeController {
     
     @ResponseBody
     @RequestMapping(value = "updatePro", method = {RequestMethod.GET, RequestMethod.POST})
-    public String updatePro(Model model, HttpSession session,
+    public String updatePro(Model model,
             @RequestParam(required = false, defaultValue = "0") String title,
-    		@RequestParam(required = false, defaultValue = "0") String contents) {
+    		@RequestParam(required = false, defaultValue = "0") String contents,
+    		@RequestParam(required = false, defaultValue = "0") String no) {
     	
-    	int result = noticeService.updateNotice(title, contents);
+    	int result = noticeService.updateNotice(title, contents, no);
     	
     	return String.valueOf(result);
     }
+    
+    @ResponseBody
+    @RequestMapping(value = "deletePro", method = {RequestMethod.GET, RequestMethod.POST})
+    public String deletePro(@RequestParam int no) {
+    	
+    	int result = noticeService.processNoticeDelete(no);
 
-//    @ResponseBody
-//    @RequestMapping(value = "updatePro", method = {RequestMethod.GET, RequestMethod.POST})
-//    public String updatePro(CommunityVO communityVO){
-//    	
-//    	int result = communityService.updateCommunity(communityVO);
-//    	
-//    	return String.valueOf(result);
-//    }
-//    
-//    @ResponseBody
-//    @RequestMapping(value = "deletePro", method = {RequestMethod.GET, RequestMethod.POST})
-//    public String deletePro(Model model,
-//    		@RequestParam(required = false, defaultValue = "0") String no) {
-//    	
-//    	int result = communityService.deleteCommunity(no);
-//
-//    	return String.valueOf(result);
-//    }
-//
-//	@RequestParam(required = false, defaultValue = "0") String no,
-//	@RequestParam(required = false, defaultValue = "0") String title,
-//	@RequestParam(required = false, defaultValue = "0") String contents,
-//	@RequestParam(required = false, defaultValue = "0") String nowPage,
-//	@RequestParam(required = false, defaultValue = "0") String nowBlock) {
-//
-//		NoticeVO noticeVO = noticeService.updateNotice(no, title, contents);
-//		
-//		model.addAttribute("noticeVO", noticeVO);
-//		model.addAttribute("nowPage", nowPage);
-//		model.addAttribute("nowBlock", nowBlock);
+    	return String.valueOf(result);
+    }
+
+
+
 
 }

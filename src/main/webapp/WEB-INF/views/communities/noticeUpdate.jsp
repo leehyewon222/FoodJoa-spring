@@ -18,9 +18,8 @@
 <head>
 <meta charset="UTF-8">
 <title>공유 게시판 목록</title>
-
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>	
-	<link rel="stylesheet" href="${ resourcePath }/css/community/update.css">	
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<link rel="stylesheet" href="${ resourcePath }/css/community/write.css">
 </head>
 
 <body>
@@ -28,14 +27,14 @@
 		<p class="community_p1">NOTICE</p>
 		<p class="community_p2">공지 사항</p>
 	</div>
-		<div id="container">
+	<div id="container">
 		<div class="form-container">
 			<div>
 				<label for="title">제목</label>
-				<input type="text" id="title" name="title" placeholder="제목을 입력하세요" value="${notice.title}">
+				<input type="text" id="title" name="title" placeholder="제목을 입력하세요" value="${noticeVO.title}">
 				
 				<label for="contents">내용</label>
-				<textarea id="contents" name="contents" rows="25" placeholder="내용을 입력해주세요">${notice.contents}</textarea>
+				<textarea id="contents" name="contents" rows="25" placeholder="내용을 입력해주세요">${noticeVO.contents}</textarea>
 				
 				<div class="bottom_button" align="center">
 					<input type="button" value="수정" onclick="onSubmit(event)">
@@ -53,7 +52,7 @@
 				type: 'POST',
 				async: false,
 				data: {
-					no: ${notice.no},
+					no: ${noticeVO.no},
 					title: $("#title").val(),
 					contents: $("#contents").val()
 				},
@@ -61,7 +60,7 @@
 				success: function(responseData, status, jqxhr) {
 					if (responseData == "1") {
 						alert("공지사항을 수정했습니다.");
-						location.href = '${contextPath}/Notice/read?no=${notice.no}&nowPage=${nowPage}&nowBlock=${nowBlock}';
+						location.href = '${contextPath}/Notice/read?no=${noticeVO.no}&nowPage=${nowPage}&nowBlock=${nowBlock}';
 					}
 					else {
 						alert("공지사항 수정에 실패했습니다.");

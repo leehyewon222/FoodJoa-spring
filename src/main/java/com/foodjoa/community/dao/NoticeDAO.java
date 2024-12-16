@@ -35,7 +35,7 @@ public class NoticeDAO {
 		return sqlSession.update("mapper.notice.updateNotice", noticeVO);
 	}
 
-//	public int deleteCommunity(int no) {
-//		return sqlSession.delete("mapper.community.deleteCommunity", no);
-//	}
+	public int deleteNotice(int _no) {
+		return sqlSession.delete("mapper.notice.deleteNotice", _no);
+	}
 }

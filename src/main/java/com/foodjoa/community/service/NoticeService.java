@@ -43,24 +43,19 @@ public class NoticeService {
 		return noticeDAO.insertNotice(noticeVO);
 	}
 
-	public int updateNotice(String nowPage, String nowBlock) {
+	public int updateNotice(String title, String contents, String no) {
 		
 		NoticeVO noticeVO = new NoticeVO();
 		
-		noticeVO.setContents(nowPage);
-		noticeVO.setContents(nowBlock);
+		noticeVO.setTitle(title);
+		noticeVO.setContents(contents);
+		noticeVO.setNo(Integer.parseInt(no));
 		
 		return noticeDAO.updateNotice(noticeVO);
 	}
-//
-//	public int deleteCommunity(String no) {
-//		int _no = Integer.parseInt(no);
-//		
-//		int result = communityDAO.deleteCommunity(_no);
-//		return result;
-//	}
-//
-//	public List<CommunityVO> getSearchedCommunity(String key, String word) {
-//		return communityDAO.selectSearchedCommunities(key, word);
-//	}
+
+	public int processNoticeDelete(int no) {
+
+		return noticeDAO.deleteNotice(no);
+	}
 }

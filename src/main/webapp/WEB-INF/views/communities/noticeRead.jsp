@@ -97,7 +97,7 @@
 		
 		function onDeleteButton() {
 			$.ajax({
-				url: "${contextPath}/Notice/noticeDeletePro",
+				url: "${contextPath}/Notice/deletePro",
 				type: "post",
 				data: {
 					no: ${notice.no}
@@ -106,7 +106,7 @@
 				success: function(responsedData){					
 					if(responsedData == "1"){
 						alert('공지사항이 삭제되었습니다.');
-						location.href ='${contextPath}/Notice/noticeList';
+						location.href ='${contextPath}/Notice/list';
 					}
 					else {
 						alert('공지사항 삭제에 실패했습니다.');

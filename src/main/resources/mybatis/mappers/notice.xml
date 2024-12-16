@@ -39,5 +39,11 @@
 		update notice
 		set title=#{title}, contents=#{contents}
 		where no=#{no}
-	</update>    
+	</update>
+	
+	<delete id="deleteNotice" parameterType="int">
+		DELETE
+		FROM notice
+		WHERE no=#{_no}
+	</delete>
 </mapper>
