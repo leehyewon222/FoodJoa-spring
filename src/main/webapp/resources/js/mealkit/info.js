@@ -1,6 +1,3 @@
-let mealkitNo = parseInt($('#mealkitNo').val());
-let bytePictures = $('#bytePictures').val();
-
 // bxslide 
 $('.bxslider').bxSlider({
 	infiniteLoop: false,
@@ -13,9 +10,11 @@ $('.bx-wrapper').css({
     'box-shadow': 'none'
 });
 
-// 수량 증가 감소 버튼
-let stockInput = $('input[name="stock"]');
-let stock = stockInput.val();
+let mealkitNo = parseInt($('#mealkitNo').val());
+let bytePictures = $('#bytePictures').val();
+
+let stockInput = $('#stock');
+let stock = parseInt(stockInput.val());
 let maxStock = parseInt($('#mealkitStock').val());
 let minStock = 1;
 
@@ -33,9 +32,12 @@ $('.stock_minus').click(function() {
 	}
 });
 
-// 장바구니, 찜목록 버튼
-function cartMealkit(contextPath) {
-	stock = stockInput.val();
+function cartMealkit(contextPath, mealkitNo) {
+
+	let stock = parseInt($('#stock').val());
+	
+	console.log("cartMealkit 함수 실행");
+    console.log("contextPath:", contextPath, "mealkitNo:", mealkitNo, "stock:", stock);
 	
 	$.ajax({
 		url: contextPath + "/Mealkit/cartPro",
@@ -52,7 +54,8 @@ function cartMealkit(contextPath) {
 	});
 }
 
-function wishMealkit(contextPath) {
+
+function wishMealkit(contextPath, mealkitNo) {
 	$.ajax({
 		url: contextPath + "/Mealkit/wishPro",
 		type: "POST",

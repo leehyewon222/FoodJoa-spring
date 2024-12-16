@@ -4,4 +4,51 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.mealkitCart">
+
+	<resultMap type="mealkitCartVO" id="cartVO">
+	
+		<id property="no" column="no"/>
+		<result property="id" column="id"/>
+		<result property="mealkitNo" column="mealkit_no"/>
+		<result property="quantity" column="quantity"/>
+		<result property="choiceDate" column="choice_date"/>
+		
+		<association property="mealktVO" javaType="mealkitVO">
+		<id property="no" column="no"/>
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="contents" column="contents"/>
+		<result property="category" column="category"/>
+		<result property="price" column="price"/>
+		<result property="stock" column="stock"/>
+		<result property="pictures" column="pictures"/>
+		<result property="orders" column="orders"/>
+		<result property="origin" column="origin"/>
+		<result property="views" column="views"/>
+		<result property="soldout" column="soldout"/>
+		<result property="postDate" column="post_date"/>
+		<result property="averageRating" column="average_rating"/>
+		<result property="reviewCount" column="review_count"/>
+		</association>
+		
+	</resultMap>
+	
+	 <select id="selectMealkitCart" parameterType="mealkitCartVO" resultType="int">
+        SELECT COUNT(*) 
+        FROM mealkit_cart 
+        WHERE mealkit_no = #{mealkitNo} 
+        AND id = #{id}
+    </select>
+	
+	<update id="updateMealkitCart" parameterType="mealkitCartVO">
+        UPDATE mealkit_cart 
+        SET quantity = quantity + #{quantity} 
+        WHERE mealkit_no = #{mealkitNo} 
+        AND id = #{id}
+    </update>
+	
+	<insert id="insertMealkitCart" parameterType="mealkitCartVO">
+        INSERT INTO mealkit_cart (id, mealkit_no, quantity, choice_date)
+        VALUES (#{id}, #{mealkitNo}, #{quantity}, CURRENT_TIMESTAMP)
+    </insert>
 </mapper>
