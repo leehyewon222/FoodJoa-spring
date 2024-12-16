@@ -4,9 +4,10 @@
 
 <configuration>
 	<typeAliases>
-		<typeAlias type="com.foodjoa.community.vo.CommunityShareVO" alias="communityShareVO" />
 		<typeAlias type="com.foodjoa.community.vo.CommunityVO" alias="communityVO" />
 		<typeAlias type="com.foodjoa.community.vo.NoticeVO" alias="noticeVO" />
+		
+		<typeAlias type="com.foodjoa.share.vo.ShareVO" alias="shareVO" />
 		
 		<typeAlias type="com.foodjoa.mealkit.vo.MealkitCartVO" alias="mealkitCartVO" />
 		<typeAlias type="com.foodjoa.mealkit.vo.MealkitOrderVO" alias="mealkitOrderVO" />

@@ -155,7 +155,8 @@ create table community(
 );
 
 drop table IF EXISTS community_share;
-create table community_share(
+drop table IF EXISTS share;
+create table share(
 	no 				int primary key auto_increment,
     id 				varchar(50) not null,
     thumbnail 		varchar(255) not null,
@@ -163,7 +164,6 @@ create table community_share(
     contents 		longtext not null,
     lat 			double not null,
     lng 			double not null,
-    type 			tinyint not null,
     views 			int not null,
 	post_date 		timestamp not null,
 

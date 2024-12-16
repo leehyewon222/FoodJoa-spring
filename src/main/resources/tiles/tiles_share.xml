@@ -3,8 +3,19 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>	
-	<definition name="/communities/list1231231231" extends="baseLayout">
-
+	<definition name="/shares/list" extends="baseLayout">
+		<put-attribute name="title" value="재료 나눔 게시판"/>
+		<put-attribute name="center" value="/WEB-INF/views/shares/shareList.jsp" />
+	</definition>
+	
+	<definition name="/shares/write" extends="baseLayout">
+		<put-attribute name="title" value="재료 나눔 - 글 쓰기"/>
+		<put-attribute name="center" value="/WEB-INF/views/shares/shareWrite.jsp" />
+	</definition>
+	
+	<definition name="/shares/read" extends="baseLayout">
+		<put-attribute name="title" value="재료 나눔 - 글 읽기"/>
+		<put-attribute name="center" value="/WEB-INF/views/shares/shareRead.jsp" />
 	</definition>
 </tiles-definitions>
 

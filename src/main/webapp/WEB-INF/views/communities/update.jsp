@@ -63,6 +63,7 @@
 				success: function(responsedData) {
 					
 					if (responsedData == "1") {
+						alert('수정되었습니다');
 						location.href = '${contextPath}/Community/read?no=${community.no}';
 					}
 					else {

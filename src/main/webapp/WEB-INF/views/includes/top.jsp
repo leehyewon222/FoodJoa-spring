@@ -75,7 +75,7 @@
 					<ul>
 						<li><a href="${ contextPath }/Notice/list">공지사항</a></li>
 						<li><a href="${ contextPath }/Community/list">자유 게시판</a></li>
-						<li><a href="${ contextPath }/Community/shareList">나눔/같이 먹어요</a></li>
+						<li><a href="${ contextPath }/Share/list">나눔/같이 먹어요</a></li>
 					</ul>
 				</li>
 				<li><a href="javascript:onMypageButton()">마이페이지</a></li>
