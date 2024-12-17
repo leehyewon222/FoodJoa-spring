@@ -178,9 +178,7 @@ response.setContentType("text/html; charset=utf-8");
 									</tr>
 									<tr>
 										<td>
-											<div class="myreview-contents">
-												${ stringParser.unescapeHtml(review.contents) }
-											</div>
+											<div class="myreview-contents">${ stringParser.unescapeHtml(review.contents) }</div>
 										</td>
 									</tr>
 									<tr>
@@ -233,7 +231,7 @@ response.setContentType("text/html; charset=utf-8");
 		}
 		
 		function onMealkitReviewUpdate(reviewNo) {
-			location.href = '${ contextPath }/Mealkit/reviewUpdate?no=' + reviewNo;
+			location.href = '${ contextPath }/Mealkit/updateReview?no=' + reviewNo;
 		}
 		
 		function onMealkitReviewDelete(reviewNo, mealkitNo) {

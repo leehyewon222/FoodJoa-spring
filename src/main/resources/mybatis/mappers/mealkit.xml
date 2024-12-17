@@ -96,7 +96,7 @@
 			JOIN member m 
 	        ON k.id = m.id 
         ]]>
-        <if test="id != 0">
+		<if test="id != null and id != ''">
 			WHERE k.id = #{id} 
         </if>
         <![CDATA[

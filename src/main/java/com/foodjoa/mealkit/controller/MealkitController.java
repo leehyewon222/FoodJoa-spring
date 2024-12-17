@@ -93,7 +93,7 @@ public class MealkitController {
 		return "/mealkits/updateReview";
 	}
 	
-	@RequestMapping(value="mymealkit", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value="myMealkits", method = { RequestMethod.GET, RequestMethod.POST })
 	public String myMealkit(Model model, HttpSession session) throws Exception {
 		
 		String id = (String) session.getAttribute("userId");
@@ -148,6 +148,17 @@ public class MealkitController {
 		int no = mealkitService.processReviewWrite(reviewVO, multipartRequest);
 		
 		return String.valueOf(no);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="reviewUpdatePro", method = {RequestMethod.GET, RequestMethod.POST})
+	public String reviewUpdatePro(MealkitReviewVO reviewVO, MultipartHttpServletRequest multipartRequest)throws Exception{
+
+		multipartRequest.setCharacterEncoding("utf-8");
+		
+		int result = mealkitService.processReviewUpdate(reviewVO, multipartRequest);
+		
+		return String.valueOf(result);
 	}
 	
 	@ResponseBody

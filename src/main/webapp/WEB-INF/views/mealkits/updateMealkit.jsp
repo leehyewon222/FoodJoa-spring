@@ -11,7 +11,7 @@
 <c:set var="orders" value="${stringParser.splitString(mealkitInfo.orders) }"/>
 <c:set var="pictures" value="${stringParser.splitString(mealkitInfo.pictures) }"/>
 	
-<c:set var="id" value="aronId"/>
+<c:set var="id" value="${sessionScope.userId }"/>
 
 <!DOCTYPE html>
 <html>
@@ -64,11 +64,10 @@
 					<td>
 						<select class="category" name="category" required>
 					        <option value="" <c:if test="${empty mealkitInfo.category}">selected</c:if>>선택하세요</option>
-					        <option value="0" <c:if test="${mealkitInfo.category == 0}">selected</c:if>>한식</option>
-					        <option value="1" <c:if test="${mealkitInfo.category == 1}">selected</c:if>>중식</option>
-					        <option value="2" <c:if test="${mealkitInfo.category == 2}">selected</c:if>>일식</option>
-					        <option value="3" <c:if test="${mealkitInfo.category == 3}">selected</c:if>>양식</option>
-					        <option value="4" <c:if test="${mealkitInfo.category == 4}">selected</c:if>>분식</option>
+					        <option value="0" <c:if test="${mealkitInfo.category == 1}">selected</c:if>>한식</option>
+					        <option value="1" <c:if test="${mealkitInfo.category == 2}">selected</c:if>>일식</option>
+					        <option value="2" <c:if test="${mealkitInfo.category == 3}">selected</c:if>>중식</option>
+					        <option value="3" <c:if test="${mealkitInfo.category == 4}">selected</c:if>>양식</option>
 					    </select>
 					</td>
 				</tr>

@@ -1,11 +1,11 @@
 function onUpdateButton(no, contextPath) {
-	location.href = contextPath + '/Mealkit/update?no=' + no;
+	location.href = contextPath + '/Mealkit/updateMealkit?no=' + no;
 }
 
 function onDeleteButton(no, contextPath) {
 	if (confirm('정말로 삭제하시겠습니까?')) {
 		$.ajax({
-		    url: contextPath + '/Mealkit/delete.pro',
+		    url: contextPath + '/Mealkit/deletePro',
 		    type: "POST",
 		    data: {
 		    	no: no

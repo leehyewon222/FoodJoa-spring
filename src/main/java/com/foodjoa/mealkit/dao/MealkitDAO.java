@@ -36,7 +36,7 @@ public class MealkitDAO {
 	}
 
 	public MealkitReviewVO selectMyReviewInfo(int no) {
-		return sqlSession.selectOne("mapper.mealkit.selectMyReviewInfo", no);
+		return sqlSession.selectOne("mapper.mealkitReview.selectMyReviewInfo", no);
 	}
 
 	public int insertMealkit(MealkitVO mealkitVO) {
@@ -57,6 +57,10 @@ public class MealkitDAO {
 
 	public int insertReview(MealkitReviewVO reviewVO) {
 		return sqlSession.insert("mapper.mealkitReview.insertReview", reviewVO);
+	}
+
+	public int updateReview(MealkitReviewVO reviewVO) {
+		return sqlSession.update("mapper.mealkitReview.updateReview", reviewVO);
 	}
 
 	public int deleteReview(int no) {

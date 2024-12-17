@@ -8,14 +8,14 @@
 <c:set var="pagePerBlock" value="3" />
 <c:set var="totalRecord" value="${mealkitsList.size()}" />
 <c:set var="beginPerPage" value="${nowPage * numPerPage}" />
-<c:set var="totalPage" value="${(totalRecord + numPerPage - 1) / numPerPage}" />
-<c:set var="totalBlock" value="${(totalPage + pagePerBlock - 1) / pagePerBlock}" />
+<c:set var="totalPage" value="${Math.ceil(totalRecord / numPerPage)}" />
+<c:set var="totalBlock" value="${Math.ceil(totalPage / pagePerBlock)}" />
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <c:set var="resourcesPath" value="${contextPath}/resources" />
 <jsp:useBean id="stringParser" class="Common.StringParser"/>
 
-<c:set var="id" value="aronId"/>
+<c:set var="id" value="${sessionScope.userId }"/>
 
 <!DOCTYPE html>
 <html>

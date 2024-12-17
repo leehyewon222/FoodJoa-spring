@@ -237,6 +237,59 @@ public class MealkitService {
 		return no;
 	}
 
+	public int processReviewUpdate(MealkitReviewVO reviewVO, MultipartHttpServletRequest multipartRequest) 
+		throws Exception{
+		
+		String originSelectedPictures = multipartRequest.getParameter("origin_selected_pictures");
+		String pictures = reviewVO.getPictures();
+		
+		reviewVO.setPictures(originSelectedPictures + pictures);
+		
+		mealkitDAO.updateReview(reviewVO);
+		
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		
+		String tempPath = imagesPath + "temp" + File.separator;
+		String destinationPath = imagesPath + "mealkit" + File.separator +
+				"reviews" + File.separator + reviewVO.getMealkitNo() + File.separator + reviewVO.getId();
+		
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+		
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			
+			if (mFile.getSize() != 0) {
+				mFile.transferTo(new File(tempPath + mFile.getOriginalFilename()));
+			}
+		}
+		
+		List<String> originFileNames = StringParser.splitString(multipartRequest.getParameter("origin_pictures"));
+		List<String> originSelectedFileNames = StringParser.splitString(originSelectedPictures);
+		
+		for (String fileName : originFileNames) {
+			if (!originSelectedFileNames.contains(fileName)) {
+				FileIOController.deleteFile(destinationPath, fileName);
+			}
+		}
+		
+		List<String> picturesList = StringParser.splitString(pictures);
+		
+        for (String picture : picturesList) {
+    		FileIOController.moveFile(tempPath, destinationPath, picture);
+        }
+        
+        return reviewVO.getMealkitNo();
+	}
+
 	public int deleteReview(int no, int mealkitNo, String id) throws Exception{
 		
 		int result = mealkitDAO.deleteReview(no);
