@@ -49,15 +49,13 @@ public class MemberService {
 
     public int insertMember(MemberVO memberVO, MultipartHttpServletRequest multipartRequest, HttpSession session) throws Exception {
         
-        String userId = (String) session.getAttribute("userId");
+        String userId = (String) session.getAttribute("joinId");
         
         Iterator<String> fileNames = multipartRequest.getFileNames();
         
         String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
                 + File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
                 + File.separator + "resources" + File.separator + "images" + File.separator;
-        
-        System.out.println("imagesPath : " + imagesPath);
         
         String tempPath = imagesPath + "temp" + File.separator;
 

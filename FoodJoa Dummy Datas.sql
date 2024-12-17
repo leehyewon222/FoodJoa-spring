@@ -1,4 +1,4 @@
-select * from foodjoa.member;
+
 -- member
 insert into member
 values('admin', '관리자', '고나리자', '01012345678', '47296', '부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
@@ -13,7 +13,8 @@ values('admin', '관리자', '고나리자', '01012345678', '47296', '부산 부
     ('hyewonId', '이혜원', '혜원', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
     ('minseokId', '최민석', '민석', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
     
-	('tQi32Qj0iONPLRZ16-5sX4-Gq_p8Jg_T33r-HdtLEFE', '테스터', '실험맨', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY);
+	('tQi32Qj0iONPLRZ16-5sX4-Gq_p8Jg_T33r-HdtLEFE', '네이버테스트', '네이버테스트', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+    ('3837872024', '카카오테스트', '카카오테스트', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY);
 
 -- recipe
 insert into recipe(id, title, thumbnail, description, contents, category, views,
