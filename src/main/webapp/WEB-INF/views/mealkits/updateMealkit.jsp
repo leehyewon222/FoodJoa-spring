@@ -123,6 +123,9 @@
 
 	function initialize() {
 		
+		let $li;
+		let $img;
+		
 		<c:forEach var="order" items="${orders}">
 	        var newOrderHtml = `
 				<tr class="added-orders">
@@ -138,13 +141,13 @@
 	    
 	    // 사진 미리보기 추가
 		<c:forEach var="picture" items="${pictures}">
-	        const fileName = "${picture}";
+	        var fileName = "${picture}";
 	        originSelectedFileNames.push(fileName);
 	
-	        const $li = $('<li>');
-	        const $img = $('<img>', {
+	        $li = $('<li>');
+			$img = $('<img>', {
 	            class: 'review-origin-preview-image',
-	            src: "${resourcesPath}" + "/images/mealkit/thumbnails/" + "${mealkitInfo.no}" + "/" + fileName,
+	            src: "${resourcesPath}/images/mealkit/thumbnails/${mealkitInfo.no}/" + fileName,
 	            css: {
 	                cursor: 'pointer',
 	            },
@@ -159,22 +162,15 @@
 	        $('#imagePreview').append($li);
 	    </c:forEach>
 	}
-
+		
 	function removeOriginFileName(fileName) {
-	    const index = originSelectedFileNames.indexOf(fileName);
-	    if (index > -1) {
-	        originSelectedFileNames.splice(index, 1);
-	    }
-	}
-			
-		function removeOriginFileName(fileName) {
-			for (let i = 0; i < originSelectedFileNames.length; i++) {
-				if (originSelectedFileNames[i] == fileName) {
-					originSelectedFileNames.splice(i, 1);
-					break;
-				}
+		for (let i = 0; i < originSelectedFileNames.length; i++) {
+			if (originSelectedFileNames[i] == fileName) {
+				originSelectedFileNames.splice(i, 1);
+				break;
 			}
 		}
+	}
 			
 	// 선택한 파일 제거
 	function removeSelectedFile(fileIdentifier) {

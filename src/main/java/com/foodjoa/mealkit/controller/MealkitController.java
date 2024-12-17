@@ -194,6 +194,7 @@ public class MealkitController {
 		return String.valueOf(result);
 	}
 	
+	@ResponseBody
 	@RequestMapping(value="cartPro", method = { RequestMethod.GET, RequestMethod.POST })
 	public String cartPro(@RequestParam int no, @RequestParam int quantity, 
 			HttpSession session) throws Exception {

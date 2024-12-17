@@ -112,14 +112,14 @@
 			let $li;
 			let $img;
 			
-			<c:forEach var="picture" items="${pictures}">
-				const fileName = "${picture}";
-		        originSelectedFileNames.push(fileName);
+			<c:forEach var="i" begin="0" end="${ pictures.size() - 1 }" step="1">
+				<c:set var="fileName" value="${ pictures[i] }"/>
+		        originSelectedFileNames.push('${ fileName }');
 				
 				$li = $('<li>');
 				$img = $('<img>', {
 					class: 'preview_image',
-					src: '${resourcesPath}/images/mealkit/reviews/${reviewInfo.mealkitNo}/${id}/' + fileName ,
+					src: '${resourcesPath}/images/mealkit/reviews/${reviewInfo.mealkitNo}/${id}/${ fileName }',
 					css: {
 						cursor: 'pointer'
 					}

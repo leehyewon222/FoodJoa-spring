@@ -290,9 +290,20 @@ textarea{
 
 .review-images {
     display: flex;
-    gap: 20px;
     overflow-x: auto;
     padding-bottom: 20px;
+}
+
+.review-images ul {
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.review-pictures {
+    flex: 0 0 auto;
 }
 
 .review-image {
