@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.together">
+
+	<resultMap type="togetherVO" id="together">
+		<id property="no" column="no"/>
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="contents" column="contents"/>
+		<result property="pictures" column="pictures"/>
+		<result property="lat" column="lat"/>
+		<result property="lng" column="lng"/>
+		<result property="joinDate" column="join_date"/>
+		<result property="finished" column="finished"/>
+		<result property="joinCount" column="join_count"/>
+		<result property="views" column="views"/>
+		<result property="postDate" column="post_date"/>
+		
+		<association property="memberVO" javaType="memberVO">
+			<result property="profile" column="profile"/>
+			<result property="nickname" column="nickname"/>
+		</association>
+	</resultMap>
+</mapper>
