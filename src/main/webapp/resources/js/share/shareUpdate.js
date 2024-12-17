@@ -1,5 +1,6 @@
 
-let selectedRealFile;
+let selectedFile;
+let selectedFileName;
 
 function onSubmit(event, contextPath) {
 	event.preventDefault();
@@ -15,17 +16,18 @@ function onSubmit(event, contextPath) {
 	
 	const formData = new FormData();
 	formData.append('no', no);
+	formData.append('id', $("#id").val());
 	formData.append('originThumbnail', $("#origin-thumbnail").val());
-	formData.append('thumbnail', selectedRealFile);
+	formData.append('thumbnail', selectedFileName);
 	formData.append('title', $("#title").val());	
 	formData.append('contents', $("#contents").val());	
 	formData.append('lat', $("#lat").val());	
-	formData.append('lng', $("#lng").val());	
-	formData.append('type', $("#type").val());	
-	formData.append('views', $("#views").val());	
+	formData.append('lng', $("#lng").val());
+	
+	formData.append('file', selectedFile);
 	
 	$.ajax({
-		url: contextPath + '/Community/shareUpdatePro',
+		url: contextPath + '/Share/updatePro',
 		type: "post",
 		data: formData,
 		processData: false,
@@ -33,7 +35,7 @@ function onSubmit(event, contextPath) {
 		success: function(responsedData) {
 			
 			if (responsedData == "1") {
-				location.href = contextPath + '/Community/shareRead?no=' + no + '&nowPage=' + nowPage + '&nowBlock=' + nowBlock;
+				location.href = contextPath + '/Share/read?no=' + no + '&nowPage=' + nowPage + '&nowBlock=' + nowBlock;
 			}
 			else {
 				alert('게시글 수정을 실패 했습니다.');
@@ -48,14 +50,14 @@ function onSubmit(event, contextPath) {
 
 function handleFileSelect(files) {
 
-	let file = files[0];
+	selectedFile = files[0];
 	const imageContainer = document.getElementById('imageContainer');
 
-	if (file.type.startsWith('image/')) {
+	if (selectedFile.type.startsWith('image/')) {
 		
 		const reader = new FileReader();
 
-		reader.readAsDataURL(file);
+		reader.readAsDataURL(selectedFile);
 
 		reader.onload = function(e) {
 			imageContainer.innerHTML = '';
@@ -63,7 +65,8 @@ function handleFileSelect(files) {
 			const img = document.createElement('img');
 			img.src = e.target.result;
 
-			img.dataset.filename = file.name;
+			img.dataset.filename = selectedFile.name;
+			selectedFileName = selectedFile.name;
 
 			imageContainer.appendChild(img);
 		}			

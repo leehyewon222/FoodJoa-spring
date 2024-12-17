@@ -17,6 +17,12 @@
 		<put-attribute name="title" value="재료 나눔 - 글 읽기"/>
 		<put-attribute name="center" value="/WEB-INF/views/shares/shareRead.jsp" />
 	</definition>
+	
+	<definition name="/shares/update" extends="baseLayout">
+		<put-attribute name="title" value="재료 나눔 - 글 수정"/>
+		<put-attribute name="center" value="/WEB-INF/views/shares/shareUpdate.jsp" />
+	</definition>
+	
 </tiles-definitions>
 
 

@@ -146,7 +146,6 @@
 								<select name="key">
 									<option value="title">제목</option>								
 									<option value="nickname">작성자</option>								
-									<option value="type">분류</option>								
 								</select>
 							</span>
 							<span class="community-search-area">

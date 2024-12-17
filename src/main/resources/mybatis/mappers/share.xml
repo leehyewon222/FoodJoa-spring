@@ -60,4 +60,50 @@
     		no=#{_no}
     	</where>
     </select>
+    
+    <update id="updateShare" parameterType="shareVO">
+    	<![CDATA[
+    		UPDATE share SET
+    		thumbnail=#{thumbnail}, title=#{title}, contents=#{contents}, 
+    		lat=#{lat}, lng=#{lng}
+    	]]>
+    	<where>
+    		no=#{no}
+    	</where>
+    </update>
+    
+    <delete id="deleteShare" parameterType="shareVO">
+    	<![CDATA[
+    		DELETE from share
+    	]]>
+    	<where>
+    		no=#{no}
+    	</where>
+    </delete>
+    
+    <select id="selectSearchedShares" parameterType="java.util.Map" resultMap="share">
+    	<![CDATA[
+	    	SELECT 
+	    		s.*,
+	    		m.profile, m.nickname
+	    	FROM share s
+	    	JOIN member m
+	    	ON s.id=m.id
+    	]]>	
+    	<where>
+    		<if test="word != null and word != ''">
+    			<choose>
+    				<when test="key == 'title'">
+    					s.title LIKE #{word}
+    				</when>
+    				<otherwise>
+    					m.nickname LIKE #{word}
+    				</otherwise>
+    			</choose>
+    		</if>
+    	</where>
+    	<![CDATA[
+    		ORDER BY s.post_date DESC
+    	]]>
+    </select>
 </mapper>

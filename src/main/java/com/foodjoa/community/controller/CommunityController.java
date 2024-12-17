@@ -48,7 +48,6 @@ public class CommunityController {
 		model.addAttribute("community", community);
 
 		return "/communities/read";
-		//리팩토링 다하고 페이징처리 해야함
     }
     
     @RequestMapping(value = "write", method = {RequestMethod.GET, RequestMethod.POST})

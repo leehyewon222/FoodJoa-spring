@@ -2,6 +2,9 @@ package com.foodjoa.share.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,4 +66,47 @@ public class ShareContoller {
 		
 		return "/shares/read";
 	}
+	
+	@RequestMapping(value = "update", method = {RequestMethod.GET, RequestMethod.POST})
+	public String update(Model model,
+			@RequestParam(required = false, defaultValue = "0") int no,
+			@RequestParam(required = false, defaultValue = "0") String nowPage,
+            @RequestParam(required = false, defaultValue = "0") String nowBlock) {
+		
+		ShareVO share = shareService.getShare(no);
+		
+		model.addAttribute("share", share);
+		model.addAttribute("nowPage", nowPage);
+		model.addAttribute("nowBlock", nowBlock);
+		
+		return "/shares/update";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "updatePro", method = {RequestMethod.GET, RequestMethod.POST})
+	public String updatePro(ShareVO shareVO, MultipartHttpServletRequest multipartRequest,
+			@RequestParam String originThumbnail) throws Exception {
+		
+		int result = shareService.processShareUpdate(shareVO, multipartRequest, originThumbnail);
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "deletePro", method = {RequestMethod.GET, RequestMethod.POST})
+	public String deletePro(@RequestParam String no) throws Exception {
+		return String.valueOf(shareService.processShareDelete(no));
+	}
+	
+	@RequestMapping(value = "searchList", method = {RequestMethod.GET, RequestMethod.POST})
+	public String searchList(Model model,
+			@RequestParam String key,
+			@RequestParam String word) {
+		
+		List<ShareVO> shareList = shareService.getSearchedShares(key, word);
+		
+		model.addAttribute("shareList", shareList);
+
+        return "/shares/list";
+	}
+	
 }

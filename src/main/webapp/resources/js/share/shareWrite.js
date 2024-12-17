@@ -9,7 +9,7 @@ function handleFileSelect(files) {
 		
 		const reader = new FileReader();
 
-		reader.readAsDataURL(file);
+		reader.readAsDataURL(selectedFile);
 
 		reader.onload = function(e) {
 			imageContainer.innerHTML = '';

@@ -1,6 +1,7 @@
 package com.foodjoa.share.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,17 @@ public class ShareDAO {
 
 	public ShareVO selectShare(int _no) {
 		return sqlSession.selectOne("mapper.share.selectShare", _no);
+	}
+
+	public int updateShare(ShareVO shareVO) {
+		return sqlSession.update("mapper.share.updateShare", shareVO);
+	}
+
+	public int deleteShare(ShareVO shareVO) {
+		return sqlSession.delete("mapper.share.deleteShare", shareVO);
+	}
+
+	public List<ShareVO> selectSearchedShares(Map<String, String> params) {
+		return sqlSession.selectList("mapper.share.selectSearchedShares", params);
 	}
 }

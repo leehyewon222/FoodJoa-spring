@@ -135,11 +135,33 @@
 		}
 		
 		function onUpdateButton(){
-			location.href = '${ contextPath }/Community/shareUpdate?no=${ share.no }&nowPage=${ nowPage }&nowBlock=${ nowBlock }';
+			location.href = '${ contextPath }/Share/update?no=${ share.no }&nowPage=${ nowPage }&nowBlock=${ nowBlock }';
 		}
 		
 		function onDeleteButton() {
-			location.href='${ contextPath }/Community/shareDeletePro?no=${ share.no }';
+			if(confirm("정말 삭제하시겠습니까?")){
+				$.ajax({
+					url: "${contextPath}/Share/deletePro",
+					type: "post",
+					data:{
+						no: ${ share.no }
+					},
+					dataType: 'text',
+					success: function(responsedData, status, jqxhr) {
+						if (responsedData == "1") {
+							alert("삭제되었습니다")
+							location.href = '${contextPath}/Share/list';
+						}
+						else {
+							alert('삭제 실패했습니다.');
+						}
+					},
+					error: function(xhr, status, error) {
+						console.log(error);
+						alert("게시글 삭제 중 통신 에러 발생");
+					}
+				});
+			}
 		}
 	</script>
 </body>
