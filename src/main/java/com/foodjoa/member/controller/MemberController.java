@@ -1,8 +1,11 @@
 package com.foodjoa.member.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,11 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -28,10 +33,12 @@ import java.util.Map;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.foodjoa.mealkit.vo.MealkitCartVO;
 import com.foodjoa.mealkit.vo.MealkitOrderVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
 import com.foodjoa.member.service.MemberService;
 import com.foodjoa.member.vo.MemberVO;
+import com.foodjoa.member.vo.RecentViewVO;
 
 import Common.SNSLoginAPI;
 import lombok.extern.slf4j.Slf4j;
@@ -47,6 +54,8 @@ public class MemberController {
     @Autowired
     private MemberVO memberVO;
     
+    @Autowired
+    private ServletContext servletContext;
     
 
     //---------------------------------------
@@ -284,35 +293,134 @@ public class MemberController {
     	return String.valueOf(memberService.deleteWishlist(wishType, no));
     }
     
-	@RequestMapping("recentlist")
-	public String recentlist(HttpSession session, Model model) {
-		
-		String userId = (String) session.getAttribute("userId");
-			
-		HashMap<String, Object> recentViewInfos = memberService.getRecentViews(userId);
-
-		 // 분리하여 전달
-        model.addAttribute("recentViewInfos", recentViewInfos);
-		
-		return "/members/recent";
-	}
-	
-	@RequestMapping("cartlist")
-	public String cartlist() {
-		return "/members/cartlist";
-	}
-    
-    @RequestMapping("mypagemain")
-    public String mypagemain(Model model ,HttpSession session){
-
+    @RequestMapping("recentlist")
+    public String recentlist(HttpSession session, Model model) {
         String userId = (String) session.getAttribute("userId");
+
+        // 서비스에서 데이터를 가져오기
+        Map<String, List<RecentViewVO>> recentViewInfos = memberService.getRecentViews(userId);
+
+        // JSP에 전달 (서비스의 Map 키와 일치해야 함)
+        model.addAttribute("recipes", recentViewInfos.get("recentRecipes")); // recentRecipes로 수정
+        model.addAttribute("mealKits", recentViewInfos.get("recentMealkits")); // recentMealkits로 수정
         
-        // 사용자 데이터 가져오기
+        return "/members/recent";
+    }
+
+
+
+	      
+    @RequestMapping("cartlist")
+    public String cartlist(HttpSession session, Model model) {
+        String userId = (String) session.getAttribute("userId");
+
+        // 서비스에서 카트 리스트 정보 가져오기
+        List<MealkitCartVO> cartListInfos = memberService.getCartListInfos(userId);
+
+        // 모델에 데이터 추가
+        model.addAttribute("cartListInfos", cartListInfos);
+
+        // 뷰 이름 반환
+        return "/members/cartlist";
+    }
+    
+    // 장바구니 삭제
+    @RequestMapping("deleteCartList")
+    public String deleteCartList(@RequestParam("userId") String userId, 
+                                 @RequestParam("mealkitNo") String mealkitNo,
+                                 RedirectAttributes redirectAttributes) {
+        int result = memberService.deleteCartList(userId, mealkitNo);
+
+        if (result == 1) {
+            // 삭제 성공
+            redirectAttributes.addFlashAttribute("message", "삭제 성공!");
+            return "redirect:/Member/cartlist"; // 리다이렉트
+        } else if (result == 0) {
+            // 삭제 실패: 해당 레시피는 장바구니에 없음
+            redirectAttributes.addFlashAttribute("message", "삭제 실패: 해당 레시피는 장바구니에 없습니다.");
+            return "redirect:/Member/cartlist";
+        } else {
+            // DB 통신 오류
+            redirectAttributes.addFlashAttribute("message", "DB 통신 오류가 발생했습니다.");
+            return "redirect:/Member/cartlist";
+        }
+    }
+
+    // 장바구니 수량 업데이트
+    @RequestMapping("updateCartList")
+    public String updateCartList(@RequestParam("userId") String userId,
+                                 @RequestParam("mealkitNo") String mealkitNo,
+                                 @RequestParam("quantity") String quantityStr,
+                                 RedirectAttributes redirectAttributes) {
+        // 수량 값 유효성 검사
+        int quantity = 0;
+        try {
+            quantity = Integer.parseInt(quantityStr);
+            if (quantity <= 0) {
+                redirectAttributes.addFlashAttribute("message", "수량 값이 0 이하입니다. 유효한 수량을 입력하세요.");
+                return "redirect:/Member/cartlist";
+            }
+        } catch (NumberFormatException e) {
+            redirectAttributes.addFlashAttribute("message", "수량 값이 잘못되었습니다: " + quantityStr);
+            return "redirect:/Member/cartlist";
+        }
+
+        // 서비스 계층을 통해 수량 업데이트
+        int result = memberService.updateCartList(userId, mealkitNo, quantity);
+
+        if (result == 1) {
+            // 업데이트 성공
+            redirectAttributes.addFlashAttribute("message", "수량 업데이트 성공!");
+        } else if (result == 0) {
+            // 업데이트 실패: 해당 항목이 없음
+            redirectAttributes.addFlashAttribute("message", "수량 업데이트 실패: 해당 항목이 장바구니에 없습니다.");
+        } else {
+            // DB 통신 오류
+            redirectAttributes.addFlashAttribute("message", "DB 통신 오류가 발생했습니다.");
+        }
+
+        return "redirect:/Member/cartlist";
+    }
+    
+    @RequestMapping("payment")
+    public String payment(Model model, @RequestParam(required = false) String isCart, HttpServletRequest request) {
+        
+        // 주문 정보와 회원 정보를 가져옴
+        List<HashMap<String, Object>> orders = memberService.getPurchaseMealkits(request);
+        MemberVO myInfo = memberService.getMember(request); 
+        
+        // Model에 데이터 추가
+        model.addAttribute("orders", orders);
+        model.addAttribute("myInfo", myInfo);
+        model.addAttribute("isCart", isCart); 
+    
+        // View 이름 반환
+        return "/members/payment"; 
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "insertMyOrder", method = { RequestMethod.GET, RequestMethod.POST })
+    public String insertMyOrder(HttpServletRequest request) {
+    	
+        int result = memberService.insertMyOrder(request);
+        
+        return String.valueOf(result); 
+    }
+
+    
+    
+	 @RequestMapping("mypagemain")
+	 public String mypagemain(Model model ,HttpSession session){
+
+		 String userId = (String) session.getAttribute("userId");
+	        
+		 if (userId == null || userId.trim().isEmpty()) 
+		 return "redirect:/Member/login";
+        
         MemberVO member = memberService.getMemberById(userId);
         ArrayList<Integer> deliveredCounts = memberService.getCountOrderDelivered(userId);
         ArrayList<Integer> sendedCounts = memberService.getCountOrderSended(userId);
 
-        // 데이터 설정 및 뷰 반환
         model.addAttribute("member", member);
         model.addAttribute("deliveredCounts", deliveredCounts);
         model.addAttribute("sendedCounts", sendedCounts);
@@ -322,38 +430,25 @@ public class MemberController {
     
     @RequestMapping("profileupdate")
     public String profileupdate(Model model, HttpSession session) {
-        // ID 가져오기
         String userId = (String) session.getAttribute("userId");
         
-        // 사용자 정보 부름
-        MemberVO vo = memberService.getMemberById(userId);
-
-        // Model에 데이터 추가
+        MemberVO vo = memberService.getMemberById(userId); 
+        
         model.addAttribute("vo", vo);
 
         return "/members/profileupdate";
     }
     
-    @RequestMapping("updatePro")
-    public String updatePro(HttpServletRequest request, HttpServletResponse response, Model model) {
-        // 요청에서 데이터 추출
-        String id = request.getParameter("id");
-        System.out.println("Received ID: " + id);
-
-        // 서비스 호출 및 처리
-        int result = memberService.updateProfile(request);
-
-        // Cache-Control 헤더 설정
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        response.setHeader("Pragma", "no-cache");
-        response.setDateHeader("Expires", 0);
-
-        // 결과를 모델에 추가 (선택 사항)
-        model.addAttribute("result", result);
-
-        // 리다이렉트
-        return "redirect:/members/mypagemain";
+    @ResponseBody
+    @RequestMapping(value = "updatePro", method = { RequestMethod.GET, RequestMethod.POST })
+    public String updatePro(MemberVO memberVO, MultipartHttpServletRequest multipartRequest,
+    		@RequestParam String originProfile) throws Exception {
+        
+    	int result = memberService.updateProfile(memberVO, multipartRequest, originProfile);
+    	
+    	return String.valueOf(result);
     }
+
     
     @RequestMapping("impormation")
     private String impormation() {
@@ -390,12 +485,35 @@ public class MemberController {
         String id = (String) session.getAttribute("userId");
 
         // 서비스 호출
-        //ArrayList<HashMap<String, Object>> orderedMealkitList = (ArrayList<HashMap<String, Object>>) memberService.getSendedMealkit(mealkitVO);
         List<MealkitOrderVO> orderedMealkitList = memberService.getSendedMealkit(id);
-        
+
         // 모델에 데이터 추가
         model.addAttribute("orderedMealkitList", orderedMealkitList);
 
         return "/members/sendmealkit";
     }
+    
+    @RequestMapping("orderupdate")
+    public void updateOrder(
+        @RequestParam("orderNo") int orderNo,
+        @RequestParam("deliveredStatus") int deliveredStatus,
+        @RequestParam("refundStatus") int refundStatus,
+        HttpServletResponse response) throws IOException {
+
+        // 주문 정보 업데이트
+        int result = memberService.updateOrder(orderNo, deliveredStatus, refundStatus);
+
+        // 응답 설정
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        // 응답 메시지 전송
+        if (result > 0) {
+            out.print("저장되었습니다.");  // 성공 메시지
+        } else {
+            out.print("저장에 실패했습니다.");  // 실패 메시지
+        }
+        out.close();  // 응답 스트림 닫기
+    }
+
 }

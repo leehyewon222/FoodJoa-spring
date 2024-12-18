@@ -11,9 +11,7 @@
 
 <c:set var="contextPath" value="${ pageContext.request.contextPath }" />
 <c:set var="resourcesPath" value="${ contextPath }/resources" />
-
 <jsp:useBean id="stringParser" class="Common.StringParser" />
-
 <c:set var="id" value="${ sessionScope.userId }"/>
 
 <!DOCTYPE html>
@@ -116,5 +114,5 @@
 		</table>
 	</div>
 </body>
-
+					
 </html>

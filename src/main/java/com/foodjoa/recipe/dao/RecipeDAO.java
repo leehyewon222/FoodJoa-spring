@@ -105,9 +105,5 @@ public class RecipeDAO {
 
 	public int deleteWishlist(int _no) {
 		return sqlSession.delete("mapper.recipeWishlist.deleteWishlist", _no);
-	}
-
-	public List<RecipeWishListVO> selectRecentById(String userId) {
-		return sqlSession.selectList("mapper.recentViewRecipe.selectRecentById", userId);
-	}
+	}	
 }

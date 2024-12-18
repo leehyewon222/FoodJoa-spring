@@ -96,12 +96,10 @@ public class MealkitDAO {
 		return sqlSession.selectList("mapper.recentViewMealkit.selectRecentById", userId);
 	}
 
-	// 민석 작업
 	public List<MealkitOrderVO> selectDeliveredMealkits(String userId) {
 		return sqlSession.selectList("mapper.mealkitOrder.selectDeliveredMealkits", userId);
 	}
 
-	// 민석 작업
 	public List<MealkitOrderVO> selectSendedMealkits(String userId) {
 		return sqlSession.selectList("mapper.mealkitOrder.selectSendedMealkits", userId);
 	}

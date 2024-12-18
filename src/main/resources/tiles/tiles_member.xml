@@ -32,18 +32,28 @@
 		<put-attribute name="title" value="FoodJoa 최근 본 목록" />
 		<put-attribute name="center" value="/WEB-INF/views/members/recent.jsp" />
 	</definition>
-	
+
 	<definition name="/members/cartlist" extends="baseLayout">
 		<put-attribute name="title" value="FoodJoa 장바구니" />
 		<put-attribute name="center" value="/WEB-INF/views/members/cartlist.jsp" />
 	</definition>
-
+		
+	<definition name="/members/payment" extends="baseLayout">
+		<put-attribute name="title" value="FoodJoa 결제" />
+		<put-attribute name="center" value="/WEB-INF/views/members/payment.jsp" />
+	</definition>
+	
 	<definition name="/members/mypagemain" extends="baseLayout">
 		<put-attribute name="title" value="마이페이지" />
 		<put-attribute name="center" value="/WEB-INF/views/members/mypagemain.jsp" />
 	</definition>
 	
 	<definition name="/members/profileupdate" extends="baseLayout">
+		<put-attribute name="title" value="기존정보 조회" />
+		<put-attribute name="center" value="/WEB-INF/views/members/profileupdate.jsp" />
+	</definition>
+	
+	<definition name="/members/updatePro" extends="baseLayout">
 		<put-attribute name="title" value="정보수정" />
 		<put-attribute name="center" value="/WEB-INF/views/members/profileupdate.jsp" />
 	</definition>
