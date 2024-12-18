@@ -81,15 +81,18 @@ public class RecipeService {
 		
 		recipeInfo.put("reviews", reviews);
 		
-		RecentViewVO recentViewVO = new RecentViewVO();
-		recentViewVO.setId(userId);
-		recentViewVO.setItemNo(Integer.parseInt(no));
-		recentViewVO.setType(0);
-		
-		int countResult = memberDAO.selectRecentCount(recentViewVO);
-		
-		if (countResult <= 0)
-			memberDAO.insertRecentView(recentViewVO);
+		if (userId != null) {		
+			RecentViewVO recentViewVO = new RecentViewVO();
+			recentViewVO.setId(userId);
+			recentViewVO.setItemNo(Integer.parseInt(no));
+			recentViewVO.setType(0);
+			
+			int countResult = memberDAO.selectRecentCount(recentViewVO);
+			
+			if (countResult <= 0)
+				memberDAO.insertRecentView(recentViewVO);
+			
+		}
 		
 		return recipeInfo;
 	}

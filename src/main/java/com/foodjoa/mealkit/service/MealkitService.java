@@ -64,15 +64,17 @@ public class MealkitService {
 		
 		int result = mealkitDAO.updateMealkitViews(no);
 		
-		RecentViewVO recentViewVO = new RecentViewVO();
-		recentViewVO.setId(userId);
-		recentViewVO.setItemNo(no);
-		recentViewVO.setType(1);
-		
-		int countResult = memberDAO.selectRecentCount(recentViewVO);
-		
-		if (countResult <= 0)
-			memberDAO.insertRecentView(recentViewVO);
+		if (userId != null) {			
+			RecentViewVO recentViewVO = new RecentViewVO();
+			recentViewVO.setId(userId);
+			recentViewVO.setItemNo(no);
+			recentViewVO.setType(1);
+			
+			int countResult = memberDAO.selectRecentCount(recentViewVO);
+			
+			if (countResult <= 0)
+				memberDAO.insertRecentView(recentViewVO);
+		}
 		
 		return mealkitVO;
 	}
