@@ -12,7 +12,7 @@ import com.foodjoa.mealkit.vo.MealkitCartVO;
 import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
 import com.foodjoa.mealkit.vo.MealkitWishListVO;
-
+import com.foodjoa.mealkit.vo.MealkitOrderVO;
 @Repository
 public class MealkitDAO {
 	
@@ -89,6 +89,19 @@ public class MealkitDAO {
 
 	public int deleteWishlist(int _no) {
 		return sqlSession.delete("mapper.mealkitWishlist.deleteWishlist", _no);
+	}
+
+	public List<MealkitWishListVO> selectRecentById(String userId) {
+		return sqlSession.selectList("mapper.recentViewMealkit.selectRecentById", userId);
+	}
+
+	//민석 작업
+	public List<MealkitOrderVO> selectDeliveredMealkits(String userId) {
+		return sqlSession.selectList("mapper.mealkitOrder.selectDeliveredMealkits", userId);
+	}
+	// 민석 작업
+	public List<MealkitOrderVO> selectSendedMealkits(String userId) {
+		return sqlSession.selectList("mapper.mealkitOrder.selectSendedMealkits", userId);
 	}
 
 }

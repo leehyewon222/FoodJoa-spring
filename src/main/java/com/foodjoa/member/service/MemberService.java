@@ -22,6 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.foodjoa.mealkit.dao.MealkitDAO;
+import com.foodjoa.mealkit.vo.MealkitReviewVO;
+import com.foodjoa.mealkit.vo.MealkitVO;
+import com.foodjoa.mealkit.vo.MealkitOrderVO;
 import com.foodjoa.member.dao.MemberDAO;
 import com.foodjoa.member.vo.MemberVO;
 import com.foodjoa.member.vo.RecentViewVO;
@@ -32,7 +35,9 @@ import com.foodjoa.mealkit.vo.MealkitWishListVO;
 
 
 import Common.FileIOController;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service("memberService")
 @Transactional(propagation = Propagation.REQUIRED)
 public class MemberService {
@@ -246,36 +251,28 @@ public class MemberService {
 	public int insertMyOrder(HttpServletRequest request) {
 	    String userId = (String) request.getSession().getAttribute("userId");
 
-	    // 배열 값 파싱
 	    String[] mealkitNos = request.getParameterValues("mealkitNos[]");
 	    String[] quantities = request.getParameterValues("quantities[]");
 	    String address = request.getParameter("address");
 	    String isCart = request.getParameter("isCart");
 
-	    System.out.println("---------------------------------------------------" + Arrays.toString(mealkitNos));
-	    System.out.println("---------------------------------------------------" + Arrays.toString(quantities));
-	    System.out.println("---------------------------------------------------" + address);
-	    System.out.println("---------------------------------------------------" + isCart);
-
-	    // mealkitNos를 Integer 배열로 변환
 	    Integer[] mealkitNosInt = new Integer[mealkitNos.length];
 	    for (int i = 0; i < mealkitNos.length; i++) {
 	        try {
-	            mealkitNosInt[i] = Integer.parseInt(mealkitNos[i]);  // 문자열을 정수로 변환
+	            mealkitNosInt[i] = Integer.parseInt(mealkitNos[i]);
 	        } catch (NumberFormatException e) {
-	            // 정수로 변환할 수 없는 경우 에러 처리 (필요시)
+	            
 	            System.out.println("Invalid mealkitNo: " + mealkitNos[i]);
-	            return -1;  // 예외를 처리하고 에러 코드 반환
+	            return -1;  
 	        }
 	    }
 
-	    // quantities를 Integer 배열로 변환 (선택사항, 필요시)
 	    Integer[] quantitiesInt = new Integer[quantities.length];
 	    for (int i = 0; i < quantities.length; i++) {
 	        try {
 	            quantitiesInt[i] = Integer.parseInt(quantities[i]);
 	        } catch (NumberFormatException e) {
-	            // 정수로 변환할 수 없는 경우 에러 처리
+	          
 	            System.out.println("Invalid quantity: " + quantities[i]);
 	            return -1;
 	        }
@@ -283,13 +280,10 @@ public class MemberService {
 
 	    int result = memberDAO.insertMyOrder(userId, mealkitNosInt, quantitiesInt, address, isCart);
 	    
-	    System.out.println("result값은????????????????????" + result);
-	    
 	    if (result <= 0) {
 	        return result;
 	    }
 
-	    // 2. 결제 완료 후 장바구니에서 삭제 (isCart 값이 1일 때만 삭제)
 	    if (Integer.parseInt(isCart) == 1) {
 	        result = memberDAO.deleteCartList(userId, mealkitNosInt);
 	        if (result <= 0) {
@@ -301,16 +295,8 @@ public class MemberService {
 	    return result;
 	}
 
-
-
-	 public ArrayList<Integer> getCountOrderDelivered(HttpServletRequest request) {
-	 
-		 return mealkitDAO.selectCountOrderDelivered((String) request.getSession().getAttribute("userId"));
-	    }
-
 	public MemberVO getMemberById(String id) {
-
-		return memberDAO.selectMember(id);
+	    return memberDAO.selectMember(id); 
 	}
 
 	public ArrayList<Integer> getCountOrderDelivered(String userId) {
@@ -321,9 +307,70 @@ public class MemberService {
 		return memberDAO.selectCountOrderSended(userId);
 	}
 
+	public List<MealkitOrderVO> getDeliveredMealkit(String id) {
+		return mealkitDAO.selectDeliveredMealkits(id);
+	}
+		
+	public List<MealkitOrderVO> getSendedMealkit(String id) {
+		return mealkitDAO.selectSendedMealkits(id);
+	}
 
+	public int updateProfile(MemberVO memberVO, MultipartHttpServletRequest multipartRequest, String originProfile) 
+			throws Exception {
+		
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		
+		String tempPath = imagesPath + "temp" + File.separator;
+
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		String originalFileName = "";
+		
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			originalFileName = mFile.getOriginalFilename();
+			
+			if (mFile.getSize() != 0) {
+				mFile.transferTo(new File(tempPath + originalFileName));
+			}			
+		}
+		
+		boolean flag = false;
+		if (originalFileName == null || originalFileName.length() <= 0 || originalFileName.equals("")) {
+			flag = true;
+			originalFileName = originProfile;
+		}
+		
+		memberVO.setProfile(originalFileName);
+		
+		int result = memberDAO.updateMember(memberVO);	
+		
+		if (result <= 0) {			
+			FileIOController.deleteFile(tempPath, originalFileName);			
+			return result;
+		}
+		
+		if (!flag) {
+			String destinationPath = imagesPath + "member" + File.separator + "userProfiles" 
+					+ File.separator + memberVO.getId() + File.separator;
+
+			FileIOController.deleteFile(destinationPath, originProfile);
+			FileIOController.moveFile(tempPath, destinationPath, originalFileName);
+		}
+		
+		return result;
+	}
 	
-
-
+	public int updateOrder(int orderNo, int deliveredStatus, int refundStatus) {
+	    return memberDAO.updateOrderStatus(orderNo, deliveredStatus, refundStatus);
+	}
 
 }

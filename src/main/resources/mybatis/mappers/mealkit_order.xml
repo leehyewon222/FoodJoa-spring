@@ -16,12 +16,12 @@
 		<result property="postDate" column="post_date" />
 		
 		<association property="mealkitVO" javaType="mealkitVO">
-			<id property="no" column="mealkit_no" />
-			<result property="id" column="id" />
+			<result property="id" column="k_id" />
 			<result property="title" column="title" />
 			<result property="contents" column="contents" />
 			<result property="category" column="category" />
 			<result property="price" column="price" />
+			<result property="stock" column="stock" />
 			<result property="pictures" column="pictures" />
 		</association>
 
@@ -48,43 +48,37 @@
 		ON k.no=o.mealkit_no 
 		WHERE k.id=#{id} AND o.delivered=#{delivered};
 	</select>
-
-	<!-- 쿼리: 배달된 밀키트 조회 -->
-	<select id="selectDeliveredMealkit"
-		parameterType="mealkitorderVO" resultMap="order">
-    <![CDATA[
-      SELECT 
-        o.no AS no, 
-        o.id AS id, 
-        o.address, 
-        o.quantity, 
-        o.delivered, 
-        o.refund, 
-        o.post_date, 
-        k.no AS mealkit_no, 
-        k.id, 
-        k.title, 
-        k.contents, 
-        k.category, 
-        k.price, 
-        k.pictures, 
-        m.nickname, 
-        m.profile 
-      FROM mealkit_order o 
-      LEFT JOIN mealkit k ON o.mealkit_no = k.no 
-      LEFT JOIN member m ON k.id = m.id 
-      WHERE o.id = #{id} 
-      ORDER BY o.post_date DESC
-    ]]>
+	
+	<select id="selectDeliveredMealkits" parameterType="String" resultMap="order">
+		SELECT
+			o.*,
+			k.id AS k_id,
+			k.title, k.contents, k.category, k.price, k.pictures, 
+			m.nickname, m.profile 
+        FROM mealkit_order o 
+        JOIN mealkit k ON o.mealkit_no = k.no 
+        JOIN member m ON k.id = m.id 
+        WHERE o.id = #{userId} 
+        ORDER BY o.post_date DESC
+	</select>
+	
+	<select id="selectSendedMealkits" parameterType="String" resultMap="order">
+		SELECT 
+			o.*,
+			k.title, k.contents, k.category, k.price, k.stock, k.pictures, 
+            m.nickname, m.profile 
+        FROM mealkit_order o
+        JOIN mealkit k ON k.no = o.mealkit_no 
+        JOIN member m ON o.id = m.id 
+        WHERE k.id = #{userId}
+        ORDER BY o.post_date DESC
 	</select>
 
-	<!-- 쿼리: 주문 상태 업데이트 -->
-	<update id="updateOrderStatus" parameterType="mealkitOrderVO">
-    <![CDATA[
-      UPDATE mealkit_order 
-      SET delivered = #{delivered}, refund = #{refund} 
-      WHERE no = #{no}
-    ]]>
+	<update id="updateOrderStatus" parameterType="map">
+		UPDATE 
+    	 	 mealkit_order 
+		SET delivered = #{delivered}, refund = #{refund} 
+		WHERE no = #{orderNo}
 	</update>
 
 

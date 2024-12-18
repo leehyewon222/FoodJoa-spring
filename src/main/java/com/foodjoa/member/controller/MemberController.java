@@ -1,8 +1,11 @@
 package com.foodjoa.member.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -30,6 +34,7 @@ import java.util.Map;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.foodjoa.mealkit.vo.MealkitCartVO;
+import com.foodjoa.mealkit.vo.MealkitOrderVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
 import com.foodjoa.member.service.MemberService;
 import com.foodjoa.member.vo.MemberVO;
@@ -49,6 +54,8 @@ public class MemberController {
     @Autowired
     private MemberVO memberVO;
     
+    @Autowired
+    private ServletContext servletContext;
     
 
     //---------------------------------------
@@ -402,17 +409,18 @@ public class MemberController {
 
     
     
-    @RequestMapping("mypagemain")
-    public String mypagemain(Model model ,HttpSession session){
+	 @RequestMapping("mypagemain")
+	 public String mypagemain(Model model ,HttpSession session){
 
-        String userId = (String) session.getAttribute("userId");
+		 String userId = (String) session.getAttribute("userId");
+	        
+		 if (userId == null || userId.trim().isEmpty()) 
+		 return "redirect:/Member/login";
         
-        // 사용자 데이터 가져오기
         MemberVO member = memberService.getMemberById(userId);
         ArrayList<Integer> deliveredCounts = memberService.getCountOrderDelivered(userId);
         ArrayList<Integer> sendedCounts = memberService.getCountOrderSended(userId);
 
-        // 데이터 설정 및 뷰 반환
         model.addAttribute("member", member);
         model.addAttribute("deliveredCounts", deliveredCounts);
         model.addAttribute("sendedCounts", sendedCounts);
@@ -422,38 +430,25 @@ public class MemberController {
     
     @RequestMapping("profileupdate")
     public String profileupdate(Model model, HttpSession session) {
-        // ID 가져오기
         String userId = (String) session.getAttribute("userId");
         
-        // 사용자 정보 부름
-        MemberVO vo = memberService.getMemberById(userId);
-
-        // Model에 데이터 추가
+        MemberVO vo = memberService.getMemberById(userId); 
+        
         model.addAttribute("vo", vo);
 
         return "/members/profileupdate";
     }
     
-    @RequestMapping("updatePro")
-    public String updatePro(HttpServletRequest request, HttpServletResponse response, Model model) {
-        // 요청에서 데이터 추출
-        String id = request.getParameter("id");
-        System.out.println("Received ID: " + id);
-
-        // 서비스 호출 및 처리
-        int result = memberService.updateProfile(request);
-
-        // Cache-Control 헤더 설정
-        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        response.setHeader("Pragma", "no-cache");
-        response.setDateHeader("Expires", 0);
-
-        // 결과를 모델에 추가 (선택 사항)
-        model.addAttribute("result", result);
-
-        // 리다이렉트
-        return "redirect:/members/mypagemain";
+    @ResponseBody
+    @RequestMapping(value = "updatePro", method = { RequestMethod.GET, RequestMethod.POST })
+    public String updatePro(MemberVO memberVO, MultipartHttpServletRequest multipartRequest,
+    		@RequestParam String originProfile) throws Exception {
+        
+    	int result = memberService.updateProfile(memberVO, multipartRequest, originProfile);
+    	
+    	return String.valueOf(result);
     }
+
     
     @RequestMapping("impormation")
     private String impormation() {
@@ -471,30 +466,53 @@ public class MemberController {
     }
 
     @RequestMapping("mydelivery")
-    public String mydelivery(Model model, HttpSession session, MealkitVO mealkitVO) {
+    public String mydelivery(Model model, HttpSession session) {
         // 세션에서 사용자 ID 가져오기
         String id = (String) session.getAttribute("userId");
 
         // 서비스 호출
-        List<HashMap<String, Object>> orderedMealkitList = (ArrayList<HashMap<String, Object>>) memberService.getDeliveredMealkit(mealkitVO);
-
+        List<MealkitOrderVO> deliveredMealkitList = memberService.getDeliveredMealkit(id);
         // 모델에 데이터 추가
-        model.addAttribute("orderedMealkitList", orderedMealkitList);
+        model.addAttribute("deliveredMealkitList", deliveredMealkitList);
 
         return "/members/mydelivery";
     }
 
     @RequestMapping("sendmealkit")
-    public String sendmealkit(Model model, HttpSession session, MealkitVO mealkitVO) {
+    public String sendmealkit(Model model, HttpSession session) {
         // 세션에서 사용자 ID 가져오기
         String id = (String) session.getAttribute("userId");
 
         // 서비스 호출
-        ArrayList<HashMap<String, Object>> orderedMealkitList = (ArrayList<HashMap<String, Object>>) memberService.getSendedMealkit(mealkitVO);
+        List<MealkitOrderVO> orderedMealkitList = memberService.getSendedMealkit(id);
 
         // 모델에 데이터 추가
         model.addAttribute("orderedMealkitList", orderedMealkitList);
 
         return "/members/sendmealkit";
     }
+    
+    @RequestMapping("orderupdate")
+    public void updateOrder(
+        @RequestParam("orderNo") int orderNo,
+        @RequestParam("deliveredStatus") int deliveredStatus,
+        @RequestParam("refundStatus") int refundStatus,
+        HttpServletResponse response) throws IOException {
+
+        // 주문 정보 업데이트
+        int result = memberService.updateOrder(orderNo, deliveredStatus, refundStatus);
+
+        // 응답 설정
+        response.setContentType("text/html; charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        // 응답 메시지 전송
+        if (result > 0) {
+            out.print("저장되었습니다.");  // 성공 메시지
+        } else {
+            out.print("저장에 실패했습니다.");  // 실패 메시지
+        }
+        out.close();  // 응답 스트림 닫기
+    }
+
 }

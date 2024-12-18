@@ -77,6 +77,19 @@
 	cursor: pointer;
 }
 
+.thumbnail-area, .profile-area {
+    width: 100px; /* 너비 100px */
+    height: 100px; /* 높이 100px */
+    overflow: hidden;
+    border-radius: 5px; /* 둥근 모서리 */
+}
+
+.thumbnail-area img, .profile-area img {
+    width: 100%; /* 부모 컨테이너에 맞춤 */
+    height: 100%; /* 부모 컨테이너에 맞춤 */
+    object-fit: cover; /* 비율 유지하면서 잘려도 영역 맞춤 */
+}
+
 .save-button:hover {
 	background-color: #9e6e58;
 	transition: background-color 0.3s ease;
