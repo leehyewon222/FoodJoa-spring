@@ -7,6 +7,11 @@
 		<put-attribute name="title" value="모임 게시판"/>
 		<put-attribute name="center" value="/WEB-INF/views/togethers/list.jsp" />
 	</definition>
+
+	<definition name="/togethers/edit" extends="baseLayout">
+		<put-attribute name="title" value="모임 게시판 - 글 작성"/>
+		<put-attribute name="center" value="/WEB-INF/views/togethers/edit.jsp" />
+	</definition>
 </tiles-definitions>
 
 

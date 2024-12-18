@@ -206,6 +206,7 @@ CREATE TABLE together(
     lat 			double not null,
     lng 			double not null,
     join_date 		timestamp not null,
+	people 			int not null,
     finished 		tinyint not null,
     join_count 		int not null,
     views 			int not null,

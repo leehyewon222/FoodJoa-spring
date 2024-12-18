@@ -20,6 +20,7 @@ public class TogetherVO {
 	private double lat;
 	private double lng;
 	private Timestamp joinDate;
+	private int people;
 	private int finished;
 	private int joinCount;
 	private int views;

@@ -5,8 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.foodjoa.together.service.TogetherService;
+import com.foodjoa.together.vo.TogetherVO;
 
 @Controller
 @RequestMapping("Together")
@@ -21,14 +25,24 @@ public class TogetherController {
 	}
 
 	@RequestMapping(value = "edit", method = { RequestMethod.GET })
-	public String edit(Model model) {
+	public String edit(Model model,
+			@RequestParam(defaultValue = "0") int no) {
 		
-		return "";
+		TogetherVO together = togetherService.getTogether(no);
+		
+		model.addAttribute("together", together);
+		
+		return "/togethers/edit";
 	}
 	
+	@ResponseBody
 	@RequestMapping(value = "edit", method = { RequestMethod.POST })
-	public String edit() {
+	public String edit(TogetherVO togetherVO, MultipartHttpServletRequest multipartRequest,
+			@RequestParam String originPictures,
+			@RequestParam String cmd) {
 		
-		return "";
+		int togetherNo = togetherService.processTogetherEdit(cmd, togetherVO, multipartRequest, originPictures);
+		
+		return String.valueOf(togetherNo);
 	}
 }
