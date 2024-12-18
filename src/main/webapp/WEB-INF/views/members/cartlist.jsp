@@ -12,12 +12,14 @@
 <c:set var="contextPath" value="${ pageContext.request.contextPath }" />
 <c:set var="resourcesPath" value="${ contextPath }/resources" />
 
+<jsp:useBean id="stringParser" class="Common.StringParser" />
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>장바구니</title>
     
-	<script src="http://code.jquery.com/jquery-latest.min.js"></script>	
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>    
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200..900&display=swap" rel="stylesheet">
     <style>
         .cartlist-container table {
@@ -71,29 +73,29 @@
         }
         
         .payment-form-area {
-		    width: 100%;
-		    display: flex;
-		    justify-content: center;
-		    align-items: center;
-		    height: 100px;
-		}
-		
-		.thumbnail-area {
-			width: 100%;
-			display: flex;
-			justify-content: center;
-		}
-		.thumbnail-image {
-			width: 150px;
-			height: 150px;
-			overflow: hidden;
-		}
-		
-		.thumbnail-image img {
-			width: 100%;
-			height: 100%;
-			object-fit: cover;
-		}
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
+        
+        .thumbnail-area {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .thumbnail-image {
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+        }
+        
+        .thumbnail-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -101,7 +103,7 @@
 <div class="cartlist-container">
     <h2>장바구니</h2>
     
-    <c:if test="${not empty cart}">
+    <c:if test="${not empty cartListInfos}">
         <table>
             <thead>
                 <tr>
@@ -115,41 +117,49 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="item" items="${cart}" varStatus="status">
+                <c:forEach var="item" items="${cartListInfos}" varStatus="status">
                     <tr>
                         <td><input type="checkbox" class="itemCheckbox" value="${item.mealkitVO.no}" onclick="onCheckboxButton(this, ${item.mealkitVO.no}, ${item.quantity})"></td>
                         <td align="center">
-                        	<div class="thumbnail-area">
-                        		<div class="thumbnail-image">
-		                        	<a href="${ contextPath }/Mealkit/info?no=${item.mealkitVO.no}">
-		                        		<c:set var="thumbnail" value="${ stringParser.splitString(item.mealkitVO.pictures)[0] }" />
-		                       			<img src="${ resourcesPath }/images/mealkit/thumbnails/${item.mealkitVO.no}/${thumbnail}">
-		                            </a>
-	                            </div>
+                            <div class="thumbnail-area">
+                                <div class="thumbnail-image">
+                                    <a href="${ contextPath }/Mealkit/info?no=${item.mealkitVO.no}">
+                                        <c:set var="thumbnail" value="${ stringParser.splitString(item.mealkitVO.pictures)[0] }" />
+                                        <img src="${ resourcesPath }/images/mealkit/thumbnails/${item.mealkitVO.no}/${thumbnail}">
+                                    </a>
+                                </div>
                             </div>
                             <br>
+                              <c:choose>
+                                        <c:when test="${item.mealkitVO.category == 1}">[한식]</c:when>
+                                        <c:when test="${item.mealkitVO.category == 2}">[일식]</c:when>
+                                        <c:when test="${item.mealkitVO.category == 3}">[중식]</c:when>
+                                        <c:when test="${item.mealkitVO.category == 4}">[양식]</c:when>
+                              </c:choose> 
                             ${item.mealkitVO.title}
-						</td>
-                        <td>${item.nickname}</td>
+                        </td>
+                        <td>${item.memberVO.nickname}</td>      
                         <td data-price="${item.mealkitVO.price}">${item.mealkitVO.price}</td>
-                        <td>                        
-                            <form action="${ contextPath }/Member/updateCartList.me" method="post">
-							    <input type="number" name="quantity" value="${item.quantity}" min="1" max="${item.mealkitVO.stock }" onchange="processQuantityChanged(this, ${status.index}, ${item.mealkitVO.price})">
-							    <input type="hidden" name="mealkitNo" value="${item.mealkitVO.no}">
-							    <input type="hidden" name="userId" value="${sessionScope.userId}">						  
-							</form>
+                      
+                             <td>
+							    <form action="${ contextPath }/Member/updateCartList" method="post" class="cart-update-form">
+							        <input type="number" name="quantity" value="${item.quantity}" min="1" max="${item.mealkitVO.stock}" onchange="processQuantityChanged(this, ${status.index}, ${item.mealkitVO.price}, this.form)">
+							        <input type="hidden" name="mealkitNo" value="${item.mealkitVO.no}">
+							        <input type="hidden" name="userId" value="${sessionScope.userId}">
+							    </form>
+							</td>
+
+                        <td>
+                            <div class="itemTotal">
+                                ${item.mealkitVO.price * item.quantity}
+                            </div>
                         </td>
                         <td>
-                        	<div class="itemTotal">
-                        		${item.mealkitVO.price * item.quantity}
-                        	</div>
-                        </td>
-                        <td>
-                             <form action="${ contextPath }/Member/deleteCartList.me" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
-							    <input type="hidden" name="mealkitNo" value="${item.mealkitVO.no}">
-							    <input type="hidden" name="userId" value="${sessionScope.userId}"> 
-							    <input type="submit" value="삭제" class="btn" style="background-color: #BF917E;">
-							</form>
+                            <form action="${ contextPath }/Member/deleteCartList" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
+                                <input type="hidden" name="mealkitNo" value="${item.mealkitVO.no}">
+                                <input type="hidden" name="userId" value="${sessionScope.userId}"> 
+                                <input type="submit" value="삭제" class="btn" style="background-color: #BF917E;">
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>
@@ -158,48 +168,45 @@
 
         <!-- 결제 폼 -->
         <div class="payment-form-area">
-	        <form id="checkoutForm" action="${ contextPath }/Member/payment.me" method="post">
-	            <!-- 선택된 아이템의 정보를 담을 영역 -->
-	            <!-- <div id="selectedItemsContainer"></div> -->
-	            <!-- selectedMealkitNos 추가 -->
-	            <input type="hidden" name="isCart" value="1"/>
-	            <input type="hidden" name="combinedNo" id="selectedMealkitNos"/>
-	            <input type="hidden" name="CombinedQuantity" id="selectedMealkitPrices"/>
-	
-	            <input type="submit" value="결제하기" class="btn" onclick="onSubmit(event)">
-	        </form>
-        </div>
+		    <form id="checkoutForm" action="${contextPath}/Member/payment" method="post">
+		        <input type="hidden" name="isCart" value="1" />
+		        <input type="hidden" name="combinedNo" id="selectedMealkitNos" />
+		        <input type="hidden" name="CombinedQuantity" id="selectedMealkitPrices" />
+		        <input type="submit" value="결제하기" class="btn" onclick="onSubmit(event)" />
+		    </form>
+		</div>
     </c:if>
 
-    <c:if test="${empty cart}">
+    <c:if test="${empty cartListInfos}">
         <p>장바구니에 상품이 없습니다.</p>
     </c:if>
 </div>
 
 <script>
-	let initNos = [<c:forEach items="${cart}" var="item" varStatus="status">'${item.mealkitVO.no}'${!status.last ? ',' : ''}</c:forEach>];
-	let initQuantities = [<c:forEach items="${cart}" var="item" varStatus="status">'${item.quantity}'${!status.last ? ',' : ''}</c:forEach>];
-		
-	function onSubmit(e) {
-		e.preventDefault();
-		
-		let selectedNos = [];
-		let selectedQuntities = [];
-		
-		let checkboxes = $(".itemCheckbox");
-		
-		checkboxes.each(function(index) {
-		    if ($(this).prop("checked")) {
-		        selectedNos.push(initNos[index]);
-		        selectedQuntities.push(initQuantities[index]);
-		    }
-		});
-		
-		document.getElementById('selectedMealkitNos').value = selectedNos.join(',');
-        document.getElementById('selectedMealkitPrices').value = selectedQuntities.join(',');
-		
-		$("#checkoutForm").submit();
-	}
+    let initNos = [<c:forEach items="${cartListInfos}" var="item" varStatus="status">'${item.mealkitVO.no}'${!status.last ? ',' : ''}</c:forEach>];
+    let initQuantities = [<c:forEach items="${cartListInfos}" var="item" varStatus="status">'${item.quantity}'${!status.last ? ',' : ''}</c:forEach>];
+    
+    function onSubmit(e) {
+        e.preventDefault();
+        
+        let selectedNos = [];
+        let selectedQuantities = [];
+        
+        $(".itemCheckbox").each(function(index) {
+            if ($(this).prop("checked")) {
+                const quantity = $("input[name='quantity']").eq(index).val(); // 현재 입력된 수량 가져오기
+                selectedNos.push(initNos[index]);
+                selectedQuantities.push(quantity);
+            }
+        });
+
+        $("#selectedMealkitNos").val(selectedNos.join(','));
+        $("#selectedMealkitPrices").val(selectedQuantities.join(','));
+        
+        $("#checkoutForm").submit();
+    }
+
+
 
     function toggleSelectAll() {
         var checkboxes = document.querySelectorAll('.itemCheckbox');
@@ -209,13 +216,14 @@
         }
         calculateTotal();
     }
-    
-    function processQuantityChanged(element, index, price) {
-    	initQuantities[index] = $(element).val();
-    	
-    	$(".itemTotal").eq(index).text($(element).val() * price);
+
+    function processQuantityChanged(element, index, price, form) {
+        initQuantities[index] = $(element).val();
+        $(".itemTotal").eq(index).text($(element).val() * price);
+
+        form.submit();
     }
-<%--
+
 
     function calculateTotal() {
         var checkboxes = document.querySelectorAll('.itemCheckbox:checked');
@@ -255,27 +263,11 @@
         selectedItems.forEach(function(item, index) {
             var mealkitNoField = document.createElement('input');
             mealkitNoField.type = 'hidden';
-            mealkitNoField.name = 'mealkitNo_' + index;
+            mealkitNoField.name = 'selectedMealkitNos[]';
             mealkitNoField.value = item.mealkitNo;
-
-            var quantityField = document.createElement('input');
-            quantityField.type = 'hidden';
-            quantityField.name = 'quantity_' + index;
-            quantityField.value = item.quantity;
-
             selectedItemsContainer.appendChild(mealkitNoField);
-            selectedItemsContainer.appendChild(quantityField);
         });
-
-        // selectedMealkitNos 값을 결제 폼에 넣기
-        document.getElementById('selectedMealkitNos').value = selectedMealkitNos.join(',');
-        document.getElementById('selectedMealkitPrices').value = selectedMealkitPrices.join(',');
     }
-
-    window.onload = function() {
-        calculateTotal();
-    };
---%>    
 </script>
 
 </body>

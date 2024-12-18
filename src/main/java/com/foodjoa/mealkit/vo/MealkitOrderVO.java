@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 
 import org.springframework.stereotype.Component;
 
-import com.foodjoa.community.vo.NoticeVO;
 import com.foodjoa.member.vo.MemberVO;
 
 import lombok.Data;
@@ -23,5 +22,6 @@ public class MealkitOrderVO {
     private Timestamp postDate;
     
     private MealkitVO mealkitVO;
+    private MealkitCartVO mealkitCartVO;
     private MemberVO memberVO;
 }

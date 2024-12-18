@@ -21,7 +21,7 @@
 	}
 	
 	function onRecentList() {
-		location.href = '${ contextPath }/Member/recentlist';
+		location.href = '${ contextPath }/Member/recentlist?type=0';
 	}
 	
 	function onCartList() {

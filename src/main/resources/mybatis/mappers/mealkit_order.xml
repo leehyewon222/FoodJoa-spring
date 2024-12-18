@@ -87,4 +87,32 @@
     ]]>
 	</update>
 
+
+	
+    <insert id="insertMyOrder" parameterType="list">
+    INSERT INTO mealkit_order (id, mealkit_no, quantity, address, delivered, refund, post_date)
+    VALUES
+    <foreach collection="list" item="order" separator=",">
+        (#{order.id}, #{order.mealkitNo}, #{order.quantity}, #{order.address}, 0, 0, NOW())
+    </foreach>
+	</insert>
+
+	<delete id="deleteCartList" parameterType="map">
+    DELETE FROM mealkit_cart
+    WHERE id = #{userId}
+    AND mealkit_no IN
+    <foreach item="item" collection="mealkitNos" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+	</delete>
+
+
+
+
+
+
+	
+	
+	
+
 </mapper>

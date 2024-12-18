@@ -4,7 +4,8 @@ import java.sql.Timestamp;
 
 import org.springframework.stereotype.Component;
 
-import com.foodjoa.community.vo.NoticeVO;
+import com.foodjoa.mealkit.vo.MealkitVO;
+import com.foodjoa.recipe.vo.RecipeVO;
 
 import lombok.Data;
 
@@ -17,4 +18,8 @@ public class RecentViewVO {
 	private int type;
 	private int itemNo;
 	private Timestamp viewDate;
+	
+	private RecipeVO recipeVO;
+	private MealkitVO mealkitVO;
+	private MemberVO memberVO;
 }

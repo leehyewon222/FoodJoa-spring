@@ -91,8 +91,4 @@ public class MealkitDAO {
 		return sqlSession.delete("mapper.mealkitWishlist.deleteWishlist", _no);
 	}
 
-	public List<MealkitWishListVO> selectRecentById(String userId) {
-		return sqlSession.selectList("mapper.recentViewMealkit.selectRecentById", userId);
-	}
-
 }

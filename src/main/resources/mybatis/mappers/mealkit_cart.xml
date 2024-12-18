@@ -13,7 +13,7 @@
 		<result property="quantity" column="quantity"/>
 		<result property="choiceDate" column="choice_date"/>
 		
-		<association property="mealktVO" javaType="mealkitVO">
+		<association property="mealkitVO" javaType="mealkitVO">
 		<id property="no" column="no"/>
 		<result property="id" column="id"/>
 		<result property="title" column="title"/>
@@ -30,6 +30,10 @@
 		<result property="averageRating" column="average_rating"/>
 		<result property="reviewCount" column="review_count"/>
 		</association>
+		
+		<association property="memberVO" javaType="memberVO">
+            <result property="nickname" column="nickname"/>
+        </association>
 		
 	</resultMap>
 	
@@ -51,4 +55,52 @@
         INSERT INTO mealkit_cart (id, mealkit_no, quantity, choice_date)
         VALUES (#{id}, #{mealkitNo}, #{quantity}, CURRENT_TIMESTAMP)
     </insert>
+    
+    <select id="selectCartListById" resultMap="cartVO">
+	    SELECT 
+	        mk.no, mk.id, mk.pictures, mk.title, mk.price, mk.stock, mk.category,
+	        m.nickname, 
+	        mc.quantity
+	    FROM mealkit_cart mc
+	    JOIN mealkit mk ON mc.mealkit_no = mk.no
+	    JOIN member m ON mk.id = m.id
+	    WHERE mc.id = #{userId}
+	</select>
+	
+	<!-- 장바구니에서 레시피 삭제 -->
+    <delete id="deleteCartList" parameterType="map">
+        DELETE FROM mealkit_cart 
+        WHERE id = #{userId} 
+        AND mealkit_no = #{mealkitNo}
+    </delete>
+    
+     <!-- 장바구니에서 수량 업데이트 -->
+    <update id="updateCartList" parameterType="map">
+        UPDATE mealkit_cart 
+        SET quantity = #{quantity}
+        WHERE id = #{userId} 
+        AND mealkit_no = #{mealkitNo}
+    </update>
+    
+       
+    <!-- 구매한 밀키트와 회원 정보를 가져오는 SQL 쿼리 -->
+	<select id="selectPurchaseMealkits" resultType="hashmap">
+	    SELECT
+	        k.no AS no,
+	        k.title AS title,
+	        k.category AS category,
+	        k.price AS price,
+	        k.pictures AS pictures,
+	        m.name AS name,
+	        m.phone AS phone,
+	        m.nickname AS nickname
+	    FROM mealkit k
+	    JOIN member m ON k.id = m.id
+	    WHERE k.no IN
+	    <foreach item="no" index="index" collection="mealkitNos" open="(" separator="," close=")">
+	        #{no}
+	    </foreach>
+	</select>
+
+    
 </mapper>
