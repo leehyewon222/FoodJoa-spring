@@ -1,9 +1,3 @@
-<%@page import="Common.StringParser"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="com.foodjoa.member.vo.MemberVO"%>
-<%@page import="com.foodjoa.mealkit.vo.MealkitVO"%>
-<%@page import="com.foodjoa.mealkit.vo.MealkitOrderVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -13,15 +7,12 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setContentType("text/html; charset=utf-8");
-	String contextPath = request.getContextPath();
-	
-	String id = (String) session.getAttribute("userId");
-	
-	ArrayList<HashMap<String, Object>> orderedMealkitList = (ArrayList<HashMap<String, Object>>) request.getAttribute("orderedMealkitList");
 %>
 
 <c:set var="contextPath" value="${ pageContext.request.contextPath }" />
 <c:set var="resourcesPath" value="${ contextPath }/resources" />
+<jsp:useBean id="stringParser" class="Common.StringParser" />
+<c:set var="id" value="${ sessionScope.userId }"/>
 
 <!DOCTYPE html>
 <html>
@@ -38,19 +29,14 @@
 		<h1>배송조회 페이지</h1>
 		<!-- 테이블을 생성하여 가운데 정렬하고 100% 너비를 설정합니다. -->
 		<table width="100%">
-			<%
-			// 주문된 밀키트 리스트가 비어있는지 확인합니다.
-			if (orderedMealkitList == null || orderedMealkitList.size() == 0) {
-				%>
-				<!-- 주문 내역이 없을 때 표시할 메시지 -->
+			<c:choose>
+			<c:when test="${ empty deliveredMealkitList }">
 				<tr>
 					<td class="no-order">주문 내역이 없습니다.</td>
 				</tr>
-				<%
-			}
-			else {
-			%>
-				<!-- 테이블 헤더 -->
+				
+			</c:when>
+			<c:otherwise>
 				<thead>
 					<tr>
 						<th>배송지</th>
@@ -68,102 +54,67 @@
 					</tr>
 				</thead>
 				<tbody>
-					<%
-					// 주문된 밀키트 리스트를 반복하면서 각 주문의 정보를 출력합니다.
-					for (int i = 0; i < orderedMealkitList.size(); i++) {
-						MealkitOrderVO orderVO = (MealkitOrderVO) orderedMealkitList.get(i).get("orderVO");
-						MealkitVO mealkitVO = (MealkitVO) orderedMealkitList.get(i).get("mealkitVO");
-						MemberVO memberVO = (MemberVO) orderedMealkitList.get(i).get("memberVO");
-						
-						String thumbnail = StringParser.splitString(mealkitVO.getPictures()).get(0);
-					%>
-					<!-- 각 주문의 데이터를 테이블 행으로 출력 -->
-					<tr>
-						<td><p><%=orderVO.getAddress()%></p></td>
-						<td><p><%=orderVO.getQuantity()%></p></td>
-						<td><p>
-								<%
-								if (orderVO.getDelivered() == 0) {
-								%>배송 전<%
-								} else if (orderVO.getDelivered() == 1) {
-								%>배송 중<%
-								} else {
-								%>배송 완료<%
-								}
-								%>
-							</p></td>
-						<td><p>
-								<%
-								if (orderVO.getRefund() == 0) {
-								%>환불 전<%
-								} else if (orderVO.getRefund() == 1) {
-								%>환불 중<%
-								} else {
-								%>환불 완료<%
-								}
-								%>
-							</p></td>
-	
-						<td><p><%=mealkitVO.getTitle()%></p></td>
-						<td><p><%=mealkitVO.getContents()%></p></td>
-						<td><p>
-								<%
-								if (mealkitVO.getCategory() == 0) {
-								%>
-								한식요리
-								<%
-								}
-								%>
-								<%
-								if (mealkitVO.getCategory() == 1) {
-								%>
-								일식요리
-								<%
-								}
-								%>
-								<%
-								if (mealkitVO.getCategory() == 2) {
-								%>중식요리
-								<%
-								}
-								%>
-								<%
-								if (mealkitVO.getCategory() == 3) {
-								%>양식요리
-								<%
-								}
-								%>
-								<%
-								if (mealkitVO.getCategory() == 4) {
-								%>자취요리
-								<%
-								}
-								%>
-							</p></td>
-						<td><p><%=mealkitVO.getPrice()%></p></td>
-						<td>
-							<div class="thumbnail-area">
-								<!-- 주문된 밀키트의 사진을 출력 -->
-								<img src="<%= contextPath %>/images/mealkit/thumbnails/<%= mealkitVO.getNo() %>/<%= thumbnail %>">
-							</div>
-						</td>
-						<td><p><%=memberVO.getNickname()%></p></td>
-						<td>
-							<div class="profile-area">
-								<!-- 판매자의 프로필 사진을 출력 -->
-								<img src="<%= contextPath %>/images/member/userProfiles/<%= mealkitVO.getId() %>/<%=memberVO.getProfile()%>" >
-							</div>
-						</td>
-					</tr>
-					<%
-					} // for 루프 종료
-					%>
-				</tbody>
-			<%
-			} // if-else 종료
-			%>
+					<c:forEach var="i" begin="0" end="${ deliveredMealkitList.size() - 1 }" step="1">
+							<c:set var="mealkitOrder" value="${ deliveredMealkitList[i] }"/>
+							<c:set var="mealkit" value="${ mealkitOrder.mealkitVO }"/>
+							<c:set var="member" value="${ mealkitOrder.memberVO }"/>
+							<c:set var="thumbnail" value="${ stringParser.splitString(mealkit.pictures)[0] }"/>
+							
+							<tr>
+								<td><p>${ mealkitOrder.address }</p></td>
+								<td><p>${ mealkitOrder.quantity }</p></td>
+								<td><p>
+									<c:choose>
+										<c:when test="${ mealkitOrder.delivered == 0 }">배송 전</c:when>
+										<c:when test="${ mealkitOrder.delivered == 1 }">배송 중</c:when>
+										<c:otherwise>배송 완료</c:otherwise>
+									</c:choose>
+								</p></td>
+								<td><p>
+									<c:choose>
+										<c:when test="${ mealkitOrder.refund == 0 }">환불 전</c:when>
+										<c:when test="${ mealkitOrder.refund == 1 }">환불 중</c:when>
+										<c:otherwise>환불 완료</c:otherwise>
+									</c:choose>
+								</p></td>
+			
+								<td><p>${ mealkit.title }</p></td>
+								<td><p>${ mealkit.contents }</p></td>
+								<td><p>
+									<c:set var="category" value="${ mealkit.category }"/>
+									<c:choose>
+										<c:when test="${ category == 0 }">한식</c:when>
+										<c:when test="${ category == 1 }">일식</c:when>
+										<c:when test="${ category == 2 }">중식</c:when>
+										<c:otherwise>양식</c:otherwise>
+									</c:choose>
+								</p></td>
+								<td><p>
+									<fmt:formatNumber value="${ mealkit.price }" 
+											type="number" 
+											groupingUsed="true" 
+											maxFractionDigits="0" />&nbsp;원
+								</p></td>
+								<td>
+									<div class="thumbnail-area">
+										<!-- 주문된 밀키트의 사진을 출력 -->
+										<img src="${ resourcesPath }/images/mealkit/thumbnails/${ mealkitOrder.mealkitNo }/${ thumbnail }">
+									</div>
+								</td>
+								<td><p>${ member.nickname }</p></td>
+								<td>
+									<div class="profile-area">
+										<!-- 판매자의 프로필 사진을 출력 -->
+										<img src="${ resourcesPath }/images/member/userProfiles/${ mealkit.id }/${ member.profile }" >
+									</div>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</c:otherwise>
+			</c:choose>			
 		</table>
 	</div>
 </body>
-
+					
 </html>

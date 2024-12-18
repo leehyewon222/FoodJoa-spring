@@ -105,7 +105,7 @@ public class MemberDAO {
 	}
 
 	public MemberVO selectMember(String id) {
-		return sqlSession.selectOne("mapper.member.selectMember", id);
+	    return sqlSession.selectOne("mapper.member.selectMember", id);
 	}
 
 	public int deleteWishRecipe(String userId, int recipeNo) {
@@ -128,8 +128,16 @@ public class MemberDAO {
 
 
 	public int updateMember(MemberVO memberVO) {
-	    // MyBatis의 update 메서드를 사용하여 업데이트 작업을 수행합니다.
-	    int result = sqlSession.update("mapper.member.updateMember", memberVO);
-	    return result;
+	    return sqlSession.update("mapper.member.updateMember", memberVO); 
 	}
+	
+	public int updateOrderStatus(int orderNo, int deliveredStatus, int refundStatus) {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("orderNo", orderNo);
+	    params.put("delivered", deliveredStatus);
+	    params.put("refund", refundStatus);
+	    
+	    return sqlSession.update("mapper.mealkitOrder.updateOrderStatus", params);
+	}
+
 }

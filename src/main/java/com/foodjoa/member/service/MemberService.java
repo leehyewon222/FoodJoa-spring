@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.foodjoa.mealkit.dao.MealkitDAO;
 import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
+import com.foodjoa.mealkit.vo.MealkitOrderVO;
 import com.foodjoa.member.dao.MemberDAO;
 import com.foodjoa.member.vo.MemberVO;
 import com.foodjoa.recipe.dao.RecipeDAO;
@@ -32,7 +33,9 @@ import com.foodjoa.recipe.vo.RecipeWishListVO;
 import com.foodjoa.mealkit.vo.MealkitWishListVO;
 
 import Common.FileIOController;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service("memberService")
 @Transactional(propagation = Propagation.REQUIRED)
 public class MemberService {
@@ -197,8 +200,7 @@ public class MemberService {
 	}
 
 	public MemberVO getMemberById(String id) {
-
-		return memberDAO.selectMember(id);
+	    return memberDAO.selectMember(id); 
 	}
 
 	public ArrayList<Integer> getCountOrderDelivered(String userId) {
@@ -222,19 +224,81 @@ public class MemberService {
 		return reviews;
 	}
 
-	public List<HashMap<String, Object>> getDeliveredMealkit(MealkitVO mealkitvo) {
-		return memberDAO.selectDeliveredMealkit(mealkitvo);
+	public List<MealkitOrderVO> getDeliveredMealkit(String id) {
+		return mealkitDAO.selectDeliveredMealkits(id);
 	}
-
-	public List<HashMap<String, Object>> getSendedMealkit(MealkitVO mealkitvo) {
-		return memberDAO.selectSendedMealkit(mealkitvo);
-	}
-
-	public int updateProfile(HttpServletRequest request) {
 		
-        HttpSession session = request.getSession();
-        MemberVO id = (MemberVO) session.getAttribute("userId");
-		        
-        return memberDAO.updateMember(id);
+	public List<MealkitOrderVO> getSendedMealkit(String id) {
+		return mealkitDAO.selectSendedMealkits(id);
 	}
+
+	public int updateProfile(MemberVO memberVO, MultipartHttpServletRequest multipartRequest, String originProfile) 
+			throws Exception {
+		
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		
+		String tempPath = imagesPath + "temp" + File.separator;
+
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		String originalFileName = "";
+		
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			originalFileName = mFile.getOriginalFilename();
+			
+			if (mFile.getSize() != 0) {
+				mFile.transferTo(new File(tempPath + originalFileName));
+			}			
+		}
+		
+		boolean flag = false;
+		if (originalFileName == null || originalFileName.length() <= 0 || originalFileName.equals("")) {
+			flag = true;
+			originalFileName = originProfile;
+		}
+		
+		memberVO.setProfile(originalFileName);
+		
+		int result = memberDAO.updateMember(memberVO);	
+		
+		if (result <= 0) {			
+			FileIOController.deleteFile(tempPath, originalFileName);			
+			return result;
+		}
+		
+		if (!flag) {
+			String destinationPath = imagesPath + "member" + File.separator + "userProfiles" 
+					+ File.separator + memberVO.getId() + File.separator;
+
+			FileIOController.deleteFile(destinationPath, originProfile);
+			FileIOController.moveFile(tempPath, destinationPath, originalFileName);
+		}
+		
+		return result;
+	}
+	
+	public int updateOrder(int orderNo, int deliveredStatus, int refundStatus) {
+	    return memberDAO.updateOrderStatus(orderNo, deliveredStatus, refundStatus);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 }
