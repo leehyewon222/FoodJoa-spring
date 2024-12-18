@@ -64,7 +64,7 @@
     <select id="selectMealkitInfo" parameterType="int" resultMap="mealkit">
 		<![CDATA[
 	        SELECT 
-			    k.no, k.title, k.contents, k.category, k.price, k.stock, k.pictures, 
+			    k.no, k.id, k.title, k.contents, k.category, k.price, k.stock, k.pictures, 
 			    k.orders, k.origin, k.views, k.post_date,  
 			    m.nickname 
 			FROM mealkit k 
@@ -96,7 +96,7 @@
 			JOIN member m 
 	        ON k.id = m.id 
         ]]>
-        <if test="id != 0">
+		<if test="id != null and id != ''">
 			WHERE k.id = #{id} 
         </if>
         <![CDATA[
@@ -141,6 +141,13 @@
     <select id="selectRecentMealkit" resultMap="mealkit">
 		SELECT no FROM mealkit ORDER BY no DESC LIMIT 1
 	</select>
+	
+	<update id="updateMealkit" parameterType="mealkitVO">
+		UPDATE mealkit 
+		SET title = #{title}, contents = #{contents}, category = #{category}, price = #{price}, stock = #{stock}, 
+			pictures = #{pictures}, orders = #{orders}, origin = #{origin}
+		WHERE no = #{no}
+	</update>
     
     <delete id="deleteMealkit" parameterType="int">
         DELETE FROM mealkit

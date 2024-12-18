@@ -11,7 +11,7 @@
 <c:set var="orders" value="${stringParser.splitString(mealkitInfo.orders) }"/>
 <c:set var="pictures" value="${stringParser.splitString(mealkitInfo.pictures) }"/>
 	
-<c:set var="id" value="aronId"/>
+<c:set var="id" value="${sessionScope.userId }"/>
 
 <!DOCTYPE html>
 <html>
@@ -22,10 +22,8 @@
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="${resourcesPath}/css/mealkit/write.css">
-	
 </head>
 <body>
-	
 	<div id="mealkit-container">
 		<form action="${contextPath}/Mealkit/updatePro" method="post" id="frmWrite" enctype="multipart/form-data">
 			<table class="write-form" width="100%">
@@ -66,11 +64,10 @@
 					<td>
 						<select class="category" name="category" required>
 					        <option value="" <c:if test="${empty mealkitInfo.category}">selected</c:if>>선택하세요</option>
-					        <option value="0" <c:if test="${mealkitInfo.category == 0}">selected</c:if>>한식</option>
-					        <option value="1" <c:if test="${mealkitInfo.category == 1}">selected</c:if>>중식</option>
-					        <option value="2" <c:if test="${mealkitInfo.category == 2}">selected</c:if>>일식</option>
-					        <option value="3" <c:if test="${mealkitInfo.category == 3}">selected</c:if>>양식</option>
-					        <option value="4" <c:if test="${mealkitInfo.category == 4}">selected</c:if>>분식</option>
+					        <option value="0" <c:if test="${mealkitInfo.category == 1}">selected</c:if>>한식</option>
+					        <option value="1" <c:if test="${mealkitInfo.category == 2}">selected</c:if>>일식</option>
+					        <option value="2" <c:if test="${mealkitInfo.category == 3}">selected</c:if>>중식</option>
+					        <option value="3" <c:if test="${mealkitInfo.category == 4}">selected</c:if>>양식</option>
 					    </select>
 					</td>
 				</tr>
@@ -126,6 +123,9 @@
 
 	function initialize() {
 		
+		let $li;
+		let $img;
+		
 		<c:forEach var="order" items="${orders}">
 	        var newOrderHtml = `
 				<tr class="added-orders">
@@ -141,13 +141,13 @@
 	    
 	    // 사진 미리보기 추가
 		<c:forEach var="picture" items="${pictures}">
-	        const fileName = "${picture}";
+	        var fileName = "${picture}";
 	        originSelectedFileNames.push(fileName);
 	
-	        const $li = $('<li>');
-	        const $img = $('<img>', {
+	        $li = $('<li>');
+			$img = $('<img>', {
 	            class: 'review-origin-preview-image',
-	            src: "${resourcesPath}" + "/images/mealkit/thumbnails/" + "${mealkitInfo.no}" + "/" + "${id}" + "/" + fileName,
+	            src: "${resourcesPath}/images/mealkit/thumbnails/${mealkitInfo.no}/" + fileName,
 	            css: {
 	                cursor: 'pointer',
 	            },
@@ -162,22 +162,15 @@
 	        $('#imagePreview').append($li);
 	    </c:forEach>
 	}
-
+		
 	function removeOriginFileName(fileName) {
-	    const index = originSelectedFileNames.indexOf(fileName);
-	    if (index > -1) {
-	        originSelectedFileNames.splice(index, 1);
-	    }
-	}
-			
-		function removeOriginFileName(fileName) {
-			for (let i = 0; i < originSelectedFileNames.length; i++) {
-				if (originSelectedFileNames[i] == fileName) {
-					originSelectedFileNames.splice(i, 1);
-					break;
-				}
+		for (let i = 0; i < originSelectedFileNames.length; i++) {
+			if (originSelectedFileNames[i] == fileName) {
+				originSelectedFileNames.splice(i, 1);
+				break;
 			}
 		}
+	}
 			
 	// 선택한 파일 제거
 	function removeSelectedFile(fileIdentifier) {
@@ -279,18 +272,15 @@
 		});
 
 		$.ajax({
-			url: contextPath + "/Mealkit/update.pro",
+			url: contextPath + "/Mealkit/updatePro",
 			type: "POST",
 			data: formData,
 			processData: false,
 			contentType: false,
 			success: function(response) {
 				if (response) {
-					var responseArray = response.split(',');
-			        var no = responseArray[0];
-			        var nickName = responseArray[1];
 					alert("글 작성이 성공적으로 완료되었습니다.");
-					location.href = contextPath + "/Mealkit/info?no=" + no;
+					location.href = contextPath + "/Mealkit/info?no=" + response;
 				} else {
 					alert("글 작성에 실패했습니다. 다시 시도해주세요.");
 				}

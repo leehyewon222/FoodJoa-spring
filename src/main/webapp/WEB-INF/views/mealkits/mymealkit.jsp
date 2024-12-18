@@ -9,7 +9,7 @@
 <c:set var="resourcesPath" value="${contextPath}/resources" />
 <jsp:useBean id="stringParser" class="Common.StringParser"/>
 
-<c:set var="id" value="aronId"/>
+<c:set var="id" value="${sessionScope.userId }"/>
 
 <!DOCTYPE html>
 <html>
@@ -20,7 +20,6 @@
 	
 	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 	
-	<script src="${resourcesPath}/js/mealkit/mymealkit.js"></script>
 	<link rel="stylesheet" href="${resourcesPath }/css/mealkit/mymealkit.css">
 </head>
 
@@ -84,5 +83,6 @@
 			</c:choose>
 		</table>
 	</div>
+	<script src="${resourcesPath}/js/mealkit/mymealkit.js"></script>
 </body>
 </html>

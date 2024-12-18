@@ -178,9 +178,7 @@ response.setContentType("text/html; charset=utf-8");
 									</tr>
 									<tr>
 										<td>
-											<div class="myreview-contents">
-												${ stringParser.unescapeHtml(review.contents) }
-											</div>
+											<div class="myreview-contents">${ stringParser.unescapeHtml(review.contents) }</div>
 										</td>
 									</tr>
 									<tr>
@@ -233,13 +231,13 @@ response.setContentType("text/html; charset=utf-8");
 		}
 		
 		function onMealkitReviewUpdate(reviewNo) {
-			location.href = '${ contextPath }/Mealkit/reviewUpdate?no=' + reviewNo;
+			location.href = '${ contextPath }/Mealkit/updateReview?no=' + reviewNo;
 		}
 		
 		function onMealkitReviewDelete(reviewNo, mealkitNo) {
 			if (confirm('정말로 삭제하시겠습니까?')) {
 				$.ajax({
-					url: '${ contextPath }/Mealkit/reviewDelete.pro',
+					url: '${ contextPath }/Mealkit/reviewDeletePro',
 				    type: "POST",
 				    async: true,
 				    data: {

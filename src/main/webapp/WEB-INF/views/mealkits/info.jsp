@@ -8,7 +8,7 @@
 <c:set var="resourcesPath" value="${contextPath}/resources" />
 <jsp:useBean id="stringParser" class="Common.StringParser"/>
 
-<c:set var="id" value="aronId"/>
+<c:set var="id" value="${sessionScope.userId }"/>
 
 <!DOCTYPE html>
 <html>
@@ -43,29 +43,41 @@
 								</c:forEach>
 							</ul>
 							<div class="orders_text">
-								<br>
 								<h3>조리 순서</h3>
+								<br>
 								<c:set var="orders" value="${stringParser.splitString(mealkitInfo.orders)}"/>
 								<c:forEach var="i" begin="0" end="${orders.size() - 1}" step="1">
 									<c:set var="order" value="${orders[i]}"/>
 									<p>
-										<span>${i + 1}: ${order}</span>
+										<span>${i + 1}. ${order}</span>
 									</p>
 								</c:forEach>
 							</div>
 						</div>
 						<div class="info_text">
 							<span>
-								<button class="wishlist_button" type="button" onclick="wishMealkit('${contextPath}', '${mealkitInfo.no }')">
-									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-								    	<path stroke="#000" d="M16.471 3c-1.838 0-3.466.915-4.471 2.321C10.995 3.915 9.367 3 7.529 3 4.475 3 2 5.522 2 8.633 2 13.367 12 21 12 21s10-7.633 10-12.367C22 5.523 19.525 3 16.471 3"></path>
-								 	</svg>
-								</button>
+								<c:if test="${mealkitInfo.id != id }">
+									<c:choose>
+									    <c:when test="${wish == 1}">
+									        <button class="wishlist_button active" type="button" onclick="wishMealkit('${contextPath}', '${mealkitInfo.no}')">
+									            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									                <path stroke="#f00" d="M16.471 3c-1.838 0-3.466.915-4.471 2.321C10.995 3.915 9.367 3 7.529 3 4.475 3 2 5.522 2 8.633 2 13.367 12 21 12 21s10-7.633 10-12.367C22 5.523 19.525 3 16.471 3"></path>
+									            </svg>
+									        </button>
+									    </c:when>
+									    <c:otherwise>
+									        <button class="wishlist_button" type="button" onclick="wishMealkit('${contextPath}', '${mealkitInfo.no}')">
+									            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+									                <path stroke="#000" d="M16.471 3c-1.838 0-3.466.915-4.471 2.321C10.995 3.915 9.367 3 7.529 3 4.475 3 2 5.522 2 8.633 2 13.367 12 21 12 21s10-7.633 10-12.367C22 5.523 19.525 3 16.471 3"></path>
+									            </svg>
+									        </button>
+									    </c:otherwise>
+									</c:choose>
+								</c:if>
 								<h1>${mealkitInfo.title}</h1>
 								<hr>
 								<strong>글쓴이: ${mealkitInfo.memberVO.nickname}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<strong>게시일: ${mealkitInfo.postDate}</strong><br>
-								<!-- 나중에 평점 수정 -->
 								<strong>평점: <fmt:formatNumber value="${mealkitInfo.averageRating}" pattern="#.#" /></strong><hr>
 							</span>
 							<h2>
@@ -77,7 +89,6 @@
 							</h2>
 							<hr>
 							<br>
-							<!-- 수량 정하는 박스 -->
 							<span class="stock-wrapper">
 								<div class="stock_count">
 									<input type="text" name="stock" id="stock" value="1" readonly>
@@ -93,29 +104,26 @@
 								</div>
 							</span>
 							<br>
-							<!-- 간단 소개글  -->
 							<div class="contents_text">
-								<textarea readonly >${mealkitInfo.contents}</textarea>
+								<textarea readonly > ${mealkitInfo.contents}</textarea>
 							</div>
-							<!-- 구매, 장바구니 버튼 -->
-							<div class="button_row">
-								<button class="cart_button" type="button" onclick="cartMealkit('${contextPath}', '${mealkitInfo.no}')">장바구니</button>
-								<button class="buy_button" id="payment" onclick="onPaymentButton(event)">구매하기</button>
-							</div>
-							<!-- 수정 삭제 버튼 -->
-				            <div class="edit_delete_buttons">
-				            	<c:if test="${not empty id}">
-				                	<button class="edit_button" type="button" onclick="editMealkit(${mealkitInfo.no}, '${contextPath}')">수정</button>
+							<c:if test="${mealkitInfo.id != id }">
+								<div class="button_row">
+									<button class="cart_button" type="button" onclick="cartMealkit('${contextPath}', '${mealkitInfo.no}')">장바구니</button>
+									<button class="buy_button" id="payment" onclick="onPaymentButton(event)">구매하기</button>
+								</div>
+							</c:if>
+							<c:if test="${mealkitInfo.id == id}">
+					            <div class="edit_delete_buttons">
 				                	<button class="delete_button" type="button"
 				                		onclick="deleteMealkit(${mealkitInfo.no}, '${contextPath}')">삭제</button>
-				            	</c:if>
-				            </div>
+				                	<button class="edit_button" type="button" onclick="editMealkit(${mealkitInfo.no}, '${contextPath}')">수정</button>
+					            </div>
+				            </c:if>
 					    </div>
 					</div>
 				</td>
 			</tr>
-			
-			<!-- ------------------------------------------ -->
 			
 			<tr>
 				<td>
@@ -164,7 +172,7 @@
 							</c:choose>
 							<tr>
 								<td colspan="4">
-								<c:if test="${not empty id}">
+								<c:if test="${mealkitInfo.id != id}">
 									<input type="button" value="리뷰 작성" class="review-button"
 										onclick="location.href='${contextPath}/Mealkit/review?no=${mealkitInfo.no }'">
 								</c:if>

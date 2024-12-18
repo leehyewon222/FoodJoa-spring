@@ -5,7 +5,7 @@
 
 <mapper namespace="mapper.mealkitReview">
 
-	<resultMap type="mealkitReviewVO" id="ReviewInfo">
+	<resultMap type="mealkitReviewVO" id="review">
 
 		<id property="no" column="no"/>
 		<result property="id" column="id"/>
@@ -19,6 +19,7 @@
 			<id property="no" column="no"/>
 			<result property="title" column="title"/>
 			<result property="contents" column="contents"/>
+			<result property="pictures" column="mealkitPictures"/>
 		</association>
 		
 		<association property="memberVO" javaType="memberVO">
@@ -27,7 +28,7 @@
 	
 	</resultMap>
 	
-	<select id="selectReviewsInfo" parameterType="mealkitVO" resultMap="ReviewInfo">
+	<select id="selectReviewsInfo" parameterType="mealkitVO" resultMap="review">
 		<![CDATA[
 	        SELECT mr.no, mr.id, mr.pictures, mr.contents, mr.rating, mr.post_date, m.nickname
 			FROM mealkit_review mr 
@@ -39,18 +40,41 @@
         ]]>
 	</select>
 
-	<select id="selectMyReviewInfo" parameterType="int" resultMap="ReviewInfo">
+	<select id="selectMyReviewInfo" parameterType="int" resultMap="review">
 		<![CDATA[
-	        SELECT mr.no, mr.id, mr.pictures, mr.contents, mr.rating, k.title, k.contents 
+	        SELECT mr.no, mr.mealkit_no, mr.id, mr.pictures, mr.contents, mr.rating, 
+	        	   k.title, k.contents, k.pictures AS mealkitPictures
 			FROM mealkit_review mr 
 			LEFT JOIN mealkit k
 			ON k.no = mr.mealkit_no 
 			WHERE mr.no = #{no};
         ]]>
 	</select>
+	
+	<insert id="insertReview" parameterType="mealkitReviewVO">
+		<![CDATA[
+			INSERT INTO mealkit_review(id, mealkit_no, pictures, contents, rating, post_date) 
+			VALUES(#{id}, #{mealkitNo}, #{pictures}, #{contents}, #{rating}, CURRENT_TIMESTAMP)
+        ]]>
+	</insert>
+	
+	<update id="updateReview" parameterType="mealkitReviewVO">
+		<![CDATA[
+			UPDATE mealkit_review 
+			SET pictures = #{pictures}, contents = #{contents}, rating = #{rating} 
+			WHERE no = #{no} 
+		]]>
+	</update>
+	
+	<delete id="deleteReview" parameterType="int">
+		<![CDATA[
+			DELETE FROM mealkit_review 
+			WHERE no = #{no} 
+		]]>
+	</delete>
 		
 	<!-- 건용 작업 -->
-	<select id="selectReviewsById" parameterType="String" resultMap="ReviewInfo">
+	<select id="selectReviewsById" parameterType="String" resultMap="review">
 		<![CDATA[
 			SELECT 
 				kr.*,

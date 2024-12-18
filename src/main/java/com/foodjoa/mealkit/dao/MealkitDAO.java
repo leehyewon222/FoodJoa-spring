@@ -37,7 +37,7 @@ public class MealkitDAO {
 	}
 
 	public MealkitReviewVO selectMyReviewInfo(int no) {
-		return sqlSession.selectOne("mapper.mealkit.selectMyReviewInfo", no);
+		return sqlSession.selectOne("mapper.mealkitReview.selectMyReviewInfo", no);
 	}
 
 	public int insertMealkit(MealkitVO mealkitVO) {
@@ -48,10 +48,26 @@ public class MealkitDAO {
 		return sqlSession.selectOne("mapper.mealkit.selectRecentMealkit", mealkitVO);
 	}
 
+	public int updateMealkit(MealkitVO mealkitVO) {
+		return sqlSession.update("mapper.mealkit.updateMealkit", mealkitVO);
+	}
+
 	public int deleteMealkit(int no) {
 		return sqlSession.delete("mapper.mealkit.deleteMealkit", no);
 	}
 
+	public int insertReview(MealkitReviewVO reviewVO) {
+		return sqlSession.insert("mapper.mealkitReview.insertReview", reviewVO);
+	}
+
+	public int updateReview(MealkitReviewVO reviewVO) {
+		return sqlSession.update("mapper.mealkitReview.updateReview", reviewVO);
+	}
+
+	public int deleteReview(int no) {
+		return sqlSession.delete("mapper.mealkitReview.deleteReview", no);
+	}
+	
 	public List<Map<String, Object>> selectSearchList(String key, String word) {
 		Map<String, Object> params = new HashMap<>();
 	    params.put("key", key);

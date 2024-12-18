@@ -1,14 +1,9 @@
 package com.foodjoa.mealkit.service;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -23,6 +18,7 @@ import com.foodjoa.mealkit.vo.MealkitVO;
 import com.foodjoa.mealkit.vo.MealkitWishListVO;
 
 import Common.FileIOController;
+import Common.StringParser;
 
 @Service
 public class MealkitService {
@@ -67,6 +63,14 @@ public class MealkitService {
 		return mealkitDAO.selectReviewsInfo(mealkitVO);
 	}
 
+	public int selectWishlist(int no, String id) {
+		wishlistVO = new MealkitWishListVO();
+		wishlistVO.setId(id);
+		wishlistVO.setMealkitNo(no);
+		
+		return mealkitDAO.selectMealkitWishlist(wishlistVO);
+	}
+
 	public List<Map<String, Object>> selectMyMealkitsList(String id) {
 		mealkitVO = new MealkitVO();
 		mealkitVO.setId(id);
@@ -80,7 +84,9 @@ public class MealkitService {
 
 	public int processMealkitWrite(MealkitVO mealkitVO, MultipartHttpServletRequest multipartRequest) throws Exception {
 		
-		Iterator<String> fileNames = multipartRequest.getFileNames();
+		int result = mealkitDAO.insertMealkit(mealkitVO);
+		
+		if (result <= 0) return 0;
 		
 		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
 				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
@@ -94,33 +100,85 @@ public class MealkitService {
 			tempDir.mkdirs();
         }
 		
-		String originalFileName = "";
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		
 		while (fileNames.hasNext()) {
 			String fileName = fileNames.next();
 			MultipartFile mFile = multipartRequest.getFile(fileName);
-			originalFileName = mFile.getOriginalFilename();
 			
 			if (mFile.getSize() != 0) {
-				mFile.transferTo(new File(tempPath + originalFileName));	
+				mFile.transferTo(new File(tempPath + mFile.getOriginalFilename()));	
 			}			
 		}
 		
-		mealkitVO.setPictures(originalFileName);
-		
-		System.out.println("");
-		
-		int result = mealkitDAO.insertMealkit(mealkitVO);
-		
-		if (result <= 0) return 0;
-		
 		int no = mealkitDAO.selectRecentMealkit(mealkitVO).getNo();
 		
+		List<String> pictures = StringParser.splitString(mealkitVO.getPictures());
 		String destinationPath = imagesPath + "mealkit" + File.separator + "thumbnails" 
 				+ File.separator + no + File.separator;
 		
-		FileIOController.moveFile(tempPath, destinationPath, originalFileName);
+		for (String picture : pictures) {
+			FileIOController.moveFile(tempPath, destinationPath, picture);
+		}
 		
 		return no;
+	}
+
+	public int processMealkitUpdate(MealkitVO mealkitVO, MultipartHttpServletRequest multipartRequest) 
+		throws Exception{
+		
+		String originSelectedPictures = multipartRequest.getParameter("origin_selected_pictures");
+		String pictures = mealkitVO.getPictures();
+		
+		mealkitVO.setPictures(originSelectedPictures + pictures);
+		
+		int result = mealkitDAO.updateMealkit(mealkitVO);
+		
+		if (result <= 0) return result;		
+		
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		
+		String tempPath = imagesPath + "temp" + File.separator;
+		String destinationPath = imagesPath + "mealkit" + File.separator +
+				"thumbnails" + File.separator + mealkitVO.getNo();
+		
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+		
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			
+			if (mFile.getSize() != 0) {
+				mFile.transferTo(new File(tempPath + mFile.getOriginalFilename()));
+			}
+		}
+		
+		List<String> originFileNames = StringParser.splitString(multipartRequest.getParameter("origin_pictures"));
+		List<String> originSelectedFileNames = StringParser.splitString(originSelectedPictures);
+		
+		for (String fileName : originFileNames) {
+			if (!originSelectedFileNames.contains(fileName)) {
+				FileIOController.deleteFile(destinationPath, fileName);
+			}
+		}
+		
+		List<String> picturesList = StringParser.splitString(pictures);
+		
+        for (String picture : picturesList) {
+    		FileIOController.moveFile(tempPath, destinationPath, picture);
+        }
+        
+		result = mealkitVO.getNo();
+		
+		return result;
 	}
 	
 	public int deleteMealkit(int no) throws Exception {
@@ -138,6 +196,118 @@ public class MealkitService {
 					+ File.separator + "reviews" + File.separator + no;
 			
 			FileIOController.deleteDirectory(path);
+			FileIOController.deleteDirectory(reviewPath);
+		}
+		
+		return result;
+	}
+	
+
+	public int processReviewWrite(MealkitReviewVO reviewVO, MultipartHttpServletRequest multipartRequest) throws Exception{
+		
+		int result = mealkitDAO.insertReview(reviewVO);
+		
+		if (result <= 0) return 0;
+		
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		
+		String tempPath = imagesPath + "temp" + File.separator;
+
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+		
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			
+			if (mFile.getSize() != 0) {
+				mFile.transferTo(new File(tempPath + mFile.getOriginalFilename()));	
+			}			
+		}
+		
+		int no = reviewVO.getMealkitNo();
+		
+		List<String> pictures = StringParser.splitString(reviewVO.getPictures());
+		String destinationPath = imagesPath + "mealkit" + File.separator + "reviews" + File.separator
+				+ reviewVO.getMealkitNo() + File.separator + reviewVO.getId();
+		
+		for (String picture : pictures) {
+			FileIOController.moveFile(tempPath, destinationPath, picture);
+		}
+		
+		return no;
+	}
+
+	public int processReviewUpdate(MealkitReviewVO reviewVO, MultipartHttpServletRequest multipartRequest) 
+		throws Exception{
+		
+		String originSelectedPictures = multipartRequest.getParameter("origin_selected_pictures");
+		String pictures = reviewVO.getPictures();
+		
+		reviewVO.setPictures(originSelectedPictures + pictures);
+		
+		mealkitDAO.updateReview(reviewVO);
+		
+		String imagesPath = new ClassPathResource("").getFile().getParentFile().getParent()
+				+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+				+ File.separator + "resources" + File.separator + "images" + File.separator;
+		
+		String tempPath = imagesPath + "temp" + File.separator;
+		String destinationPath = imagesPath + "mealkit" + File.separator +
+				"reviews" + File.separator + reviewVO.getMealkitNo() + File.separator + reviewVO.getId();
+		
+		File tempDir = new File(tempPath);
+		
+		if (!tempDir.exists()) {
+			tempDir.mkdirs();
+        }
+		
+		Iterator<String> fileNames = multipartRequest.getFileNames();
+		
+		while (fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mFile = multipartRequest.getFile(fileName);
+			
+			if (mFile.getSize() != 0) {
+				mFile.transferTo(new File(tempPath + mFile.getOriginalFilename()));
+			}
+		}
+		
+		List<String> originFileNames = StringParser.splitString(multipartRequest.getParameter("origin_pictures"));
+		List<String> originSelectedFileNames = StringParser.splitString(originSelectedPictures);
+		
+		for (String fileName : originFileNames) {
+			if (!originSelectedFileNames.contains(fileName)) {
+				FileIOController.deleteFile(destinationPath, fileName);
+			}
+		}
+		
+		List<String> picturesList = StringParser.splitString(pictures);
+		
+        for (String picture : picturesList) {
+    		FileIOController.moveFile(tempPath, destinationPath, picture);
+        }
+        
+        return reviewVO.getMealkitNo();
+	}
+
+	public int deleteReview(int no, int mealkitNo, String id) throws Exception{
+		
+		int result = mealkitDAO.deleteReview(no);
+
+		if (result > 0) {
+			String reviewPath = new ClassPathResource("").getFile().getParentFile().getParent()
+					+ File.separator + "src" + File.separator + "main" + File.separator + "webapp" 
+					+ File.separator + "resources" + File.separator + "images" + File.separator + "mealkit" 
+					+ File.separator + "reviews" + File.separator + mealkitNo + File.separator + id;
+			
 			FileIOController.deleteDirectory(reviewPath);
 		}
 		

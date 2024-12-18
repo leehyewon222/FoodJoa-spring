@@ -73,6 +73,17 @@ textarea{
 	border-radius: 10px;
 }
 
+.orders_text{
+	border: 1px solid #BF917E;
+	border-radius: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+}
+
+.orders_text h3{
+	text-align: center;
+}
+
 .stock-wrapper {
     display: flex;
     align-items: center;
@@ -140,13 +151,14 @@ textarea{
 	font-size: 13px;
 }
 
-.button_row {
+.button_row, .edit_delete_buttons {
 	display: flex;
 	gap: 50px;
 	margin-top: 10px;
 }
 
-.button_row button {
+.button_row button, 
+.edit_delete_buttons button {
 	width: 180px;
 	height: 40px;
 	border-radius: 5px;
@@ -155,18 +167,19 @@ textarea{
 	cursor: pointer;
 }
 
-.buy_button {
+.buy_button, .edit_button {
 	background-color: #BF917E;
 	color: white;
   	border: none;
 }
 
-.buy_button:hover {
+.buy_button:hover,
+.edit_button:hover {
 	background-color: #9e6e58;
 	transition: background-color 0.3s ease;
 }
 
-.cart_button {
+.cart_button, .delete_button {
 	background-color: white;
 	color: black;
   	border: solid 1px #BF917E;
@@ -196,6 +209,12 @@ textarea{
   stroke: #ff61a6;
 }
 
+.wishlist_button.active svg path {
+      fill: #f7a7d6;
+	  transform: scale(1.05);
+	  stroke: #ff61a6;
+}
+
 .origin_text {
     margin-top: 10px;
     font-size: 16px;
@@ -206,39 +225,10 @@ textarea{
 .contents_text textarea{
 	width: 100%;
 	height: 140px;
-	border: solid 1px;
+	border: solid 1px #BF917E;
+	border-radius: 5px;
 	text-indent: 0;
 	text-align: left;
-}
-
-.edit_delete_buttons {
-    text-align: center;
-}
-
-.edit_button{
-	width: 90px;
-	height: 40px;
-	border-radius: 5px;
-	margin-top: 20px;
-	font-size: 16px;
-	font-weight: bold;
-	cursor: pointer;
-	background-color: #BF917E;
-	color: white;
-  	border: none;
-}
-
-.delete_button{
-	width: 90px;
-	height: 40px;
-	border-radius: 5px;
-	margin-top: 20px;
-	font-size: 16px;
-	font-weight: bold;
-	cursor: pointer;
-	background-color: white;
-	color: black;
-  	border: solid 1px #BF917E;
 }
 
 /* review */
@@ -290,9 +280,20 @@ textarea{
 
 .review-images {
     display: flex;
-    gap: 20px;
     overflow-x: auto;
     padding-bottom: 20px;
+}
+
+.review-images ul {
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.review-pictures {
+    flex: 0 0 auto;
 }
 
 .review-image {

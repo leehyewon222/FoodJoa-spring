@@ -7,9 +7,10 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <c:set var="resourcesPath" value="${contextPath}/resources" />
 <jsp:useBean id="stringParser" class="Common.StringParser"/>
+
 <c:set var="picture" value="${stringParser.splitString(mealkitInfo.pictures)[0]}"/>
 
-<c:set var="id" value="aronId"/>
+<c:set var="id" value="${sessionScope.userId}"/>
 
 <!DOCTYPE html>
 <html>
@@ -22,8 +23,6 @@
 	
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200..900&display=swap" rel="stylesheet">
 	
-	<script src="${resourcesPath }/js/common/common.js"></script>
-	<script src="${resourcesPath }/js/mealkit/review.js"></script>
 	<link rel="stylesheet" href="${resourcesPath }/css/mealkit/review.css">
 </head>
 
@@ -31,8 +30,8 @@
 	<div id="recipe-review-container">
 		<h1>밀키트 리뷰 작성</h1>
 		<form id="frmReview" action="#" method="post" enctype="multipart/form-data">
+			<input type="hidden" id="id" name="id" value="${id }">
 			<input type="hidden" id="mealkit_no" name="mealkit_no" value="${mealkitInfo.no }">
-			<input type="hidden" id="nickname" name="nickname" value="${mealkitInfo.memberVO.nickname }"/>
 					
 			<table width="100%">
 				<tr>
@@ -100,5 +99,7 @@
 			</table>
 		</form>
 	</div>
+	<script src="${resourcesPath }/js/common/common.js"></script>
+	<script src="${resourcesPath }/js/mealkit/review.js"></script>
 </body>
 </html>

@@ -8,14 +8,14 @@
 <c:set var="pagePerBlock" value="3" />
 <c:set var="totalRecord" value="${mealkitsList.size()}" />
 <c:set var="beginPerPage" value="${nowPage * numPerPage}" />
-<c:set var="totalPage" value="${(totalRecord + numPerPage - 1) / numPerPage}" />
-<c:set var="totalBlock" value="${(totalPage + pagePerBlock - 1) / pagePerBlock}" />
+<c:set var="totalPage" value="${Math.ceil(totalRecord / numPerPage)}" />
+<c:set var="totalBlock" value="${Math.ceil(totalPage / pagePerBlock)}" />
 
 <c:set var="contextPath" value="${pageContext.request.contextPath }"/>
 <c:set var="resourcesPath" value="${contextPath}/resources" />
 <jsp:useBean id="stringParser" class="Common.StringParser"/>
 
-<c:set var="id" value="aronId"/>
+<c:set var="id" value="${sessionScope.userId }"/>
 
 <!DOCTYPE html>
 <html>
@@ -42,6 +42,7 @@
 	<div id="container">
 		<!-- 검색 기능 -->
 		<h1>"${categoryName}"에 대한 검색결과</h1>
+		<br>
 		<div id="search-container">
 			<div class="search-form-container">
 				<form action="${contextPath}/Mealkit/searchlistPro" method="get" name="frmSearch" 
@@ -120,8 +121,8 @@
 			                                        평점: <fmt:formatNumber value="${ratingAvr}" pattern="#.#" /> &nbsp;&nbsp;&nbsp;&nbsp;
 			                                        조회수: ${views}
 			                                    </span>
-			                                    <br>
 			                                    <h2><strong>${title}</strong></h2>
+			                                    <br>
 			                                    <h3>${price} 원</h3>
 			                                    <br>
 			                                    <p>설명: ${contents}</p>
