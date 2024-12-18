@@ -82,14 +82,14 @@ public class RecipeService {
 		recipeInfo.put("reviews", reviews);
 		
 		RecentViewVO recentViewVO = new RecentViewVO();
-		recentViewVO.setNo(Integer.parseInt(no));
 		recentViewVO.setId(userId);
+		recentViewVO.setItemNo(Integer.parseInt(no));
 		recentViewVO.setType(0);
 		
 		int countResult = memberDAO.selectRecentCount(recentViewVO);
 		
 		if (countResult <= 0)
-			memberDAO.insertRecentRecipe(recentViewVO);
+			memberDAO.insertRecentView(recentViewVO);
 		
 		return recipeInfo;
 	}
@@ -171,10 +171,14 @@ public class RecipeService {
 			}			
 		}
 		
-		String thumbnailName = (originalFileName == null || originalFileName.length() <= 0 || originalFileName.equals("")) ?
-				originThumbnail : originalFileName;
+		boolean flag = false;
+		if (originalFileName == null || originalFileName.length() <= 0 || originalFileName.equals("")) {
+			flag = true;
+			
+			originalFileName = originThumbnail;
+		}
 		
-		recipeVO.setThumbnail(thumbnailName);
+		recipeVO.setThumbnail(originalFileName);
 		
 		int result = recipeDAO.updateRecipe(recipeVO);
 		
@@ -184,13 +188,13 @@ public class RecipeService {
 			return result;
 		}
 		
-		int no = recipeVO.getNo();
-		
-		String destinationPath = imagesPath + "recipe" + File.separator + "thumbnails" 
-				+ File.separator + no + File.separator;
-		
-		FileIOController.deleteFile(destinationPath, originThumbnail);
-		FileIOController.moveFile(tempPath, destinationPath, originalFileName);
+		if (!flag) {
+			String destinationPath = imagesPath + "recipe" + File.separator + "thumbnails" 
+					+ File.separator + recipeVO.getNo() + File.separator;
+			
+			FileIOController.deleteFile(destinationPath, originThumbnail);
+			FileIOController.moveFile(tempPath, destinationPath, originalFileName);
+		}
 		
 		return result;
 	}

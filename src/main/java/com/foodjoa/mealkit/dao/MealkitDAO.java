@@ -119,4 +119,8 @@ public class MealkitDAO {
 	public List<MealkitOrderVO> selectSendedMealkits(String userId) {
 		return sqlSession.selectList("mapper.mealkitOrder.selectSendedMealkits", userId);
 	}
+
+	public int updateMealkitViews(int _no) {
+		return sqlSession.update("mapper.mealkit.updateMealkitViews", _no);
+	}
 }

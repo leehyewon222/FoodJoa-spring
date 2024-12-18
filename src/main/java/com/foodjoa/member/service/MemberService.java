@@ -94,28 +94,12 @@ public class MemberService {
                 return result;  // 성공한 경우 result 반환
             }
         }
-        
-        // 파일이 없거나 예외가 발생한 경우에도 int 타입 값 반환
-        return 0;  // 기본적으로 0 반환 (파일이 없거나 오류가 발생한 경우)
+       
+        return 0;
     }
 
-
-    	
-    	
-    	
-    	
-    	
-
-		  
-		 
-    
-
-    //--------------------------------------------회원가입 끝
-    
 	public boolean isUserExists(String userId) {
-		// DB에서 아이디가 존재하는지 확인하는 로직
 		return memberDAO.isUserExists(userId);
-	
 	}
 	
 	public boolean deleteMember(String readonlyId) {

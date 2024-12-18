@@ -16,6 +16,8 @@ import com.foodjoa.mealkit.vo.MealkitCartVO;
 import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
 import com.foodjoa.mealkit.vo.MealkitWishListVO;
+import com.foodjoa.member.dao.MemberDAO;
+import com.foodjoa.member.vo.RecentViewVO;
 
 import Common.FileIOController;
 import Common.StringParser;
@@ -31,6 +33,8 @@ public class MealkitService {
 	private MealkitWishListVO wishlistVO;
 	@Autowired
 	private MealkitCartVO cartVO;
+	@Autowired
+	private MemberDAO memberDAO;
 	
 	public List<Map<String, Object>> selectMealkitsList(int category) {
 		mealkitVO = new MealkitVO();
@@ -50,6 +54,27 @@ public class MealkitService {
 		else if (category == 4){ strCategory = "양식 밀키트 게시글"; }
 		
 		return strCategory;
+	}
+	
+	public MealkitVO processMealkitRead(int no, String userId) {
+		
+		MealkitVO mealkitVO = mealkitDAO.selectMealkitInfo(no);
+		
+		if (mealkitVO == null) return null;
+		
+		int result = mealkitDAO.updateMealkitViews(no);
+		
+		RecentViewVO recentViewVO = new RecentViewVO();
+		recentViewVO.setId(userId);
+		recentViewVO.setItemNo(no);
+		recentViewVO.setType(1);
+		
+		int countResult = memberDAO.selectRecentCount(recentViewVO);
+		
+		if (countResult <= 0)
+			memberDAO.insertRecentView(recentViewVO);
+		
+		return mealkitVO;
 	}
 
 	public MealkitVO selectMealkitInfo(int no) {

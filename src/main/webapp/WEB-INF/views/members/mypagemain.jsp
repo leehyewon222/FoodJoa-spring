@@ -118,8 +118,10 @@ response.setContentType("text/html; charset=utf-8");
 			<br>
 	
 			<div id="btnKakao">
-		    <img src="${ resourcesPath }/images/member/kakaologo.png" id="kakao-link-btn" alt="카카오톡 링크 공유하기"
-		    style="width:40px; height:auto;"> <p>친구 초대하기!</p>	   
+			    <img src="${ resourcesPath }/images/member/kakaologo.png"
+			    		id="kakao-link-btn" alt="카카오톡 링크 공유하기"
+			    		style="width:40px; height:auto;">
+	    		<p>친구 초대하기!</p>	   
 			</div>
 	
 	
@@ -133,6 +135,7 @@ response.setContentType("text/html; charset=utf-8");
 		</div>
 	</div>
 
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script>
 		document.getElementById('updateButton').onclick = function() {
 			location.href = '${contextPath}/Member/profileupdate';
@@ -147,24 +150,18 @@ response.setContentType("text/html; charset=utf-8");
 			};
 			reader.readAsDataURL(event.target.files[0]);
 		}
+		
+		//<![CDATA[
+	    // // 사용할 앱의 JavaScript 키를 설정해 주세요.
+	    Kakao.init('ab039484667daeed90e5c9efa4980315');
+	    // // 카카오링크 버튼을 생성합니다. 처음 한번만 호출하면 됩니다.
+	    Kakao.Link.createScrapButton({
+	        container: '#kakao-link-btn',
+	        requestUrl: 'http://localhost:8090/FoodJoa/Main/home',
+	        templateId : 115441
+	    });
+	    //]]>
 	</script>
-	
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-<script type='text/javascript'>
-    //<![CDATA[
-    // // 사용할 앱의 JavaScript 키를 설정해 주세요.
-    Kakao.init('ab039484667daeed90e5c9efa4980315');
-    // // 카카오링크 버튼을 생성합니다. 처음 한번만 호출하면 됩니다.
-    Kakao.Link.createScrapButton({
-        container: '#kakao-link-btn',
-        requestUrl: 'http://localhost:8090/FoodJoa/Main/home',
-        templateId : 115441
-    });
-    //]]>
-</script>
-
-	
-	
 </body>
 
 </html>

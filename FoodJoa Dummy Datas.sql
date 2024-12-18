@@ -15,7 +15,12 @@ values('admin', '관리자', '고나리자', '01012345678', '47296', '부산 부
     
 	('tQi32Qj0iONPLRZ16-5sX4-Gq_p8Jg_T33r-HdtLEFE', '네이버테스트', '네이버테스트', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
     ('3837872024', '카카오테스트', '카카오테스트', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-    ('E5WfZ9Dw6uy3PzDsAkaKOEdHtykh5sgibCaIt7BqYqM', '고나리자', '공지고나리자', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY);
+    ('E5WfZ9Dw6uy3PzDsAkaKOEdHtykh5sgibCaIt7BqYqM', '고나리자', '공지고나리자', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+    ('nokzVx9aXFXFaCu-4sOTujR0FkNtw-zrSsY1kwwgNdM', '아론', '아론', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+    ('oTcuaqH712AhGERfeDDh7sKhFyWoPrKcNhIujhF73vk', '혜원', '혜원', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+    ('WR1ZpRIM2ktSXjEzf0nI5NMU9JU_ASY6UXjh6ROLA4o', '민석', '민석', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY);
+    
+    
 
 -- recipe
 insert into recipe(id, title, thumbnail, description, contents, category, views,

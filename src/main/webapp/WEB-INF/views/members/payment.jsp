@@ -200,7 +200,7 @@
 	                            if (response > 0) {
 									console.log('결제가 성공적으로 완료되었습니다.');
 									alert('결제가 성공적으로 완료되었습니다.');
-									location.href = '${contextPath}/Member/mydelibery';
+									location.href = '${contextPath}/Member/mydelivery';
 			        	        }
 			        	        else {
 			        	            alert('결제는 성공했지만 DB 저장 중 오류가 발생했습니다.');

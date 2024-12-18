@@ -48,9 +48,11 @@ public class MealkitController {
 	@RequestMapping(value="info", method = { RequestMethod.GET, RequestMethod.POST })
 	public String info(@RequestParam int no, Model model, HttpSession session) throws Exception {
 		
-		MealkitVO mealkitInfo = mealkitService.selectMealkitInfo(no);
+		String userId = (String) session.getAttribute("userId");
+		
+		MealkitVO mealkitInfo = mealkitService.processMealkitRead(no, userId);
 		List<Object> reviewInfo = mealkitService.selectReviewsInfo(no);
-		int wish = mealkitService.selectWishlist(no, (String) session.getAttribute("userId"));
+		int wish = mealkitService.selectWishlist(no, userId);
 		
 		model.addAttribute("mealkitInfo", mealkitInfo);
 		model.addAttribute("reviewInfo", reviewInfo);

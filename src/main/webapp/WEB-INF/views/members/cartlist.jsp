@@ -171,7 +171,7 @@
 		    <form id="checkoutForm" action="${contextPath}/Member/payment" method="post">
 		        <input type="hidden" name="isCart" value="1" />
 		        <input type="hidden" name="combinedNo" id="selectedMealkitNos" />
-		        <input type="hidden" name="CombinedQuantity" id="selectedMealkitPrices" />
+		        <input type="hidden" name="CombinedQuantity" id="selectedMealkitQuantities" />
 		        <input type="submit" value="결제하기" class="btn" onclick="onSubmit(event)" />
 		    </form>
 		</div>
@@ -201,7 +201,7 @@
         });
 
         $("#selectedMealkitNos").val(selectedNos.join(','));
-        $("#selectedMealkitPrices").val(selectedQuantities.join(','));
+        $("#selectedMealkitQuantities").val(selectedQuantities.join(','));
         
         $("#checkoutForm").submit();
     }
@@ -233,7 +233,7 @@
         // 선택된 아이템들을 담을 배열
         var selectedItems = [];
         var selectedMealkitNos = [];  // 선택된 밀키트 번호 배열
-        var selectedMealkitPrices = [];
+        var selectedMealkitQuantities = [];
 
         // 선택된 아이템 처리
         for (var checkbox of checkboxes) {

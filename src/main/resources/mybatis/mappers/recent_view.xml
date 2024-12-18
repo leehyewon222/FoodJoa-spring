@@ -36,8 +36,7 @@
 		</association>
 	</resultMap>
 
-	<select id="selectRecentCount" parameterType="recentViewVO"
-		resultType="int">
+	<select id="selectRecentCount" parameterType="recentViewVO" resultType="int">
 		SELECT COUNT(*) AS result
 		FROM recent_view
 		WHERE id=#{id} AND

@@ -184,6 +184,24 @@
 			</tr>
 		</table>
 	</div>
+	
+	<form id="checkoutForm" action="${contextPath}/Member/payment" method="post">
+        <input type="hidden" name="isCart" value="1" />
+        <input type="hidden" name="combinedNo" id="combinedNo" />
+        <input type="hidden" name="CombinedQuantity" id="CombinedQuantity" />
+    </form>
+	
+	
 	<script src="${resourcesPath}/js/mealkit/info.js"></script>
+	<script>
+		function onPaymentButton(e) {
+			e.preventDefault();
+			
+			$("#combinedNo").val($("#mealkitNo").val());
+			$("#CombinedQuantity").val($("#stock").val());
+			
+			$("#checkoutForm").submit();
+		}
+	</script>
 </body>
 </html>

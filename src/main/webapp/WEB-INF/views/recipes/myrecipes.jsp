@@ -96,7 +96,23 @@
 			event.preventDefault();
 			
 			if (confirm('정말로 삭제하시겠습니까?')) {
-				location.href = '${ contextPath }/Recipe/deletePro?no=' + no;	
+				$.ajax({
+					url: '${ contextPath }/Recipe/deletePro',
+					type: 'post',
+					data: {
+						no: no
+					},
+					dataType: 'text',
+					success: function(responsedData) {
+						if (responsedData <= 0) {
+							alert('레시피 삭제에 실패했습니다.');
+						}
+						else {
+							alert('레시피를 삭제했습니다.');
+							location.href = '${ contextPath }/Member/mypagemain';
+						}
+					}
+				});
 			}
 		}
 	</script>

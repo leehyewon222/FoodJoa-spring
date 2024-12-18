@@ -33,7 +33,7 @@ public class MemberDAO {
 		return sqlSession.selectOne("mapper.recentView.selectRecentCount", recentViewVO);
 	}
 
-	public int insertRecentRecipe(RecentViewVO recentViewVO) {
+	public int insertRecentView(RecentViewVO recentViewVO) {
 
 		return sqlSession.insert("mapper.recentView.insertRecentView", recentViewVO);
 	}

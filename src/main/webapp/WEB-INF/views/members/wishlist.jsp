@@ -31,6 +31,17 @@
         #wishlist-container {
             margin: 0 auto;
         }
+        
+        .wishlist-nodata {
+			font-family: "Noto Serif KR", serif;
+			font-size: 1.25rem;
+			width: 100%;
+			height: 200px;
+			border: 1px solid #BF817E;
+			border-radius: 5px;
+			line-height: 200px;
+			text-align: center;
+        }
 
         .wishlist-grid {
             display: grid;
@@ -85,65 +96,83 @@
         
         <!-- 레시피 위시리스트 -->
         <div id="wishListRecipe" class="wishList">
-            <div class="wishlist-grid">
-                <c:forEach var="item" items="${recipeWishlists}">
-                    <div class="wishlist-item">
-                        <a href="${ contextPath }/Recipe/read?no=${item.recipeNo}">
-                            <img src="${ resourcesPath }/images/recipe/thumbnails/${item.recipeNo}/${item.recipeVO.thumbnail}">
-                        </a>
-
-                        <div class="info">
-                            <div>
-                                <b>
-                                    <c:choose>
-                                        <c:when test="${item.recipeVO.category == 1}">[한식]</c:when>
-                                        <c:when test="${item.recipeVO.category == 2}">[일식]</c:when>
-                                        <c:when test="${item.recipeVO.category == 3}">[중식]</c:when>
-                                        <c:when test="${item.recipeVO.category == 4}">[양식]</c:when>
-                                        <c:when test="${item.recipeVO.category == 5}">[자취]</c:when>
-                                    </c:choose>
-                                    ${item.recipeVO.title}
-                                </b>
-                            </div>
-                            <div>작성자: ${item.memberVO.nickname}</div>
-                            <div>${item.recipeVO.description}</div>
-                          	<div>평점: ${item.recipeVO.averageRating}</div>
-                           	<button class="wishlist-button" onclick="onWishlistDelete(0, ${ item.no })">삭제</button>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
+        	<c:choose>
+           		<c:when test="${ empty recipeWishlists }">
+           			<div class="wishlist-nodata">
+           				찜한 레시피가 없습니다.
+           			</div>
+           		</c:when>
+           		<c:otherwise>
+            		<div class="wishlist-grid">
+	            		<c:forEach var="item" items="${recipeWishlists}">
+		                    <div class="wishlist-item">
+		                        <a href="${ contextPath }/Recipe/read?no=${item.recipeNo}">
+		                            <img src="${ resourcesPath }/images/recipe/thumbnails/${item.recipeNo}/${item.recipeVO.thumbnail}">
+		                        </a>
+		
+		                        <div class="info">
+		                            <div>
+		                                <b>
+		                                    <c:choose>
+		                                        <c:when test="${item.recipeVO.category == 1}">[한식]</c:when>
+		                                        <c:when test="${item.recipeVO.category == 2}">[일식]</c:when>
+		                                        <c:when test="${item.recipeVO.category == 3}">[중식]</c:when>
+		                                        <c:when test="${item.recipeVO.category == 4}">[양식]</c:when>
+		                                        <c:when test="${item.recipeVO.category == 5}">[자취]</c:when>
+		                                    </c:choose>
+		                                    ${item.recipeVO.title}
+		                                </b>
+		                            </div>
+		                            <div>작성자: ${item.memberVO.nickname}</div>
+		                            <div>${item.recipeVO.description}</div>
+		                          	<div>평점: ${item.recipeVO.averageRating}</div>
+		                           	<button class="wishlist-button" onclick="onWishlistDelete(0, ${ item.no })">삭제</button>
+		                        </div>
+		                    </div>
+		                </c:forEach>
+            		</div>
+           		</c:otherwise>
+           	</c:choose>
         </div>
 
         <!-- 밀키트 위시리스트 -->
         <div id="wishListMealKit" class="wishList" style="display: none;">
-            <div class="wishlist-grid">
-                <c:forEach var="item" items="${mealkitWishlists}">
-                    <div class="wishlist-item">
-                        <a href="${ contextPath }/Mealkit/info?no=${item.mealkitNo}">
-                            <c:set var="thumbnail" value="${ stringParser.splitString(item.mealkitVO.pictures)[0] }" />
-                            <img src="${ resourcesPath }/images/mealkit/thumbnails/${item.mealkitNo}/${thumbnail}">
-                        </a>
-                        <div class="info">
-                            <div>
-                                <b>
-                                    <c:choose>
-                                        <c:when test="${item.mealkitVO.category == 1}">[한식]</c:when>
-                                        <c:when test="${item.mealkitVO.category == 2}">[일식]</c:when>
-                                        <c:when test="${item.mealkitVO.category == 3}">[중식]</c:when>
-                                        <c:when test="${item.mealkitVO.category == 4}">[양식]</c:when>
-                                    </c:choose>    
-                                    ${item.mealkitVO.title}
-                                </b>
-                            </div>
-                            <div>작성자: ${item.memberVO.nickname}</div>
-                            <div>가격: ${item.mealkitVO.price}</div>
-                            <div>평점: ${item.mealkitVO.averageRating}</div>
-                            <button class="wishlist-button" onclick="onWishlistDelete(1, ${ item.no })">삭제</button>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
+           	<c:choose>
+           		<c:when test="${ empty mealkitWishlists }">
+           			<div class="wishlist-nodata">
+           				찜한 밀키트가 없습니다.
+           			</div>
+           		</c:when>
+           		<c:otherwise>
+            		<div class="wishlist-grid">
+		                <c:forEach var="item" items="${mealkitWishlists}">
+		                    <div class="wishlist-item">
+		                        <a href="${ contextPath }/Mealkit/info?no=${item.mealkitNo}">
+		                            <c:set var="thumbnail" value="${ stringParser.splitString(item.mealkitVO.pictures)[0] }" />
+		                            <img src="${ resourcesPath }/images/mealkit/thumbnails/${item.mealkitNo}/${thumbnail}">
+		                        </a>
+		                        <div class="info">
+		                            <div>
+		                                <b>
+		                                    <c:choose>
+		                                        <c:when test="${item.mealkitVO.category == 1}">[한식]</c:when>
+		                                        <c:when test="${item.mealkitVO.category == 2}">[일식]</c:when>
+		                                        <c:when test="${item.mealkitVO.category == 3}">[중식]</c:when>
+		                                        <c:when test="${item.mealkitVO.category == 4}">[양식]</c:when>
+		                                    </c:choose>    
+		                                    ${item.mealkitVO.title}
+		                                </b>
+		                            </div>
+		                            <div>작성자: ${item.memberVO.nickname}</div>
+		                            <div>가격: ${item.mealkitVO.price}</div>
+		                            <div>평점: ${item.mealkitVO.averageRating}</div>
+		                            <button class="wishlist-button" onclick="onWishlistDelete(1, ${ item.no })">삭제</button>
+		                        </div>
+		                    </div>
+		                </c:forEach>
+		            </div>
+          		</c:otherwise>
+          	</c:choose>
         </div>
     </div>
     

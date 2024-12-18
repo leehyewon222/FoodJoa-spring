@@ -30,7 +30,7 @@
 			<c:choose>
 				<c:when test="${empty mymealkits }">
 					<tr>
-						<td>작성한 밀키트 상품이 없습니다.</td>
+						<td><div class="mealkit-nodata">등록한 상품이 없습니다.</div></td>
 					</tr>
 				</c:when>
 				<c:otherwise>

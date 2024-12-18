@@ -105,13 +105,3 @@ function deleteMealkit(no, contextPath) {
 function editMealkit(no, contextPath) {
 	location.href = contextPath + "/Mealkit/updateMealkit?no=" + no;
 }
-
-// 결제창으로 이동 
-function onPaymentButton(e) {
-	e.preventDefault();
-	
-	let no = $("#mealkitNo").val();
-	let quantity = $("#stock").val();
-	
-	location.href = '${contextPath}/Member/payment.me?isCart=0&combinedNo='+ no + '&CombinedQuantity=' + quantity;
-}
