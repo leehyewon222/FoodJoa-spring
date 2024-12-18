@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.share">
+
+	<resultMap type="shareVO" id="share">
+		<id property="no" column="no"/>
+		<result property="id" column="id"/>
+		<result property="thumbnail" column="thumbnail"/>
+		<result property="title" column="title"/>
+		<result property="contents" column="contents"/>
+		<result property="lat" column="lat"/>
+		<result property="lng" column="lng"/>
+		<result property="views" column="views"/>
+		<result property="postDate" column="post_date"/>
+		
+		<association property="memberVO" javaType="memberVO">
+			<result property="nickname" column="nickname"/>
+    		<result property="profile" column="profile"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectShareList" resultMap="share">
+		<![CDATA[
+	        SELECT
+	        	c.*, m.nickname 
+			FROM share c
+			JOIN member m
+			ON c.id=m.id
+			ORDER BY c.post_date DESC
+        ]]>
+    </select>
+    
+    <insert id="insertShare" parameterType="shareVO">
+		<![CDATA[
+			INSERT INTO share(id, thumbnail, title, contents,
+				lat, lng, views, post_date) 
+			VALUES(#{id}, #{thumbnail}, #{title}, #{contents},
+				#{lat}, #{lng}, 0, CURRENT_TIMESTAMP)
+        ]]>
+    </insert>
+    
+    <select id="selectLatestShareNo" resultType="int">
+    	<![CDATA[
+    		SELECT no FROM share ORDER BY post_date DESC LIMIT 1
+    	]]>
+    </select>
+    
+    <select id="selectShare" parameterType="int" resultMap="share">
+    	<![CDATA[
+    		SELECT
+    			s.*, m.profile, m.nickname 
+			FROM share s 
+			JOIN member m 
+			ON s.id = m.id 
+    	]]>
+    	<where>
+    		no=#{_no}
+    	</where>
+    </select>
+    
+    <update id="updateShare" parameterType="shareVO">
+    	<![CDATA[
+    		UPDATE share SET
+    		thumbnail=#{thumbnail}, title=#{title}, contents=#{contents}, 
+    		lat=#{lat}, lng=#{lng}
+    	]]>
+    	<where>
+    		no=#{no}
+    	</where>
+    </update>
+    
+    <delete id="deleteShare" parameterType="shareVO">
+    	<![CDATA[
+    		DELETE from share
+    	]]>
+    	<where>
+    		no=#{no}
+    	</where>
+    </delete>
+    
+    <select id="selectSearchedShares" parameterType="java.util.Map" resultMap="share">
+    	<![CDATA[
+	    	SELECT 
+	    		s.*,
+	    		m.profile, m.nickname
+	    	FROM share s
+	    	JOIN member m
+	    	ON s.id=m.id
+    	]]>	
+    	<where>
+    		<if test="word != null and word != ''">
+    			<choose>
+    				<when test="key == 'title'">
+    					s.title LIKE #{word}
+    				</when>
+    				<otherwise>
+    					m.nickname LIKE #{word}
+    				</otherwise>
+    			</choose>
+    		</if>
+    	</where>
+    	<![CDATA[
+    		ORDER BY s.post_date DESC
+    	]]>
+    </select>
+</mapper>

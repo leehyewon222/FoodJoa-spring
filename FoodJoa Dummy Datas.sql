@@ -14,7 +14,8 @@ values('admin', '관리자', '고나리자', '01012345678', '47296', '부산 부
     ('minseokId', '최민석', '민석', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
     
 	('tQi32Qj0iONPLRZ16-5sX4-Gq_p8Jg_T33r-HdtLEFE', '네이버테스트', '네이버테스트', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-    ('3837872024', '카카오테스트', '카카오테스트', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY);
+    ('3837872024', '카카오테스트', '카카오테스트', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+    ('E5WfZ9Dw6uy3PzDsAkaKOEdHtykh5sgibCaIt7BqYqM', '고나리자', '공지고나리자', '01012345678', '47296', ' 부산 부산진구 신천대로50번길 79', ' 5층, 6층(부전동)', 'profile.png', NOW() - INTERVAL FLOOR(RAND() * 60) DAY);
 
 -- recipe
 insert into recipe(id, title, thumbnail, description, contents, category, views,
@@ -132,22 +133,22 @@ values
 ('hyewonId', '겨울 별미 과메기·보양식 복어 12월 이달의 수산물로 선정', '과메기, 심혈관계 질환 예방 좋은 음식…칼슘 함량 높아 영양식으로도 적합 복어, 감칠맛 뛰어난 고급 식재… 맹독 함유, 반드시 전문 자격 조리사가 요리해야 합니다', FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY);
 
 
-insert into community_share(id, thumbnail, title, contents, lat, lng, type, views, post_date)
-values('geonyongId','test_thumbnail.png', '반찬, 국 등 품앗이 하실분', '직접 식재료를 골라 만드는데. 식재료는 대량으로 해야 싸고, 맛있게 만들려면 이재료 저재료 들어가서 한솥이 되고 소분해서 냉동해도 감당이 안되네요. 나눔 좌표는 아래에 찍어둘게요!', 37.3595704, 127.105399, 0, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('review1','test_thumbnail.png', '직접 만든빵 가져가실 분~', '학생들이 연습용으로 만든 빵이 너무 많이 남아서 좀 나눠드리려구요 나눔 희망하시는 분 여기 위치로 오시면 됩니다', 37.3595704, 127.105399, 0, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('hanaId','test_thumbnail.png', '알타리김치가 집에 너무 많아서 한 통만 나눠드릴게요', '시어머니가 김치를 많이 보내주셨는데 집에서 밥을 잘 해먹지 않고 냉장고 자리도 많이 차지해 나눔하려구요 위치는 여기입니다',37.3595704, 127.105399, 0, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('admin','test_thumbnail.png', '12월 2일 고나리자가 주최하는 밥 번개', '오후 8시쯤 다같이 삼겹살 먹어요! 만나는 장소는 지도로 찍어둘게요', 37.3595704, 127.105399, 1, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('review3','test_thumbnail.png', '푸드조아 와인 제 41회차 정기 모임', '01.18 목요일 오후 9시 서면 삼정타워 뒤 푸드조아 건물입니ㅏ. 회비 7,000원입니다', 37.3595704, 127.105399, 1, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('geonyongId','test_thumbnail.png', '반찬, 국 등 품앗이 하실분', '직접 식재료를 골라 만드는데. 식재료는 대량으로 해야 싸고, 맛있게 만들려면 이재료 저재료 들어가서 한솥이 되고 소분해서 냉동해도 감당이 안되네요. 나눔 좌표는 아래에 찍어둘게요!', 37.3595704, 127.105399, 0, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('admin','test_thumbnail.png', '직접 만든빵 가져가실 분~', '학생들이 연습용으로 만든 빵이 너무 많이 남아서 좀 나눠드리려구요 나눔 희망하시는 분 여기 위치로 오시면 됩니다', 37.3595704, 127.105399, 0, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('hanaId','test_thumbnail.png', '알타리김치가 집에 너무 많아서 한 통만 나눠드릴게요', '시어머니가 김치를 많이 보내주셨는데 집에서 밥을 잘 해먹지 않고 냉장고 자리도 많이 차지해 나눔하려구요 위치는 여기입니다',37.3595704, 127.105399, 0, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('admin','test_thumbnail.png', '12월 2일 고나리자가 주최하는 밥 번개', '오후 8시쯤 다같이 삼겹살 먹어요! 만나는 장소는 지도로 찍어둘게요', 37.3595704, 127.105399, 1, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('review3','test_thumbnail.png', '푸드조아 와인 제 41회차 정기 모임', '01.18 목요일 오후 9시 서면 삼정타워 뒤 푸드조아 건물입니ㅏ. 회비 7,000원입니다', 37.3595704, 127.105399, 1, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('geonyongId','test_thumbnail.png', '반찬, 국 등 품앗이 하실분', '직접 식재료를 골라 만드는데. 식재료는 대량으로 해야 싸고, 맛있게 만들려면 이재료 저재료 들어가서 한솥이 되고 소분해서 냉동해도 감당이 안되네요. 나눔 좌표는 아래에 찍어둘게요!', 37.3595704, 127.105399, 0, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('aronId','test_thumbnail.png', '직접 만든빵 가져가실 분~', '학생들이 연습용으로 만든 빵이 너무 많이 남아서 좀 나눠드리려구요 나눔 희망하시는 분 여기 위치로 오시면 됩니다', 37.3595704, 127.105399, 0, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('hanaId','test_thumbnail.png', '알타리김치가 집에 너무 많아서 한 통만 나눠드릴게요', '시어머니가 김치를 많이 보내주셨는데 집에서 밥을 잘 해먹지 않고 냉장고 자리도 많이 차지해 나눔하려구요 위치는 여기입니다',37.3595704, 127.105399, 0, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('admin','test_thumbnail.png', '12월 2일 고나리자가 주최하는 밥 번개', '오후 8시쯤 다같이 삼겹살 먹어요! 만나는 장소는 지도로 찍어둘게요', 37.3595704, 127.105399, 1, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('review3','test_thumbnail.png', '푸드조아 와인 제 41회차 정기 모임', '01.18 목요일 오후 9시 서면 삼정타워 뒤 푸드조아 건물입니ㅏ. 회비 7,000원입니다', 37.3595704, 127.105399, 1, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY);
+insert into share(id, thumbnail, title, contents, lat, lng, views, post_date)
+values('geonyongId','test_thumbnail.png', '반찬, 국 등 품앗이 하실분', '직접 식재료를 골라 만드는데. 식재료는 대량으로 해야 싸고, 맛있게 만들려면 이재료 저재료 들어가서 한솥이 되고 소분해서 냉동해도 감당이 안되네요. 나눔 좌표는 아래에 찍어둘게요!', 37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('review1','test_thumbnail.png', '직접 만든빵 가져가실 분~', '학생들이 연습용으로 만든 빵이 너무 많이 남아서 좀 나눠드리려구요 나눔 희망하시는 분 여기 위치로 오시면 됩니다', 37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('hanaId','test_thumbnail.png', '알타리김치가 집에 너무 많아서 한 통만 나눠드릴게요', '시어머니가 김치를 많이 보내주셨는데 집에서 밥을 잘 해먹지 않고 냉장고 자리도 많이 차지해 나눔하려구요 위치는 여기입니다',37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('admin','test_thumbnail.png', '12월 2일 고나리자가 주최하는 밥 번개', '오후 8시쯤 다같이 삼겹살 먹어요! 만나는 장소는 지도로 찍어둘게요', 37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('review3','test_thumbnail.png', '푸드조아 와인 제 41회차 정기 모임', '01.18 목요일 오후 9시 서면 삼정타워 뒤 푸드조아 건물입니ㅏ. 회비 7,000원입니다', 37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('geonyongId','test_thumbnail.png', '반찬, 국 등 품앗이 하실분', '직접 식재료를 골라 만드는데. 식재료는 대량으로 해야 싸고, 맛있게 만들려면 이재료 저재료 들어가서 한솥이 되고 소분해서 냉동해도 감당이 안되네요. 나눔 좌표는 아래에 찍어둘게요!', 37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('admin','test_thumbnail.png', '직접 만든빵 가져가실 분~', '학생들이 연습용으로 만든 빵이 너무 많이 남아서 좀 나눠드리려구요 나눔 희망하시는 분 여기 위치로 오시면 됩니다', 37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('hanaId','test_thumbnail.png', '알타리김치가 집에 너무 많아서 한 통만 나눠드릴게요', '시어머니가 김치를 많이 보내주셨는데 집에서 밥을 잘 해먹지 않고 냉장고 자리도 많이 차지해 나눔하려구요 위치는 여기입니다',37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('admin','test_thumbnail.png', '12월 2일 고나리자가 주최하는 밥 번개', '오후 8시쯤 다같이 삼겹살 먹어요! 만나는 장소는 지도로 찍어둘게요', 37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('review3','test_thumbnail.png', '푸드조아 와인 제 41회차 정기 모임', '01.18 목요일 오후 9시 서면 삼정타워 뒤 푸드조아 건물입니ㅏ. 회비 7,000원입니다', 37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('geonyongId','test_thumbnail.png', '반찬, 국 등 품앗이 하실분', '직접 식재료를 골라 만드는데. 식재료는 대량으로 해야 싸고, 맛있게 만들려면 이재료 저재료 들어가서 한솥이 되고 소분해서 냉동해도 감당이 안되네요. 나눔 좌표는 아래에 찍어둘게요!', 37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('aronId','test_thumbnail.png', '직접 만든빵 가져가실 분~', '학생들이 연습용으로 만든 빵이 너무 많이 남아서 좀 나눠드리려구요 나눔 희망하시는 분 여기 위치로 오시면 됩니다', 37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('hanaId','test_thumbnail.png', '알타리김치가 집에 너무 많아서 한 통만 나눠드릴게요', '시어머니가 김치를 많이 보내주셨는데 집에서 밥을 잘 해먹지 않고 냉장고 자리도 많이 차지해 나눔하려구요 위치는 여기입니다',37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('admin','test_thumbnail.png', '12월 2일 고나리자가 주최하는 밥 번개', '오후 8시쯤 다같이 삼겹살 먹어요! 만나는 장소는 지도로 찍어둘게요', 37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('review3','test_thumbnail.png', '푸드조아 와인 제 41회차 정기 모임', '01.18 목요일 오후 9시 서면 삼정타워 뒤 푸드조아 건물입니ㅏ. 회비 7,000원입니다', 37.3595704, 127.105399, FLOOR(RAND() * 50), NOW() - INTERVAL FLOOR(RAND() * 60) DAY);
 
 insert into notice(title, contents, post_date)
 values("푸드조아 프로젝트 시작합니다!", "푸드조아 프로젝트 시작합니다!", DATE_SUB(NOW(), INTERVAL 6 MONTH)),
@@ -159,11 +160,3 @@ values("푸드조아 프로젝트 시작합니다!", "푸드조아 프로젝트 
 	("FoodJoa에서 여러분을 기다립니다.", "FoodJoa에서 여러분을 기다립니다.", NOW());
 
 commit;
-
-insert into mealkit_cart(id, mealkit_no, quantity, choice_date)
-values
-('3796760927', '1', '3', current_time()),
-('3796760927', '2', '2', current_time()),
-('3796760927', '3', '3', current_time()),
-('3796760927', '4', '3', current_time()),
-('3796760927', '5', '1', current_time());

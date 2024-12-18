@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.together-container {
+	margin: 0 auto;
+}
+
+.together-header {
+	font-family: "Noto Serif KR", serif;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.together-header input {
+	font-family: "Noto Serif KR", serif;
+	font-size: 1rem;
+	padding: 8px 16px;
+	border: 1px solid #BE917E;
+	border-radius: 5px;
+	background-color: white;
+	color: #BE917E;
+	margin-right: 50px;
+	cursor: pointer;
+}

@@ -155,7 +155,8 @@ create table community(
 );
 
 drop table IF EXISTS community_share;
-create table community_share(
+drop table IF EXISTS share;
+create table share(
 	no 				int primary key auto_increment,
     id 				varchar(50) not null,
     thumbnail 		varchar(255) not null,
@@ -163,7 +164,6 @@ create table community_share(
     contents 		longtext not null,
     lat 			double not null,
     lng 			double not null,
-    type 			tinyint not null,
     views 			int not null,
 	post_date 		timestamp not null,
 
@@ -192,6 +192,50 @@ CREATE TABLE notice(
     contents 	text not null,
     views 		int not null default 0,
     post_date 	timestamp not null default current_timestamp
+);
+
+
+
+DROP TABLE IF EXISTS together;
+CREATE TABLE together(
+	no 				int primary key auto_increment,
+    id 				varchar(50) not null,
+    title 			varchar(50) not null,
+    contents 		longtext not null,
+    pictures 		longtext not null,
+    lat 			double not null,
+    lng 			double not null,
+    join_date 		timestamp not null,
+	people 			int not null,
+    finished 		tinyint not null,
+    join_count 		int not null,
+    views 			int not null,
+    post_date 		timestamp not null default current_timestamp,
+    
+    foreign key(id) references member(id) ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS together_reply;
+CREATE TABLE together_reply(
+	no 				int primary key auto_increment,
+    id 				varchar(50) not null,
+    together_no 	int not null,
+    contents 		longtext not null,
+    post_date 		timestamp not null default current_timestamp,
+    
+    foreign key(together_no) references together(no) ON DELETE CASCADE,
+    foreign key(id) references member(id) ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS together_join;
+CREATE TABLE together_join(
+	no 				int primary key auto_increment,
+    id 				varchar(50) not null,
+    together_no 	int not null,
+    post_date 		timestamp not null default current_timestamp,
+    
+    foreign key(together_no) references together(no) ON DELETE CASCADE,
+    foreign key(id) references member(id) ON DELETE CASCADE
 );
 
 COMMIT;

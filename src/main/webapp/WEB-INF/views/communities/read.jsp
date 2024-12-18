@@ -113,28 +113,29 @@
 		}
 		
 		function onDeleteButton() {
-			$.ajax({
-				url: "${contextPath}/Community/deletePro",
-				type: "post",
-				data : {
-					no: ${community.no}
-				},
-				dataType: "text",
-				success: function(responsedData){
-					
-					console.log("responsedData : " + responsedData);
-					
-					if(responsedData == "1"){
-						location.href ='${contextPath}/Community/list';
-					}
-					else {
-						alert('삭제되지 않았습니다.');
-					}
-				},
-				error: function(error){
-					console.log(error);
-				}				
-			});
+			if(confirm('게시글을 삭제하시겠습니까?')){
+				$.ajax({
+					url: "${contextPath}/Community/deletePro",
+					type: "post",
+					data : {
+						no: ${community.no}
+					},
+					dataType: "text",
+					success: function(responsedData){
+						
+						if(responsedData == "1"){
+							alert('삭제되었습니다');
+							location.href ='${contextPath}/Community/list';
+						}
+						else {
+							alert('삭제되지 않았습니다.');
+						}
+					},
+					error: function(error){
+						console.log(error);
+					}				
+				});
+			}
 		}
 	</script>
 </body>

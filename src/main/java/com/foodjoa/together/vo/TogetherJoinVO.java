@@ -1,4 +1,4 @@
-package com.foodjoa.community.vo;
+package com.foodjoa.together.vo;
 
 import java.sql.Timestamp;
 
@@ -10,18 +10,13 @@ import lombok.Data;
 
 @Data
 @Component
-public class CommunityShareVO {
+public class TogetherJoinVO {
+	
 	private int no;
 	private String id;
-	private String thumbnail;
-	private String title;
-	private String contents;
-	private double lat;
-	private double lng;
-	private int type;
-	private int views;
+	private int togetherNo;
 	private Timestamp postDate;
 	
 	private MemberVO memberVO;
+	private TogetherVO togetherVO;
 }
-
