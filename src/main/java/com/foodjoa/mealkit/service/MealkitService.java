@@ -63,6 +63,14 @@ public class MealkitService {
 		return mealkitDAO.selectReviewsInfo(mealkitVO);
 	}
 
+	public int selectWishlist(int no, String id) {
+		wishlistVO = new MealkitWishListVO();
+		wishlistVO.setId(id);
+		wishlistVO.setMealkitNo(no);
+		
+		return mealkitDAO.selectMealkitWishlist(wishlistVO);
+	}
+
 	public List<Map<String, Object>> selectMyMealkitsList(String id) {
 		mealkitVO = new MealkitVO();
 		mealkitVO.setId(id);

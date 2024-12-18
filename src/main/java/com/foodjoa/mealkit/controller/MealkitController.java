@@ -46,20 +46,21 @@ public class MealkitController {
 	}
 	
 	@RequestMapping(value="info", method = { RequestMethod.GET, RequestMethod.POST })
-	public String info(@RequestParam int no, Model model) throws Exception {
+	public String info(@RequestParam int no, Model model, HttpSession session) throws Exception {
 		
 		MealkitVO mealkitInfo = mealkitService.selectMealkitInfo(no);
 		List<Object> reviewInfo = mealkitService.selectReviewsInfo(no);
+		int wish = mealkitService.selectWishlist(no, (String) session.getAttribute("userId"));
 		
 		model.addAttribute("mealkitInfo", mealkitInfo);
 		model.addAttribute("reviewInfo", reviewInfo);
+		model.addAttribute("wish", wish);
 		
 		return "/mealkits/info";
 	}
 	
 	@RequestMapping(value="write", method = { RequestMethod.GET, RequestMethod.POST })
-	public String write() throws Exception {
-		
+	public String write() throws Exception {		
 		return "/mealkits/write";
 	}
 	
