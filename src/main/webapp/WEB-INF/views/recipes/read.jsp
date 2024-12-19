@@ -266,6 +266,12 @@
 						<input type="button" value="삭제" onclick="onDeleteButton()">
 					</c:if>
 				</td>
+				<a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
+				  <img src="${ resourcesPath }/images/member/kakaologo.png"
+			    		 alt="카카오톡 링크 공유하기"
+			    		style="width:40px; height:auto;">
+				</a>
+				
 			</tr>
 		</table>
 	</div>
@@ -391,6 +397,40 @@
 	    // 페이지 로드 시 함수 실행
 	    window.onload = initialize;
 </script>
+
+
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
+  integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka" crossorigin="anonymous">
+</script>
+
+<script>
+  Kakao.init('ab039484667daeed90e5c9efa4980315'); // 사용하려는 앱의 JavaScript 키 입력
+
+  function shareMessage() {
+    Kakao.Share.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '친구가 레시피를 공유했어요!', 
+        description: '#케익 #딸기 #삼평동 #카페 #분위기 #소개팅', // 레시피 관련 해시태그 등
+        imageUrl: 'https://1743-112-160-227-201.ngrok-free.app/FoodJoa/resources/images/recipe/thumbnails/${recipeVO.no}/${recipeVO.thumbnail}', // 레시피 썸네일 이미지
+        link: {
+          mobileWebUrl: 'https://1743-112-160-227-201.ngrok-free.app/FoodJoa', // 모바일 웹 링크
+          webUrl: 'https://1743-112-160-227-201.ngrok-free.app/FoodJoa', // 웹 링크
+        },
+      },
+      buttons: [
+        {
+          title: '레시피 보러가기',
+          link: {
+            mobileWebUrl: 'https://1743-112-160-227-201.ngrok-free.app/FoodJoa',
+            webUrl: 'https://1743-112-160-227-201.ngrok-free.app/FoodJoa',
+          },
+        },       
+      ],
+    });
+  }
+</script>
+
 </body>
 
 </html>

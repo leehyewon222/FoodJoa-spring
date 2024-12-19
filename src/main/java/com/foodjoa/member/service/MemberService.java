@@ -368,4 +368,24 @@ public class MemberService {
 		
 		return reviews;
 	}
-}
+
+	 public void addPointsToRecommender(String recommenderId, int point) {
+
+	        MemberVO recommender = memberDAO.findById(recommenderId); // DAO에서 추천인 조회
+
+	        if (recommender != null) {
+	            // 2. 추천인에게 포인트 추가
+	            int currentPoints = recommender.getPoint();  // 현재 포인트
+	            recommender.setPoint(currentPoints + point);  // 포인트 추가
+	            
+	            System.out.println("추천인 -----------------------------------" + recommender);
+	            System.out.println("현재포인트 -----------------------------------" + currentPoints);
+	            System.out.println("추가할 포인트 -----------------------------------" + point);
+
+	            // 3. DB에 포인트 변경 사항 저장
+	            memberDAO.updatePoints(recommender);  // 포인트 업데이트
+	        }
+	    }
+		
+	}
+

@@ -161,7 +161,8 @@
 					<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" class="form-control"><br>					
 					<input type="text" id="sample4_roadAddress" name="address1" placeholder="도로명주소" class="form-control">
 					<input type="text" id="sample4_detailAddress" placeholder="상세주소" name="address2" class="form-control">
-			
+					
+					<input type="text" id="recommender" name="recommender" class="form-control" placeholder="추천인 코드를 입력해주세요" />
 					
 				</div>
 

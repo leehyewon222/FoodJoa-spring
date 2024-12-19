@@ -115,19 +115,34 @@ public class MemberController {
 	}
 
 	// 추가정보입력 후 회원 가입 처리
-	@RequestMapping("joinPro")
-	public String joinPro(MemberVO memberVO, HttpSession session, MultipartHttpServletRequest request) 
-			throws Exception {
-		
-		int result = memberService.insertMember(memberVO, request, session);
-		
-		if (result > 0) {
-			session.setAttribute("userId", session.getAttribute("joinId"));
-			session.removeAttribute("joinId");
-		}
-		
-		return "redirect:/Main/home";
-	}
+    @RequestMapping("joinPro")
+    public String joinPro(MemberVO memberVO, HttpSession session, HttpServletRequest request, MultipartHttpServletRequest mRequest) throws Exception {
+        // 1. 회원가입 처리
+        int result = memberService.insertMember(memberVO, mRequest, session);
+
+        // 2. 회원가입이 성공했다면
+        if (result > 0) {
+            session.setAttribute("userId", session.getAttribute("joinId"));
+            session.removeAttribute("joinId");
+
+            // 3. 추천인 아이디 처리
+            String userId = request.getParameter("recommender"); // HttpServletRequest로 추천인 아이디 받기
+            
+            System.out.println("추천인 아이디 ---------------------------------"  + userId);
+
+            if (userId != null && !userId.isEmpty()) {
+                // 4. 추천인 아이디가 존재하는지 확인
+                boolean recommenderExists = memberService.isUserExists(userId); // 추천인 아이디로 회원 찾기
+                
+                if (recommenderExists) {
+                    // 5. 추천인에게 포인트 500 지급
+                    memberService.addPointsToRecommender(userId, 500); // 추천인에게 포인트 지급
+                }
+            }
+        }
+
+        return "redirect:/Main/home";
+    }
     
     //--------------------------여기까지 회원가입 처리
     

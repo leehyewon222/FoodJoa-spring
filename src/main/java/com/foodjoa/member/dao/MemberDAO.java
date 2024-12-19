@@ -182,4 +182,13 @@ public class MemberDAO {
 	    return sqlSession.update("mapper.mealkitOrder.updateOrderStatus", params);
 	}
 
+	public MemberVO findById(String userId) {
+	    return sqlSession.selectOne("mapper.member.findById", userId);
+	}
+
+	public void updatePoints(MemberVO recommender) {
+	    // MyBatis를 사용하여 추천인의 포인트를 업데이트하는 쿼리 실행
+	    sqlSession.update("mapper.member.updatePoints", recommender); 
+	}
+
 }

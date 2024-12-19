@@ -59,6 +59,20 @@ response.setContentType("text/html; charset=utf-8");
 					</c:choose></p>
 					<div><button id="updateButton">정보수정</button></div>
 				</div>
+					
+				<div class="right-section">
+				<div id="point">
+			         <p>
+				        <img src="${ resourcesPath }/images/member/point.png" style="width:40px; height:auto;">
+				        <span class="point-text">${member.point}포인트</span>
+				     </p>
+				     </div>
+			        <div id="btnKakao">
+			            <img src="${ resourcesPath }/images/member/kakaologo.png" id="kakao-link-btn" 
+			                 alt="카카오톡 링크 공유하기" style="width:40px; height:auto;">
+			            <p>친구 초대하기!</p>
+			        </div>
+	   			 </div>
 			</div>
 	
 			 <div class="manage-section">
@@ -115,15 +129,7 @@ response.setContentType("text/html; charset=utf-8");
 						class="impormation">※개인정보처리방침</a>
 				</div>
 			</div>
-			<br>
-	
-			<div id="btnKakao">
-			    <img src="${ resourcesPath }/images/member/kakaologo.png"
-			    		id="kakao-link-btn" alt="카카오톡 링크 공유하기"
-			    		style="width:40px; height:auto;">
-	    		<p>친구 초대하기!</p>	   
-			</div>
-	
+			<br>	
 	
 			<div class="info-section3">
 				<div>
@@ -150,17 +156,24 @@ response.setContentType("text/html; charset=utf-8");
 			};
 			reader.readAsDataURL(event.target.files[0]);
 		}
-		
-		//<![CDATA[
-	    // // 사용할 앱의 JavaScript 키를 설정해 주세요.
+		  
 	    Kakao.init('ab039484667daeed90e5c9efa4980315');
-	    // // 카카오링크 버튼을 생성합니다. 처음 한번만 호출하면 됩니다.
+	 	// 카카오링크 버튼을 생성합니다.
 	    Kakao.Link.createScrapButton({
 	        container: '#kakao-link-btn',
 	        requestUrl: 'http://localhost:8090/FoodJoa/Main/home',
-	        templateId : 115441
+	        templateId: 115441
 	    });
-	    //]]>
+	 	
+	    var userId = "${member.id}";
+
+	    // 템플릿에 인자 전달하여 카카오톡 메시지 보내기
+	    Kakao.Link.sendCustom({
+	        templateId: 115441,  // 등록한 템플릿 ID
+	        templateArgs: {
+	            "userId": userId  // 사용자 인자에 실제 값 대입
+	        }
+	    });
 	</script>
 </body>
 

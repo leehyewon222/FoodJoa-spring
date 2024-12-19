@@ -13,6 +13,7 @@ CREATE TABLE member(
     address1 	varchar(50) not null,
     address2 	varchar(50) not null,
     profile 	varchar(50) not null,
+    point		int not null,
     join_date 	timestamp not null
 );
 
