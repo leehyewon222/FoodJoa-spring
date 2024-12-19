@@ -83,7 +83,7 @@ values('admin', 1, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
 -- mealkit
 INSERT INTO mealkit (id, title, contents, category, price, stock, pictures, orders, origin, views, soldout, post_date) VALUES
 ('geonyongId', '소곱창전골', '신선한 재료로 만든 곱창전골 키트입니다.', 1, '14500', 30, '0012gopchang.jpg', '0008곱창전골 순서10008곱창전골 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('hanaId', '뚝배기 불고기 밀키트', '맛있는 불고기를 집에서 쉽게 만들 수 있는 키트입니다.', 1, '17500', 15, '0012ddockbul.jpg', '0011뚝배기 불고기 순서10011뚝배기 불고기 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('hanaId', '베지가든 불고기 볶음밥', '맛있는 불고기를 집에서 쉽게 만들 수 있는 키트입니다.', 1, '17500', 15, '0012ddockbul.jpg', '0011뚝배기 불고기 순서10011뚝배기 불고기 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
 ('minseokId', '사천마라탕', '다양한 재료로 만든 마라탕 키트입니다.', 3, '13000', 20, '0012maratang.jpg', '0007마라탕 순서10007마라탕 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
 ('aronId', '팔도짜장면', '짜장면을 집에서 즐길 수 있는 키트입니다.', 3, '12000', 40, '0011jajang.jpeg', '0007짜장면 순서10007짜장면 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
 ('hyewonId', '미니오꼬노미야끼', '오꼬노미야끼를 쉽게 만들 수 있는 키트입니다.', 2, '16000', 15, '0015okonomiyaki.jpg', '0010오꼬노미야끼 순서10010오꼬노미야끼 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),

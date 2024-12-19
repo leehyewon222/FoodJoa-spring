@@ -47,11 +47,11 @@ public class MealkitService {
 
 		String strCategory = "";
 		
-		if(category == 0){ strCategory = "전체 밀키트 게시글"; }
-		else if (category == 1){ strCategory = "한식 밀키트 게시글"; }
-		else if (category == 2){ strCategory = "일식 밀키트 게시글"; }
-		else if (category == 3){ strCategory = "중식 밀키트 게시글"; }
-		else if (category == 4){ strCategory = "양식 밀키트 게시글"; }
+		if(category == 0){ strCategory = "전체 제품 게시글"; }
+		else if (category == 1){ strCategory = "한식 제품 게시글"; }
+		else if (category == 2){ strCategory = "일식 제품 게시글"; }
+		else if (category == 3){ strCategory = "중식 제품 게시글"; }
+		else if (category == 4){ strCategory = "양식 제품 게시글"; }
 		
 		return strCategory;
 	}

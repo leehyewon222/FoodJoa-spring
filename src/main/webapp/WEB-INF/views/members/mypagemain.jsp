@@ -70,7 +70,7 @@ response.setContentType("text/html; charset=utf-8");
 				</div>
 				<div>
 					<a href="${contextPath}/Mealkit/myMealkits">
-						<p>내 상품 관리</p>
+						<p>내 제품 관리</p>
 						<img src="${resourcesPath}/images/member/food.png" >
 					</a>
 				</div>
