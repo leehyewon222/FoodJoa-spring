@@ -8,7 +8,7 @@
 	<resultMap type="togetherReplyVO" id="togetherReply">
 		<id property="no" column="no"/>
 		<result property="id" column="id"/>
-		<result property="togetherNo" column="togetherNo"/>
+		<result property="togetherNo" column="together_no"/>
 		<result property="contents" column="contents"/>
 		<result property="postDate" column="post_date"/>
 		
@@ -20,4 +20,16 @@
 		<association property="togetherVO" javaType="togetherVO">
 		</association>
 	</resultMap>
+	
+	<select id="selectReplies" parameterType="int" resultMap="togetherReply">
+		SELECT 
+			r.*,
+			m.profile, m.nickname
+		FROM together_reply r
+		JOIN member m
+		ON r.id=m.id
+		<where>
+			together_no=#{_no}
+		</where>
+	</select>
 </mapper>

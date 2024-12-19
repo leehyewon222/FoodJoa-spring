@@ -20,11 +20,14 @@ public class TogetherVO {
 	private double lat;
 	private double lng;
 	private Timestamp joinDate;
+	private String place;
 	private int people;
 	private int finished;
 	private int joinCount;
 	private int views;
 	private Timestamp postDate;
+	
+	private int replyCount;
 	
 	private MemberVO memberVO;
 }	

@@ -12,6 +12,13 @@
 		<put-attribute name="title" value="모임 게시판 - 글 작성"/>
 		<put-attribute name="center" value="/WEB-INF/views/togethers/edit.jsp" />
 	</definition>
+
+	<definition name="/togethers/read" extends="baseLayout">
+		<put-attribute name="title" value="모임 게시판 - 글 읽기"/>
+		<put-attribute name="center" value="/WEB-INF/views/togethers/read.jsp" />
+	</definition>
+	
+	
 </tiles-definitions>
 
 

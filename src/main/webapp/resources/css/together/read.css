@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+.together-container {
+	margin: 0 auto;
+}
+
+.together-map {
+	width: 100%;
+	height: 500px;
+}
+
+.together-map #map {
+	width: 100%;
+	height: 100%;
+}

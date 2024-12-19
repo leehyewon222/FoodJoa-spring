@@ -14,17 +14,38 @@
 		<result property="lat" column="lat"/>
 		<result property="lng" column="lng"/>
 		<result property="joinDate" column="join_date"/>
+		<result property="place" column="place"/>
 		<result property="people" column="people"/>
 		<result property="finished" column="finished"/>
 		<result property="joinCount" column="join_count"/>
 		<result property="views" column="views"/>
 		<result property="postDate" column="post_date"/>
 		
+		<result property="replyCount" column="reply_count"/>
+		
 		<association property="memberVO" javaType="memberVO">
 			<result property="profile" column="profile"/>
 			<result property="nickname" column="nickname"/>
 		</association>
 	</resultMap>
+	
+	<select id="selectTogethers" resultMap="together">
+		SELECT 
+			t.*,
+			m.profile, m.nickname,
+			c.reply_count
+		FROM together t
+		JOIN member m
+		ON t.id=m.id
+		LEFT JOIN (
+			SELECT
+				together_no, COUNT(*) AS reply_count
+			FROM together_reply
+			GROUP BY together_no
+		)c
+		ON t.no=c.together_no
+		ORDER BY t.post_date DESC
+	</select>
 	
 	<select id="selectTogether" parameterType="int" resultMap="together">
 		SELECT
@@ -37,4 +58,40 @@
 			no=#{_no}
 		</where>
 	</select>
+	
+	<insert id="insertTogether" parameterType="togetherVO">
+		INSERT INTO together(id, title, contents, pictures, lat, lng, join_date, place, people)
+		VALUES (#{id}, #{title}, #{contents}, #{pictures}, #{lat}, #{lng}, #{joinDate}, #{place}, #{people})
+	</insert>
+	
+	<select id="selectLatestNo" resultType="int">
+		SELECT no FROM together ORDER BY post_date DESC LIMIT 1
+	</select>
+	
+	<update id="updateTogetherViews" parameterType="int">
+		UPDATE together SET views=views+1 WHERE no=#{_no}
+	</update>
+	
+	<update id="updateTogether" parameterType="togetherVO">
+		UPDATE together
+		SET
+			title=#{title},
+			contents=#{contents},
+			pictures=#{pictures},
+			lat=#{lat},
+			lng=#{lng},
+			join_date=#{joinDate},
+			place=#{place},
+			people=#{people}
+		<where>
+			no=#{no}
+		</where>
+	</update>
+	
+	<delete id="deleteTogether" parameterType="int">
+		DELETE FROM together
+		<where>
+			no=#{_no}
+		</where>
+	</delete>
 </mapper>
