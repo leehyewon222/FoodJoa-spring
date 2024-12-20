@@ -43,40 +43,39 @@ response.setContentType("text/html; charset=utf-8");
 		</div>
 	
 		<div class="profile-wrapper">
-			<div class="profile-section">
-				<div class="profile-image">
-					<img src="${ resourcesPath }/images/member/userProfiles/${member.id}/${member.profile}" >
-				</div>
-				<div class="profile-info">
-					<h2>${member.nickname}</h2>
-					<p><c:choose>
-						<c:when test="${ not empty member.joinDate }">
-							${member.nickname}님은 푸드조아와 함께한지 <strong>${daysBetween + 1}</strong>일째입니다!
-						</c:when>
-						<c:otherwise>
-							<p>가입 정보를 가져올 수 없습니다. 관리자에게 문의하세요.</p>
-						</c:otherwise>
-					</c:choose></p>
-					<div><button id="updateButton">정보수정</button></div>
-				</div>
-					
-				<div class="right-section">
-				<div id="point">
-			         <p>
-				        <img src="${ resourcesPath }/images/member/point.png" style="width:40px; height:auto;">
-				        <span class="point-text">${member.point}포인트</span>
-				     </p>
-				     </div>
-			        <div id="btnKakao">
-			           <!-- 카카오톡 공유 버튼 코드 -->
-							<a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
-							  <img src="${ resourcesPath }/images/member/kakaologo.png" alt="카카오톡 링크 공유하기" style="width:40px; height:auto;">
-							</a>
-			            <p>친구 초대하기!</p>
+			 <div class="profile-section" style="display: flex; justify-content: space-between;">
+			    <div class="profile-image">
+			        <img src="${ resourcesPath }/images/member/userProfiles/${member.id}/${member.profile}" >
+			    </div>
+			    <div class="profile-info">
+			        <h2>${member.nickname}</h2>
+			        <p><c:choose>
+			            <c:when test="${ not empty member.joinDate }">
+			                ${member.nickname}님은 푸드조아와 함께한지 <strong>${daysBetween + 1}</strong>일째입니다!
+			            </c:when>
+			            <c:otherwise>
+			                <p>가입 정보를 가져올 수 없습니다. 관리자에게 문의하세요.</p>
+			            </c:otherwise>
+			        </c:choose></p>
+			        <div><button id="updateButton">정보수정</button></div>
+			    </div>
+			    
+			    <div class="right-section" style="display: flex; flex-direction: column; align-items: flex-end;">
+			        <div id="point" style="margin-bottom: 10px;">
+			            <img src="${resourcesPath}/images/member/point.png" style="width:40px; display: inline-block; vertical-align: middle;">
+			            <p style="display: inline-block; margin-left: 5px; vertical-align: middle;">${member.point} 포인트</p>
 			        </div>
-	   			 </div>
-			</div>
-	
+			
+			        <div id="btnKakao">
+			            <!-- 카카오톡 공유 버튼 코드 -->
+			            <a id="kakaotalk-sharing-btn" href="javascript:shareMessage()" style="display: inline-block; vertical-align: middle;">
+			                <img src="${resourcesPath}/images/member/kakaologo.png" alt="카카오톡 링크 공유하기" style="width:40px; vertical-align: middle;">
+			                <span style="vertical-align: middle;">친구 초대하기!</span>
+			            </a>
+			        </div>
+			    </div>
+			 </div>
+
 			 <div class="manage-section">
 				<div>
 			 		<a href="${contextPath}/Recipe/myrecipes">

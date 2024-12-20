@@ -74,7 +74,14 @@
 									    </c:otherwise>
 									</c:choose>
 								</c:if>
-								<h1>${mealkitInfo.title}</h1>
+								<div style="display: flex; align-items: center; justify-content: space-between;">
+								  <h1>${mealkitInfo.title}</h1>
+								  <!-- 카카오톡 공유 버튼 코드 -->
+								  <a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
+								    <img src="${resourcesPath}/images/member/kakaologo.png" alt="카카오톡 링크 공유하기" style="width:40px; height:auto;">
+								  </a>
+								</div>
+
 								<hr>
 								<strong>글쓴이: ${mealkitInfo.memberVO.nickname}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<strong>게시일: ${mealkitInfo.postDate}</strong><br>
@@ -205,11 +212,6 @@
 	</script>
 	
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-
-<!-- 카카오톡 공유 버튼 코드 -->
-<a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
-  <img src="${ resourcesPath }/images/member/kakaologo.png" alt="카카오톡 링크 공유하기" style="width:40px; height:auto;">
-</a>
 
 <script>
   // 카카오톡 SDK 초기화

@@ -90,6 +90,12 @@
 					        </p>
 					        <p>조회수 : ${ recipeVO.views }</p>
 					    </li>
+					    <li>
+					     <!-- 카카오톡 공유 버튼 코드 -->
+						<a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
+						    <img src="${ resourcesPath }/images/member/kakaologo.png" alt="카카오톡 링크 공유하기" style="width:40px; height:auto;">
+						</a>
+						</li>
 					</ul>
 					<hr>
 				</td>	
@@ -395,10 +401,7 @@
 
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 
-<!-- 카카오톡 공유 버튼 코드 -->
-<a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
-  <img src="${ resourcesPath }/images/member/kakaologo.png" alt="카카오톡 링크 공유하기" style="width:40px; height:auto;">
-</a>
+
 
 <script>
   // 카카오톡 SDK 초기화
