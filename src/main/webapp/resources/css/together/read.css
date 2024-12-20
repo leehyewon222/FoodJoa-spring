@@ -13,3 +13,103 @@
 	width: 100%;
 	height: 100%;
 }
+
+.together-button-area {
+	text-align: right;
+}
+
+.together-button-area input {
+	border: none;
+	border-radius: 5px;
+	padding: 8px 16px;
+	color: white;
+	background-color: #BE917E;
+	cursor: pointer;
+}
+
+.together-button-area input:last-child {
+	border: 1px solid #BE917E;
+	color: #BE917E;
+	background-color: white;
+}
+
+.together-header {
+	margin: 20px 0px;
+	display: flex;
+	align-items: center;
+}
+
+.recipe-list {
+	margin: 20px 0px;
+	height: 80px;
+}
+
+.together-header ul li {
+	list-style-type: none;
+	float: left;
+	height: 80px;
+	line-height: 80px;
+}
+
+.together-header hr:last-child {
+	clear: left;
+}
+
+.profile-img {
+	margin-right: 30px;
+}
+
+.profile-img div {
+	width: 80px;
+	height: 80px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+.profile-img div img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.recipe-title {
+	font-size: 1.5rem;
+	width: 600px;
+	margin-right: 15px;
+}
+
+.recipe-nickname {
+	font-size: 1.5rem;
+	width: 180px;
+	margin-right: 15px;
+}
+
+.together-join-date, .together-join-place, .together-join-people {
+	display: flex;
+}
+
+.date-icon, .location-icon, .join-icon {
+	width: 30px;
+	height: 30px;
+	overflow: hidden;
+	margin-right: 10px;
+}
+
+.date-icon img, .location-icon img, .join-icon img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.together-join-info {
+	padding-left: 20px;
+}
+
+.together-join-info>div {
+	margin-bottom: 10px;
+}
+
+.together-join-info>div>span {
+	height: 30px;
+	line-height: 30px;
+}

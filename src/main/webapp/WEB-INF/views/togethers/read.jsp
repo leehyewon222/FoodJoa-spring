@@ -52,30 +52,21 @@
 <body>
 	<div class="together-container">
 		<div class="together-button-area">
+			<c:if test="${ not empty id and id != together.id }">
+				<c:choose>
+					<c:when test="${ togetherInfo.isExistJoin == 0 }">
+						<input type="button" value="모임 참석" onclick="onTogetherJoinButton()">
+					</c:when>
+					<c:otherwise>
+						<input type="button" value="참석 취소" onclick="onJoinCancleButton()">
+					</c:otherwise>
+				</c:choose>
+			</c:if>
+			<input type="button" value="목록" onclick="onListButton()">
 			<c:if test="${ not empty id and id == together.id }">
 				<input type="button" value="수정" onclick="onEditButton()">
 				<input type="button" value="삭제" onclick="onDeleteButton()">
 			</c:if>
-			<input type="button" value="목록" onclick="onListButton()">
-		</div>
-	
-		<div class="together-join-info">
-			<div><fmt:formatDate value="${ together.joinDate }" pattern="yyyy-MM-dd HH:mm" /></div>
-			<div>
-				<span>${ together.place }</span>
-				<span>모집인원 &nbsp;&nbsp;${ togetherInfo.joinCount } / ${ together.people }</span>
-			</div>
-		</div>
-		
-		<div class="together-join-button">
-			<c:choose>
-				<c:when test="${ togetherInfo.isExistJoin == 0 }">
-					<input type="button" value="모임 참석" onclick="onTogetherJoinButton()">
-				</c:when>
-				<c:otherwise>
-					<input type="button" value="참석 취소" onclick="onJoinCancleButton()">
-				</c:otherwise>
-			</c:choose>
 		</div>
 	
 		<div class="together-header">
@@ -87,7 +78,7 @@
 			    	</div>
 			    </li>
 			    <li class="recipe-title">
-			    	<span>
+			    	<span class="join-state">
 				    	<c:choose>
 				    		<c:when test="${ now > together.joinDate }">종료</c:when>
 				    		<c:when test="${ together.finished == 1 }">모집 종료</c:when>
@@ -103,6 +94,27 @@
 			    </li>
 			</ul>
 			<hr>
+		</div>
+		
+		<div class="together-join-info">
+			<div class="together-join-date">
+				<div class="date-icon">
+					<img src="${ resourcesPath }/images/together/date_icon.png">
+				</div>
+				<span><fmt:formatDate value="${ together.joinDate }" pattern="yyyy-MM-dd HH:mm" /></span>
+			</div>
+			<div class="together-join-place">
+				<div class="location-icon">
+					<img src="${ resourcesPath }/images/together/location_icon.png">
+				</div>
+				<span>${ together.place }</span>
+			</div>
+			<div class="together-join-people">
+				<div class="join-icon">
+					<img src="${ resourcesPath }/images/together/join_icon.png">
+				</div>
+				<span>${ togetherInfo.joinCount } / ${ together.people }</span>
+			</div>
 		</div>
 		
 		<div class="together-pictures">
