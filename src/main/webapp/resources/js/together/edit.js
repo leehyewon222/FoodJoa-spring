@@ -1,6 +1,8 @@
 let selectedFileNames = [];
 let selectedRealFiles = [];
 
+let originSelectedFileNames = [];
+
 function handleFileSelect(files) {
 	const imagePreview = $(".together-image-preview ul");
 
@@ -76,4 +78,14 @@ function combineStrings(strings) {
     }).join('');
 	
 	return result;
+}
+
+// 기존에 선택 된 이미지를 클릭 시 이미지 이름을 제거하는 함수		
+function removeOriginFileName(fileName) {
+	for (let i = 0; i < originSelectedFileNames.length; i++) {
+		if (originSelectedFileNames[i] == fileName) {
+			originSelectedFileNames.splice(i, 1);
+			break;
+		}
+	}
 }

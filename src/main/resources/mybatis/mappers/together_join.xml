@@ -8,15 +8,42 @@
 	<resultMap type="togetherJoinVO" id="togetherJoin">
 		<id property="no" column="no"/>
 		<result property="id" column="id"/>
-		<result property="togetherNo" column="togetherNo"/>
+		<result property="togetherNo" column="together_no"/>
 		<result property="postDate" column="post_date"/>
 		
 		<association property="memberVO" javaType="memberVO">
 			<result property="profile" column="profile"/>
 			<result property="nickname" column="nickname"/>
 		</association>
-		
-		<association property="togetherVO" javaType="togetherVO">
-		</association>
 	</resultMap>
+	
+	<select id="selectJoins" resultMap="togetherJoin">
+		SELECT
+			j.*,
+			m.profile, m.nickname
+		FROM together_join j
+		JOIN member m
+		ON j.id=m.id
+		ORDER BY together_no
+	</select>
+	
+	<select id="selectJoinCount" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM together_join WHERE together_no=#{_no}
+	</select>
+	
+	<select id="selectJoinCountById" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM together_join WHERE together_no=#{no} AND id=#{id}
+	</select>
+	
+	<insert id="insertJoin" parameterType="java.util.Map">
+		INSERT INTO together_join(id, together_no)
+		VALUES(#{id}, #{no})
+	</insert>
+	
+	<delete id="deleteJoin" parameterType="togetherJoinVO">
+		DELETE FROM together_join
+		<where>
+			together_no=#{togetherNo} AND id=#{id}
+		</where>
+	</delete>
 </mapper>

@@ -4,7 +4,7 @@
 	margin: 0 auto;
 }
 
-.together-header {
+.container-header {
 	font-family: "Noto Serif KR", serif;
 	display: flex;
 	justify-content: space-between;
@@ -12,7 +12,20 @@
 	margin-bottom: 20px;
 }
 
-.together-header input {
+.together_p1 {
+	font-size: 3rem;
+	color: #616161;
+}
+
+.together_p2 {
+	font-size: 2rem;
+}
+
+.together-write-button {
+	display: flex;
+}
+
+.together-write-button input {
 	font-family: "Noto Serif KR", serif;
 	font-size: 1rem;
 	padding: 8px 16px;
@@ -22,4 +35,107 @@
 	color: #BE917E;
 	margin-right: 50px;
 	cursor: pointer;
+	margin-left: auto;
+}
+
+.together-container>table {
+	border-spacing: 10px;
+}
+
+.together-nodata {
+	width: 100%;
+	height: 400px;
+	border: 1px solid #BE917E;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 400px;
+	font-size: 1.25rem;
+}
+
+.together-cell {
+	width: 100%;
+	height: 200px;
+	border: 1px solid #BE917E;
+	border-radius: 20px;
+	cursor: pointer;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+	padding: 5px;
+	display: flex;
+}
+
+.together-cell:hover {
+	background-color: #EAEAEA;
+}
+
+.together-cell div {
+	float: left;
+}
+
+.together-thumbnail {
+	width: 180px;
+	height: 180px;
+	overflow: hidden;
+	margin-right: 15px;
+	border-radius: 20px;
+}
+
+.together-thumbnail img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.together-title {
+	font-size: 1.5rem;
+	margin-bottom: 10px;
+}
+
+.together-nickname {
+	font-size: 1.2rem;
+	margin-bottom: 10px;
+}
+
+.together-join-info {
+	color: #878787;
+}
+
+.location-icon,
+.join-icon {
+	width: 20px;
+	height: 20px;
+	overflow: hidden;
+}
+
+.location-icon img,
+.join-icon img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.together-join-people {
+	width: 100%;
+	height: 80px;
+	
+	display: flex;
+	align-items: center;
+	color: #878787;
+}
+
+.together-join-people ul li {
+	list-style-type: none;
+	float: left;
+}
+
+.join-profile {
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+
+.join-profile img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }

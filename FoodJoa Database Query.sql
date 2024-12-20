@@ -206,10 +206,11 @@ CREATE TABLE together(
     lat 			double not null,
     lng 			double not null,
     join_date 		timestamp not null,
+    place 			varchar(255) not null,
 	people 			int not null,
-    finished 		tinyint not null,
-    join_count 		int not null,
-    views 			int not null,
+    finished 		tinyint not null default 0,
+    join_count 		int not null default 0,
+    views 			int not null default 0,
     post_date 		timestamp not null default current_timestamp,
     
     foreign key(id) references member(id) ON DELETE CASCADE

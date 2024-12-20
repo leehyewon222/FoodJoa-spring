@@ -1,3 +1,6 @@
+let isRead = false;
+let isProcess = true;
+
 function setLatLngValue(point) {
 	$("#lat").val(point.y);
 	$("#lng").val(point.x);
@@ -22,8 +25,6 @@ map.setCursor('pointer');
 
 function searchCoordinateToAddress(latlng) {
 
-    infoWindow.close();
-
     naver.maps.Service.reverseGeocode({
         coords: latlng,
         orders: [
@@ -46,17 +47,25 @@ function searchCoordinateToAddress(latlng) {
 
             htmlAddresses.push((i+1) +'. '+ addrType +' '+ address);
         }
-
-		setLatLngValue(latlng);
 		
-        infoWindow.setContent([
-            '<div style="padding:10px;min-width:200px;line-height:150%;">',
-            '<h4 style="margin-top:5px;">검색 좌표</h4><br />',
-            htmlAddresses.join('<br />'),
-            '</div>'
-        ].join('\n'));
-
-        infoWindow.open(map, latlng);
+		if (isProcess == true) {
+			infoWindow.close();
+		
+			map.setCenter(latlng);
+		
+			setLatLngValue(latlng);
+			
+	        infoWindow.setContent([
+	            '<div style="padding:10px;min-width:200px;line-height:150%;">',
+	            '<h4 style="margin-top:5px;">검색 좌표</h4><br />',
+	            htmlAddresses.join('<br />'),
+	            '</div>'
+	        ].join('\n'));
+	
+	        infoWindow.open(map, latlng);
+		}
+		
+		if (isRead == true) isProcess = false;
     });
 }
 
@@ -123,7 +132,7 @@ function initGeocoder() {
     $('#naverSearch').on('click', function(e) {
         e.preventDefault();
 
-        searchAddressToCoordinate($('#naverAddress').val());
+    	searchAddressToCoordinate($('#naverAddress').val());
     });
 }
 

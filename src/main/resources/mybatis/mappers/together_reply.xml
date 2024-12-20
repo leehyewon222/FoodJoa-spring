@@ -8,7 +8,7 @@
 	<resultMap type="togetherReplyVO" id="togetherReply">
 		<id property="no" column="no"/>
 		<result property="id" column="id"/>
-		<result property="togetherNo" column="togetherNo"/>
+		<result property="togetherNo" column="together_no"/>
 		<result property="contents" column="contents"/>
 		<result property="postDate" column="post_date"/>
 		
@@ -20,4 +20,36 @@
 		<association property="togetherVO" javaType="togetherVO">
 		</association>
 	</resultMap>
+	
+	<select id="selectReplies" parameterType="int" resultMap="togetherReply">
+		SELECT 
+			r.*,
+			m.profile, m.nickname
+		FROM together_reply r
+		JOIN member m
+		ON r.id=m.id
+		<where>
+			together_no=#{_no}
+		</where>
+	</select>
+	
+	<insert id="insertReply" parameterType="togetherReplyVO">
+		INSERT INTO together_reply(id, together_no, contents)
+		VALUES(#{id}, #{togetherNo}, #{contents})
+	</insert>
+	
+	<update id="updateReply" parameterType="togetherReplyVO">
+		UPDATE together_reply
+		SET contents=#{contents}
+		<where>
+			no=#{no} AND id=#{id}
+		</where>
+	</update>
+	
+	<delete id="deleteReply" parameterType="int">
+		DELETE FROM together_reply
+		<where>
+			no=#{_no}
+		</where>
+	</delete>
 </mapper>

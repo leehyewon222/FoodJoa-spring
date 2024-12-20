@@ -14,6 +14,8 @@
 
 <c:set var="id" value="${ sessionScope.userId }"/>
 
+<jsp:useBean id="stringParser" class="Common.StringParser"/>
+
 <!DOCTYPE html>
 <html>
 
@@ -27,18 +29,93 @@
 
 <body>
 	<div class="together-container">
-		<div class="together-header">
-			<h1>모임 게시판</h1>
+		<div class="together-header" align="center">
+			<p class="together_p1">COMMUNITY</p>
+			<p class="together_p2">모임 게시판</p>
+			<p>모임을 만들고 참여해보세요!</p>
+		</div>
+		
+		<div class="together-write-button">
 			<c:if test="${ not empty id }">
 				<input type="button" value="모임 만들기" onclick="onWriteButton()">
 			</c:if>
 		</div>
 		<table width="100%">
+			<c:choose>
+				<c:when test="${ empty togethers }">
+					<tr>
+						<td>
+							<div class="together-nodata">
+								등록 된 모임이 없습니다.
+							</div>
+						</td>
+					</tr>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="together" items="${ togethers }" varStatus="status">
+						<c:if test="${ status.index % 2 == 0 }">
+							<tr>
+						</c:if>
+						
+						<td width="50%">
+							<div class="together-cell" onclick="onReadTogether(${ together.no })">
+								<c:set var="thumbnail" value="${ stringParser.splitString(together.pictures)[0] }"/>
+								<div class="together-thumbnail">
+									<img src="${ resourcesPath }/images/together/pictures/${ together.no }/${ thumbnail } ">
+								</div>
+								<div class="together-desciption">
+									<p class="together-title">${ together.title }</p>
+									<p class="together-nickname">${ together.memberVO.nickname }</p>
+									<div class="together-join-info">
+										<div class="location-icon">
+											<img src="${ resourcesPath }/images/together/location_icon.png">
+										</div>
+										${ together.place }&nbsp;&nbsp;
+										<fmt:formatDate value="${ together.joinDate }" pattern="MM.dd(E) a hh:mm"/>
+									</div>
+									<div class="together-join-people">
+										<c:set var="joins" value="${ classifiedJoin[together.no] }"/>
+										<c:choose>
+											<c:when test="${ empty joins }">
+												<div class="join-nodata">참여자를 기다리는 중입니다!</div>
+											</c:when>
+											<c:otherwise>
+												<ul>
+													<c:forEach var="join" items="${ joins }">
+														<li>
+															<div class="join-profile">
+																<img src="${ resourcesPath }/images/member/userProfiles/${ join.id }/${ join.memberVO.profile }">
+															</div>
+														</li>
+													</c:forEach>
+												</ul>
+												<div class="join-icon">
+													<img src="${ resourcesPath }/images/together/join_icon.png">
+												</div>
+												<c:set var="joinCount" value="${ (empty joins) ? '0' : joins.size() }"/>
+												<span class="join-label">${ joinCount }/${ together.people }</span>
+											</c:otherwise>
+										</c:choose>
+									</div>
+								</div>
+							</div>
+						</td>
+						
+						<c:if test="${ status.index % 2 == 1 }">
+							</tr>
+						</c:if>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</table>
 	</div>
 	
 	
 	<script>
+		function onReadTogether(no) {
+			location.href = '${ contextPath }/Together/read?no=' + no;
+		}
+	
 		function onWriteButton() {
 			location.href = '${ contextPath }/Together/edit';
 		}
