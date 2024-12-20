@@ -41,18 +41,24 @@
 				<input type="button" value="${ together.no <= 0 ? '작성' : '수정' }" onclick="onSubmit(event)">
 				<input type="button" value="취소" onclick="onCancle(event)">
 			</div>
-			<table width="100%">
+			
+			<table width="100%" class="together-table">
 				<tr>
-					<td width="20%">제목 입력</td>
+					<td width="20%">제목</td>
 					<td width="80%">
-						<input type="text" id="title" value="${ together.title }">
+						<input type="text" id="title" 
+								value="${ together.title }" placeholder="제목을 입력하세요.">
 					</td>
 				</tr>
 				<tr>
-					<td>사진 선택</td>
+					<td>사진 추가</td>
 					<td>
+						<label for="pictureFiles" class="together-fileupload">
+							파일 선택
+						</label>
 						<input type="file" id="pictureFiles" name="pictureFiles" 
-								accept=".jpg,.jpeg,.png" multiple onchange="handleFileSelect(this.files)">
+								accept=".jpg,.jpeg,.png" multiple onchange="handleFileSelect(this.files)"
+								style="display: none;">
 						<div class="together-image-preview">
 							<ul>
 							</ul>
@@ -60,21 +66,22 @@
 					</td>
 				</tr>
 				<tr>
-					<td>내용 입력</td>
+					<td>내용</td>
 					<td>
-						<textarea id="contents">${ together.contents }</textarea>
+						<textarea id="contents" placeholder="내용을 입력하세요.">${ together.contents }</textarea>
 					</td>
 				</tr>
 				<tr>
-					<td>날짜 선택</td>
+					<td>날짜</td>
 					<td>
 						<input type="datetime-local" id="joinDate" value="${ together.joinDate }">
 					</td>
 				</tr>
 				<tr>
-					<td>장소 입력</td>
+					<td>장소</td>
 					<td>
-						<input type="text" id="place" value="${ together.place }">
+						<input type="text" id="place" value="${ together.place }"
+								placeholder="장소를 입력하세요.">
 					</td>
 				</tr>
 				<tr>
@@ -84,7 +91,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>장소 선택</td>
+					<td>상세 주소</td>
 					<td>
 						<input type="hidden" id="lat" value="${ together.lat }">
                     	<input type="hidden" id="lng" value="${ together.lng }">
