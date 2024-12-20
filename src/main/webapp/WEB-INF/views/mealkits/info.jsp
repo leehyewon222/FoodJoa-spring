@@ -182,6 +182,26 @@
 					</div>
 				</td>
 			</tr>
+			
+			<tr>
+				<td>
+					<div class="foodinfo-container">
+						<table>
+							<tr>
+								<th>영양정보</th>
+								<td>
+									칼로리: ${foodInfo['enerc']}&nbsp;&nbsp;&nbsp;&nbsp;
+					                단백질: ${foodInfo['prot']}&nbsp;&nbsp;&nbsp;&nbsp;
+					                지방: ${foodInfo['fatce']}&nbsp;&nbsp;&nbsp;&nbsp;
+					                당류: ${foodInfo['sugar']}&nbsp;&nbsp;&nbsp;&nbsp;
+					                나트륨: ${foodInfo['nat']}&nbsp;&nbsp;&nbsp;&nbsp;
+					                콜레스테롤: ${foodInfo['chole']}
+								</td>
+							</tr>
+						</table>
+					</div>
+				</td>
+			</tr>
 		</table>
 	</div>
 	

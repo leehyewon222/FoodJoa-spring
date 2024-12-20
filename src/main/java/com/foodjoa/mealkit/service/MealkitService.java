@@ -47,11 +47,11 @@ public class MealkitService {
 
 		String strCategory = "";
 		
-		if(category == 0){ strCategory = "전체 밀키트 게시글"; }
-		else if (category == 1){ strCategory = "한식 밀키트 게시글"; }
-		else if (category == 2){ strCategory = "일식 밀키트 게시글"; }
-		else if (category == 3){ strCategory = "중식 밀키트 게시글"; }
-		else if (category == 4){ strCategory = "양식 밀키트 게시글"; }
+		if(category == 0){ strCategory = "전체 제품 게시글"; }
+		else if (category == 1){ strCategory = "한식 제품 게시글"; }
+		else if (category == 2){ strCategory = "일식 제품 게시글"; }
+		else if (category == 3){ strCategory = "중식 제품 게시글"; }
+		else if (category == 4){ strCategory = "양식 제품 게시글"; }
 		
 		return strCategory;
 	}
@@ -101,6 +101,19 @@ public class MealkitService {
 		mealkitVO.setId(id);
 		
 		return mealkitDAO.selectMyMealkitsList(mealkitVO);
+	}
+	
+	public int selectInsufficientStock(String id) {
+		mealkitVO = new MealkitVO();
+		mealkitVO.setId(id);
+		
+		int stock = mealkitDAO.selectInsufficientStock(mealkitVO);
+		
+		if(stock >= 0) {
+			return stock;
+		}
+		
+		return -1;
 	}
 
 	public MealkitReviewVO selectMyReviewInfo(int no) {

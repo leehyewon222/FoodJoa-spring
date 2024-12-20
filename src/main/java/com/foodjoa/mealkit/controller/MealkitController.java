@@ -1,5 +1,6 @@
 package com.foodjoa.mealkit.controller;
 
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.foodjoa.mealkit.service.MealkitService;
 import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
+
+import Common.FoodInfoAPI;
 
 @Controller
 @RequestMapping("Mealkit")
@@ -49,11 +52,16 @@ public class MealkitController {
 	public String info(@RequestParam int no, Model model, HttpSession session) throws Exception {
 		
 		String userId = (String) session.getAttribute("userId");
+		FoodInfoAPI foodinfo = new FoodInfoAPI();
 		
 		MealkitVO mealkitInfo = mealkitService.processMealkitRead(no, userId);
 		List<Object> reviewInfo = mealkitService.selectReviewsInfo(no);
 		int wish = mealkitService.selectWishlist(no, userId);
 		
+		String productName = mealkitInfo.getTitle();
+		Map<String, String> foodInfo = foodinfo.getFoodInfoFromAPI(productName);
+	    
+	    model.addAttribute("foodInfo", foodInfo);
 		model.addAttribute("mealkitInfo", mealkitInfo);
 		model.addAttribute("reviewInfo", reviewInfo);
 		model.addAttribute("wish", wish);
@@ -98,12 +106,13 @@ public class MealkitController {
 	
 	@RequestMapping(value="myMealkits", method = { RequestMethod.GET, RequestMethod.POST })
 	public String myMealkit(Model model, HttpSession session) throws Exception {
-		
 		String id = (String) session.getAttribute("userId");
 		
 		List<Map<String, Object>> mymealkits = mealkitService.selectMyMealkitsList(id);
+		int insufficientStock = mealkitService.selectInsufficientStock(id);
 		
 		model.addAttribute("mymealkits", mymealkits);
+		model.addAttribute("insufficientStock", insufficientStock);
 		
 		return "/mealkits/mymealkit";
 	}

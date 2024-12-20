@@ -80,6 +80,15 @@
         ]]>
     </select>
     
+    <select id="selectInsufficientStock" parameterType="mealkitVO" resultType="int">
+		<![CDATA[
+			SELECT count(*) 
+			FROM mealkit 
+			WHERE id = #{id} 
+			AND stock < 10 
+		]]>
+    </select>
+    
     <select id="selectMyMealkitsList" parameterType="mealkitVO" resultMap="mealkit">
 		<![CDATA[
 	        SELECT 

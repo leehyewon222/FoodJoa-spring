@@ -25,12 +25,12 @@
 
 <body>
 	<div id="container">
-		<h1>내 밀키트 관리</h1>
+		<h1>내 제품 관리</h1>
 		<table width="100%">
 			<c:choose>
 				<c:when test="${empty mymealkits }">
 					<tr>
-						<td><div class="mealkit-nodata">등록한 상품이 없습니다.</div></td>
+						<td><div class="mealkit-nodata">등록한 제품이 없습니다.</div></td>
 					</tr>
 				</c:when>
 				<c:otherwise>
@@ -84,5 +84,14 @@
 		</table>
 	</div>
 	<script src="${resourcesPath}/js/mealkit/mymealkit.js"></script>
+	<script type="text/javascript">
+		initialize();
+	
+		function initialize(){
+		    if (${insufficientStock} >= 0) {
+		        alert("재고가 부족한 제품이 있습니다.");
+		    }
+		}
+	</script>
 </body>
 </html>

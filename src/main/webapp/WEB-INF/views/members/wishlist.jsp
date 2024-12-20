@@ -91,7 +91,7 @@
         <h1>찜 목록</h1>
         <div class="wishlist-category-area">
             <input type="button" class="wishlist-button" value="레시피" onclick="changeMyWishlist(0)">
-            <input type="button" class="wishlist-button" value="밀키트" onclick="changeMyWishlist(1)">
+            <input type="button" class="wishlist-button" value="제품" onclick="changeMyWishlist(1)">
         </div>
         
         <!-- 레시피 위시리스트 -->
@@ -140,7 +140,7 @@
            	<c:choose>
            		<c:when test="${ empty mealkitWishlists }">
            			<div class="wishlist-nodata">
-           				찜한 밀키트가 없습니다.
+           				찜한 제품이 없습니다.
            			</div>
            		</c:when>
            		<c:otherwise>

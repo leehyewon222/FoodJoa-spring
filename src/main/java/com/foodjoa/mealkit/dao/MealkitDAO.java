@@ -32,6 +32,10 @@ public class MealkitDAO {
 		return sqlSession.selectList("mapper.mealkitReview.selectReviewsInfo", mealkitVO);
 	}
 
+	public int selectInsufficientStock(MealkitVO mealkitVO) {
+		return sqlSession.selectOne("mapper.mealkit.selectInsufficientStock", mealkitVO);
+	}
+
 	public List<Map<String, Object>> selectMyMealkitsList(MealkitVO mealkitVO) {
 		return sqlSession.selectList("mapper.mealkit.selectMyMealkitsList", mealkitVO);
 	}
@@ -123,4 +127,5 @@ public class MealkitDAO {
 	public int updateMealkitViews(int _no) {
 		return sqlSession.update("mapper.mealkit.updateMealkitViews", _no);
 	}
+
 }

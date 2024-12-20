@@ -36,7 +36,7 @@ response.setContentType("text/html; charset=utf-8");
 	<div class="myreview-container" style="display: block;">
 		<div class="myreview-category-area">
 			<input type="button" value="레시피" onclick="changeMyReview(0)">
-			<input type="button" value="밀키트" onclick="changeMyReview(1)">
+			<input type="button" value="제품" onclick="changeMyReview(1)">
 		</div>
 		<div class="myreview-recipe">
 			<table width="100%">

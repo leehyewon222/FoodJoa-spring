@@ -21,7 +21,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<title>나만의 음식 판매</title>
+	<title>제품 판매</title>
 	
 	<link rel="stylesheet" type="text/css" href="${resourcesPath}/css/mealkit/list.css">
 	
@@ -40,15 +40,14 @@
 </head>
 <body>
 	<div id="container">
-		<!-- 검색 기능 -->
-		<h1>"${categoryName}"에 대한 검색결과</h1>
+		<h2>"${categoryName}"에 대한 검색결과</h2>
 		<br>
 		<div id="search-container">
 			<div class="search-form-container">
 				<form action="${contextPath}/Mealkit/searchlistPro" method="get" name="frmSearch" 
 					onsubmit="fnSearch(); return false;">
 		            <select id="key" name="key">
-		                <option value="title">밀키트 명</option>
+		                <option value="title">제품 명</option>
 		                <option value="name">작성자</option>
 		            </select>
 		            
@@ -56,9 +55,7 @@
 		            <input type="submit" class="search-button" id="search-button" value="검색" />
 				</form>
 			</div>
-				<!-- 글쓰기 -->
 			<div class="write-container">
-				<!-- <c:if test="${not empty sessionScope.userId}"> </c:if> -->
 				<c:if test="${not empty id}">
 					<input type="button" id="newContent" value="글쓰기" 
 						onclick="location.href='${contextPath}/Mealkit/write'"/>
@@ -112,9 +109,7 @@
 			                                    <img class="thumbnail" 
 			                                         src="${resourcesPath}/images/mealkit/thumbnails/${no}/${thumbnail}">
 			                                </div>
-			                                <!-- 텍스트 정보 영역 -->
 			                                <div class="info-container" style="margin-left: 16px;">
-			                                    <!-- 작성자, 작성일, 평점, 조회수 -->
 			                                    <span>
 			                                        작성자: ${nickName} &nbsp;&nbsp;&nbsp;&nbsp;
 			                                        작성일: <fmt:formatDate value="${postDate}" pattern="yyyy-MM-dd HH:mm"/> &nbsp;&nbsp;&nbsp;&nbsp;
@@ -123,7 +118,11 @@
 			                                    </span>
 			                                    <h2><strong>${title}</strong></h2>
 			                                    <br>
-			                                    <h3>${price} 원</h3>
+			                                    <h3><fmt:formatNumber value="${price}" 
+													type="number" 
+													groupingUsed="true" 
+													maxFractionDigits="0" />&nbsp;원
+												</h3>
 			                                    <br>
 			                                    <p>설명: ${contents}</p>
 			                                </div>
