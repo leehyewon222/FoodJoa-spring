@@ -79,9 +79,16 @@
     SELECT * FROM member WHERE id = #{userId}
 	</select>
 	
+	<select id="selectCurrentPoints" parameterType="String" resultType="int">
+        SELECT point
+        FROM member
+        WHERE id = #{userId}
+    </select>
+	
 	<update id="updatePoints" parameterType="MemberVO">
     UPDATE member
     SET point = #{point}
     WHERE id = #{id}
 	</update>
+	
 </mapper>

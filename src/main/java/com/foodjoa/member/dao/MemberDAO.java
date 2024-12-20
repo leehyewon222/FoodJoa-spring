@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.foodjoa.member.vo.RecentViewVO;
-import com.foodjoa.recipe.vo.RecipeWishListVO;
 import com.foodjoa.mealkit.vo.MealkitCartVO;
 import com.foodjoa.mealkit.vo.MealkitOrderVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
@@ -186,9 +185,31 @@ public class MemberDAO {
 	    return sqlSession.selectOne("mapper.member.findById", userId);
 	}
 
-	public void updatePoints(MemberVO recommender) {
-	    // MyBatis를 사용하여 추천인의 포인트를 업데이트하는 쿼리 실행
-	    sqlSession.update("mapper.member.updatePoints", recommender); 
+	public int updatePoints(MemberVO recommender) {
+	    
+	    return sqlSession.update("mapper.member.updatePoints", recommender); 
 	}
+
+	public int getMealkitPrice(Integer mealkitNo) {
+	    return sqlSession.selectOne("mapper.mealkit.getMealkitPrice", mealkitNo);
+	}
+	
+	public int addPoints(String userId, int pointsToAdd) {
+	    // 현재 포인트를 조회
+	    int currentPoints = sqlSession.selectOne("mapper.member.selectCurrentPoints", userId);
+
+	    // 새로운 포인트 계산
+	    int newPoints = currentPoints + pointsToAdd;
+
+	    // 포인트 업데이트
+	    MemberVO member = new MemberVO();
+	    member.setId(userId);
+	    member.setPoint(newPoints);
+
+	    return sqlSession.update("mapper.member.updatePoints", member);
+	}
+
+
+
 
 }

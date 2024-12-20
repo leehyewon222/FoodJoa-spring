@@ -415,12 +415,13 @@ public class MemberController {
 
     @ResponseBody
     @RequestMapping(value = "insertMyOrder", method = { RequestMethod.GET, RequestMethod.POST })
-    public String insertMyOrder(HttpServletRequest request) {
-    	
-        int result = memberService.insertMyOrder(request);
+    public String insertMyOrder(HttpServletRequest request, @RequestParam(value = "usedPoints", defaultValue = "0") int usedPoints) {
+        // 포인트를 사용했는지와 사용한 포인트를 서비스로 넘기기
+        int result = memberService.insertMyOrder(request, usedPoints);
         
         return String.valueOf(result); 
     }
+
 
     
     

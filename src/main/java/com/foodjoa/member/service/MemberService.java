@@ -231,7 +231,7 @@ public class MemberService {
 	}
 	
 	@Transactional
-	public int insertMyOrder(HttpServletRequest request) {
+	public int insertMyOrder(HttpServletRequest request, int usedPoints) {
 	    String userId = (String) request.getSession().getAttribute("userId");
 
 	    String[] mealkitNos = request.getParameterValues("mealkitNos[]");
@@ -244,9 +244,8 @@ public class MemberService {
 	        try {
 	            mealkitNosInt[i] = Integer.parseInt(mealkitNos[i]);
 	        } catch (NumberFormatException e) {
-	            
 	            System.out.println("Invalid mealkitNo: " + mealkitNos[i]);
-	            return -1;  
+	            return -1;
 	        }
 	    }
 
@@ -255,18 +254,41 @@ public class MemberService {
 	        try {
 	            quantitiesInt[i] = Integer.parseInt(quantities[i]);
 	        } catch (NumberFormatException e) {
-	          
 	            System.out.println("Invalid quantity: " + quantities[i]);
 	            return -1;
 	        }
 	    }
 
+	    // 총 결제 금액 계산
+	    int totalPrice = 0;
+	    for (int i = 0; i < mealkitNosInt.length; i++) {
+	        int price = memberDAO.getMealkitPrice(mealkitNosInt[i]); // 상품 가격 조회
+	        totalPrice += price * quantitiesInt[i];
+	    }
+
+	    // 사용한 포인트 차감
+	    int finalAmount = totalPrice - usedPoints;
+	    if (finalAmount < 0) {
+	        finalAmount = 0; // 포인트가 결제 금액을 초과하지 않도록 보정
+	    }
+
+	    // 주문 DB에 추가 (최종 결제 금액을 DB에 저장)
 	    int result = memberDAO.insertMyOrder(userId, mealkitNosInt, quantitiesInt, address, isCart);
-	    
+
 	    if (result <= 0) {
 	        return result;
 	    }
 
+	    // 포인트 적립 (결제 금액의 5% 적립)
+	    int pointsToAdd = (int) (finalAmount * 0.05);
+	    result = memberDAO.addPoints(userId, pointsToAdd);
+
+	    if (result <= 0) {
+	        System.out.println("포인트 적립 실패");
+	        return -1;
+	    }
+
+	    // 장바구니에서 항목 삭제
 	    if (Integer.parseInt(isCart) == 1) {
 	        result = memberDAO.deleteCartList(userId, mealkitNosInt);
 	        if (result <= 0) {
@@ -277,6 +299,8 @@ public class MemberService {
 
 	    return result;
 	}
+
+
 
 	public MemberVO getMemberById(String id) {
 	    return memberDAO.selectMember(id); 
@@ -388,4 +412,3 @@ public class MemberService {
 	    }
 		
 	}
-
