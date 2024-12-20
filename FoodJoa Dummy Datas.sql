@@ -47,7 +47,7 @@ values('hanaId', '비빔밥', 'korean1.png', '한국을 대표하는 음식 중 
 	'0008자장면 재료 10008자장면 재료 2','0009자장면 재료량 10009자장면 재료량 1', '0011자장면 조리 순서 10011자장면 조리 순서 20011자장면 조리 순서 3', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
     
     ('hanaId', '안심 스테이크', 'western1.jpg', '부드러운 식감에 환상적인 맛', 'eJyzKbB73Nr4uLX9cWsfiNGyBcRu2WmjX2AHAOteD+U=', 4, FLOOR(RAND() * 50),
-	'0012안심 스테이크 재료 10012안심 스테이크 재료 2','0013안심 스테이크 재료량 10013안심 스테이크 재료량 1', '0015안심 스테이크 조리 순서 10015안심 스테이크조리 순서 20015안심 스테이크 조리 순서 3', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+	'0012안심 스테이크 재료 10012안심 스테이크 재료 2','0013안심 스테이크 재료량 10013안심 스테이크 재료량 1', '0015안심 스테이크 조리 순서 10015안심 스테이크 조리 순서 20015안심 스테이크 조리 순서 3', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
     ('hyewonId', '해물 파스타', 'western2.jpg', '쫄깃한 식감이 살아있는 파스타', 'eJyzKbB73Nr4uLX9cWsfiNGyBcRu2WmjX2AHAOteD+U=', 4, FLOOR(RAND() * 50),
 	'0011해물 파스타 재료 10011해물 파스타 재료 2','0012해물 파스타 재료량 10012해물 파스타 재료량 1', '0014해물 파스타 조리 순서 10014해물 파스타 조리 순서 20014해물 파스타 조리 순서 3', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
     ('minseokId', '바베큐 폭립', 'western3.jpg', '바베큐 파티 요리의 황태자', 'eJyzKbB73Nr4uLX9cWsfiNGyBcRu2WmjX2AHAOteD+U=', 4, FLOOR(RAND() * 50),
