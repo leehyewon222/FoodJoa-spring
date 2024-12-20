@@ -13,6 +13,7 @@ CREATE TABLE member(
     address1 	varchar(50) not null,
     address2 	varchar(50) not null,
     profile 	varchar(50) not null,
+    point		int not null,
     join_date 	timestamp not null
 );
 
@@ -239,4 +240,14 @@ CREATE TABLE together_join(
     foreign key(id) references member(id) ON DELETE CASCADE
 );
 
+CREATE TABLE calendar (
+    no INT AUTO_INCREMENT PRIMARY KEY, -- 고유번호
+    id VARCHAR(50) NOT NULL,           -- 사용자 ID
+    cn VARCHAR(50),                    -- 기타 데이터
+    summary VARCHAR(255) NOT NULL,     -- 제목
+    description TEXT NOT NULL,         -- 설명
+    location VARCHAR(255),             -- 장소
+    start_time DATETIME NOT NULL,      -- 시작 시간
+    end_time DATETIME NOT NULL         -- 종료 시간
+);
 COMMIT;

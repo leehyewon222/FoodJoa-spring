@@ -54,6 +54,7 @@
 
 <body>
 	<div id="recipe-read-container">
+ 
 		<table width="100%">
 			<tr>
 				<td class="recipe-read-button-area" align="right">
@@ -89,6 +90,12 @@
 					        </p>
 					        <p>조회수 : ${ recipeVO.views }</p>
 					    </li>
+					    <li>
+					     <!-- 카카오톡 공유 버튼 코드 -->
+						<a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
+						    <img src="${ resourcesPath }/images/member/kakaologo.png" alt="카카오톡 링크 공유하기" style="width:40px; height:auto;">
+						</a>
+						</li>
 					</ul>
 					<hr>
 				</td>	
@@ -391,6 +398,46 @@
 	    // 페이지 로드 시 함수 실행
 	    window.onload = initialize;
 </script>
+
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+
+
+<script>
+  // 카카오톡 SDK 초기화
+  Kakao.init('ab039484667daeed90e5c9efa4980315'); 
+
+  function shareMessage() {
+	  
+	   // contextPath와 recipeVO.no 값 확인
+	    console.log('contextPath: ', '${ contextPath }');
+	    console.log('recipeVO.no: ', '${ recipeVO.no }');
+	    
+    Kakao.Link.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '친구야 이 레시피 어때? -> ${ recipeVO.title }',
+        description: '${ recipeVO.description }',
+        imageUrl: 'http://localhost:8090/FoodJoa/resource/images/recipe/thumbnails/${ recipeVO.no }/${ recipeVO.thumbnail }',
+        link: {
+          webUrl: 'http://localhost:8090/FoodJoa/Recipe/read?no=${recipeVO.no}',
+        },
+      },
+      buttons: [
+        {
+          title: '레시피 보기',
+          link: {
+            webUrl: 'http://localhost:8090/FoodJoa/Recipe/read?no=${recipeVO.no}',
+          },
+        },
+      ],
+    });
+  }
+</script>
+
+
+
+
 </body>
 
 </html>

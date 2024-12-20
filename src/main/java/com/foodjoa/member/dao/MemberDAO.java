@@ -1,5 +1,6 @@
 package com.foodjoa.member.dao;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,11 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.foodjoa.member.vo.RecentViewVO;
-import com.foodjoa.recipe.vo.RecipeWishListVO;
 import com.foodjoa.mealkit.vo.MealkitCartVO;
 import com.foodjoa.mealkit.vo.MealkitOrderVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
-
+import com.foodjoa.member.vo.CalendarVO;
 import com.foodjoa.member.vo.MemberVO;
 
 @Repository
@@ -181,5 +181,55 @@ public class MemberDAO {
 	    
 	    return sqlSession.update("mapper.mealkitOrder.updateOrderStatus", params);
 	}
+	
+    public int insertCalendar(CalendarVO calendar) {
+	        return sqlSession.insert("mapper.calendar.insertCalendar", calendar);
+	}
 
+	public List<CalendarVO> selectCalendars(String userId) {
+	        return sqlSession.selectList("mapper.calendar.selectCalendars", userId);
+	}
+	    
+	public int deleteCalendarByUserId(CalendarVO calendar) {
+	        return sqlSession.delete("mapper.calendar.deleteCalendarByUserId", calendar);
+	}
+
+	public MemberVO findById(String userId) {
+	    return sqlSession.selectOne("mapper.member.findById", userId);
+	}
+
+	public int updatePoints(MemberVO recommender) {
+	    
+	    return sqlSession.update("mapper.member.updatePoints", recommender); 
+	}
+
+	public int getMealkitPrice(Integer mealkitNo) {
+	    return sqlSession.selectOne("mapper.mealkit.getMealkitPrice", mealkitNo);
+	}
+	
+	public int addPoints(String userId, int pointsToAdd) {
+	    // 현재 포인트를 조회
+	    int currentPoints = sqlSession.selectOne("mapper.member.selectCurrentPoints", userId);
+
+	    // 새로운 포인트 계산
+	    int newPoints = currentPoints + pointsToAdd;
+
+	    // 포인트 업데이트
+	    MemberVO member = new MemberVO();
+	    member.setId(userId);
+	    member.setPoint(newPoints);
+
+	    return sqlSession.update("mapper.member.updatePoints", member);
+	}
+
+	public void updateMemberPoint(String userId, int usedPoints, int pointsToAdd) {
+		
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		
+		params.put("userId", userId);
+		params.put("usedPoints", usedPoints);
+		params.put("pointsToAdd", pointsToAdd);
+		
+		sqlSession.update("mapper.member.updateMemberPoint", params);
+	}
 }

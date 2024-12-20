@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.calendar">
+
+    <resultMap type="calendarVO" id="calendar">
+        <id property="no" column="no"/>
+        <result property="id" column="id"/>
+        <result property="cn" column="cn"/>
+        <result property="summary" column="summary"/>
+        <result property="description" column="description"/>
+        <result property="location" column="location"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+    </resultMap>
+
+    <insert id="insertCalendar" parameterType="calendarVO">
+        INSERT INTO calendar (id, cn, summary, description, location, start_time, end_time)
+        VALUES (#{id}, #{cn}, #{summary}, #{description}, #{location}, #{startTime}, #{endTime})
+    </insert>
+
+    <select id="selectCalendars" resultMap="calendar">
+        SELECT * 
+        FROM calendar
+        WHERE id = #{id}
+        ORDER BY start_time ASC
+    </select>
+    
+     <delete id="deleteCalendarByUserId" parameterType="calendarVO">
+	    DELETE FROM calendar 
+	    WHERE id= #{id}
+	</delete>
+</mapper>

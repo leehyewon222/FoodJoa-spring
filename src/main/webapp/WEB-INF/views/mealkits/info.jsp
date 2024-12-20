@@ -74,7 +74,14 @@
 									    </c:otherwise>
 									</c:choose>
 								</c:if>
-								<h1>${mealkitInfo.title}</h1>
+								<div style="display: flex; align-items: center; justify-content: space-between;">
+								  <h1>${mealkitInfo.title}</h1>
+								  <!-- 카카오톡 공유 버튼 코드 -->
+								  <a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
+								    <img src="${resourcesPath}/images/member/kakaologo.png" alt="카카오톡 링크 공유하기" style="width:40px; height:auto;">
+								  </a>
+								</div>
+
 								<hr>
 								<strong>글쓴이: ${mealkitInfo.memberVO.nickname}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<strong>게시일: ${mealkitInfo.postDate}</strong><br>
@@ -206,7 +213,7 @@
 	</div>
 	
 	<form id="checkoutForm" action="${contextPath}/Member/payment" method="post">
-        <input type="hidden" name="isCart" value="1" />
+        <input type="hidden" name="isCart" value="0" />
         <input type="hidden" name="combinedNo" id="combinedNo" />
         <input type="hidden" name="CombinedQuantity" id="CombinedQuantity" />
     </form>
@@ -223,5 +230,36 @@
 			$("#checkoutForm").submit();
 		}
 	</script>
+	
+	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+<script>
+  // 카카오톡 SDK 초기화
+  Kakao.init('ab039484667daeed90e5c9efa4980315'); 
+
+  function shareMessage() {
+	  
+	    
+    Kakao.Link.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: '친구야 이 밀키트 어때? -> ${ mealkitInfo.title }',
+        description: '${ mealkitInfo.contents }',
+        imageUrl: ' http://localhost:8090/FoodJoa/resource/images/mealkit/thumbnails/${mealkitInfo.no}/${thumbnail}',
+        link: {
+          webUrl: 'http://localhost:8090/FoodJoa/Mealkit/info?no=${mealkitInfo.no}',
+        },
+      },
+      buttons: [
+        {
+          title: '레시피 보기',
+          link: {
+            webUrl: 'http://localhost:8090/FoodJoa/Mealkit/info?no=${mealkitInfo.no}',
+          },
+        },
+      ],
+    });
+  }
+</script>
 </body>
 </html>

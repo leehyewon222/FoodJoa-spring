@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import javax.servlet.GenericServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +37,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.foodjoa.mealkit.vo.MealkitCartVO;
 import com.foodjoa.mealkit.vo.MealkitOrderVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
+import com.foodjoa.member.dao.MemberDAO;
 import com.foodjoa.member.service.MemberService;
+import com.foodjoa.member.vo.CalendarVO;
 import com.foodjoa.member.vo.MemberVO;
 import com.foodjoa.member.vo.RecentViewVO;
 
@@ -68,134 +71,147 @@ public class MemberController {
     
     @RequestMapping("naverjoin")
     public void naverjoin(HttpServletRequest request, HttpServletResponse response) throws Exception {
-  	
-    	String userId = SNSLoginAPI.handleNaverLogin(
-    			request.getParameter("code"),
-    			request.getParameter("state"));
-    	
-    	handleJoin(request, response, userId);
+     
+       String userId = SNSLoginAPI.handleNaverLogin(
+             request.getParameter("code"),
+             request.getParameter("state"));
+       
+       handleJoin(request, response, userId);
     }
     
     @RequestMapping("kakaojoin")
     public void kakaojoin(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-    	String userId = SNSLoginAPI.handleKakaoJoin(request.getParameter("code"));
-    	handleJoin(request, response, userId);
+       String userId = SNSLoginAPI.handleKakaoJoin(request.getParameter("code"));
+       handleJoin(request, response, userId);
     }
     
     private void handleJoin(HttpServletRequest request, HttpServletResponse response, String userId) throws Exception {
 
-    	response.setContentType("text/html; charset=utf-8");
-		PrintWriter out = response.getWriter();
-		
-    	if (userId == null || userId.length() <= 0 || userId.trim().isEmpty()) {
-    		
-    		out.print("<script>");
-    		out.print("alert('아이디 정보를 받아오는데 실패했습니다.');");
-    		out.print("history.go(-1);");
-    		out.print("</script>");
-    		
-    		out.close();
-    		
-    		return;
-    	}
+       response.setContentType("text/html; charset=utf-8");
+      PrintWriter out = response.getWriter();
+      
+       if (userId == null || userId.length() <= 0 || userId.trim().isEmpty()) {
+          
+          out.print("<script>");
+          out.print("alert('아이디 정보를 받아오는데 실패했습니다.');");
+          out.print("history.go(-1);");
+          out.print("</script>");
+          
+          out.close();
+          
+          return;
+       }
 
-    	request.getSession().setAttribute("joinId", userId);
-    	
-    	out.println("<script>");
-		out.println("location.href='" + request.getContextPath() + "/Member/join';");
-		out.println("</script>");
-		out.close();
+       request.getSession().setAttribute("joinId", userId);
+       
+       out.println("<script>");
+      out.println("location.href='" + request.getContextPath() + "/Member/join';");
+      out.println("</script>");
+      out.close();
     }
 
     // 추가 정보 입력 페이지로 리다이렉트할 때 처리하는 메소드
     @RequestMapping("join")
-    public String join() {    	
-    	return "/members/join";
-	}
+    public String join() {       
+       return "/members/join";
+   }
 
 	// 추가정보입력 후 회원 가입 처리
-	@RequestMapping("joinPro")
-	public String joinPro(MemberVO memberVO, HttpSession session, MultipartHttpServletRequest request) 
-			throws Exception {
-		
-		int result = memberService.insertMember(memberVO, request, session);
-		
-		if (result > 0) {
-			session.setAttribute("userId", session.getAttribute("joinId"));
-			session.removeAttribute("joinId");
-		}
-		
-		return "redirect:/Main/home";
-	}
+    @RequestMapping("joinPro")
+    public String joinPro(MemberVO memberVO, HttpSession session, HttpServletRequest request, MultipartHttpServletRequest mRequest) throws Exception {
+        // 1. 회원가입 처리
+        int result = memberService.insertMember(memberVO, mRequest, session);
+
+        // 2. 회원가입이 성공했다면
+        if (result > 0) {
+            session.setAttribute("userId", session.getAttribute("joinId"));
+            session.removeAttribute("joinId");
+
+            // 3. 추천인 아이디 처리
+            String userId = request.getParameter("recommender"); // HttpServletRequest로 추천인 아이디 받기
+             
+            if (userId != null && !userId.isEmpty()) {
+                // 4. 추천인 아이디가 존재하는지 확인
+                boolean recommenderExists = memberService.isUserExists(userId); // 추천인 아이디로 회원 찾기
+                
+                if (recommenderExists) {
+                    // 5. 추천인에게 포인트 500 지급
+                    memberService.addPointsToRecommender(userId, 500); // 추천인에게 포인트 지급
+                }
+            }
+        }
+
+        return "redirect:/Main/home";
+    }
     
     //--------------------------여기까지 회원가입 처리
     
     //----------이제 로그인 차례
     
     @RequestMapping("login")
-	private String login() {
-		return "/members/login";  // 리다이렉트할 경로
-	}
+   private String login() {
+      return "/members/login";  // 리다이렉트할 경로
+   }
 
     // 네이버 로그인 처리 메소드
     @RequestMapping("naverlogin")
     private void naverlogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	
-    	response.setContentType("text/html; charset=utf-8");
-    	
-    	String userId = SNSLoginAPI.handleNaverLogin(
-    			request.getParameter("code"),
-    			request.getParameter("state"));
-    	
-    	handleLogin(request, response, userId);
+       
+       response.setContentType("text/html; charset=utf-8");
+       
+       String userId = SNSLoginAPI.handleNaverLogin(
+             request.getParameter("code"),
+             request.getParameter("state"));
+       
+       handleLogin(request, response, userId);
     }
 
     // 카카오 로그인 처리 메소드
     @RequestMapping("kakaologin")
     private void kakaologin(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	
-    	response.setContentType("text/html; charset=utf-8");
-    	
-    	String userId = SNSLoginAPI.handleKakaoLogin(request.getParameter("code"));
+       
+       response.setContentType("text/html; charset=utf-8");
+       
+       String userId = SNSLoginAPI.handleKakaoLogin(request.getParameter("code"));
 
-    	handleLogin(request, response, userId);
+       handleLogin(request, response, userId);
     }
 
     private void handleLogin(HttpServletRequest request, HttpServletResponse response, String userId)
-    		throws Exception {
-    	
-    	PrintWriter out = response.getWriter();
-    	
-    	if (userId == null || userId.length() <= 0 || userId.trim().isEmpty()) {
-    		
-    		out.print("<script>");
-    		out.print("alert('아이디 정보를 받아오는데 실패했습니다.');");
-    		out.print("history.go(-1);");
-    		out.print("</script>");
-    		
-    		out.close();
-    		
-    		return;
-    	}
-    	
-    	boolean isUserExists = memberService.isUserExists(userId);
-    	
-    	// SNS 로그인 성공 및 회원정보 있을 때
-    	if (isUserExists) {
-    		request.getSession().setAttribute("userId", userId);
-    		response.sendRedirect(request.getContextPath() + "/Main/home");
-    		
-			return;
-		}
-    	
-    	request.getSession().setAttribute("joinId", userId);
-    	
-		out.println("<script>");
-		out.println("alert('회원가입이 필요합니다. 회원가입 페이지로 이동합니다.');");
-		out.println("location.href='" + request.getContextPath() + "/Member/join';");
-		out.println("</script>");
-		out.close();
+          throws Exception {
+       
+       PrintWriter out = response.getWriter();
+       
+       if (userId == null || userId.length() <= 0 || userId.trim().isEmpty()) {
+          
+          out.print("<script>");
+          out.print("alert('아이디 정보를 받아오는데 실패했습니다.');");
+          out.print("history.go(-1);");
+          out.print("</script>");
+          
+          out.close();
+          
+          return;
+       }
+       
+       boolean isUserExists = memberService.isUserExists(userId);
+       
+       // SNS 로그인 성공 및 회원정보 있을 때
+       if (isUserExists) {
+          request.getSession().setAttribute("userId", userId);
+          response.sendRedirect(request.getContextPath() + "/Main/home");
+          
+         return;
+      }
+       
+       request.getSession().setAttribute("joinId", userId);
+       
+      out.println("<script>");
+      out.println("alert('회원가입이 필요합니다. 회원가입 페이지로 이동합니다.');");
+      out.println("location.href='" + request.getContextPath() + "/Member/join';");
+      out.println("</script>");
+      out.close();
     }
  
     //----------------------------------로그인 끝
@@ -218,8 +234,8 @@ public class MemberController {
     
     @RequestMapping("deleteMember")
     public String deleteMember(){
-    	return "/members/deleteMember";
-	}
+       return "/members/deleteMember";
+   }
     
     @RequestMapping("deleteMemberPro")
     private String deleteMemberPro(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -289,8 +305,8 @@ public class MemberController {
     @ResponseBody
     @RequestMapping(value = "deleteWishlist", method = { RequestMethod.GET, RequestMethod.POST })
     public String deleteWishlist(@RequestParam int wishType, @RequestParam int no) {
-    	
-    	return String.valueOf(memberService.deleteWishlist(wishType, no));
+       
+       return String.valueOf(memberService.deleteWishlist(wishType, no));
     }
     
     @RequestMapping("recentlist")
@@ -309,7 +325,7 @@ public class MemberController {
 
 
 
-	      
+         
     @RequestMapping("cartlist")
     public String cartlist(HttpSession session, Model model) {
         String userId = (String) session.getAttribute("userId");
@@ -400,23 +416,28 @@ public class MemberController {
 
     @ResponseBody
     @RequestMapping(value = "insertMyOrder", method = { RequestMethod.GET, RequestMethod.POST })
-    public String insertMyOrder(HttpServletRequest request) {
-    	
-        int result = memberService.insertMyOrder(request);
+    public String insertMyOrder(HttpServletRequest request, @RequestParam(value = "usedPoints", defaultValue = "0") int usedPoints) {
+        // 포인트를 사용했는지와 사용한 포인트를 서비스로 넘기기
+        int result = memberService.insertMyOrder(request, usedPoints);
         
         return String.valueOf(result); 
     }
 
-    
-    
-	 @RequestMapping("mypagemain")
-	 public String mypagemain(Model model ,HttpSession session){
 
-		 String userId = (String) session.getAttribute("userId");
-	        
-		 if (userId == null || userId.trim().isEmpty()) 
-		 return "redirect:/Member/login";
-        
+    @RequestMapping("mypagemain")
+    public String mypagemain(
+            @ModelAttribute CalendarVO calendar,
+            Model model,
+            HttpSession session,
+            @RequestParam(value = "userId", required = false) String userIdParam
+    ) {
+        String sessionUserId = (String) session.getAttribute("userId");
+        String userId = (userIdParam != null && !userIdParam.trim().isEmpty()) ? userIdParam : sessionUserId;
+
+        if (userId == null || userId.trim().isEmpty()) {
+            return "redirect:/Member/login";
+        }
+
         MemberVO member = memberService.getMemberById(userId);
         ArrayList<Integer> deliveredCounts = memberService.getCountOrderDelivered(userId);
         ArrayList<Integer> sendedCounts = memberService.getCountOrderSended(userId);
@@ -425,9 +446,20 @@ public class MemberController {
         model.addAttribute("deliveredCounts", deliveredCounts);
         model.addAttribute("sendedCounts", sendedCounts);
 
+        if (calendar != null && calendar.getSummary() != null && !calendar.getSummary().trim().isEmpty()) {
+            calendar.setId(userId); 
+            memberService.addCalendar(calendar); 
+        }
+
+        List<CalendarVO> calendars = memberService.getUserCalendars(userId);
+        model.addAttribute("calendars", calendars);
+
+        memberService.deleteCalendarByUserId(calendar);
+
         return "/members/mypagemain";
     }
-    
+
+
     @RequestMapping("profileupdate")
     public String profileupdate(Model model, HttpSession session) {
         String userId = (String) session.getAttribute("userId");
@@ -442,27 +474,27 @@ public class MemberController {
     @ResponseBody
     @RequestMapping(value = "updatePro", method = { RequestMethod.GET, RequestMethod.POST })
     public String updatePro(MemberVO memberVO, MultipartHttpServletRequest multipartRequest,
-    		@RequestParam String originProfile) throws Exception {
+          @RequestParam String originProfile) throws Exception {
         
-    	int result = memberService.updateProfile(memberVO, multipartRequest, originProfile);
-    	
-    	return String.valueOf(result);
+       int result = memberService.updateProfile(memberVO, multipartRequest, originProfile);
+       
+       return String.valueOf(result);
     }
 
     
     @RequestMapping("impormation")
     private String impormation() {
-		return "/members/impormation";
-	}
+      return "/members/impormation";
+   }
     
-	@RequestMapping(value = "myreviews", method = { RequestMethod.GET, RequestMethod.POST })
+   @RequestMapping(value = "myreviews", method = { RequestMethod.GET, RequestMethod.POST })
     public String myreviews(Model model, HttpSession session) {
-    	
-		HashMap<String, Object> reviews = memberService.getReviews((String) session.getAttribute("userId"));
-		
-		model.addAttribute("reviews", reviews);
-		
-		return "/members/myreview";
+       
+      HashMap<String, Object> reviews = memberService.getReviews((String) session.getAttribute("userId"));
+      
+      model.addAttribute("reviews", reviews);
+      
+      return "/members/myreview";
     }
 
     @RequestMapping("mydelivery")
@@ -516,4 +548,16 @@ public class MemberController {
         out.close();  // 응답 스트림 닫기
     }
 
-}
+    public String addCalendar(@ModelAttribute CalendarVO calendar, Model model) {
+        memberService.addCalendar(calendar); 
+        List<CalendarVO> calendars = memberService.getUserCalendars(calendar.getId()); 
+        model.addAttribute("calendars", calendars);
+        return "redirect:/Member/mypagemain"; 
+    }
+
+    public String listUserCalendars(Model model, @RequestParam("userId") String userId) {
+        List<CalendarVO> calendars = memberService.getUserCalendars(userId);
+        model.addAttribute("calendars", calendars);
+        return "redirect:/Member/mypagemain"; 
+    }
+    }
