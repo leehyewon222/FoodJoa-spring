@@ -1,5 +1,6 @@
 package com.foodjoa.member.dao;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ import com.foodjoa.recipe.vo.RecipeWishListVO;
 import com.foodjoa.mealkit.vo.MealkitCartVO;
 import com.foodjoa.mealkit.vo.MealkitOrderVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
-
+import com.foodjoa.member.vo.CalendarVO;
 import com.foodjoa.member.vo.MemberVO;
 
 @Repository
@@ -181,5 +182,16 @@ public class MemberDAO {
 	    
 	    return sqlSession.update("mapper.mealkitOrder.updateOrderStatus", params);
 	}
+	
+	  public int insertCalendar(CalendarVO calendar) {
+	        return sqlSession.insert("mapper.calendar.insertCalendar", calendar);
+	    }
 
+	    public List<CalendarVO> selectCalendars(String userId) {
+	        return sqlSession.selectList("mapper.calendar.selectCalendars", userId);
+	    }
+	    
+	    public int deleteCalendarByUserId(CalendarVO calendar) {
+	        return sqlSession.delete("mapper.calendar.deleteCalendarByUserId", calendar);
+	    }
 }

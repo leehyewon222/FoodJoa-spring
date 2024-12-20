@@ -124,9 +124,16 @@
     text-decoration: none;
 }
 
-.info-section2 {
-	color: #000000;
-	
+..info-section2 {
+    color: #000000;
+    text-align: left;
+    margin-right: 10px; /* 필요에 따라 여백 조정 */
+}
+
+.info-section {
+    display: flex;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+    align-items: center;
 }
 
 .info-section a:hover {
@@ -161,9 +168,142 @@ button:hover {
 }
 .impormation {
 	font-size: 14px;
-	margin-left: 20px;
+	margin-light: 20px;
 }
 span {
 	color: #616161;
 }
+/* 일정 입력 폼 스타일 */
+#calendarFormContainer {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease;
+}
 
+#calendarFormContainer h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #BF917E;
+    text-align: center;
+}
+
+#calendarForm label {
+    font-size: 16px;
+    color: #616161;
+    margin-bottom: 8px;
+    display: block;
+}
+
+#calendarForm input, #calendarForm textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#calendarForm textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+#calendarForm button {
+    background-color: #BF917E;
+    color: white;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+#calendarForm button:hover {
+    background-color: #9e6e58;
+}
+
+/* 일정 목록 스타일 */
+#calendarListContainer {
+    margin-top: 30px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#calendarListContainer h2 {
+    font-size: 22px;
+    color: #BF917E;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+#calendarListContainer table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+#calendarListContainer th, #calendarListContainer td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 16px;
+}
+
+#calendarListContainer th {
+    background-color: #f5f5f5;
+    color: #BF917E;
+}
+
+#calendarListContainer tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#calendarListContainer td button {
+    background-color: #d9b89c;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#calendarListContainer td button:hover {
+    background-color: #b08a6a;
+}
+
+#calendarListContainer p {
+    text-align: center;
+    font-size: 16px;
+    color: #616161;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    #calendarFormContainer {
+        padding: 15px;
+    }
+
+    #calendarForm h1 {
+        font-size: 20px;
+    }
+
+    #calendarListContainer h2 {
+        font-size: 20px;
+    }
+
+    #calendarListContainer table {
+        font-size: 14px;
+    }
+}
+
+a.impormation {
+	text-align: left;
+}

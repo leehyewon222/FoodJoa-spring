@@ -17,6 +17,7 @@
 		
 		<typeAlias type="com.foodjoa.member.vo.MemberVO" alias="memberVO" />
 		<typeAlias type="com.foodjoa.member.vo.RecentViewVO" alias="recentViewVO" />
+		<typeAlias  type="com.foodjoa.member.vo.CalendarVO"  alias="calendarVO"/>
 		
 		<typeAlias type="com.foodjoa.recipe.vo.RecipeReviewVO" alias="recipeReviewVO" />
 		<typeAlias type="com.foodjoa.recipe.vo.RecipeVO" alias="recipeVO" />
@@ -27,3 +28,6 @@
 		<typeAlias type="com.foodjoa.together.vo.TogetherJoinVO" alias="togetherJoinVO" />
 	</typeAliases>
 </configuration>
+
+
+

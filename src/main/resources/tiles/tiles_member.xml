@@ -77,4 +77,9 @@
 		<put-attribute name="title" value="내 리뷰 관리" />
 		<put-attribute name="center" value="/WEB-INF/views/members/myreview.jsp" />
 	</definition>
+	
+	<definition name="/members/calendar" extends="baseLayout">
+		<put-attribute name="title" value="캘린더" />
+		<put-attribute name="center" value="/WEB-INF/views/members/mypagemain.jsp" />
+	</definition>
 </tiles-definitions>

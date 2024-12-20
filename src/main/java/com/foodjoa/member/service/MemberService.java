@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +27,7 @@ import com.foodjoa.mealkit.vo.MealkitOrderVO;
 import com.foodjoa.mealkit.vo.MealkitReviewVO;
 import com.foodjoa.mealkit.vo.MealkitVO;
 import com.foodjoa.member.dao.MemberDAO;
+import com.foodjoa.member.vo.CalendarVO;
 import com.foodjoa.member.vo.MemberVO;
 import com.foodjoa.member.vo.RecentViewVO;
 import com.foodjoa.recipe.dao.RecipeDAO;
@@ -367,5 +369,17 @@ public class MemberService {
 		reviews.put("mealkitReviews", mealkitReviews);
 		
 		return reviews;
+	}
+
+	public void addCalendar(CalendarVO calendar) {
+        memberDAO.insertCalendar(calendar);
+    }
+
+    public List<CalendarVO> getUserCalendars(String userId) {
+        return memberDAO.selectCalendars(userId);
+    }
+
+	public int deleteCalendarByUserId(CalendarVO calendar) {
+		return memberDAO.deleteCalendarByUserId(calendar);
 	}
 }

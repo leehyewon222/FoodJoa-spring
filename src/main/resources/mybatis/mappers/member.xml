@@ -49,7 +49,7 @@
              SELECT * FROM member WHERE id=#{id}
     </select>
     
-    <delete id="deleteMemberById" parameterType="String">
+    <delete id="deleteCalendarByUserId" parameterType="String">
         <![CDATA[
              DELETE FROM member
         ]]>
