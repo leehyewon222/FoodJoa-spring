@@ -102,6 +102,19 @@ public class MealkitService {
 		
 		return mealkitDAO.selectMyMealkitsList(mealkitVO);
 	}
+	
+	public int selectInsufficientStock(String id) {
+		mealkitVO = new MealkitVO();
+		mealkitVO.setId(id);
+		
+		int stock = mealkitDAO.selectInsufficientStock(mealkitVO);
+		
+		if(stock >= 0) {
+			return stock;
+		}
+		
+		return -1;
+	}
 
 	public MealkitReviewVO selectMyReviewInfo(int no) {
 		return mealkitDAO.selectMyReviewInfo(no);

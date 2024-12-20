@@ -31,7 +31,6 @@
 					<td width="70%">
 						<div class="write-title-area">
 							<input type="text" class="title" name="title" placeholder="ex) 김치볶음밥" required>
-							 <!-- id --> 
 							<input type="hidden" name="id" value="${id }">
 						</div>
 					</td>

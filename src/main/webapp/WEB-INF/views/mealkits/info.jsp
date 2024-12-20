@@ -107,7 +107,7 @@
 							<div class="contents_text">
 								<textarea readonly > ${mealkitInfo.contents}</textarea>
 							</div>
-							<c:if test="${id == null && mealkitInfo.id != id }">
+							<c:if test="${mealkitInfo.id != id }">
 								<div class="button_row">
 									<button class="cart_button" type="button" onclick="cartMealkit('${contextPath}', '${mealkitInfo.no}')">장바구니</button>
 									<button class="buy_button" id="payment" onclick="onPaymentButton(event)">구매하기</button>

@@ -84,5 +84,14 @@
 		</table>
 	</div>
 	<script src="${resourcesPath}/js/mealkit/mymealkit.js"></script>
+	<script type="text/javascript">
+		initialize();
+	
+		function initialize(){
+		    if (${insufficientStock} >= 0) {
+		        alert("재고가 부족한 제품이 있습니다.");
+		    }
+		}
+	</script>
 </body>
 </html>

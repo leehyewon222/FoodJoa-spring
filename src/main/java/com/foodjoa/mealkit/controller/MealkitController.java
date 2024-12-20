@@ -1,6 +1,6 @@
 package com.foodjoa.mealkit.controller;
 
-import java.net.URISyntaxException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -106,12 +106,13 @@ public class MealkitController {
 	
 	@RequestMapping(value="myMealkits", method = { RequestMethod.GET, RequestMethod.POST })
 	public String myMealkit(Model model, HttpSession session) throws Exception {
-		
 		String id = (String) session.getAttribute("userId");
 		
 		List<Map<String, Object>> mymealkits = mealkitService.selectMyMealkitsList(id);
+		int insufficientStock = mealkitService.selectInsufficientStock(id);
 		
 		model.addAttribute("mymealkits", mymealkits);
+		model.addAttribute("insufficientStock", insufficientStock);
 		
 		return "/mealkits/mymealkit";
 	}

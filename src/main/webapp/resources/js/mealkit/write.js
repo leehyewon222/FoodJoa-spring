@@ -129,7 +129,7 @@ function combineStrings(strings) {
 
 function triggerFileInput() {
 	if (selectedFiles.length >= 5) {
-		alert("사진은 최대 5장까지 추가할 수 있습니다.");
+		alert("trigger 사진은 최대 5장까지 추가할 수 있습니다.");
 		return;
 	}
 	document.getElementById('pictureFiles').click();
@@ -137,16 +137,21 @@ function triggerFileInput() {
 
 function handleFileSelect(files) {
 	const imagePreview = document.getElementById('imagePreview');
+	let alertTrigger = false;
+	
 
 	Array.from(files).forEach(file => {
 		if (file.type.startsWith('image/')) {
 			let fileIdentifier = file.name + '-' + file.size;
-
+			
 			if (!selectedFiles.includes(fileIdentifier)) {
 				if (selectedFiles.length >= 5) {
-					alert("사진은 최대 5장까지 추가할 수 있습니다.");
-					return;
-				}
+	                if (!alertTrigger) {
+	                    alert("사진은 최대 5장까지 추가할 수 있습니다.");
+	                    alertTrigger = true;
+	                }
+	                return;
+            	}
 
 				selectedFiles.push(fileIdentifier);
 				selectedRealFiles.push(file);

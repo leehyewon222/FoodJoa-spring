@@ -118,7 +118,11 @@
 			                                    </span>
 			                                    <h2><strong>${title}</strong></h2>
 			                                    <br>
-			                                    <h3>${price} 원</h3>
+			                                    <h3><fmt:formatNumber value="${price}" 
+													type="number" 
+													groupingUsed="true" 
+													maxFractionDigits="0" />&nbsp;원
+												</h3>
 			                                    <br>
 			                                    <p>설명: ${contents}</p>
 			                                </div>
