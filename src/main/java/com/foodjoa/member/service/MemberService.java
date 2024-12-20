@@ -233,7 +233,7 @@ public class MemberService {
 	}
 	
 	@Transactional
-	public int insertMyOrder(HttpServletRequest request) {
+	public int insertMyOrder(HttpServletRequest request, int usedPoints) {
 	    String userId = (String) request.getSession().getAttribute("userId");
 
 	    String[] mealkitNos = request.getParameterValues("mealkitNos[]");
@@ -246,9 +246,8 @@ public class MemberService {
 	        try {
 	            mealkitNosInt[i] = Integer.parseInt(mealkitNos[i]);
 	        } catch (NumberFormatException e) {
-	            
 	            System.out.println("Invalid mealkitNo: " + mealkitNos[i]);
-	            return -1;  
+	            return -1;
 	        }
 	    }
 
@@ -257,28 +256,38 @@ public class MemberService {
 	        try {
 	            quantitiesInt[i] = Integer.parseInt(quantities[i]);
 	        } catch (NumberFormatException e) {
-	          
 	            System.out.println("Invalid quantity: " + quantities[i]);
 	            return -1;
 	        }
 	    }
 
-	    int result = memberDAO.insertMyOrder(userId, mealkitNosInt, quantitiesInt, address, isCart);
-	    
-	    if (result <= 0) {
-	        return result;
+	    // 총 결제 금액 계산
+	    int totalPrice = 0;
+	    for (int i = 0; i < mealkitNosInt.length; i++) {
+	        int price = memberDAO.getMealkitPrice(mealkitNosInt[i]); // 상품 가격 조회
+	        totalPrice += price * quantitiesInt[i];
 	    }
 
-	    if (Integer.parseInt(isCart) == 1) {
-	        result = memberDAO.deleteCartList(userId, mealkitNosInt);
-	        if (result <= 0) {
-	            System.out.println("장바구니에서 항목 삭제 실패");
-	            return -1;
-	        }
+	    // 사용한 포인트 차감
+	    int finalAmount = totalPrice - usedPoints;
+	    if (finalAmount < 0) {
+	        finalAmount = 0; // 포인트가 결제 금액을 초과하지 않도록 보정
+	    }
+	    
+	    int pointsToAdd = (int) (finalAmount * 0.05);
+	    
+	    memberDAO.updateMemberPoint(userId, usedPoints, pointsToAdd);
+
+	    // 장바구니에서 항목 삭제
+	    int result = 1;
+	    if (isCart.equals("1")) {
+	        return memberDAO.deleteCartList(userId, mealkitNosInt);
 	    }
 
 	    return result;
 	}
+
+
 
 	public MemberVO getMemberById(String id) {
 	    return memberDAO.selectMember(id); 
@@ -371,6 +380,7 @@ public class MemberService {
 		return reviews;
 	}
 
+
 	public void addCalendar(CalendarVO calendar) {
         memberDAO.insertCalendar(calendar);
     }
@@ -382,4 +392,24 @@ public class MemberService {
 	public int deleteCalendarByUserId(CalendarVO calendar) {
 		return memberDAO.deleteCalendarByUserId(calendar);
 	}
-}
+
+	public void addPointsToRecommender(String recommenderId, int point) {
+
+	        MemberVO recommender = memberDAO.findById(recommenderId); // DAO에서 추천인 조회
+
+	        if (recommender != null) {
+	            // 2. 추천인에게 포인트 추가
+	            int currentPoints = recommender.getPoint();  // 현재 포인트
+	            recommender.setPoint(currentPoints + point);  // 포인트 추가
+	            
+	            System.out.println("추천인 -----------------------------------" + recommender);
+	            System.out.println("현재포인트 -----------------------------------" + currentPoints);
+	            System.out.println("추가할 포인트 -----------------------------------" + point);
+
+	            // 3. DB에 포인트 변경 사항 저장
+	            memberDAO.updatePoints(recommender);  // 포인트 업데이트
+	        }
+	    }
+		
+	}
+

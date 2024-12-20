@@ -172,6 +172,7 @@ button:hover {
 }
 span {
 	color: #616161;
+<<<<<<< HEAD
 }
 /* 일정 입력 폼 스타일 */
 #calendarFormContainer {
@@ -307,3 +308,6 @@ span {
 a.impormation {
 	text-align: left;
 }
+=======
+	}
+>>>>>>> temp

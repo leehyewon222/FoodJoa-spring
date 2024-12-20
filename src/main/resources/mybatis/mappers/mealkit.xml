@@ -160,4 +160,11 @@
     		no=#{_no}
     	</where>
     </update>
+    
+    <select id="getMealkitPrice" parameterType="int" resultType="int">
+    SELECT price
+    FROM mealkit
+    WHERE no = #{mealkitNo}
+	</select>
+    
 </mapper>
