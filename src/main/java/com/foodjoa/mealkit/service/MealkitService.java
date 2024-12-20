@@ -98,7 +98,7 @@ public class MealkitService {
 		return mealkitDAO.selectMealkitWishlist(wishlistVO);
 	}
 
-	public List<Map<String, Object>> selectMyMealkitsList(String id) {
+	public List<MealkitVO> selectMyMealkitsList(String id) {
 		mealkitVO = new MealkitVO();
 		mealkitVO.setId(id);
 		

@@ -108,7 +108,7 @@ public class MealkitController {
 	public String myMealkit(Model model, HttpSession session) throws Exception {
 		String id = (String) session.getAttribute("userId");
 		
-		List<Map<String, Object>> mymealkits = mealkitService.selectMyMealkitsList(id);
+		List<MealkitVO> mymealkits = mealkitService.selectMyMealkitsList(id); 
 		int insufficientStock = mealkitService.selectInsufficientStock(id);
 		
 		model.addAttribute("mymealkits", mymealkits);

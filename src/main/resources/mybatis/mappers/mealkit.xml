@@ -92,7 +92,7 @@
     <select id="selectMyMealkitsList" parameterType="mealkitVO" resultMap="mealkit">
 		<![CDATA[
 	        SELECT 
-				k.no, k.title, k.contents, k.category, k.price, k.pictures, k.views, k.post_date, 
+				k.*,
 				COALESCE(average_table.avg_rating, 0) AS average_rating, 
 				m.nickname 
 			FROM mealkit k 

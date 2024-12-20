@@ -96,6 +96,17 @@
             height: 100%;
             object-fit: cover;
         }
+        
+        .cartlist-nodata {
+        	margin-top: 30px;
+        	width: 100%;
+        	height: 400px;
+        	line-height: 400px;
+        	text-align: center;
+        	font-size: 1.25rem;
+        	border: 1px solid #BE917E;
+        	border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -178,7 +189,9 @@
     </c:if>
 
     <c:if test="${empty cartListInfos}">
-        <p>장바구니에 상품이 없습니다.</p>
+    	<div class="cartlist-nodata">
+    		장바구니에 상품이 없습니다.
+    	</div>
     </c:if>
 </div>
 

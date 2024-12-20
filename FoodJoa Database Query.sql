@@ -250,4 +250,5 @@ CREATE TABLE calendar (
     start_time DATETIME NOT NULL,      -- 시작 시간
     end_time DATETIME NOT NULL         -- 종료 시간
 );
+
 COMMIT;

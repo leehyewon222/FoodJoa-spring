@@ -36,7 +36,7 @@ public class MealkitDAO {
 		return sqlSession.selectOne("mapper.mealkit.selectInsufficientStock", mealkitVO);
 	}
 
-	public List<Map<String, Object>> selectMyMealkitsList(MealkitVO mealkitVO) {
+	public List<MealkitVO> selectMyMealkitsList(MealkitVO mealkitVO) {
 		return sqlSession.selectList("mapper.mealkit.selectMyMealkitsList", mealkitVO);
 	}
 

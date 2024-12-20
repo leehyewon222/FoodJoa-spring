@@ -170,7 +170,7 @@
 								    <tr>
 								        <td width="70%">
 								            <p>
-								                <a href="${contextPath}/Community/noticeRead?no=${notice.no}">
+								                <a href="${contextPath}/Notice/read?no=${notice.no}">
 								                    ${notice.title}
 								                </a>
 								            </p>
@@ -219,7 +219,7 @@
 									<c:forEach var="share" items="${shares}">
 									    <tr>
 									        <td align="left" width="50%">
-									            <a href="${contextPath}/Community/shareRead?no=${share.no}">
+									            <a href="${contextPath}/Share/read?no=${share.no}">
 									                <p>${share.title}</p>
 									            </a>
 									        </td>
@@ -262,9 +262,9 @@
 		}
 		
 		function onBoardMoreButton() {
-			let listType = (boardType == 0) ? '/list' : '/shareList';
+			let listType = (boardType == 0) ? '/Community/list' : '/Share/list';
 			
-			location.href = '${ contextPath }/Community' + listType;
+			location.href = '${ contextPath }' + listType;
 		}
 		
 		window.onload = changeCommunityBoard(boardType);
