@@ -248,7 +248,9 @@ CREATE TABLE calendar (
     description TEXT NOT NULL,         -- 설명
     location VARCHAR(255),             -- 장소
     start_time DATETIME NOT NULL,      -- 시작 시간
-    end_time DATETIME NOT NULL         -- 종료 시간
+    end_time DATETIME NOT NULL,         -- 종료 시간
+    
+    foreign key(id) references member(id) ON DELETE CASCADE
 );
 
 COMMIT;
