@@ -148,6 +148,26 @@
     </div>
 
     <script>
+    
+    
+    // 사용 가능 포인트 값
+    const maxPoints = ${myInfo.point};
+
+    // 포인트 입력란
+    const usedPointsInput = document.getElementById('usedPoints');
+
+    // 사용자가 포인트를 입력할 때마다 실행되는 함수
+    usedPointsInput.addEventListener('input', function() {
+        // 사용자가 입력한 포인트 값
+        let enteredPoints = parseInt(usedPointsInput.value);
+
+        // 입력값이 최대 포인트를 초과하면 최대 포인트 값으로 설정
+        if (enteredPoints > maxPoints) {
+            usedPointsInput.value = maxPoints;
+        }
+    });
+    
+    
         // 포인트 입력 시 결제 금액 갱신
         document.getElementById('usedPoints').addEventListener('input', function() {
             let usedPoints = parseInt(this.value) || 0;

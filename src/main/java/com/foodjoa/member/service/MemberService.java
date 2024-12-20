@@ -271,30 +271,15 @@ public class MemberService {
 	    if (finalAmount < 0) {
 	        finalAmount = 0; // 포인트가 결제 금액을 초과하지 않도록 보정
 	    }
-
-	    // 주문 DB에 추가 (최종 결제 금액을 DB에 저장)
-	    int result = memberDAO.insertMyOrder(userId, mealkitNosInt, quantitiesInt, address, isCart);
-
-	    if (result <= 0) {
-	        return result;
-	    }
-
-	    // 포인트 적립 (결제 금액의 5% 적립)
+	    
 	    int pointsToAdd = (int) (finalAmount * 0.05);
-	    result = memberDAO.addPoints(userId, pointsToAdd);
-
-	    if (result <= 0) {
-	        System.out.println("포인트 적립 실패");
-	        return -1;
-	    }
+	    
+	    memberDAO.updateMemberPoint(userId, usedPoints, pointsToAdd);
 
 	    // 장바구니에서 항목 삭제
-	    if (Integer.parseInt(isCart) == 1) {
-	        result = memberDAO.deleteCartList(userId, mealkitNosInt);
-	        if (result <= 0) {
-	            System.out.println("장바구니에서 항목 삭제 실패");
-	            return -1;
-	        }
+	    int result = 1;
+	    if (isCart.equals("1")) {
+	        return memberDAO.deleteCartList(userId, mealkitNosInt);
 	    }
 
 	    return result;

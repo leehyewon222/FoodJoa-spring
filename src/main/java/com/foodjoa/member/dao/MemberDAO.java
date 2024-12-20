@@ -209,6 +209,17 @@ public class MemberDAO {
 	    return sqlSession.update("mapper.member.updatePoints", member);
 	}
 
+	public void updateMemberPoint(String userId, int usedPoints, int pointsToAdd) {
+		
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		
+		params.put("userId", userId);
+		params.put("usedPoints", usedPoints);
+		params.put("pointsToAdd", pointsToAdd);
+		
+		sqlSession.update("mapper.member.updateMemberPoint", params);
+	}
+
 
 
 

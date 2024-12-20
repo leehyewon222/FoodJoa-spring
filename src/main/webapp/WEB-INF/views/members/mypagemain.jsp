@@ -68,8 +68,10 @@ response.setContentType("text/html; charset=utf-8");
 				     </p>
 				     </div>
 			        <div id="btnKakao">
-			            <img src="${ resourcesPath }/images/member/kakaologo.png" id="kakao-link-btn" 
-			                 alt="카카오톡 링크 공유하기" style="width:40px; height:auto;">
+			           <!-- 카카오톡 공유 버튼 코드 -->
+							<a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
+							  <img src="${ resourcesPath }/images/member/kakaologo.png" alt="카카오톡 링크 공유하기" style="width:40px; height:auto;">
+							</a>
 			            <p>친구 초대하기!</p>
 			        </div>
 	   			 </div>
@@ -156,25 +158,27 @@ response.setContentType("text/html; charset=utf-8");
 			};
 			reader.readAsDataURL(event.target.files[0]);
 		}
-		  
-	    Kakao.init('ab039484667daeed90e5c9efa4980315');
-	 	// 카카오링크 버튼을 생성합니다.
-	    Kakao.Link.createScrapButton({
-	        container: '#kakao-link-btn',
-	        requestUrl: 'http://localhost:8090/FoodJoa/Main/home',
-	        templateId: 115441
-	    });
-	 	
-	    var userId = "${member.id}";
+		
+		</script>
+	<script>
+    Kakao.init('ab039484667daeed90e5c9efa4980315');
 
-	    // 템플릿에 인자 전달하여 카카오톡 메시지 보내기
-	    Kakao.Link.sendCustom({
-	        templateId: 115441,  // 등록한 템플릿 ID
-	        templateArgs: {
-	            "userId": userId  // 사용자 인자에 실제 값 대입
-	        }
-	    });
-	</script>
+    // 카카오톡 공유 기능을 위한 함수
+    function shareMessage() {
+        var userId = "${member.id}"; 
+
+        Kakao.Link.sendCustom({
+            templateId: 115441,  
+            templateArgs: {
+                "userId": userId  
+            }
+        });
+    }
+
+    // 버튼 클릭 시 카카오톡 메시지 공유창 열리도록 이벤트 설정
+    document.getElementById('kakao-link-btn').onclick = shareMessage;
+</script>
+
 </body>
 
 </html>

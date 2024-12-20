@@ -91,4 +91,12 @@
     WHERE id = #{id}
 	</update>
 	
+	<update id="updateMemberPoint" parameterType="java.util.Map">
+		UPDATE member
+		SET point = point - #{usedPoints} + #{pointsToAdd}
+		<where>
+			id=#{userId}
+		</where>
+	</update>
+	
 </mapper>
