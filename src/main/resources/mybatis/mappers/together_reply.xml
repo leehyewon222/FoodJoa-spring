@@ -32,4 +32,24 @@
 			together_no=#{_no}
 		</where>
 	</select>
+	
+	<insert id="insertReply" parameterType="togetherReplyVO">
+		INSERT INTO together_reply(id, together_no, contents)
+		VALUES(#{id}, #{togetherNo}, #{contents})
+	</insert>
+	
+	<update id="updateReply" parameterType="togetherReplyVO">
+		UPDATE together_reply
+		SET contents=#{contents}
+		<where>
+			no=#{no} AND id=#{id}
+		</where>
+	</update>
+	
+	<delete id="deleteReply" parameterType="int">
+		DELETE FROM together_reply
+		<where>
+			no=#{_no}
+		</where>
+	</delete>
 </mapper>

@@ -28,7 +28,7 @@
 	</select>
 	
 	<select id="selectJoinCount" parameterType="int" resultType="int">
-		SELECT COUNT(*) FROM together_join WHERE no=#{_no}
+		SELECT COUNT(*) FROM together_join WHERE together_no=#{_no}
 	</select>
 	
 	<select id="selectJoinCountById" parameterType="java.util.Map" resultType="int">
@@ -39,4 +39,11 @@
 		INSERT INTO together_join(id, together_no)
 		VALUES(#{id}, #{no})
 	</insert>
+	
+	<delete id="deleteJoin" parameterType="togetherJoinVO">
+		DELETE FROM together_join
+		<where>
+			together_no=#{togetherNo} AND id=#{id}
+		</where>
+	</delete>
 </mapper>

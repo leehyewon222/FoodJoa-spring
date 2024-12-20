@@ -4,7 +4,7 @@
 	margin: 0 auto;
 }
 
-.together-header {
+.container-header {
 	font-family: "Noto Serif KR", serif;
 	display: flex;
 	justify-content: space-between;
@@ -12,7 +12,7 @@
 	margin-bottom: 20px;
 }
 
-.together-header input {
+.container input {
 	font-family: "Noto Serif KR", serif;
 	font-size: 1rem;
 	padding: 8px 16px;
@@ -22,4 +22,13 @@
 	color: #BE917E;
 	margin-right: 50px;
 	cursor: pointer;
+}
+
+.together_p1 {
+	font-size: 3rem;
+	color: #616161;
+}
+
+.together_p2 {
+	font-size: 2rem;
 }

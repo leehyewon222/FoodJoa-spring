@@ -145,6 +145,11 @@ public class TogetherService {
 		
 		togetherInfo.put("joinCount", joinCount);
 		
+		// 참여 여부 확인하기
+		int isExistJoin = togetherDAO.selectJoinCountById(no, userId);
+		
+		togetherInfo.put("isExistJoin", isExistJoin);
+		
 		return togetherInfo;
 	}
 
@@ -178,5 +183,22 @@ public class TogetherService {
 		result = togetherDAO.insertJoin(no, id);
 		
 		return result;
+	}
+
+	public int addReply(TogetherReplyVO replyVO) {
+		
+		replyVO.setContents(StringParser.escapeHtml(replyVO.getContents()));
+		
+		return (replyVO.getNo() <= 0) ?
+				togetherDAO.insertReply(replyVO) :
+				togetherDAO.updateReply(replyVO);	
+	}
+
+	public int deleteReply(int no) {
+		return togetherDAO.deleteReply(no);
+	}
+
+	public int deleteJoin(TogetherJoinVO joinVO) {
+		return togetherDAO.deleteJoin(joinVO);
 	}
 }

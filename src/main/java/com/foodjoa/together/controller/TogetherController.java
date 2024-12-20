@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.foodjoa.together.service.TogetherService;
 import com.foodjoa.together.vo.TogetherJoinVO;
+import com.foodjoa.together.vo.TogetherReplyVO;
 import com.foodjoa.together.vo.TogetherVO;
 
 @Controller
@@ -95,5 +96,23 @@ public class TogetherController {
 	@RequestMapping(value = "togetherJoin", method = { RequestMethod.GET })
 	public String togetherJoin(HttpSession session, @RequestParam int no) {
 		return String.valueOf(togetherService.processTogetherJoin(no, (String) session.getAttribute("userId")));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "replyEdit", method = { RequestMethod.POST })
+	public String replyEdit(TogetherReplyVO replyVO) {
+		return String.valueOf(togetherService.addReply(replyVO));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "deleteReply", method = { RequestMethod.GET })
+	public String deleteReply(@RequestParam int no) {
+		return String.valueOf(togetherService.deleteReply(no));
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "deleteJoin", method = { RequestMethod.GET })
+	public String deleteJoin(TogetherJoinVO joinVO) {
+		return String.valueOf(togetherService.deleteJoin(joinVO));
 	}
 }

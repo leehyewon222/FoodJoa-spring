@@ -55,6 +55,18 @@ public class TogetherDAO {
 		return sqlSession.selectList("mapper.togetherReply.selectReplies", _no);
 	}
 
+	public int insertReply(TogetherReplyVO replyVO) {
+		return sqlSession.insert("mapper.togetherReply.insertReply", replyVO);
+	}
+
+	public int updateReply(TogetherReplyVO replyVO) {
+		return sqlSession.update("mapper.togetherReply.updateReply", replyVO);
+	}
+
+	public int deleteReply(int _no) {
+		return sqlSession.delete("mapper.togetherReply.deleteReply", _no);
+	}
+
 	/*
 	 * togetherJoinVo
 	 */
@@ -84,5 +96,9 @@ public class TogetherDAO {
 		params.put("id", id);
 
 		return sqlSession.insert("mapper.togetherJoin.insertJoin", params);
+	}
+
+	public int deleteJoin(TogetherJoinVO joinVO) {
+		return sqlSession.delete("mapper.togetherJoin.deleteJoin", joinVO);
 	}
 }

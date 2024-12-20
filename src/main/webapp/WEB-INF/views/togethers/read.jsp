@@ -68,7 +68,14 @@
 		</div>
 		
 		<div class="together-join-button">
-			<input type="button" value="모임 참여하기" onclick="onTogetherJoinButton()">
+			<c:choose>
+				<c:when test="${ togetherInfo.isExistJoin == 0 }">
+					<input type="button" value="모임 참석" onclick="onTogetherJoinButton()">
+				</c:when>
+				<c:otherwise>
+					<input type="button" value="참석 취소" onclick="onJoinCancleButton()">
+				</c:otherwise>
+			</c:choose>
 		</div>
 	
 		<div class="together-header">
@@ -119,10 +126,12 @@
 		
 		<div class="together-reply-area">
 			<h1>댓글 (${ replies.size() })</h1>
-			<div class="together-reply-input">
-				<textarea></textarea>
-				<input type="button" value="작성">
-			</div>
+			<c:if test="${ not empty id }">
+				<div class="together-reply-input">
+					<textarea id="reply-contents"></textarea>
+					<input type="button" value="작성" onclick="onReplyEditButton(0, this)">
+				</div>
+			</c:if>
 			<div class="together-reply-list">
 				<table width="100%">
 					<c:forEach var="reply" items="${ replies }">
@@ -133,9 +142,16 @@
 								</div>
 							</td>
 							<td>
+								<input type="hidden" class="no" value="${ reply.no }">
 								<p class="reply-nickname">${ reply.memberVO.nickname }</p>
 								<div class="reply-contents">${ reply.contents }</div>
-								<p><fmt:formatDate value="${ reply.postDate }" pattern="yyyy-MM-dd a hh:mm"/></p>
+								<p>
+									<fmt:formatDate value="${ reply.postDate }" pattern="yyyy-MM-dd a hh:mm"/>
+									<c:if test="${ reply.id == id }">
+										<input type="button" value="수정" class="reply-update-button" onclick="onReplyUpdateButton(this)">
+										<input type="button" value="삭제" class="reply-delete-button" onclick="onReplyDeleteButton(${ reply.no })">
+									</c:if>
+								</p>
 							</td>
 						</tr>
 					</c:forEach>
@@ -155,6 +171,126 @@
 	
     <script type="text/javascript" src="${ resourcesPath }/js/common/naverMapAPI.js"></script>
 	<script>
+		function onReplyDeleteButton(no) {
+			if (confirm('댓글을 삭제 하시겠습니까?')) {
+				$.ajax({
+					url: '${ contextPath }/Together/deleteReply',
+					async: true,
+					type: 'get',
+					data: {
+						no: no
+					},
+					dataType: 'text',
+					success: function(responsedData) {
+						if (responsedData == "1") {
+							alert('댓글 삭제가 완료되었습니다.');
+							location.reload();
+						}
+						else {
+							alert('댓글 삭제에 실패했습니다.');
+						}
+					},
+					error: function(error) {
+						console.log(error);
+						alert('댓글 삭제 중 통신 에러 발생');
+					}
+				});
+			}
+		}
+	
+		function onReplyUpdateButton(element) {
+			let replyNo = $(element).closest('td').find('.no').val();
+			
+			let updateBtn = $(element);
+			let deleteBtn = $(element).next();
+			
+			let replyContentsDiv = $(element).closest('td').find('.reply-contents');
+		    let originalContent = replyContentsDiv.text();
+		    
+		    let textarea = $('<textarea class="reply-edit-textarea"></textarea>');
+		    textarea.val(originalContent);
+		    replyContentsDiv.replaceWith(textarea);
+		    
+		    let updateProcessBtn = $('<input type="button" value="작성">').on('click', function() {
+		    	onReplyEditButton(replyNo, this);
+			});
+		    let updateCancleBtn = $('<input type="button" value="취소">').on('click', function() {
+		    	textarea.replaceWith(replyContentsDiv);
+		    	updateProcessBtn.replaceWith(updateBtn);
+		    	updateCancleBtn.replaceWith(deleteBtn);
+			});
+		    
+		    updateBtn.replaceWith(updateProcessBtn);
+		    deleteBtn.replaceWith(updateCancleBtn);
+		    
+		    textarea.focus();
+		}
+	
+		function onReplyEditButton(no, element) {
+
+			let str = no <= 0 ? '작성' : '수정';
+			let replyContents = no <= 0 ? 
+					$("#reply-contents").val() :
+					$(element).closest('td').find('textarea').val();
+			
+			if (confirm('댓글을 ' + str + '하시겠습니까?')) {
+				
+				$.ajax({
+					url: '${ contextPath }/Together/replyEdit',
+					async: true,
+					type: 'post',
+					data: {
+						no: no,
+						id: '${ id }',
+						togetherNo: ${ together.no },
+						contents: replyContents
+					},
+					dataType: 'text',
+					success: function (responsedData) {
+						if (responsedData == "1") {
+							alert('댓글을 ' + str + '했습니다.');
+							location.reload();
+						}
+						else {
+							alert('댓글 ' + str + '에 실패했습니다.');
+						}
+					},
+					error: function(error) {
+						console.log(error);
+						alert('댓글 ' + str + ' 중 통신 에러 발생');
+					}
+				});
+			}
+		}
+		
+		function onJoinCancleButton() {
+			if (confirm('정말로 모임 참석을 취소하시겠습니까?')) {
+				$.ajax({
+					url: '${ contextPath }/Together/deleteJoin',
+					async: true,
+					type: 'get',
+					data: {
+						togetherNo: ${ together.no },
+						id: '${ id }'
+					},
+					dataType: 'text',
+					success: function(responsedData) {
+						if (responsedData == "1") {
+							alert('모임 참석을 취소했습니다.');
+							location.reload();
+						}
+						else {
+							alert('모임 참석 취소를 실패했습니다.');
+						}
+					},
+					error: function(error) {
+						console.log(error);
+						alert('모임 참석 취소 중 통신 에러 발생');
+					}
+				});
+			}
+		}
+	
 		function onTogetherJoinButton() {
 			let userId = '${ id }';
 			
@@ -175,6 +311,7 @@
 					success: function(responsedData) {
 						if (responsedData == "1") {
 							alert('모임에 참석하셨습니다.');
+							location.reload();
 						}
 						else if (responsedData == "2") {
 							alert('이미 모임에 참석하셨습니다.');

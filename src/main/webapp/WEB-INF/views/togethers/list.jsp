@@ -29,12 +29,17 @@
 
 <body>
 	<div class="together-container">
-		<div class="together-header">
-			<h1>모임 게시판</h1>
-			<c:if test="${ not empty id }">
-				<input type="button" value="모임 만들기" onclick="onWriteButton()">
-			</c:if>
+		<div class="together-header" align="center">
+			<p class="together_p1">COMMUNITY</p>
+			<p class="together_p2">모임 게시판</p>
+			<p>모임을 만들고 참여해보세요!</p>
 		</div>
+	</div>
+	
+	<div id="together-container-">
+		<c:if test="${ not empty id }">
+				<input type="button" value="모임 만들기" onclick="onWriteButton()">
+		</c:if>
 		<table width="100%">
 			<c:choose>
 				<c:when test="${ empty togethers }">
