@@ -47,7 +47,7 @@ values('hanaId', '비빔밥', 'korean1.png', '한국을 대표하는 음식 중 
 	'0008자장면 재료 10008자장면 재료 2','0009자장면 재료량 10009자장면 재료량 1', '0011자장면 조리 순서 10011자장면 조리 순서 20011자장면 조리 순서 3', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
     
     ('hanaId', '안심 스테이크', 'western1.jpg', '부드러운 식감에 환상적인 맛', 'eJyzKbB73Nr4uLX9cWsfiNGyBcRu2WmjX2AHAOteD+U=', 4, FLOOR(RAND() * 50),
-	'0012안심 스테이크 재료 10012안심 스테이크 재료 2','0013안심 스테이크 재료량 10013안심 스테이크 재료량 1', '0015안심 스테이크 조리 순서 10015안심 스테이크조리 순서 20015안심 스테이크 조리 순서 3', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+	'0012안심 스테이크 재료 10012안심 스테이크 재료 2','0013안심 스테이크 재료량 10013안심 스테이크 재료량 1', '0015안심 스테이크 조리 순서 10015안심 스테이크 조리 순서 20015안심 스테이크 조리 순서 3', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
     ('hyewonId', '해물 파스타', 'western2.jpg', '쫄깃한 식감이 살아있는 파스타', 'eJyzKbB73Nr4uLX9cWsfiNGyBcRu2WmjX2AHAOteD+U=', 4, FLOOR(RAND() * 50),
 	'0011해물 파스타 재료 10011해물 파스타 재료 2','0012해물 파스타 재료량 10012해물 파스타 재료량 1', '0014해물 파스타 조리 순서 10014해물 파스타 조리 순서 20014해물 파스타 조리 순서 3', NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
     ('minseokId', '바베큐 폭립', 'western3.jpg', '바베큐 파티 요리의 황태자', 'eJyzKbB73Nr4uLX9cWsfiNGyBcRu2WmjX2AHAOteD+U=', 4, FLOOR(RAND() * 50),
@@ -82,16 +82,16 @@ values('admin', 1, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
 
 -- mealkit
 INSERT INTO mealkit (id, title, contents, category, price, stock, pictures, orders, origin, views, soldout, post_date) VALUES
-('geonyongId', '곱창전골 밀키트', '신선한 재료로 만든 곱창전골 키트입니다.', 1, '14500', 30, '0012gopchang.jpg', '0008곱창전골 순서10008곱창전골 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('hanaId', '뚝배기 불고기 밀키트', '맛있는 불고기를 집에서 쉽게 만들 수 있는 키트입니다.', 1, '17500', 15, '0012ddockbul.jpg', '0011뚝배기 불고기 순서10011뚝배기 불고기 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('minseokId', '마라탕 밀키트', '다양한 재료로 만든 마라탕 키트입니다.', 3, '13000', 20, '0012maratang.jpg', '0007마라탕 순서10007마라탕 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('aronId', '짜장면 밀키트', '짜장면을 집에서 즐길 수 있는 키트입니다.', 3, '12000', 40, '0011jajang.jpeg', '0007짜장면 순서10007짜장면 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('hyewonId', '오꼬노미야끼 밀키트', '오꼬노미야끼를 쉽게 만들 수 있는 키트입니다.', 2, '16000', 15, '0015okonomiyaki.jpg', '0010오꼬노미야끼 순서10010오꼬노미야끼 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('geonyongId', '스지나베 밀키트', '신선한 재료로 만든 스지나베 키트입니다.', 2, '14500', 30, '0012sujinabe.png', '0008스지나베 순서10008스지나베 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('hanaId', '스테이크 밀키트', '맛있는 스테이크를 집에서 쉽게 만들 수 있는 키트입니다.', 4, '17500', 15, '0009steak.jpg', '0008스테이크 순서10008스테이크 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('minseokId', '투움바파스타 밀키트', '가게같은 맛이 나는 투움바파스타 키트입니다.', 4, '13000', 20, '0018toowoombapasta.jpg', '0011투움바 파스타 순서10011투움바 파스타 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('aronId', '김치찌개 밀키트', '매콤한 김치찌개를 집에서 즐길 수 있는 키트입니다.', 1, '12000', 20, '0016kimchijjigae.jpg', '0008김치찌개 순서10008김치찌개 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
-('hyewonId', '밀푀유나베 밀키트', '다양한 재로로 만든 밀푀유나베를 쉽게 만들 수 있는 키트입니다.', 2, '16000', 20, '0021millefeuillenabe.jpeg', '0009밀푀유나베 순서10009밀푀유나베 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY);
+('geonyongId', '소곱창전골', '신선한 재료로 만든 곱창전골 키트입니다.', 1, '14500', 30, '0012gopchang.jpg', '0008곱창전골 순서10008곱창전골 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('hanaId', '베지가든 불고기 볶음밥', '맛있는 불고기를 집에서 쉽게 만들 수 있는 키트입니다.', 1, '17500', 15, '0012ddockbul.jpg', '0011뚝배기 불고기 순서10011뚝배기 불고기 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('minseokId', '사천마라탕', '다양한 재료로 만든 마라탕 키트입니다.', 3, '13000', 20, '0012maratang.jpg', '0007마라탕 순서10007마라탕 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('aronId', '팔도짜장면', '짜장면을 집에서 즐길 수 있는 키트입니다.', 3, '12000', 40, '0011jajang.jpeg', '0007짜장면 순서10007짜장면 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('hyewonId', '미니오꼬노미야끼', '오꼬노미야끼를 쉽게 만들 수 있는 키트입니다.', 2, '16000', 15, '0015okonomiyaki.jpg', '0010오꼬노미야끼 순서10010오꼬노미야끼 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('geonyongId', '스지전골', '신선한 재료로 만든 스지나베 키트입니다.', 2, '14500', 30, '0012sujinabe.png', '0008스지나베 순서10008스지나베 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('hanaId', '스테이크모둠', '맛있는 스테이크를 집에서 쉽게 만들 수 있는 키트입니다.', 4, '17500', 15, '0009steak.jpg', '0008스테이크 순서10008스테이크 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('minseokId', '투움바 파스타', '가게같은 맛이 나는 투움바파스타 키트입니다.', 4, '13000', 20, '0018toowoombapasta.jpg', '0011투움바 파스타 순서10011투움바 파스타 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('aronId', '맛있는집밥김치찌개', '매콤한 김치찌개를 집에서 즐길 수 있는 키트입니다.', 1, '12000', 20, '0016kimchijjigae.jpg', '0008김치찌개 순서10008김치찌개 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),
+('hyewonId', '매콤밀푀유나베', '다양한 재로로 만든 밀푀유나베를 쉽게 만들 수 있는 키트입니다.', 2, '16000', 20, '0021millefeuillenabe.jpeg', '0009밀푀유나베 순서10009밀푀유나베 순서2', '한국', 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY);
 
 INSERT INTO mealkit_order (id, mealkit_no, address, quantity, delivered, refund, post_date) VALUES
 ('review1', 1, '서울시 강남구 123-45', 20, 0, 0, NOW() - INTERVAL FLOOR(RAND() * 60) DAY),

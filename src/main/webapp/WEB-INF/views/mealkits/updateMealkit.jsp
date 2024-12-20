@@ -17,7 +17,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>밀키트 판매 게시글 수정</title>
+    <title>제품 판매 게시글 수정</title>
     
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 
@@ -31,7 +31,7 @@
 					<th width="30%">글 제목</th>
 					<td width="70%">
 						<div class="write-title-area">
-							<input type="text" class="title" name="title" value="${mealkitInfo.title }" placeholder="ex) 김치볶음밥 밀키트" required>
+							<input type="text" class="title" name="title" value="${mealkitInfo.title }" placeholder="ex) 김치볶음밥" required>
 
 							<input type="hidden" name="id" value="${id }">
 							<input type="hidden" name="no" value="${mealkitInfo.no }">
@@ -75,7 +75,7 @@
 					<th>간단 소개글</th>
 					<td>
 						<textarea name="contents" class="contents" rows="4" 
-							placeholder="해당 밀키트의 조리법을 적어주세요" required>${mealkitInfo.contents }</textarea>
+							placeholder="해당 제품의 조리법을 적어주세요" required>${mealkitInfo.contents }</textarea>
 					</td>
 				</tr>
 				<tr>

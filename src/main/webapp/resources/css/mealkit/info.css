@@ -76,7 +76,7 @@ textarea{
 .orders_text{
 	border: 1px solid #BF917E;
 	border-radius: 5px;
-	padding-bottom: 5px;
+	padding-bottom: 10px;
 	padding-left: 5px;
 }
 
@@ -313,4 +313,31 @@ textarea{
     border: 1px solid #ccc;
     padding: 10px;
     background-color: #f9f9f9;
+}
+
+.foodinfo-container {
+    font-family: "Noto Serif KR", serif;
+}
+
+.foodinfo-container table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+.foodinfo-container th,
+.foodinfo-container td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.foodinfo-container th {
+    background-color: #f9f9f9;
+    text-align: center;
+    width: 150px;
+}
+
+.foodinfo-container td {
+    vertical-align: top;
+    white-space: nowrap;
 }

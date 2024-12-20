@@ -71,6 +71,7 @@ function wishMealkit(contextPath, mealkitNo) {
                 alert('찜목록 추가에 실패했습니다.');
             } else {
                 alert("찜목록에 추가되었습니다.");
+                location.reload();
             }
 		},
 		error: function(error) {
