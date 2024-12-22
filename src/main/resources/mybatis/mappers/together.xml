@@ -17,7 +17,6 @@
 		<result property="place" column="place"/>
 		<result property="people" column="people"/>
 		<result property="finished" column="finished"/>
-		<result property="joinCount" column="join_count"/>
 		<result property="views" column="views"/>
 		<result property="postDate" column="post_date"/>
 		

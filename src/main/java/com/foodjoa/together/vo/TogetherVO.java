@@ -23,7 +23,6 @@ public class TogetherVO {
 	private String place;
 	private int people;
 	private int finished;
-	private int joinCount;
 	private int views;
 	private Timestamp postDate;
 	
