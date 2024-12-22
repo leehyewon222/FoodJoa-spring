@@ -53,7 +53,7 @@
 }
 
 .together-cell {
-	width: 100%;
+	width: 1100px;
 	height: 250px;
 	border: 1px solid #BE917E;
 	border-radius: 20px;
@@ -61,7 +61,7 @@
 	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
 	padding: 5px;
 	display: flex;
-	margin: 15px 0px;
+	margin: 15px auto;
 	align-items: center;
 }
 
@@ -77,8 +77,7 @@
 	width: 200px;
 	height: 200px;
 	overflow: hidden;
-	margin-left: 25px;
-	margin-right: 25px;
+	margin: 25px;
 	border-radius: 20px;
 }
 
@@ -88,10 +87,18 @@
 	object-fit: cover;
 }
 
+.together-desciption {
+	width: 800px;
+}
+
 .together-title {
 	font-size: 2.0rem;
 	margin-bottom: 10px;
 	font-weight: bold;
+	width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .together-nickname {
@@ -104,6 +111,29 @@
 	font-size: 1.5rem;
 	display: flex;
 	align-items: center;
+}
+
+[class^="join-state-"] {
+	border: none;
+	color: white;
+	border-radius: 10px;
+	width: 100px;
+	text-align: center;
+	font-size: 1rem;
+	padding: 4px 16px;
+	margin-left: 25px;
+}
+
+.join-state-ing {
+	background-color: blue;
+}
+
+.join-state-finish {
+	background-color: red;
+}
+
+.join-state-done {
+	background-color: gray;
 }
 
 .location-icon,
@@ -123,8 +153,7 @@
 
 .together-join-people {
 	width: 100%;
-	height: 80px;
-	
+	height: 80px;	
 	display: flex;
 	align-items: center;
 	color: #878787;

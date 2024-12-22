@@ -42,7 +42,7 @@
 		$(function() {
 			$('.bx_slider').bxSlider({
 				adaptiveHeight: true,
-				auto : false,
+				auto : true,
 				pager : false
 			});
 		});
@@ -62,6 +62,9 @@
 					</c:otherwise>
 				</c:choose>
 			</c:if>
+			<c:if test="${ not empty id and id == together.id and together.finished == 0 and now <= together.joinDate }">
+				<input type="button" value="모임 마감" onclick="onJoinFinishButton()">
+			</c:if>
 			<input type="button" value="목록" onclick="onListButton()">
 			<c:if test="${ not empty id and id == together.id }">
 				<input type="button" value="수정" onclick="onEditButton()">
@@ -78,8 +81,17 @@
 			    	</div>
 			    </li>
 			    <li class="together-title">
-			    	<span class="join-state">
-			    	</span>
+			    	<c:choose>
+			    		<c:when test="${ now > together.joinDate }">
+			    			<span class="join-state-done">종료</span>
+		    			</c:when>
+			    		<c:when test="${ together.finished == 1 }">
+			    			<span class="join-state-finish">모집 마감</span>
+			    		</c:when>
+			    		<c:otherwise>
+			    			<span class="join-state-ing">모집 중</span>
+		    			</c:otherwise>
+		    		</c:choose>
 			    	${ together.title }
 			    </li>
 			    <li class="together-nickname">
@@ -200,6 +212,33 @@
 	
     <script type="text/javascript" src="${ resourcesPath }/js/common/naverMapAPI.js"></script>
 	<script>
+		function onJoinFinishButton() {
+			if (confirm('모임을 마감하시겠습니까?')) {
+				$.ajax({
+					url: '${ contextPath }/Together/togetherFinish',
+					async: true,
+					type: 'get',
+					data: {
+						no: ${ together.no }
+					},
+					dataType: 'text',
+					success: function(responsedData) {
+						if (responsedData == "1") {
+							alert('모임을 마감했습니다.');
+							location.reload();
+						}
+						else {
+							alert('모임 마감을 실패했습니다.');
+						}
+					},
+					error: function(error) {
+						console.log(error);
+						alert('모임 마감 중 통신 에러 발생');
+					}
+				});
+			}
+		}
+	
 		function onReplyDeleteButton(no) {
 			if (confirm('댓글을 삭제 하시겠습니까?')) {
 				$.ajax({
@@ -394,31 +433,6 @@
 	
 		function initialize() {
 			isRead = true;
-			
-			let stateStr = '';
-			let flag = 0;
-			
-			<c:choose>
-	    		<c:when test="${ now > together.joinDate }">
-	    			stateStr = '종료';
-	    			flag = 2;
-    			</c:when>
-	    		<c:when test="${ together.finished == 1 }">
-	    			stateStr = '모집 종료';
-	    			flag = 1;
-	    		</c:when>
-	    		<c:otherwise>
-	    			stateStr = '모집 중';
-	    			flag = 0;
-    			</c:otherwise>
-    		</c:choose>
-    		
-    		$(".join-state")
-    			.text(stateStr)
-    			.addClass(
-					flag == 0 ? 'joining-label' :
-    				flag == 1 ? 'joinfinish-label' : ' joindone-label');
-			
 			
 			let lat = '${ together.lat }';
 			let lng = '${ together.lng }';

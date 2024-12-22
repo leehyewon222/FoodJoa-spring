@@ -201,4 +201,8 @@ public class TogetherService {
 	public int deleteJoin(TogetherJoinVO joinVO) {
 		return togetherDAO.deleteJoin(joinVO);
 	}
+
+	public int processTogetherFinish(int no) {
+		return togetherDAO.updateTogetherFinish(no);
+	}
 }

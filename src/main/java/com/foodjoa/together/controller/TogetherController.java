@@ -115,4 +115,10 @@ public class TogetherController {
 	public String deleteJoin(TogetherJoinVO joinVO) {
 		return String.valueOf(togetherService.deleteJoin(joinVO));
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "togetherFinish", method = { RequestMethod.GET })
+	public String togetherFinish(@RequestParam int no) {
+		return String.valueOf(togetherService.processTogetherFinish(no));
+	}
 }

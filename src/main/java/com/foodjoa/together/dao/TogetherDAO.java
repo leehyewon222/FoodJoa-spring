@@ -48,6 +48,10 @@ public class TogetherDAO {
 		return sqlSession.delete("mapper.together.deleteTogether", _no);
 	}
 
+	public int updateTogetherFinish(int _no) {
+		return sqlSession.update("mapper.together.updateTogetherFinish", _no);
+	}
+
 	/*
 	 * togetherReplyVO
 	 */

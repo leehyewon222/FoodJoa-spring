@@ -203,6 +203,8 @@
 		
 		function onCancle(e) {
 			e.preventDefault();
+			
+			history.go(-1);
 		}
 		
 		window.onload = initialize();

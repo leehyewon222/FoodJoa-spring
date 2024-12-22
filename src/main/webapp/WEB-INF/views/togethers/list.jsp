@@ -13,6 +13,9 @@
 <c:set var="resourcesPath" value="${ contextPath }/resources" />
 
 <c:set var="id" value="${ sessionScope.userId }"/>
+<jsp:useBean id="now" class="java.util.Date" />
+<fmt:formatDate var="currentDate" value="${now}" pattern="yyyy-MM-dd HH:mm:ss" />
+<c:set var="now" value="${currentDate}" />
 
 <jsp:useBean id="stringParser" class="Common.StringParser"/>
 
@@ -63,6 +66,17 @@
 								</div>
 								${ together.place }&nbsp;&middot;
 								<fmt:formatDate value="${ together.joinDate }" pattern="MM.dd(E) a hh:mm"/>
+								<c:choose>
+						    		<c:when test="${ now > together.joinDate }">
+						    			<span class="join-state-done">종료</span>
+					    			</c:when>
+						    		<c:when test="${ together.finished == 1 }">
+						    			<span class="join-state-finish">모집 마감</span>
+						    		</c:when>
+						    		<c:otherwise>
+						    			<span class="join-state-ing">모집 중</span>
+					    			</c:otherwise>
+					    		</c:choose>
 							</div>
 							<div class="together-join-people">
 								<c:set var="joins" value="${ classifiedJoin[together.no] }"/>

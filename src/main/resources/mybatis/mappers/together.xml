@@ -94,4 +94,12 @@
 			no=#{_no}
 		</where>
 	</delete>
+	
+	<update id="updateTogetherFinish" parameterType="int">
+		UPDATE together
+		SET finished=1
+		<where>
+			no=#{_no}
+		</where>
+	</update>
 </mapper>

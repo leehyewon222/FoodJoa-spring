@@ -16,6 +16,7 @@
 	padding: 8px 16px;
 	margin-left: 10px;
 	font-size: 1rem;
+	cursor: pointer;
 }
 
 .together-button-area input:last-child {

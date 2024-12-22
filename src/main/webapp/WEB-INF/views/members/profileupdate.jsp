@@ -19,6 +19,7 @@ response.setContentType("text/html; charset=utf-8");
 	<script src="http://code.jquery.com/jquery-latest.min.js"> </script>
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200..900&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="${ resourcesPath }/css/member/profileupdate.css">
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	
 	<script type="text/javascript">
 		let selectedFile;
@@ -163,16 +164,31 @@ response.setContentType("text/html; charset=utf-8");
 			</div>
 			<div class="form-group">
 				<input type="text" id="zipcode" name="zipcode" class="form-control" placeholder="우편번호" value="${vo.zipcode }">
-				<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" class="form-control"><br>					
+				<input type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기" class="form-control address-find"><br>					
 				<input type="text" id="address1" name="address1" placeholder="도로명주소" class="form-control" value="${vo.address1 }">
 				<input type="text" id="address2" placeholder="상세주소" name="address2" class="form-control" value="${vo.address2 }">
 			</div>
 			<div class="btn-container">
-				<button type="submit" class="btn-submit" id="submitBtn">제출</button>
-				<button type="button" class="btn-cancel">취소</button>
+				<button type="submit" class="profile-update-btn-submit" id="submitBtn">제출</button>
+				<button type="button" class="profile-update-btn-cancel">취소</button>
 			</div>
 		</form>
 	</div>
+	
+	
+	<script>
+		function sample4_execDaumPostcode() {
+	        new daum.Postcode({
+	            oncomplete: function (data) {
+	                const roadAddr = data.roadAddress; // 도로명 주소
+	
+	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+	                document.getElementById('zipcode').value = data.zonecode;  // 우편번호
+	                document.getElementById('address1').value = roadAddr;    // 도로명 주소
+	            }
+	        }).open();
+	    }
+	</script>
 </body>
 
 </html>

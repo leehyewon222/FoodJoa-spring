@@ -107,3 +107,32 @@ button:focus {
     font-size: 14px;
     margin-top: 10px;
 }
+
+.address-find {
+	width: 100%;
+	padding: 12px;
+	margin-top: 5px;
+	border: none;
+	background-color: #be917e;
+	color: white;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+[class^='profile-update-btn-'] {
+	padding: 8px 16px;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.profile-update-btn-submit {
+	border: none;
+	background-color: #be917e;
+	color: white;	
+}
+
+.profile-update-btn-cancel {
+	border: 1px solid #be917e;
+	background-color: white;
+	color: #be917e;	
+}

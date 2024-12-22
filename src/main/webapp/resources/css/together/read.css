@@ -27,11 +27,13 @@
 	margin: 20px 0px;
 	display: flex;
 	align-items: center;
+	width: 100%;
 }
 
 .together-header>ul {
 	margin: 20px 0px;
 	height: 80px;
+	width: 100%;
 }
 
 .together-header ul li {
@@ -64,14 +66,14 @@
 
 .together-title {
 	font-size: 1.5rem;
-	width: 600px;
+	width: 60%;
 	margin-right: 15px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-.join-state {
+[class^="join-state-"] {
 	border: none;
 	color: white;
 	border-radius: 10px;
@@ -84,21 +86,21 @@
 	margin-right: 15px;
 }
 
-.joining-label {
+.join-state-ing {
 	background-color: blue;
 }
 
-.joinfinish-label {
+.join-state-finish {
 	background-color: red;
 }
 
-.joindone-label {
+.join-state-done {
 	background-color: gray;
 }
 
 .together-nickname {
 	font-size: 1.5rem;
-	width: 180px;
+	width: 15%;
 	margin-right: 15px;
 }
 
@@ -317,6 +319,10 @@
 	width: auto;
 	resize: none;
 	box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.reply-edit-textarea {
+	width: 100%;
 }
 
 .reply-post-date {
