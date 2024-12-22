@@ -425,12 +425,10 @@ public class MemberController {
 
 
     @RequestMapping("mypagemain")
-    public String mypagemain(
+    public String mypagemain(Model model, HttpSession session,
             @ModelAttribute CalendarVO calendar,
-            Model model,
-            HttpSession session,
-            @RequestParam(value = "userId", required = false) String userIdParam
-    ) {
+            @RequestParam(value = "userId", required = false) String userIdParam) {
+    	
         String sessionUserId = (String) session.getAttribute("userId");
         String userId = (userIdParam != null && !userIdParam.trim().isEmpty()) ? userIdParam : sessionUserId;
 
