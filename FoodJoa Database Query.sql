@@ -210,7 +210,6 @@ CREATE TABLE together(
     place 			varchar(255) not null,
 	people 			int not null,
     finished 		tinyint not null default 0,
-    join_count 		int not null default 0,
     views 			int not null default 0,
     post_date 		timestamp not null default current_timestamp,
     
