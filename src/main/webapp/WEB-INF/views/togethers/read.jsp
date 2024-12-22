@@ -52,7 +52,7 @@
 <body>
 	<div class="together-container">
 		<div class="together-button-area">
-			<c:if test="${ not empty id and id != together.id }">
+			<c:if test="${ not empty id and id != together.id and together.finished == 0 and now <= together.joinDate }">
 				<c:choose>
 					<c:when test="${ togetherInfo.isExistJoin == 0 }">
 						<input type="button" value="모임 참석" onclick="onTogetherJoinButton()">

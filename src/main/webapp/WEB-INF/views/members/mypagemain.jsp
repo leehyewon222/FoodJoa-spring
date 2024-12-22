@@ -125,12 +125,7 @@ response.setContentType("text/html; charset=utf-8");
 			</div>
 			<br>
 			
-			<div id="btnKakao">
-			    <img src="${ resourcesPath }/images/member/kakaologo.png"
-			    		id="kakao-link-btn" alt="카카오톡 링크 공유하기"
-			    		style="width:40px; height:auto;">
-	    		<p>친구 초대하기!</p>	   
-			</div><br>
+			<br><hr><br>
 			
 			<div>
 			    <h1 id="showFormButton">일정 입력</h1>
